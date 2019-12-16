@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/LABS-EU3/hackton-frontend.svg?branch=develop)](https://travis-ci.org/LABS-EU3/hackton-frontend)
+
 # Hackton
 
 This is a Lambda EU3 Labs project
