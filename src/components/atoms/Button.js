@@ -13,9 +13,19 @@ const BTN = styled.button`
   border-radius: 6px;
   border: 0;
   background-image: ${(props) => props.color};
+  background-color: #FFFFFF;
 
   ${({ wide }) => wide && `
     width: 100%;
+  `};
+
+  ${({ border }) => border && `
+    border-color: ${border};
+  `};
+
+  ${({ color }) => !color && `
+    color: #212121;
+    border: 2px solid;
   `};
 
   &:hover {
@@ -23,8 +33,8 @@ const BTN = styled.button`
   }
 `;
 
-const Button = ({ children, color, wide }) => (
-  <BTN type="button" color={color} wide={wide}>{children}</BTN>
+const Button = ({ children, color, wide, border }) => (
+  <BTN type="button" color={color} wide={wide} border={border}>{children}</BTN>
 );
 
 export default Button;
