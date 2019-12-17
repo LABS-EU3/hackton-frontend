@@ -11,7 +11,8 @@ import {
 
 // eslint-disable-next-line import/prefer-default-export
 export const GlobalStyles = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
 :root {
   font-size: 62.5%;
@@ -62,7 +63,7 @@ body {
   font-family: ${type.ROBOTO_MONO};
   line-height: 1.2;
   color: ${Solid.BLACK};
-  background: ${Solid.GREY};
+  background: ${Solid.DARK_WHITE};
 }
 
 h1 {

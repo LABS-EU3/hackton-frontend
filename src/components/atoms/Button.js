@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import * as Fonts from './../variables/fonts';
+import * as Fonts from '../variables/fonts';
 
 const BTN = styled.button`
-  font-family: ${Fonts.type.ROBOTO_MONO};
+  ${Fonts.type.ROBOTO_MONO};
   font-weight: bold;
   font-size: 14px;
   text-align: center;
