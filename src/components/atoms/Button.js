@@ -10,6 +10,7 @@ const BTN = styled.button`
   color: #FFFFFF;
   height: 43px;
   padding: 12px 22px;
+  margin: 0 0 0 15px;
   border-radius: 6px;
   border: 0;
   background-image: ${(props) => props.color};
