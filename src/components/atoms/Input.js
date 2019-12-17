@@ -11,11 +11,15 @@ const I = styled.input`
   border: 1px solid ${Colors.Solid.BORDER_GREY};
   border-radius: 6px;
   padding: 10px;
+  margin: 0 0 10px 0;
+
+  ${({ wide }) => wide && `
+    width: 100%;
+  `};
 `;
 
-const Input = (props) => {
-  const { type, placeholder } = props;
-  return <I type={type} placeholder={placeholder} />;
+const Input = ({ type, placeholder, wide }) => {
+  return <I type={type} placeholder={placeholder} wide={wide} />;
 };
 
 export default Input;
