@@ -1,4 +1,4 @@
-export { Solid, Gradient } from "./variables/colors";
+export { Solid, Gradient } from './variables/colors';
 export {
   type,
   baseFontSize,
@@ -7,7 +7,7 @@ export {
   h2FontSize,
   h3FontSize,
   h4FontSize,
-} from "./variables/fonts";
-export { Spacing } from "./variables/spacing";
+} from './variables/fonts';
+export { Spacing } from './variables/spacing';
 
 export { GlobalStyles } from './styles/GlobalStyles';
