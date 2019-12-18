@@ -3,7 +3,7 @@ import image from "../../assets/Signup.png";
 import { Unboarding } from "../templates";
 import { useRouteMatch } from "react-router-dom";
 
-const SingupPage = () => {
+const SignupPage = () => {
   const match = useRouteMatch();
   console.log(match);
   return (
@@ -17,4 +17,4 @@ const SingupPage = () => {
   );
 };
 
-export default SingupPage;
+export default SignupPage;
