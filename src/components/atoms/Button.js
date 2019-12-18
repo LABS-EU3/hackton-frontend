@@ -1,41 +1,31 @@
-import React from 'react';
 import styled from 'styled-components';
-import * as Fonts from '../variables/fonts';
+import { type, smallFontSize, Gradient, Solid } from '../index';
 
-const BTN = styled.button`
-  ${Fonts.type.ROBOTO_MONO};
-  font-weight: bold;
-  font-size: 14px;
-  text-align: center;
-  color: #FFFFFF;
-  height: 43px;
+export const Button = styled.button`
+  display: inline-block;
   padding: 12px 22px;
-  margin: 0 0 0 15px;
+  margin: 0;
   border-radius: 6px;
   border: 0;
-  background-image: ${(props) => props.color};
-  background-color: #FFFFFF;
-
-  ${({ wide }) => wide && `
-    width: 100%;
-  `};
-
-  ${({ border }) => border && `
-    border-color: ${border};
-  `};
-
-  ${({ color }) => !color && `
-    color: #212121;
-    border: 2px solid;
-  `};
+  font-family: ${type.ROBOTO_MONO};
+  font-size: ${smallFontSize};
+  font-weight: 500;
+  color: ${Solid.BLACK};
+  border: 2px solid ${Solid.BLACK};
+  background: ${Solid.WHITE};
 
   &:hover {
-    cursor: pointer;
+   cursor: pointer; 
   }
 `;
 
-const Button = ({ children, color, wide, border }) => (
-  <BTN type="button" color={color} wide={wide} border={border}>{children}</BTN>
-);
+export const ButtonGradientBlue = styled(Button)`
+  background: ${Gradient.BLUE};
+  color: ${Solid.WHITE};
+  padding: 14px 22px;
+  border: 0;
+`;
 
-export default Button;
+export const ButtonGradientBlueWide = styled(ButtonGradientBlue)`
+  width: 100%;
+`;

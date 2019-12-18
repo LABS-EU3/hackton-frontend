@@ -4,7 +4,7 @@ import WideFooter from '../../components/atoms/WideFooter';
 import FooterContainer from '../../components/atoms/FooterContainer';
 import Group from '../../components/atoms/Group';
 import SocialIcon from '../../components/atoms/SocialIcon';
-import NavLink from '../../components/atoms/NavLink';
+import { FooterNavAnchor } from '../../components/atoms/Anchor';
 import Paragraph from '../../components/atoms/Paragraph';
 
 import linkedin from '../../assets/Icon-linkedin.png';
@@ -21,9 +21,9 @@ const Footer = () => (
       </Group>
 
       <Group>
-        <NavLink to="#">Team</NavLink>
-        <NavLink to="#">Privacy</NavLink>
-        <NavLink to="#">Contacts</NavLink>
+        <FooterNavAnchor href="#">Team</FooterNavAnchor>
+        <FooterNavAnchor href="#">Privacy</FooterNavAnchor>
+        <FooterNavAnchor href="#">Contacts</FooterNavAnchor>
       </Group>
 
       <Group>

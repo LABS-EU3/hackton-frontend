@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import * as Colors from '../variables/colors';
+import { TopNavAnchor } from '../atoms/Anchor';
+import { Button, ButtonGradientBlue } from '../atoms/Button';
 
-import NavLink from '../atoms/NavLink';
-import Button from '../atoms/Button';
+const Btn = styled(Button)`
+  margin: 0 10px 0 10px;
+`;
 
 const PublicNav = () => (
   <div>
-    <NavLink to="#">Home</NavLink>
-    <NavLink to="#">Features</NavLink>
-    <NavLink to="#">About Us</NavLink>
-    <Button>Log In</Button>
-    <Button color={Colors.Gradient.BLUE}>Sign Up</Button>
+    <TopNavAnchor href="#">Home</TopNavAnchor>
+    <TopNavAnchor href="#">Features</TopNavAnchor>
+    <TopNavAnchor href="#">About Us</TopNavAnchor>
+    <Btn>Log In</Btn>
+    <ButtonGradientBlue>Sign Up</ButtonGradientBlue>
   </div>
 );
 
