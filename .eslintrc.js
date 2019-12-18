@@ -13,9 +13,14 @@ module.exports = {
       jsx: true
     },
     ecmaVersion: 2018,
-    sourceType: "module"
+    sourceType: 'module',
   },
-  plugins: ["react"],
-  rules: {}
+  plugins: [
+    'react',
+  ],
+  rules: {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/prop-types": 0,
+  }
 };
 z;
