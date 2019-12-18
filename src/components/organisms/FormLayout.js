@@ -1,13 +1,12 @@
 import React from "react";
 
-
 import WideBody from "../atoms/WideBody";
 import BodyContainer from "../atoms/BodyContainer";
 import HeroImage from "../atoms/HeroImage";
 import Form from "./Form";
 
 const FormLayout = ({
-  catText,
+  ctaText,
   imageType,
   imageText,
   formHeader,
@@ -17,7 +16,7 @@ const FormLayout = ({
     <BodyContainer>
       <HeroImage src={imageType} alt={imageText} />
       <Form
-        cta={catText}
+        ctaText={ctaText}
         formHeader={formHeader}
         formParagraph={formParagraph}
       />
