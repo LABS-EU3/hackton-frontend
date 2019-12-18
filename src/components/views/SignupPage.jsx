@@ -8,7 +8,7 @@ const SignupPage = () => {
   console.log(match);
   return (
     <Unboarding
-      catText="Sign Up"
+      ctaText="Sign Up"
       imageType={image}
       imageText="Sign Up now!!"
       formHeader=" Create an account"

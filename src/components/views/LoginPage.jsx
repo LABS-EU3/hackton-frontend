@@ -4,7 +4,7 @@ import { Unboarding } from "../templates";
 
 const LoginPage = () => (
   <Unboarding
-    catText="Log In"
+    ctaText="Log In"
     imageType={image}
     imageText="Log In now!!"
     formHeader="Log into Portal"

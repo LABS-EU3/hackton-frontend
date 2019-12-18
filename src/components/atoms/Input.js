@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import * as Fonts from '../variables/fonts';
-import * as Colors from '../variables/colors';
+import React from "react";
+import styled from "styled-components";
+import * as Fonts from "../variables/fonts";
+import * as Colors from "../variables/colors";
 
 const I = styled.input`
   ${Fonts.type.ROBOTO_MONO};
@@ -13,13 +13,17 @@ const I = styled.input`
   padding: 10px;
   margin: 0 0 10px 0;
 
-  ${({ wide }) => wide && `
+  ${({ wide }) =>
+    wide &&
+    `
     width: 100%;
   `};
 `;
 
-const Input = ({ type, placeholder, wide }) => {
-  return <I type={type} placeholder={placeholder} wide={wide} />;
+const Input = ({ type, placeholder, wide, ...inputProps }) => {
+  return (
+    <I type={type} placeholder={placeholder} wide={wide} {...inputProps} />
+  );
 };
 
 export default Input;
