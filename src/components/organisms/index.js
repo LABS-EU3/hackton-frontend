@@ -1,8 +1,8 @@
 import Footer from './Footer';
 import Form from './Form';
 import Header from './Header';
-import SignUp from './SignUp';
+import FormLayout from './FormLayout';
 
 export {
-  SignUp, Header, Footer, Form,
+  FormLayout, Header, Footer, Form,
 };

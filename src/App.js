@@ -1,15 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { GlobalStyles } from './components/index';
-import { SignUp, Header, Footer } from './components/organisms';
+import SingupPage from './components/views/SignupPage';
+import LoginPage from './components/views/LoginPage';
 
 function App() {
   return (
     <Router>
       <GlobalStyles />
-      <Header />
-      <SignUp />
-      <Footer />
+      <Route exact path="/register" component={SingupPage} />
+      <Route exact path="/login" component={LoginPage} />
     </Router>
   );
 }

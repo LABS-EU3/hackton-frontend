@@ -9,20 +9,20 @@ import Paragraph from '../atoms/Paragraph';
 import Input from '../atoms/Input';
 import Button from '../atoms/Button';
 
-const Form = () => (
+const Form = ({ cta, formHeader, formParagraph }) => (
   <Container>
     <Heading>
-      Create an account
+      {formHeader}
     </Heading>
 
     <Paragraph>
-      Join hackathons or organise one yourself.
+      {formParagraph}
     </Paragraph>
 
     <Input wide type="text" placeholder="Email address" />
     <Input wide type="password" placeholder="Password" />
 
-    <Button wide color={Colors.Gradient.BLUE}>Sign Up</Button>
+    <Button wide color={Colors.Gradient.BLUE}>{cta}</Button>
   </Container>
 );
 
