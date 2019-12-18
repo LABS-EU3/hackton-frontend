@@ -1,17 +1,11 @@
-import React from "react";
 import styled from "styled-components";
+import { Solid } from '../index';
 
-import * as Colors from "../variables/colors";
-
-const C = styled.div`
+const WideFooter = styled.div`
   display: flex;
   justify-content: center;
-  border-top: 1px solid ${Colors.Solid.BORDER_GREY};
-  background-color: ${Colors.Solid.GREY};
+  border-top: 1px solid ${Solid.BORDER_GREY};
+  background-color: ${Solid.GREY};
 `;
-
-const WideFooter = ({ children }) => (
-  <C>{children}</C>
-);
 
 export default WideFooter;
