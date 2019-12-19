@@ -1,18 +1,16 @@
 [![Build Status](https://travis-ci.org/LABS-EU3/hackton-frontend.svg?branch=develop)](https://travis-ci.org/LABS-EU3/hackton-frontend)
 
-Hackton
+# Hackton
 
 A comprehensive portal for hackathons where students can submit their work and judges can evaluate in one place.
 
-## hackton-frontend
+## Getting Started
 
+Run npm start or yarn start
 
+## Prerequisites
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+In the project directory, you can run: npm install or yarn install
 
 ### `npm start`
 
