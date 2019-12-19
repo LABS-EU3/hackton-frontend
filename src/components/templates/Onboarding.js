@@ -1,5 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import UserHeader from '../organisms/UserHeader';
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
@@ -26,7 +27,9 @@ const Onboarding = ({
             
             <RowHead>
               <H3>My hackathons</H3>
-              <ButtonGradientGreen>Create New</ButtonGradientGreen>
+              <Link to="/dashboard/new">
+                <ButtonGradientGreen>Create New</ButtonGradientGreen>
+              </Link>
             </RowHead>
 
             <RowBody>
@@ -42,7 +45,11 @@ const Onboarding = ({
             </RowHead>
 
             <RowBody>
-
+              <EventCard 
+                  title="Hackton Games" 
+                  description="Excerpt of the hackathon description, not ment to be very long..." 
+                  startDate="16, Aug, 2020"
+              />
             </RowBody>
 
           </BodyContainerColumn>
