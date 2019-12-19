@@ -13,7 +13,7 @@ import { ButtonGradientGreen } from "../atoms/Button";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
-  justify-content: space-around;
+  align-items: start;
 `;
 
 const Onboarding = ({ user }) => {
