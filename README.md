@@ -38,6 +38,10 @@ This project was deployed with Zeit.
 
 Please read [CONTRIBUTING.md](https://gist.github.com) for details on our code of conduct, and the process for submitting pull requests to us.
 
+## Versioning
+
+This is version 0.0.1 (Release canvas 1)
+
 ## Authors
 
 * **Pascal Ulor** - *Team lead* - [github](https://github.com/PascalUlor)
@@ -46,3 +50,11 @@ Please read [CONTRIBUTING.md](https://gist.github.com) for details on our code o
 * **Justinas Vebra** - *Team member* - [github](https://github.com/vebradev)
 * **Mildred Otieno** - *Team member* - [github](https://github.com/)
 * **Ayomide Jones** - *Team member* - [github](https://github.com/Ayormeday)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Acknowledgments
+
+* Lambda 
