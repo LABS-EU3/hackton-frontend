@@ -26,6 +26,10 @@ export const ButtonGradientBlue = styled(Button)`
   border: 0;
 `;
 
+export const ButtonGradientGreen = styled(ButtonGradientBlue)`
+  background: ${Gradient.GREEN};
+`;
+
 export const ButtonGradientBlueWide = styled(ButtonGradientBlue)`
   width: 100%;
 `;
