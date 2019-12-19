@@ -12,10 +12,6 @@ A comprehensive portal for hackathons where students can submit their work and j
 
 In the project directory, you can run: `npm install` or `yarn install`
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running.
-
 ## Running the tests
 
 Run `npm test` or `yarn test` in the console.
@@ -26,7 +22,7 @@ Explain what these tests test and why
 
 ## Deployment
 
-This project was deployed with Zeit.
+This project was deployed with [Zeit](https://hackton-frontend-g3tpfw81r.now.sh/register).
 
 ## Built With
 
