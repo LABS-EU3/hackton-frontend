@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/LABS-EU3/hackton-frontend.svg?branch=develop)](https://travis-ci.org/LABS-EU3/hackton-frontend)
 
-# Hackton
+Hackton
 
-This is a Lambda EU3 Labs project
+A comprehensive portal for hackathons where students can submit their work and judges can evaluate in one place.
 
 ## hackton-frontend
 
-A comprehensive portal for hackathons where students can submit their work and judges can evaluate in one place
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
