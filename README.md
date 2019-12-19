@@ -23,17 +23,16 @@ Run `npm test` or `yarn test` in the console.
 ### Break down into end to end tests
 
 Explain what these tests test and why
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Deployment
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+This project was deployed with Zeit.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Built With
 
-### `npm run eject`
+* [React](https://reactjs.org/) - The web framework used.
+* [Redux](https://redux.js.org/) - State management tool.
+* [Styled-components](https://www.styled-components.com/) - Used to generate styles.
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
