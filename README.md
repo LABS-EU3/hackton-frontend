@@ -6,25 +6,23 @@ A comprehensive portal for hackathons where students can submit their work and j
 
 ## Getting Started
 
-Run npm start or yarn start
+`cd` into hackton-frontend and run `npm start` or `yarn start` in the console after cloning the repository.
 
-## Prerequisites
+### Prerequisites
 
-In the project directory, you can run: npm install or yarn install
+In the project directory, you can run: `npm install` or `yarn install`
 
-### `npm start`
+### Installing
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+A step by step series of examples that tell you how to get a development env running.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Running the tests
 
-### `npm test`
+Run `npm test` or `yarn test` in the console.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Break down into end to end tests
 
+Explain what these tests test and why
 ### `npm run build`
 
 Builds the app for production to the `build` folder.<br />
