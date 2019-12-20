@@ -1,10 +1,10 @@
-import { select } from "redux-saga";
-import { put, takeLatest, call, all } from "redux-saga/effects";
+import { put, takeLatest, call, all, select } from "redux-saga/effects";
 
 import { axiosWithAuth } from "../../utils/api";
 import {
   EventsTypes,
   createEventSuccess,
+  deleteEventSuccess,
   eventsError,
   fetchAllEventsSuccess,
   updateEventSuccess
