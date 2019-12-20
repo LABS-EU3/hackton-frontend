@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 const persistConfig = {
-  key: "root",
+  key: "hackton",
   storage
 };
 
