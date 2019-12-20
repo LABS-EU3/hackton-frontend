@@ -44,7 +44,7 @@ This is version 0.0.1 (Release canvas 1)
 * **Mariam Adedeji** - *Team member* - [github](https://github.com/mariehposa)
 * **Mike Perry Attara** - *Team member* - [github](https://github.com/mikeattara)
 * **Justinas Vebra** - *Team member* - [github](https://github.com/vebradev)
-* **Mildred Otieno** - *Team member* - [github](https://github.com/)
+* **Mildred Otieno** - *Team member* - [github](https://github.com/awuorm)
 * **Ayomide Jones** - *Team member* - [github](https://github.com/Ayormeday)
 
 ## License
