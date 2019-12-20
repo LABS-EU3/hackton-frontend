@@ -11,4 +11,5 @@ export const Gradient = {
   BLUE: 'linear-gradient(to right, #1E77B4, #2C398D)',
   GREEN: 'linear-gradient(to right, #77DD76, #187B32)',
   ORANGE: 'linear-gradient(to right, #E9B85F, #E18973)',
+  GREY: 'linear-gradient(to right, #DADADA, #9D9D9D)',
 };

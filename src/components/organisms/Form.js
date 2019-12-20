@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Container from "../atoms/Container";
-import Heading from "../atoms/Heading";
+import { H1 } from "../atoms/Heading";
 import Paragraph from "../atoms/Paragraph";
 import Input from "../atoms/Input";
 import { ButtonGradientBlueWide } from "../atoms/Button";
@@ -33,7 +33,7 @@ const Form = ({ ctaText, formHeader, formParagraph }) => {
 
   return (
     <Container>
-      <Heading>{formHeader}</Heading>
+      <H1>{formHeader}</H1>
 
       <Paragraph>{formParagraph}</Paragraph>
 
