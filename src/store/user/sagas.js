@@ -7,9 +7,7 @@ import {
   UserTypes
 } from "./actions";
 
-import axios from "axios";
-
-axios.defaults.baseURL = "https://hackton-staging.herokuapp.com";
+import { axios } from "../../utils/api";
 
 function* loginAsync({ payload }) {
   try {

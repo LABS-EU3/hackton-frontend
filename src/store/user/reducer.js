@@ -1,6 +1,10 @@
 import { UserTypes } from "./actions";
 
-export const userReducer = (user = {}, action) => {
+const initialState = {
+  token: ""
+};
+
+export const userReducer = (user = initialState, action) => {
   switch (action.type) {
     case UserTypes.LOGIN_SUCCESS:
     case UserTypes.REGISTER_SUCCESS:
