@@ -1,5 +1,5 @@
 import React from "react";
-import EventOnboarding from "../templates/Onboarding";
+import { EventOnboarding } from "../templates";
 import { useDispatch } from "react-redux";
 import { fetchAllEvents } from "../../store/events/actions";
 

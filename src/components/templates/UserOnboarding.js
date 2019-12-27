@@ -1,7 +1,7 @@
 import React from "react";
 import { FormLayout, Header, Footer } from "../organisms/index";
 
-const Unboarding = ({
+const UserOnboarding = ({
   ctaText,
   imageType,
   imageText,
@@ -23,4 +23,4 @@ const Unboarding = ({
   );
 };
 
-export default Unboarding;
+export default UserOnboarding;

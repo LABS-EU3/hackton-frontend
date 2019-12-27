@@ -16,7 +16,7 @@ const BodyContainerColumn = styled(BodyContainer)`
   align-items: start;
 `;
 
-const Onboarding = ({ user }) => {
+const EventOnboarding = ({ user }) => {
   return (
     <div>
       <UserHeader user={user} />
@@ -55,4 +55,4 @@ const Onboarding = ({ user }) => {
   );
 };
 
-export default Onboarding;
+export default EventOnboarding;
