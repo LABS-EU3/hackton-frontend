@@ -1,3 +1,3 @@
-import Unboarding from './Unboarding';
+import Unboarding from './UserOnboarding';
 
 export { Unboarding };

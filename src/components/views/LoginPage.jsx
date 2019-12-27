@@ -1,9 +1,9 @@
 import React from "react";
 import image from "../../assets/Login.png";
-import { Unboarding } from "../templates";
+import { UserOnboarding } from "../templates";
 
 const LoginPage = () => (
-  <Unboarding
+  <UserOnboarding
     ctaText="Log In"
     imageType={image}
     imageText="Log In now!!"
