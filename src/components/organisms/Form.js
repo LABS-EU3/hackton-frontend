@@ -7,6 +7,7 @@ import Input from "../atoms/Input";
 import { ButtonGradientBlueWide } from "../atoms/Button";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../store/user/actions";
+import SocialMedia from "../molecules/SocialMedia";
 
 const Form = ({ ctaText, formHeader, formParagraph }) => {
   const [values, setValues] = useState({ email: "", password: "" });
@@ -57,6 +58,7 @@ const Form = ({ ctaText, formHeader, formParagraph }) => {
       <ButtonGradientBlueWide onClick={action}>
         {ctaText}
       </ButtonGradientBlueWide>
+      <SocialMedia></SocialMedia>
     </Container>
   );
 };
