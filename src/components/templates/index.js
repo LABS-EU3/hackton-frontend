@@ -1,3 +1,4 @@
-import Unboarding from './Unboarding';
+import UserOnboarding from './UserOnboarding';
+import EventOnboarding from './EventOnboarding';
 
-export { Unboarding };
+export { UserOnboarding, EventOnboarding };
