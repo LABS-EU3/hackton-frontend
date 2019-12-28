@@ -8,7 +8,7 @@ const SignupPage = () => {
       ctaText="Sign Up"
       imageType={image}
       imageText="Sign Up now!!"
-      formHeader=" Create an account"
+      formHeader="Create an account"
       formParagraph="Join hackathons or organise one yourself."
     />
   );

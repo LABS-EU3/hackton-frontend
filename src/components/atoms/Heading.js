@@ -6,6 +6,7 @@ export const H1 = styled.h1`
   color: ${Solid.BLACK};
   font-size: 32px;
   font-weight: 700;
+  white-space: nowrap;
   margin: 0 0 10px 0;
   padding: 0;
 `;

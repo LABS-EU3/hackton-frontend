@@ -25,7 +25,8 @@ export const Social = styled.div`
       margin: 0 auto;
     }
     &:hover i {
-      transform: scale(1.5);
+      color: ${Solid.BLUE};
+      transform: scale(1.1);
     }
   }
 `;
