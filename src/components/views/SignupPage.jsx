@@ -14,7 +14,6 @@ const SignupPage = (props) => {
     const { location } = props;
     const { search } = location;
     const parsed = queryString.parse(search);
-    console.log(props, '==check props===', parsed);
     if (parsed.google || parsed.github) {
       dispatch(socialAuthLoad());
     }
