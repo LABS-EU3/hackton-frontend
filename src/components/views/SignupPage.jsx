@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import image from "../../assets/Signup.png";
 import { UserOnboarding } from "../templates";
@@ -7,14 +7,13 @@ import { socialAuthLoad } from "../../store/user/actions";
 import { isLoggedIn } from "../../utils/auth";
 import queryString from 'query-string';
 
-const SignupPage = (props) => {
+const SignupPage = () => {
   const isAuth = isLoggedIn();
   const dispatch = useDispatch()
-  
+  let url = useLocation()
+
   useEffect(()=>{
-    const { location } = props;
-    const { search } = location;
-    const parsed = queryString.parse(search);
+    const parsed = queryString.parse(url.search);
     if (parsed.google || parsed.github) {
       dispatch(socialAuthLoad());
     }
