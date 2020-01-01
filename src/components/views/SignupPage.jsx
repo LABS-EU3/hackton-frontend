@@ -10,6 +10,7 @@ import queryString from 'query-string';
 const SignupPage = (props) => {
   const isAuth = isLoggedIn();
   const dispatch = useDispatch()
+  
   useEffect(()=>{
     const { location } = props;
     const { search } = location;
