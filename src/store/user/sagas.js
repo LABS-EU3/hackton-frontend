@@ -4,6 +4,7 @@ import {
   loginSuccess,
   registerSuccess,
   registerFail,
+  socialAuthSuccess,
   UserTypes
 } from "./actions";
 
@@ -27,6 +28,19 @@ function* registerAsync({ payload }) {
   }
 }
 
+function* socialAuthAsync(){
+  try{
+    const { data } = yield axios.get("/api/auth/token");
+    yield put(socialAuthSuccess(data));
+  } catch (error){
+    yield put(registerFail(error.message));
+  }
+}
+
+function* watchSocialAuth(){
+  yield takeLatest(UserTypes.SOCIAL_AUTH_LOAD, socialAuthAsync);
+}
+
 function* watchLogin() {
   yield takeLatest(UserTypes.LOGIN, loginAsync);
 }
@@ -36,5 +50,5 @@ function* watchRegister() {
 }
 
 export function* userSagas() {
-  yield all([call(watchLogin), call(watchRegister)]);
+  yield all([call(watchLogin), call(watchRegister), call(watchSocialAuth)]);
 }
