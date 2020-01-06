@@ -1,18 +1,17 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
+import WideHeader from "../atoms/WideHeader";
+import HeaderContainer from "../atoms/HeaderContainer";
+import Logo from "../atoms/Logo";
+import Profile from "../molecules/Profile";
 
-import WideHeader from '../atoms/WideHeader';
-import HeaderContainer from '../atoms/HeaderContainer';
-import Logo from '../atoms/Logo';
-import Profile from '../molecules/Profile';
-
-
-const Header = ({
-  user
-}) => (
+const Header = ({ user }) => (
   <WideHeader>
     <HeaderContainer>
-      <Logo />
-      <Profile user={user}/>
+      <Link to="/dashboard">
+        <Logo />
+      </Link>
+      <Profile user={user} />
     </HeaderContainer>
   </WideHeader>
 );
