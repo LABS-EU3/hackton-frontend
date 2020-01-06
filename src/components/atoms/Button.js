@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { media } from "../index";
 import { Link } from "react-router-dom";
-import { type, smallFontSize, Gradient, Solid } from "../index";
+import { type, smallFontSize, Gradient, Solid, media } from "../index";
 
 export const Button = styled.button`
   display: inline-block;
@@ -38,6 +37,14 @@ export const ButtonGradientBlue = styled(Button)`
 
 export const ButtonGradientGreen = styled(ButtonGradientBlue)`
   background: ${Gradient.GREEN};
+
+  @media ${media.tablet} {
+    margin: 14px;
+  }
+
+  @media ${media.mobile} {
+    margin: 14px;
+  }
 `;
 
 export const ButtonGradientGrey = styled(ButtonGradientBlue)`
@@ -67,7 +74,7 @@ export const LinkButton = styled(Link)`
   &:hover {
     cursor: pointer;
   }
-  
+
   @media ${media.tablet} {
     padding: 12px;
   }
