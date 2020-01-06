@@ -10,20 +10,14 @@ const BodyContainer = styled.div`
   padding: 60px 45px;
 
   @media ${media.tablet} {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     flex-direction: column;
-
+    padding: 60px 0;
     img {
       display: none;
     }
   }
 
   @media ${media.mobile} {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     flex-direction: column;
     img {
       display: none;

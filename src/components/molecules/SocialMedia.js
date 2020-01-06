@@ -1,18 +1,11 @@
 import React from "react";
 import { SocialMediaContainer } from "../atoms/SocialIcon";
 import MediaIcons from "./MediaIcons";
+import { StrikedSpan } from "../atoms/Span";
 
 const SocialMedia = () => (
   <SocialMediaContainer>
-    <div className="dividerContainer">
-      <div className="divider">
-        <hr />
-      </div>
-      <p>OR LOGIN WITH</p>
-      <div className="divider">
-        <hr />
-      </div>
-    </div>
+    <StrikedSpan>OR LOGIN WITH</StrikedSpan>
     <MediaIcons />
   </SocialMediaContainer>
 );
