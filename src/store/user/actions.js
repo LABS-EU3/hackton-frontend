@@ -5,14 +5,15 @@ export const UserTypes = {
   REGISTER: "REGISTER",
   REGISTER_SUCCESS: "REGISTER_SUCCESS",
   REGISTER_FAIL: "REGISTER_FAIL",
-  SOCIAL_AUTH_LOAD: 'SOCIAL_AUTH_LOAD',
-  SOCIAL_AUTH_SUCCESS: 'SOCIAL_AUTH_SUCCESS'
+  SOCIAL_AUTH_LOAD: "SOCIAL_AUTH_LOAD",
+  SOCIAL_AUTH_SUCCESS: "SOCIAL_AUTH_SUCCESS"
 };
 
-export const login = (email, password) => {
+export const login = (email, password, history) => {
   return {
     type: UserTypes.LOGIN,
-    payload: { email, password }
+    payload: { email, password },
+    history
   };
 };
 
@@ -30,10 +31,11 @@ export const loginFail = errorMessage => {
   };
 };
 
-export const register = (email, password) => {
+export const register = (email, password, history) => {
   return {
     type: UserTypes.REGISTER,
-    payload: { email, password }
+    payload: { email, password },
+    history
   };
 };
 
@@ -51,12 +53,12 @@ export const registerFail = errorMessage => {
   };
 };
 
-export const socialAuthLoad = ()=>{
+export const socialAuthLoad = () => {
   return {
     type: UserTypes.SOCIAL_AUTH_LOAD
   };
 };
-export const socialAuthSuccess = (user)=>{
+export const socialAuthSuccess = user => {
   return {
     type: UserTypes.SOCIAL_AUTH_SUCCESS,
     payload: user
