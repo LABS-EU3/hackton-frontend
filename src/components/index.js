@@ -9,5 +9,5 @@ export {
   h4FontSize,
 } from './variables/fonts';
 export { Spacing } from './variables/spacing';
-
+export { media } from './variables/media';
 export { GlobalStyles } from './styles/GlobalStyles';
