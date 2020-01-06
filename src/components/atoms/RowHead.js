@@ -8,12 +8,4 @@ export const RowHead = styled.div`
   border-bottom: 1px solid ${Solid.BORDER_GREY};
   padding: 0 0 10px 0;
   width: 100%;
-
-  @media ${media.tablet} {
-    width: 50%;
-  }
-
-  @media ${media.mobile} {
-    width: 50%;
-  }
 `;

@@ -5,7 +5,7 @@ import { type, smallFontSize, Gradient, Solid, media } from "../index";
 export const Button = styled.button`
   display: inline-block;
   padding: 12px 22px;
-  margin: 0;
+  margin: 0 0 10px 0;
   border-radius: 6px;
   border: 0;
   font-family: ${type.ROBOTO_MONO};
@@ -37,18 +37,14 @@ export const ButtonGradientBlue = styled(Button)`
 
 export const ButtonGradientGreen = styled(ButtonGradientBlue)`
   background: ${Gradient.GREEN};
-
-  @media ${media.tablet} {
-    margin: 14px;
-  }
-
-  @media ${media.mobile} {
-    margin: 14px;
-  }
 `;
 
 export const ButtonGradientGrey = styled(ButtonGradientBlue)`
   background: ${Gradient.GREY};
+  @media ${media.tablet} {
+    width: 100%;
+    order: 1;
+  }
 `;
 
 export const ButtonGradientBlueWide = styled(ButtonGradientBlue)`

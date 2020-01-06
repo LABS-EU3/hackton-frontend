@@ -2,16 +2,17 @@ import styled from 'styled-components';
 import {media} from "../index";
 
 export const RowBody = styled.div`
+  max-width: 700px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: 40px 0;
 
   @media ${media.tablet} {
-    flex-direction:column;
+    flex-direction: column;
   }
 
   @media ${media.mobile} {
-    flex-direction:column;
+    flex-direction: column;
   }
 `;
