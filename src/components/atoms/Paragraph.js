@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { type, Solid } from '../index';
 
-const Paragraph = styled.p`
+export const Paragraph = styled.p`
   font-family: ${type.ROBOTO};
   color: ${Solid.BLACK};
   font-size: 15px;
@@ -10,4 +10,6 @@ const Paragraph = styled.p`
   padding: 0;
 `;
 
-export default Paragraph;
+export const PlainParagraph = styled(Paragraph)`
+  margin: 0;
+`;

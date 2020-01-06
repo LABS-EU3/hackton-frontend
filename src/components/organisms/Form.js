@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Container from "../atoms/Container";
 import { H1 } from "../atoms/Heading";
-import Paragraph from "../atoms/Paragraph";
+import { Paragraph } from "../atoms/Paragraph";
 import Input from "../atoms/Input";
 import { ButtonGradientBlueWide } from "../atoms/Button";
 import { useDispatch } from "react-redux";
