@@ -1,5 +1,5 @@
 export const media = {
-  mobile: "375px",
-  tablet: "768px",
-  desktop: "1152px",
+  mobile: "(max-width: 375px)",
+  tablet: "(max-width: 768px)",
+  desktop: "(max-width: 1152px)",
 }

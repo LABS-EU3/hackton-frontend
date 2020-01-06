@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "../index";
 import { Link } from "react-router-dom";
 import { type, smallFontSize, Gradient, Solid } from "../index";
 
@@ -17,6 +18,14 @@ export const Button = styled.button`
 
   &:hover {
     cursor: pointer;
+  }
+
+  @media ${media.tablet} {
+    padding: 12px;
+  }
+
+  @media ${media.mobile} {
+    padding: 10px;
   }
 `;
 
@@ -57,6 +66,14 @@ export const LinkButton = styled(Link)`
 
   &:hover {
     cursor: pointer;
+  }
+  
+  @media ${media.tablet} {
+    padding: 12px;
+  }
+
+  @media ${media.mobile} {
+    padding: 10px;
   }
 `;
 
