@@ -17,7 +17,7 @@ import { ButtonGradientGrey, ButtonGradientGreen } from "../atoms/Button";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: start;
 `;
 
 const Onboarding = ({ user }) => {

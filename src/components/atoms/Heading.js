@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { type, Solid } from '../index';
 
 export const H1 = styled.h1`
-  font-family: ${type.ROBOTO_MONO};
+  font-family: ${type.ROBOTO};
   color: ${Solid.BLACK};
   font-size: 32px;
   font-weight: 700;
@@ -12,7 +12,7 @@ export const H1 = styled.h1`
 `;
 
 export const H2 = styled.h2`
-  font-family: ${type.ROBOTO_MONO};
+  font-family: ${type.ROBOTO};
   color: ${Solid.BLACK};
   font-size: 26px;
   font-weight: 700;
@@ -21,7 +21,7 @@ export const H2 = styled.h2`
 `;
 
 export const H3 = styled.h3`
-  font-family: ${type.ROBOTO_MONO};
+  font-family: ${type.ROBOTO};
   color: ${Solid.BLACK};
   font-size: 20px;
   font-weight: 500;
