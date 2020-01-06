@@ -12,7 +12,7 @@ const BodyContainer = styled.div`
 
   @media ${media.tablet} {
     flex-direction: column;
-    padding: 60px 0;
+    padding: 60px 20px;
     img {
       display: none;
     }
