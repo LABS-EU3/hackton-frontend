@@ -1,13 +1,11 @@
-import React from "react";
 import styled from "styled-components";
 import image from "./../../assets/Hackton-logo.png";
 
-const IMG = styled.img`
+const Logo = styled.img.attrs({
+  alt: "Hackton - Organise hackathons",
+  src: image
+})`
   height: 43px;
 `;
-
-const Logo = () => {
-  return <IMG src={image} alt="Hackton - Organise hackathons" />;
-};
 
 export default Logo;
