@@ -2,19 +2,38 @@ import React from 'react';
 import * as rtl from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Signup from '../components/views/SignupPage';
+import renderer from 'react-test-renderer';
 
-afterEach(rtl.cleanup);
+describe('Sign up', () => {
+  it('renders', () => {
+    // const component = renderer.create(<Signup />);
+    // const tree = component.toJSON();
+    // expect(tree).toMatchSnapshot();
+  });
+});
 
-let wrapper;
+// afterEach(rtl.cleanup);
 
-beforeEach(() => {
-    wrapper = rtl.render(<Signup />)
-})
+// let wrapper;
 
-// describe('signup component', () => {
-//     test('provide button to toggle to closed and locked states', () => {
-//         expect(wrapper.queryByText(/close gate/i)).toBeInTheDocument()
-//         expect(wrapper.queryByText(/lock gate/i)).toBeInTheDocument()
-//     })
+// const props = {
+//     currentUser: {
+//         email: 'example@mail.com',
+//         password: 'example'
+//     },
+//     user: {
+//       is_key: false
+//     }
+//   };
+
+// beforeEach(() => {
+//     wrapper = rtl.render(<Signup />)
+//     console.log(wrapper)
 // })
 
+// describe('signup component', () => {
+
+//     test('provide text', () => {
+//         expect(wrapper.queryByText(/create/i)).toBeInTheDocument()
+//     })
+// })
