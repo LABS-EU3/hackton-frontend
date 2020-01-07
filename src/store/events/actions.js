@@ -23,10 +23,11 @@ export const fetchAllEventsSuccess = events => {
   };
 };
 
-export const createEvent = eventData => {
+export const createEvent = (eventData, history) => {
   return {
     type: EventsTypes.CREATE_EVENT,
-    payload: eventData
+    payload: eventData,
+    history
   };
 };
 
