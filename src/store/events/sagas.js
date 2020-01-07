@@ -7,7 +7,8 @@ import {
   eventsError,
   fetchAllEventsSuccess,
   updateEventSuccess,
-  fetchAllEvents
+  fetchAllEvents,
+  fetchEventCategoriesSuccess
 } from "./actions";
 
 const selectToken = state => state.currentUser.token;
@@ -75,11 +76,29 @@ function* watchUpdateEvent() {
   yield takeLatest(EventsTypes.UPDATE_EVENT, updateEventAsync);
 }
 
+function* fetchEventCategoriesAsync() {
+  try {
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).get("/api/event-category");
+    yield put(fetchEventCategoriesSuccess(data));
+  } catch (error) {
+    yield put(eventsError(error.message));
+  }
+}
+
+function* watchFetchEventCategories() {
+  yield takeLatest(
+    EventsTypes.FETCH_EVENT_CATEGORIES,
+    fetchEventCategoriesAsync
+  );
+}
+
 export function* eventsSagas() {
   yield all([
     call(watchFetchAllEvents),
     call(watchCreateEvent),
     call(watchDeleteEvent),
-    call(watchUpdateEvent)
+    call(watchUpdateEvent),
+    call(watchFetchEventCategories)
   ]);
 }
