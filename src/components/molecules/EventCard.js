@@ -3,7 +3,7 @@ import React from 'react';
 import { Card } from '../atoms/Card';
 import { H4 } from '../atoms/Heading';
 import { LetterIcon } from '../atoms/Icon';
-import Paragraph from '../atoms/Paragraph';
+import { Paragraph } from '../atoms/Paragraph';
 import CardFooter from './CardFooter';
 
 const EventCard = ({

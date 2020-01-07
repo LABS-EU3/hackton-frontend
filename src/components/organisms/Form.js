@@ -2,25 +2,27 @@ import React, { useState } from "react";
 
 import Container from "../atoms/Container";
 import { H1 } from "../atoms/Heading";
-import Paragraph from "../atoms/Paragraph";
+import { Paragraph } from "../atoms/Paragraph";
 import Input from "../atoms/Input";
 import { ButtonGradientBlueWide } from "../atoms/Button";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
+import { useHistory } from "react-router-dom";
 
 const Form = ({ ctaText, formHeader, formParagraph }) => {
   const [values, setValues] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const { email, password } = values;
+  const history = useHistory();
 
   const action = e => {
     e.preventDefault();
 
     if (ctaText.toLowerCase() === "log in") {
-      dispatch(login(email, password));
+      dispatch(login(email, password, history));
     } else {
-      dispatch(register(email, password));
+      dispatch(register(email, password, history));
     }
   };
 

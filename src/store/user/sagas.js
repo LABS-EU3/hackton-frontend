@@ -10,34 +10,36 @@ import {
 
 import { axios } from "../../utils/api";
 
-function* loginAsync({ payload }) {
+function* loginAsync({ payload, history }) {
   try {
     const { data } = yield axios.post("/api/auth/login", payload);
     yield put(loginSuccess(data));
+    yield history.push("/dashboard");
   } catch (error) {
     yield put(loginFail(error.message));
   }
 }
 
-function* registerAsync({ payload }) {
+function* registerAsync({ payload, history }) {
   try {
     const { data } = yield axios.post("/api/auth/register", payload);
     yield put(registerSuccess(data));
+    yield history.push("/dashboard");
   } catch (error) {
     yield put(registerFail(error.message));
   }
 }
 
-function* socialAuthAsync(){
-  try{
+function* socialAuthAsync() {
+  try {
     const { data } = yield axios.get("/api/auth/token");
     yield put(socialAuthSuccess(data));
-  } catch (error){
+  } catch (error) {
     yield put(registerFail(error.message));
   }
 }
 
-function* watchSocialAuth(){
+function* watchSocialAuth() {
   yield takeLatest(UserTypes.SOCIAL_AUTH_LOAD, socialAuthAsync);
 }
 

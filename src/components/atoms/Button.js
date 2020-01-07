@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { type, smallFontSize, Gradient, Solid } from "../index";
+import { type, smallFontSize, Gradient, Solid, media } from "../index";
 
 export const Button = styled.button`
   display: inline-block;
   padding: 12px 22px;
-  margin: 0;
+  margin: 0 0 10px 0;
   border-radius: 6px;
   border: 0;
   font-family: ${type.ROBOTO_MONO};
@@ -17,6 +17,14 @@ export const Button = styled.button`
 
   &:hover {
     cursor: pointer;
+  }
+
+  @media ${media.tablet} {
+    padding: 12px;
+  }
+
+  @media ${media.mobile} {
+    padding: 10px;
   }
 `;
 
@@ -33,6 +41,10 @@ export const ButtonGradientGreen = styled(ButtonGradientBlue)`
 
 export const ButtonGradientGrey = styled(ButtonGradientBlue)`
   background: ${Gradient.GREY};
+  @media ${media.tablet} {
+    width: 100%;
+    order: 1;
+  }
 `;
 
 export const ButtonGradientBlueWide = styled(ButtonGradientBlue)`
@@ -57,6 +69,14 @@ export const LinkButton = styled(Link)`
 
   &:hover {
     cursor: pointer;
+  }
+
+  @media ${media.tablet} {
+    padding: 12px;
+  }
+
+  @media ${media.mobile} {
+    padding: 10px;
   }
 `;
 
