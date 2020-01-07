@@ -105,17 +105,19 @@ const Onboarding = ({ user }) => {
                   />
                 </RowBody>
                 <RowBody>
-                  <Select name="Participation type">
-                    <option value="">-- Participation Type --</option>
+                  <Select name="participation_type">
+                    <option value="">Participation Type</option>
                     <option value="team">team</option>
                     <option value="individual">individual</option>
                     <option value="both">both</option>
                   </Select>
-                  <Select name="Hackaton Category">
-                    <option value="">-- Hackaton Category --</option>
-                    <option value="Summer Hackaton">Summer Hackaton</option>
-                    <option value="Winter Hackaton">Winter Hackaton</option>
-                    <option value="Autumn Hackaton">Autumn Hackaton</option>
+                  <Select name="event_category">
+                    <option value="">Event Category</option>
+                    {categories.map(({ id, category_name }) => (
+                      <option key={id} value={id}>
+                        {category_name}
+                      </option>
+                    ))}
                   </Select>
                 </RowBody>
                 <RowBody>
