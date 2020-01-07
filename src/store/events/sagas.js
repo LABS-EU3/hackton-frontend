@@ -3,11 +3,11 @@ import { put, takeLatest, call, all, select } from "redux-saga/effects";
 import { axiosWithAuth } from "../../utils/api";
 import {
   EventsTypes,
-  createEventSuccess,
   deleteEventSuccess,
   eventsError,
   fetchAllEventsSuccess,
-  updateEventSuccess
+  updateEventSuccess,
+  fetchAllEvents
 } from "./actions";
 
 const selectToken = state => state.currentUser.token;
@@ -26,11 +26,14 @@ function* watchFetchAllEvents() {
   yield takeLatest(EventsTypes.FETCH_ALL_EVENTS, fetchAllEventsAsync);
 }
 
-function* createEventAsync({ payload }) {
+function* createEventAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post("/api/events", payload);
-    yield put(createEventSuccess(data));
+    if (data) {
+      yield put(fetchAllEvents());
+    }
+    yield history.push("/dashboard");
   } catch (error) {
     yield put(eventsError(error.message));
   }
