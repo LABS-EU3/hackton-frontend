@@ -42,16 +42,17 @@ const EventOnboarding = ({ user }) => {
               startDate="16, Aug, 2020"
             /> */}
             {userEvents
+              .filter((_, idx) => idx <= 2)
               .map(event => (
                 <EventCard
+                  key={event.event_title}
                   {...{
                     title: event.event_title,
                     description: event.event_description,
                     startDate: event.start_date
                   }}
                 />
-              ))
-              .filter((card, idx) => idx <= 2)}
+              ))}
           </RowBody>
 
           <RowHead>
@@ -60,16 +61,17 @@ const EventOnboarding = ({ user }) => {
 
           <RowBody>
             {globalEvents
+              .filter((_, idx) => idx <= 2)
               .map(event => (
                 <EventCard
+                  key={event.event_title}
                   {...{
                     title: event.event_title,
                     description: event.event_description,
                     startDate: event.start_date
                   }}
                 />
-              ))
-              .filter((card, idx) => idx <= 2)}
+              ))}
           </RowBody>
         </BodyContainerColumn>
       </WideBody>
