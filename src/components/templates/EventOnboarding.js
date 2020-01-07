@@ -44,6 +44,7 @@ const EventOnboarding = ({ user }) => {
                 <EventCard
                   key={event.event_title}
                   {...{
+                    id: event.id,
                     title: event.event_title,
                     description: event.event_description,
                     startDate: event.start_date
@@ -64,6 +65,7 @@ const EventOnboarding = ({ user }) => {
               <EventCard
                 key={event.event_title}
                 {...{
+                  id: event.id,
                   title: event.event_title,
                   description: event.event_description,
                   startDate: event.start_date
