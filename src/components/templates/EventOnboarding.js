@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import jwtDecode from 'jwt-decode';
 import { Link } from "react-router-dom";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -20,9 +21,10 @@ const BodyContainerColumn = styled(BodyContainer)`
 // @TODO styling events card
 const EventOnboarding = ({ user }) => {
   const events = useSelector(state => state.events.data);
-  const { userId } = useSelector(state => state.currentUser);
-  const userEvents = events.filter(event => event.creator_id === userId);
-  const globalEvents = events.filter(event => event.creator_id !== userId);
+  const { token } = useSelector(state => state.currentUser);
+  const { subject } = jwtDecode(token);
+  const userEvents = events.filter(event => event.creator_id === subject);
+  const globalEvents = events.filter(event => event.creator_id !== subject);
   return (
     <div>
       <UserHeader user={user} />
