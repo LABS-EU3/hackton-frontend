@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import image from "../../assets/Signup.png";
 import { UserOnboarding } from "../templates";
 import { socialAuthLoad } from "../../store/user/actions";
-import { isLoggedIn } from "../../utils/auth";
 import queryString from "query-string";
 
 const SignupPage = () => {
