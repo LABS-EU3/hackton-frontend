@@ -1,5 +1,10 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  Redirect,
+  BrowserRouter as Router
+} from "react-router-dom";
 import { GlobalStyles } from "./components/index";
 import SignupPage from "./components/views/SignupPage";
 import LoginPage from "./components/views/LoginPage";
@@ -11,17 +16,19 @@ function App() {
   return (
     <>
       <GlobalStyles />
-      <Switch>
-        <Route exact path="/register" component={SignupPage} />
-        <Route exact path="/login" component={LoginPage} />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
-        <PrivateRoute
-          exact
-          path="/dashboard/new"
-          component={HackathonFormPage}
-        />
-        <Redirect to="/register" />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route exact path="/register" component={SignupPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute
+            exact
+            path="/dashboard/new"
+            component={HackathonFormPage}
+          />
+          <Redirect to="/register" />
+        </Switch>
+      </Router>
     </>
   );
 }
