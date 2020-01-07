@@ -21,7 +21,7 @@ const BodyContainerColumn = styled(BodyContainer)`
 // @TODO styling events card
 const EventOnboarding = ({ user }) => {
   const events = useSelector(state => state.events.data);
-  const { token, userId } = useSelector(state => state.currentUser);
+  const { token } = useSelector(state => state.currentUser);
   const { subject } = jwtDecode(token);
   const userEvents = events.filter(event => event.creator_id === subject);
   const globalEvents = events.filter(event => event.creator_id !== subject);
