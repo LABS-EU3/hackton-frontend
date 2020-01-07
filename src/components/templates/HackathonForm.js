@@ -80,14 +80,14 @@ const Onboarding = ({ user }) => {
                     value={event_title}
                   />
                   <Input
-                    type="text"
+                    type="date"
                     name="start_date"
                     placeholder="Event starts"
                     onChange={handleInputChange}
                     value={start_date}
                   />
                   <Input
-                    type="text"
+                    type="date"
                     name="end_date"
                     placeholder="Event ends"
                     onChange={handleInputChange}
