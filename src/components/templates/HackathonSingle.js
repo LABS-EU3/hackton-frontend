@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import jwtDecode from "jwt-decode";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
@@ -63,7 +63,9 @@ const Onboarding = ({ user }) => {
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
   const event = events.filter(event => event.id === Number(id));
-  const userId = useSelector(state => state.currentUser.userId);
+  const { token } = useSelector(state => state.currentUser);
+  const { subject } = jwtDecode(token);
+  const userId = subject;
 
   // Destructure object inside array
   const [
