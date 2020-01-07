@@ -16,6 +16,7 @@ import TextArea from "../atoms/TextArea";
 import { ButtonGradientGrey, ButtonGradientGreen } from "../atoms/Button";
 import { useDispatch } from "react-redux";
 import { createEvent } from "../../store/events/actions";
+import Select from "../atoms/Select";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -80,19 +81,33 @@ const Onboarding = ({ user }) => {
                     value={event_title}
                   />
                   <Input
-                    type="text"
+                    type="date"
                     name="start_date"
                     placeholder="Event starts"
                     onChange={handleInputChange}
                     value={start_date}
                   />
                   <Input
-                    type="text"
+                    type="date"
                     name="end_date"
                     placeholder="Event ends"
                     onChange={handleInputChange}
                     value={end_date}
                   />
+                </RowBody>
+                <RowBody>
+                  <Select name="Participation type">
+                    <option value="">-- Participation Type --</option>
+                    <option value="team">team</option>
+                    <option value="individual">individual</option>
+                    <option value="both">both</option>
+                  </Select>
+                  <Select name="Hackaton Category">
+                    <option value="">-- Hackaton Category --</option>
+                    <option value="Summer Hackaton">Summer Hackaton</option>
+                    <option value="Winter Hackaton">Winter Hackaton</option>
+                    <option value="Autumn Hackaton">Autumn Hackaton</option>
+                  </Select>
                 </RowBody>
                 <RowBody>
                   <TextArea
