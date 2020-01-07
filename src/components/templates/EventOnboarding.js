@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import jwtDecode from "jwt-decode";
 import { Link } from "react-router-dom";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -20,11 +21,11 @@ const BodyContainerColumn = styled(BodyContainer)`
 // @TODO styling events card
 const EventOnboarding = ({ user }) => {
   const events = useSelector(state => state.events.data);
-  const { userId } = useSelector(state => state.currentUser);
-  const userEvents = events.filter(event => event.creator_id === userId);
-  const globalEvents = events.filter(event => event.creator_id !== userId);
-  console.log("USER EVENTS", userEvents);
-  console.log("USER ID", userId);
+  const { token, userId } = useSelector(state => state.currentUser);
+  const { subject } = jwtDecode(token);
+  const userEvents = events.filter(event => event.creator_id === subject);
+  const globalEvents = events.filter(event => event.creator_id !== subject);
+
   return (
     <div>
       <UserHeader user={user} />
@@ -38,19 +39,20 @@ const EventOnboarding = ({ user }) => {
           </RowHead>
 
           <RowBody>
-            {userEvents.length !== 0
-              ? userEvents
-                  .map(event => (
-                    <EventCard
-                      key={event.id}
-                      {...{
-                        title: event.event_title,
-                        description: event.event_description,
-                        startDate: event.start_date
-                      }}
-                    />
-                  ))
-              : <H4>You haven't created any. Why wait?</H4> }
+            {userEvents.length !== 0 ? (
+              userEvents.map(event => (
+                <EventCard
+                  key={event.event_title}
+                  {...{
+                    title: event.event_title,
+                    description: event.event_description,
+                    startDate: event.start_date
+                  }}
+                />
+              ))
+            ) : (
+              <H4>You haven't created any. Why wait?</H4>
+            )}
           </RowBody>
 
           <RowHead>
@@ -60,7 +62,7 @@ const EventOnboarding = ({ user }) => {
           <RowBody>
             {globalEvents.map(event => (
               <EventCard
-                key={event.id}
+                key={event.event_title}
                 {...{
                   title: event.event_title,
                   description: event.event_description,
