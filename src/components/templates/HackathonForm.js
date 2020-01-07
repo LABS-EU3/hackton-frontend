@@ -41,9 +41,6 @@ const Onboarding = ({ user }) => {
   const history = useHistory();
   const { categories } = useSelector(state => state.events);
 
-  // @TODO remove console log and implement dropdown
-  console.log(categories);
-
   useEffect(() => {
     dispatch(fetchEventCategories());
   }, []);
