@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
@@ -9,12 +10,12 @@ import BodyContainer from "../atoms/BodyContainer";
 import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
-
 import { CardWide } from "../atoms/Card";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
-
+import Select from "../atoms/Select";
 import { ButtonGradientGrey, ButtonGradientGreen } from "../atoms/Button";
+
 import { useDispatch } from "react-redux";
 import { createEvent, fetchEventCategories } from "../../store/events/actions";
 
@@ -89,19 +90,33 @@ const Onboarding = ({ user }) => {
                     value={event_title}
                   />
                   <Input
-                    type="text"
+                    type="date"
                     name="start_date"
                     placeholder="Event starts"
                     onChange={handleInputChange}
                     value={start_date}
                   />
                   <Input
-                    type="text"
+                    type="date"
                     name="end_date"
                     placeholder="Event ends"
                     onChange={handleInputChange}
                     value={end_date}
                   />
+                </RowBody>
+                <RowBody>
+                  <Select name="Participation type">
+                    <option value="">-- Participation Type --</option>
+                    <option value="team">team</option>
+                    <option value="individual">individual</option>
+                    <option value="both">both</option>
+                  </Select>
+                  <Select name="Hackaton Category">
+                    <option value="">-- Hackaton Category --</option>
+                    <option value="Summer Hackaton">Summer Hackaton</option>
+                    <option value="Winter Hackaton">Winter Hackaton</option>
+                    <option value="Autumn Hackaton">Autumn Hackaton</option>
+                  </Select>
                 </RowBody>
                 <RowBody>
                   <TextArea
