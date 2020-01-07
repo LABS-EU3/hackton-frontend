@@ -5,7 +5,7 @@ import FooterContainer from '../../components/atoms/FooterContainer';
 import Group from '../../components/atoms/Group';
 import SocialIcon from '../../components/atoms/SocialIcon';
 import { FooterNavAnchor } from '../../components/atoms/Anchor';
-import Paragraph from '../../components/atoms/Paragraph';
+import { PlainParagraph } from '../../components/atoms/Paragraph';
 
 import linkedin from '../../assets/Icon-linkedin.png';
 import twitter from '../../assets/Icon-twitter.png';
@@ -27,9 +27,9 @@ const Footer = () => (
       </Group>
 
       <Group>
-        <Paragraph>
+        <PlainParagraph>
           International Crafters © 2020
-        </Paragraph>
+        </PlainParagraph>
       </Group>
     </FooterContainer>
   </WideFooter>

@@ -9,13 +9,13 @@ const IMG = styled.img`
 
 export const Social = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   margin-top: 0.5rem;
   a {
     color: ${Solid.SlateGrey};
     padding: 0;
-    margin: 0 0.8em;
+    margin: 20px 15px 0 15px;
     font-size: ${h1FontSize};
     display: inline-block;
     cursor: pointer;
@@ -26,7 +26,6 @@ export const Social = styled.div`
     }
     &:hover i {
       color: ${Solid.BLUE};
-      transform: scale(1.1);
     }
   }
 `;

@@ -19,7 +19,7 @@ import { createEvent } from "../../store/events/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: start;
 `;
 
 const defaultState = {
