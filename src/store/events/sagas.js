@@ -88,7 +88,7 @@ function* fetchEventCategoriesAsync() {
 
 function* watchFetchEventCategories() {
   yield takeLatest(
-    EventsTypes.FETCH_EVENTS_CATEGORIES,
+    EventsTypes.FETCH_EVENT_CATEGORIES,
     fetchEventCategoriesAsync
   );
 }
@@ -98,6 +98,7 @@ export function* eventsSagas() {
     call(watchFetchAllEvents),
     call(watchCreateEvent),
     call(watchDeleteEvent),
-    call(watchUpdateEvent)
+    call(watchUpdateEvent),
+    call(watchFetchEventCategories)
   ]);
 }

@@ -19,7 +19,7 @@ export const eventsReducer = (events = initialState, action) => {
         data: action.payload,
         isLoading: false
       };
-    case EventsTypes.FETCH_EVENTS_CATEGORIES_SUCCESS:
+    case EventsTypes.FETCH_EVENT_CATEGORIES_SUCCESS:
       return {
         ...events,
         categories: action.payload

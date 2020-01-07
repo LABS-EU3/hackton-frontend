@@ -7,8 +7,8 @@ export const EventsTypes = {
   UPDATE_EVENT_SUCCESS: "UPDATE_EVENT_SUCCESS",
   DELETE_EVENT: "DELETE_EVENT",
   DELETE_EVENT_SUCCESS: "DELETE_EVENT_SUCCESS",
-  FETCH_EVENTS_CATEGORIES: "FETCH_ALL_EVENTS",
-  FETCH_EVENTS_CATEGORIES_SUCCESS: "FETCH_ALL_EVENTS_SUCCESS",
+  FETCH_EVENT_CATEGORIES: "FETCH_ALL_EVENTS",
+  FETCH_EVENT_CATEGORIES_SUCCESS: "FETCH_ALL_EVENTS_SUCCESS",
   EVENT_ERROR: "EVENT_ERROR"
 };
 
@@ -70,13 +70,13 @@ export const deleteEventSuccess = eventId => {
 
 export const fetchEventCategories = () => {
   return {
-    type: EventsTypes.FETCH_EVENTS_CATEGORIES
+    type: EventsTypes.FETCH_EVENT_CATEGORIES
   };
 };
 
 export const fetchEventCategoriesSuccess = categories => {
   return {
-    type: EventsTypes.FETCH_EVENTS_CATEGORIES_SUCCESS,
+    type: EventsTypes.FETCH_EVENT_CATEGORIES_SUCCESS,
     payload: categories
   };
 };

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
@@ -15,7 +16,7 @@ import TextArea from "../atoms/TextArea";
 
 import { ButtonGradientGrey, ButtonGradientGreen } from "../atoms/Button";
 import { useDispatch } from "react-redux";
-import { createEvent } from "../../store/events/actions";
+import { createEvent, fetchEventCategories } from "../../store/events/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -37,6 +38,14 @@ const Onboarding = ({ user }) => {
   const [formValues, setFormValues] = useState(defaultState);
   const dispatch = useDispatch();
   const history = useHistory();
+  const { categories } = useSelector(state => state.events);
+
+  // @TODO remove console log and implement dropdown
+  console.log(categories);
+
+  useEffect(() => {
+    dispatch(fetchEventCategories());
+  }, []);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
