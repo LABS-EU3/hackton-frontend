@@ -1,5 +1,10 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  Redirect,
+  BrowserRouter as Router
+} from "react-router-dom";
 import { GlobalStyles } from "./components/index";
 import SignupPage from "./components/views/SignupPage";
 import LoginPage from "./components/views/LoginPage";
