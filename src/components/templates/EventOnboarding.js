@@ -43,7 +43,7 @@ const EventOnboarding = ({ user }) => {
             /> */}
             {userEvents
               .map(event => (
-                <EventCard
+                <EventCard key={event.id}
                   {...{
                     title: event.event_title,
                     description: event.event_description,
@@ -61,7 +61,7 @@ const EventOnboarding = ({ user }) => {
           <RowBody>
             {globalEvents
               .map(event => (
-                <EventCard
+                <EventCard key={event.id}
                   {...{
                     title: event.event_title,
                     description: event.event_description,
