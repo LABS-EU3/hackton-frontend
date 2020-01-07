@@ -29,11 +29,11 @@ export const H3 = styled.h3`
   padding: 0;
 `;
 
-export const H4 = styled.h3`
+export const H4 = styled.h4`
   font-family: ${type.ROBOTO};
   color: ${Solid.BLACK};
   font-size: 18px;
   font-weight: 600;
-  margin: 0 0 10px 0;
+  margin: 10px 0;
   padding: 0;
 `;
