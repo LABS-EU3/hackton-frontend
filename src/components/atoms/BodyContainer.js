@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { media } from "../index";
 
 const BodyContainer = styled.div`
-  width: 1062px;
+  width: 100%;
   max-width: 1062px;
   height: 100%;
   display: flex;

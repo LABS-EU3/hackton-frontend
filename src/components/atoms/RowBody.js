@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import {media} from "../index";
 
 export const RowBody = styled.div`
-  max-width: 700px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin: 40px 0;
 
   @media ${media.tablet} {

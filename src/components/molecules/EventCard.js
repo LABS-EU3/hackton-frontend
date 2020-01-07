@@ -12,13 +12,19 @@ const EventCard = ({
   startDate
 }) => {
   const letter = title && title.charAt(0);
-
+  const excerpt = description.substr(0, 100) + "...";
+  
+  // Date formatting
+  const date = startDate.split("T")[0];
+  const dateArr = date.split("-");
+  const formattedDate = dateArr[2] + "-" + dateArr[1] + "-" + dateArr[0];
+  
   return (
     <Card>
       <LetterIcon>{letter}</LetterIcon>
       <H4>{title}</H4>
-      <Paragraph>{description}</Paragraph>
-      <CardFooter startDate={startDate}/>
+      <Paragraph>{excerpt}</Paragraph>
+      <CardFooter startDate={formattedDate}/>
     </Card>
   );
 };
