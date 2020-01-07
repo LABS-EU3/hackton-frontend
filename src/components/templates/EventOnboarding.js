@@ -21,15 +21,11 @@ const BodyContainerColumn = styled(BodyContainer)`
 // @TODO styling events card
 const EventOnboarding = ({ user }) => {
   const events = useSelector(state => state.events.data);
-  const { token } = useSelector(state => state.currentUser);
+  const { token, userId } = useSelector(state => state.currentUser);
   const { subject } = jwtDecode(token);
   const userEvents = events.filter(event => event.creator_id === subject);
   const globalEvents = events.filter(event => event.creator_id !== subject);
-  // const { userId } = useSelector(state => state.currentUser);
-  // const userEvents = events.filter(event => event.creator_id === userId);
-  // const globalEvents = events.filter(event => event.creator_id !== userId);
-  console.log("USER EVENTS", userEvents);
-  console.log("USER ID", subject);
+  
   return (
     <div>
       <UserHeader user={user} />
