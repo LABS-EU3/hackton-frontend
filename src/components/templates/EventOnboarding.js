@@ -23,6 +23,7 @@ const EventOnboarding = ({ user }) => {
   const events = useSelector(state => state.events.data);
   const { token } = useSelector(state => state.currentUser);
   const { subject } = jwtDecode(token);
+  console.log(subject, '===token log===', token)
   const userEvents = events.filter(event => event.creator_id === subject);
   const globalEvents = events.filter(event => event.creator_id !== subject);
   return (
