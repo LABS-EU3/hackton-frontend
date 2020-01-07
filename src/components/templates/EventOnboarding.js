@@ -17,6 +17,7 @@ const BodyContainerColumn = styled(BodyContainer)`
   align-items: start;
 `;
 
+// @TODO styling events card
 const EventOnboarding = ({ user }) => {
   const events = useSelector(state => state.events.data);
   const { userId } = useSelector(state => state.currentUser);
