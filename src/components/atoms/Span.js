@@ -8,6 +8,12 @@ export const Span = styled.span`
   color: ${Solid.DARK_GREY};
 `;
 
+export const BoldSpan = styled(Span)`
+  font-size: 15px;
+  color: ${Solid.BLACK};
+  margin: 0 5px 0 0;
+`;
+
 export const StrikedSpan = styled(Span)`
   &::before {
     content: "";

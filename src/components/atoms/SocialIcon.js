@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Solid } from '../variables/colors';
-import { h1FontSize, smallFontSize } from '../variables/fonts';
+import { h1FontSize } from '../variables/fonts';
 
 const IMG = styled.img`
   margin: 0 15px 0 0;
@@ -46,7 +46,6 @@ export const SocialMediaContainer = styled.div`
   .dividerContainer {
     display: flex;
     justify-content: space-evenly;
-    /* align-items: center; */
     width: 100%;
     font-weight: 50;
     font-size: 10px;

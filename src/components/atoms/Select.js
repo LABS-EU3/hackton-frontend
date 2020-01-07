@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import * as Fonts from "../variables/fonts";
 import * as Colors from "../variables/colors";
-import { media } from "../index";
 
 const S = styled.select`
   ${Fonts.type.ROBOTO_MONO};

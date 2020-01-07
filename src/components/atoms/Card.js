@@ -20,10 +20,6 @@ export const CardWide = styled(Card)`
   padding: 40px;
   height: auto;
 
-  & div {
-    margin: 20px;
-  }
-
   @media ${media.tablet} {
     width: 350px;
     padding: 20px;
