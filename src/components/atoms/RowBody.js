@@ -6,6 +6,7 @@ export const RowBody = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin: 40px 0;
 
   @media ${media.tablet} {

@@ -68,8 +68,7 @@ const EventOnboarding = ({ user }) => {
                     startDate: event.start_date
                   }}
                 />
-              ))
-              .filter((card, idx) => idx <= 2)}
+              ))}
           </RowBody>
         </BodyContainerColumn>
       </WideBody>
