@@ -39,19 +39,18 @@ const EventOnboarding = ({ user }) => {
           </RowHead>
 
           <RowBody>
-            {userEvents.length !== 0
-              ? userEvents
-                  .map(event => (
-                    <EventCard
-                      key={event.id}
-                      {...{
-                        title: event.event_title,
-                        description: event.event_description,
-                        startDate: event.start_date
-                      }}
-                    />
-                  ))
-              : <H4>You haven't created any. Why wait?</H4> }
+            {userEvents
+              .filter((_, idx) => idx <= 2)
+              .map(event => (
+                <EventCard
+                  key={event.event_title}
+                  {...{
+                    title: event.event_title,
+                    description: event.event_description,
+                    startDate: event.start_date
+                  }}
+                />
+              ))}
           </RowBody>
 
           <RowHead>
@@ -59,16 +58,18 @@ const EventOnboarding = ({ user }) => {
           </RowHead>
 
           <RowBody>
-            {globalEvents.map(event => (
-              <EventCard
-                key={event.id}
-                {...{
-                  title: event.event_title,
-                  description: event.event_description,
-                  startDate: event.start_date
-                }}
-              />
-            ))}
+            {globalEvents
+              .filter((_, idx) => idx <= 2)
+              .map(event => (
+                <EventCard
+                  key={event.event_title}
+                  {...{
+                    title: event.event_title,
+                    description: event.event_description,
+                    startDate: event.start_date
+                  }}
+                />
+              ))}
           </RowBody>
         </BodyContainerColumn>
       </WideBody>
