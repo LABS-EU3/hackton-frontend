@@ -12,6 +12,7 @@ export const Card = styled.div`
   border-radius: 6px;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  margin: 10px;
 `;
 
 export const CardWide = styled(Card)`
