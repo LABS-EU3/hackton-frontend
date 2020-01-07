@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 import { Link } from "react-router-dom";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -22,13 +22,13 @@ const BodyContainerColumn = styled(BodyContainer)`
 const EventOnboarding = ({ user }) => {
   const events = useSelector(state => state.events.data);
   const { token, userId } = useSelector(state => state.currentUser);
-  const { subject } = jwtDecode(token);
+  const { subject, email } = jwtDecode(token);
   const userEvents = events.filter(event => event.creator_id === subject);
   const globalEvents = events.filter(event => event.creator_id !== subject);
-  
+
   return (
     <div>
-      <UserHeader user={user} />
+      <UserHeader user={email} />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
