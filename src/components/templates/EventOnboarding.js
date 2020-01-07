@@ -22,13 +22,13 @@ const BodyContainerColumn = styled(BodyContainer)`
 const EventOnboarding = ({ user }) => {
   const events = useSelector(state => state.events.data);
   const { token } = useSelector(state => state.currentUser);
-  const { subject } = jwtDecode(token);
+  const { subject, email } = jwtDecode(token);
   const userEvents = events.filter(event => event.creator_id === subject);
   const globalEvents = events.filter(event => event.creator_id !== subject);
 
   return (
     <div>
-      <UserHeader user={user} />
+      <UserHeader user={email} />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
@@ -39,9 +39,8 @@ const EventOnboarding = ({ user }) => {
           </RowHead>
 
           <RowBody>
-            {userEvents
-              .filter((_, idx) => idx <= 2)
-              .map(event => (
+            {userEvents.length !== 0 ? (
+              userEvents.map(event => (
                 <EventCard
                   key={event.event_title}
                   {...{
@@ -50,7 +49,10 @@ const EventOnboarding = ({ user }) => {
                     startDate: event.start_date
                   }}
                 />
-              ))}
+              ))
+            ) : (
+              <H4>You haven't created any. Why wait?</H4>
+            )}
           </RowBody>
 
           <RowHead>
@@ -58,18 +60,16 @@ const EventOnboarding = ({ user }) => {
           </RowHead>
 
           <RowBody>
-            {globalEvents
-              .filter((_, idx) => idx <= 2)
-              .map(event => (
-                <EventCard
-                  key={event.event_title}
-                  {...{
-                    title: event.event_title,
-                    description: event.event_description,
-                    startDate: event.start_date
-                  }}
-                />
-              ))}
+            {globalEvents.map(event => (
+              <EventCard
+                key={event.event_title}
+                {...{
+                  title: event.event_title,
+                  description: event.event_description,
+                  startDate: event.start_date
+                }}
+              />
+            ))}
           </RowBody>
         </BodyContainerColumn>
       </WideBody>
