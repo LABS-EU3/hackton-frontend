@@ -15,18 +15,10 @@ const S = styled.select`
   width: 200px;
   margin: 0 20px 10px 0;
 
-  ${({ wide }) =>
-    wide &&
-    `
-    width: 100%;
-  `};
 `;
 
-const Select = ({ type, placeholder, wide, ...inputProps }) => {
-      return (
-    <S type={type} placeholder={placeholder} wide={wide} {...inputProps} ></S>
-  );
-
+const Select = ({ ...inputProps }) => {
+  return <S {...inputProps}></S>;
 };
 
 export default Select;
