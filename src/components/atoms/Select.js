@@ -12,7 +12,7 @@ const S = styled.select`
   border: 1px solid ${Colors.Solid.BORDER_GREY};
   border-radius: 6px;
   padding: 10px;
-  width: 180px;
+  width: 200px;
   margin: 0 20px 10px 0;
 
   ${({ wide }) =>
@@ -24,7 +24,7 @@ const S = styled.select`
 
 const Select = ({ type, placeholder, wide, ...inputProps }) => {
       return (
-    <S type={type} placeholder={placeholder} wide={wide} {...inputProps} />
+    <S type={type} placeholder={placeholder} wide={wide} {...inputProps} ></S>
   );
 
 };
