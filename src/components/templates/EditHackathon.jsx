@@ -9,8 +9,6 @@ const EditHackathon = () => {
     state.events.data.find(ev => ev.id === Number(id))
   );
 
-  console.log("EVENT", JSON.stringify(event));
-
   return <HackathonForm initialState={event} />;
 };
 
