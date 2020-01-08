@@ -81,7 +81,7 @@ const Onboarding = ({
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
-            <H3>Create New Hackathon</H3>
+            <H3>{formValues.id ? `Edit Hackathon` : `Create New Hackathon`}</H3>
           </RowHead>
 
           <RowBody>
