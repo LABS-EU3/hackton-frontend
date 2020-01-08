@@ -11,15 +11,13 @@ import {
 import { axios } from "../../utils/api";
 import { toast } from "react-toastify";
 import jwtDecode from "jwt-decode";
-// import { useSelector } from "react-redux";
 
-// const { token } = useSelector(state => state.currentUser);
 
 function* loginAsync({ payload, history }) {
   try {
     const { data } = yield axios.post("/api/auth/login", payload);
     yield put(loginSuccess(data));
-   const { subject, email } = jwtDecode(data.token);
+   const {email } = jwtDecode(data.token);
     toast.success(`😎 Welcome ${email}`);
     yield history.push("/dashboard");
   } catch (error) {
@@ -32,9 +30,12 @@ function* registerAsync({ payload, history }) {
   try {
     const { data } = yield axios.post("/api/auth/register", payload);
     yield put(registerSuccess(data));
+    const {email } = jwtDecode(data.token);
+    toast.success(`😎 Welcome ${email}`);
     yield history.push("/dashboard");
   } catch (error) {
     yield put(registerFail(error.message));
+    toast.error(`⚠️ ${error.message}`);
   }
 }
 
