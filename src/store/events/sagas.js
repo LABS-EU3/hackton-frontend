@@ -34,7 +34,6 @@ function* createEventAsync({ payload, history }) {
     const { data } = yield axiosWithAuth(token).post("/api/events", payload);
     if (data) {
       yield put(fetchAllEvents());
-      console.log("response from events", data);
       toast.success(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
