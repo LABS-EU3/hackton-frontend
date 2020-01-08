@@ -9,6 +9,7 @@ import {
   fetchAllEvents,
   fetchEventCategoriesSuccess
 } from "./actions";
+import { toast } from "react-toastify";
 
 const selectToken = state => state.currentUser.token;
 
@@ -19,6 +20,7 @@ function* fetchAllEventsAsync() {
     yield put(fetchAllEventsSuccess(data));
   } catch (error) {
     yield put(eventsError(error.message));
+    toast.error(`⚠️ ${error.message}`);
   }
 }
 
@@ -32,10 +34,12 @@ function* createEventAsync({ payload, history }) {
     const { data } = yield axiosWithAuth(token).post("/api/events", payload);
     if (data) {
       yield put(fetchAllEvents());
+      toast.success(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
   } catch (error) {
     yield put(eventsError(error.message));
+    toast.error(`⚠️ ${error.message}`);
   }
 }
 
@@ -48,8 +52,11 @@ function* deleteEventAsync({ payload }) {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
     yield put(deleteEventSuccess(data));
+      toast.success(`😲 ${data.message}`);
+       
   } catch (error) {
     yield put(eventsError(error.message));
+    toast.error(`⚠️ ${error.message}`);
   }
 }
 
@@ -67,10 +74,12 @@ function* updateEventAsync({ payload, history }) {
     );
     if (data) {
       yield put(fetchAllEvents());
+      toast.success(`🎉 ${data.message}`);
       yield history.push("/dashboard");
     }
   } catch (error) {
     yield put(eventsError(error.message));
+    toast.error(`⚠️ ${error.message}`);
   }
 }
 

@@ -8,6 +8,8 @@ import HackathonFormPage from "./components/views/HackathonFormPage";
 import HackathonSinglePage from "./components/views/HackathonSinglePage";
 import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -34,6 +36,7 @@ function App() {
         />
         <Redirect to="/register" />
       </Switch>
+      <ToastContainer />
     </>
   );
 }
