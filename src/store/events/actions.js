@@ -40,10 +40,11 @@ export const createEventSuccess = eventData => {
   };
 };
 
-export const updateEvent = eventData => {
+export const updateEvent = (eventData, history) => {
   return {
     type: EventsTypes.UPDATE_EVENT,
-    payload: eventData
+    payload: eventData,
+    history
   };
 };
 

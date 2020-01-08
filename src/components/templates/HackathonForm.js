@@ -17,7 +17,11 @@ import Select from "../atoms/Select";
 import { ButtonGradientGrey, ButtonGradientGreen } from "../atoms/Button";
 
 import { useDispatch } from "react-redux";
-import { createEvent, fetchEventCategories } from "../../store/events/actions";
+import {
+  createEvent,
+  fetchEventCategories,
+  updateEvent
+} from "../../store/events/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -35,8 +39,11 @@ const defaultState = {
   category_id: 1
 };
 
-const Onboarding = ({ user }) => {
-  const [formValues, setFormValues] = useState(defaultState);
+const Onboarding = ({
+  user = "Mildred Pascal",
+  initialState = defaultState
+}) => {
+  const [formValues, setFormValues] = useState(initialState);
   const dispatch = useDispatch();
   const history = useHistory();
   const { categories } = useSelector(state => state.events);
@@ -52,8 +59,10 @@ const Onboarding = ({ user }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (formValues.title !== "") {
+    if (formValues.title !== "" && !formValues.id) {
       dispatch(createEvent(formValues, history));
+    } else if (formValues.title !== "" && formValues.id) {
+      dispatch(updateEvent(formValues, history));
     }
   };
 
@@ -72,7 +81,7 @@ const Onboarding = ({ user }) => {
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
-            <H3>Create New Hackathon</H3>
+            <H3>{formValues.id ? `Edit Hackathon` : `Create New Hackathon`}</H3>
           </RowHead>
 
           <RowBody>

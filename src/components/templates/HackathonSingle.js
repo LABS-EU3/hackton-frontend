@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import jwtDecode from "jwt-decode";
 import UserHeader from "../organisms/UserHeader";
@@ -54,11 +54,8 @@ const Separator = styled.hr`
 `;
 
 const Onboarding = ({ user }) => {
-  const match = useRouteMatch();
-  // Grab URL param
-  const {
-    params: { id }
-  } = match;
+  const { id } = useParams();
+  const history = useHistory();
 
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
@@ -93,6 +90,11 @@ const Onboarding = ({ user }) => {
   const endDateArr = endDate.split("-");
   const formattedEndDate =
     endDateArr[2] + "-" + endDateArr[1] + "-" + endDateArr[0];
+
+  const handleEditClick = e => {
+    e.preventDefault();
+    history.push(`/dashboard/event/${id}/edit`);
+  };
 
   return (
     <div>
@@ -158,7 +160,9 @@ const Onboarding = ({ user }) => {
                   </Link>
                   {creator_id === userId ? (
                     <Link to={"#"}>
-                      <ButtonGradientBlue>Edit</ButtonGradientBlue>
+                      <ButtonGradientBlue onClick={handleEditClick}>
+                        Edit
+                      </ButtonGradientBlue>
                     </Link>
                   ) : null}
                 </div>
