@@ -6,7 +6,6 @@ import {
   deleteEventSuccess,
   eventsError,
   fetchAllEventsSuccess,
-  updateEventSuccess,
   fetchAllEvents,
   fetchEventCategoriesSuccess
 } from "./actions";
@@ -58,15 +57,18 @@ function* watchDeleteEvent() {
   yield takeLatest(EventsTypes.DELETE_EVENT, deleteEventAsync);
 }
 
-function* updateEventAsync({ payload }) {
+function* updateEventAsync({ payload, history }) {
   try {
     const { id, ...eventInfo } = payload;
     const token = yield select(selectToken);
-    const { data } = yield axiosWithAuth(token).post(
+    const { data } = yield axiosWithAuth(token).put(
       "/api/events/" + id,
       eventInfo
     );
-    yield put(updateEventSuccess(data));
+    if (data) {
+      yield put(fetchAllEvents());
+      yield history.push("/dashboard");
+    }
   } catch (error) {
     yield put(eventsError(error.message));
   }
