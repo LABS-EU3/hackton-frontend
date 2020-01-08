@@ -9,11 +9,13 @@ import {
 } from "./actions";
 
 import { axios } from "../../utils/api";
+import { toast } from "react-toastify";
 
 function* loginAsync({ payload, history }) {
   try {
     const { data } = yield axios.post("/api/auth/login", payload);
     yield put(loginSuccess(data));
+    toast.success("😎 Logged in successfully");
     yield history.push("/dashboard");
   } catch (error) {
     yield put(loginFail(error.message));
