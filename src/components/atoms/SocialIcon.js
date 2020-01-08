@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Solid } from '../variables/colors';
-import { h1FontSize, smallFontSize } from '../variables/fonts';
+import { h1FontSize } from '../variables/fonts';
 
 const IMG = styled.img`
   margin: 0 15px 0 0;
@@ -9,13 +9,13 @@ const IMG = styled.img`
 
 export const Social = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   margin-top: 0.5rem;
   a {
     color: ${Solid.SlateGrey};
     padding: 0;
-    margin: 0 0.8em;
+    margin: 20px 15px 0 15px;
     font-size: ${h1FontSize};
     display: inline-block;
     cursor: pointer;
@@ -26,7 +26,6 @@ export const Social = styled.div`
     }
     &:hover i {
       color: ${Solid.BLUE};
-      transform: scale(1.1);
     }
   }
 `;
@@ -47,7 +46,6 @@ export const SocialMediaContainer = styled.div`
   .dividerContainer {
     display: flex;
     justify-content: space-evenly;
-    /* align-items: center; */
     width: 100%;
     font-weight: 50;
     font-size: 10px;

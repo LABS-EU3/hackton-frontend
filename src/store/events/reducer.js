@@ -2,6 +2,7 @@ import { EventsTypes } from "./actions";
 
 const initialState = {
   data: [],
+  categories: [],
   isLoading: false
 };
 
@@ -14,8 +15,14 @@ export const eventsReducer = (events = initialState, action) => {
       };
     case EventsTypes.FETCH_ALL_EVENTS_SUCCESS:
       return {
+        ...events,
         data: action.payload,
         isLoading: false
+      };
+    case EventsTypes.FETCH_EVENT_CATEGORIES_SUCCESS:
+      return {
+        ...events,
+        categories: action.payload
       };
     default:
       return events;

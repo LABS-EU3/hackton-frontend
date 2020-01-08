@@ -2,13 +2,14 @@ import React, { useState } from "react";
 
 import Container from "../atoms/Container";
 import { H1 } from "../atoms/Heading";
-import Paragraph from "../atoms/Paragraph";
+import { Paragraph } from "../atoms/Paragraph";
 import Input from "../atoms/Input";
 import { ButtonGradientBlueWide } from "../atoms/Button";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Form = ({ ctaText, formHeader, formParagraph }) => {
   const [values, setValues] = useState({ email: "", password: "" });
@@ -21,8 +22,14 @@ const Form = ({ ctaText, formHeader, formParagraph }) => {
 
     if (ctaText.toLowerCase() === "log in") {
       dispatch(login(email, password, history));
+      toast.success("🦄 Logging you in!", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
     } else {
       dispatch(register(email, password, history));
+      toast.success(" 🚀 A moment while we record your details!", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
     }
   };
 

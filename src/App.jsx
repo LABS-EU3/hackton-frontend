@@ -5,6 +5,11 @@ import SignupPage from "./components/views/SignupPage";
 import LoginPage from "./components/views/LoginPage";
 import Dashboard from "./components/views/Dashboard";
 import HackathonFormPage from "./components/views/HackathonFormPage";
+import HackathonSinglePage from "./components/views/HackathonSinglePage";
+import PrivateRoute from "./components/organisms/PrivateRoute";
+import EditHackathon from "./components/templates/EditHackathon";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -13,10 +18,25 @@ function App() {
       <Switch>
         <Route exact path="/register" component={SignupPage} />
         <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/dashboard/new" component={HackathonFormPage} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute
+          exact
+          path="/dashboard/new"
+          component={HackathonFormPage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id"
+          component={HackathonSinglePage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/edit"
+          component={EditHackathon}
+        />
         <Redirect to="/register" />
       </Switch>
+      <ToastContainer />
     </>
   );
 }

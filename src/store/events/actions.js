@@ -7,6 +7,8 @@ export const EventsTypes = {
   UPDATE_EVENT_SUCCESS: "UPDATE_EVENT_SUCCESS",
   DELETE_EVENT: "DELETE_EVENT",
   DELETE_EVENT_SUCCESS: "DELETE_EVENT_SUCCESS",
+  FETCH_EVENT_CATEGORIES: "FETCH_EVENT_CATEGORIES",
+  FETCH_EVENT_CATEGORIES_SUCCESS: "FETCH_EVENT_CATEGORIES_SUCCESS",
   EVENT_ERROR: "EVENT_ERROR"
 };
 
@@ -23,10 +25,11 @@ export const fetchAllEventsSuccess = events => {
   };
 };
 
-export const createEvent = eventData => {
+export const createEvent = (eventData, history) => {
   return {
     type: EventsTypes.CREATE_EVENT,
-    payload: eventData
+    payload: eventData,
+    history
   };
 };
 
@@ -37,10 +40,11 @@ export const createEventSuccess = eventData => {
   };
 };
 
-export const updateEvent = eventData => {
+export const updateEvent = (eventData, history) => {
   return {
     type: EventsTypes.UPDATE_EVENT,
-    payload: eventData
+    payload: eventData,
+    history
   };
 };
 
@@ -62,6 +66,19 @@ export const deleteEventSuccess = eventId => {
   return {
     type: EventsTypes.DELETE_EVENT_SUCCESS,
     payload: eventId
+  };
+};
+
+export const fetchEventCategories = () => {
+  return {
+    type: EventsTypes.FETCH_EVENT_CATEGORIES
+  };
+};
+
+export const fetchEventCategoriesSuccess = categories => {
+  return {
+    type: EventsTypes.FETCH_EVENT_CATEGORIES_SUCCESS,
+    payload: categories
   };
 };
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Solid } from '../index';
+import { Solid, media } from '../index';
 
 export const Card = styled.div`
   background-color: ${Solid.WHITE};
@@ -12,6 +12,7 @@ export const Card = styled.div`
   border-radius: 6px;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  margin: 10px;
 `;
 
 export const CardWide = styled(Card)`
@@ -19,7 +20,12 @@ export const CardWide = styled(Card)`
   padding: 40px;
   height: auto;
 
-  & div {
-    margin: 20px;
+  @media ${media.tablet} {
+    width: 350px;
+    padding: 20px;
+  }
+
+  @media ${media.mobile} {
+    width: 250px;
   }
 `;
