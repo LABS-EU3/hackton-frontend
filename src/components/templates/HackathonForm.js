@@ -16,7 +16,7 @@ import { CardWide } from "../atoms/Card";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
-import { ButtonGradientGrey, ButtonGradientGreen } from "../atoms/Button";
+import Button from "../atoms/Button";
 
 import {
   createEvent,
@@ -180,11 +180,11 @@ const Onboarding = ({ initialState = defaultState }) => {
                   </RowBody>
                   <RowBody>
                     <Link to="/dashboard">
-                      <ButtonGradientGrey>Cancel</ButtonGradientGrey>
+                      <Button color="grey">Cancel</Button>
                     </Link>
-                    <ButtonGradientGreen type="submit">
+                    <Button color="green" type="submit">
                       Submit
-                    </ButtonGradientGreen>
+                    </Button>
                   </RowBody>
                 </Form>
               </Formik>

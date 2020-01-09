@@ -8,7 +8,7 @@ import Container from "../atoms/Container";
 import { H1 } from "../atoms/Heading";
 import { Paragraph } from "../atoms/Paragraph";
 import Input from "../atoms/Input";
-import { ButtonGradientBlueWide } from "../atoms/Button";
+import Button from "../atoms/Button";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
@@ -66,9 +66,9 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
             placeholder="Password"
           />
 
-          <ButtonGradientBlueWide type="submit">
+          <Button type="submit" size="wide" color="blue">
             {ctaText}
-          </ButtonGradientBlueWide>
+          </Button>
         </Form>
       </Formik>
 

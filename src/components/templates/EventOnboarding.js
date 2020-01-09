@@ -10,7 +10,7 @@ import EventCard from "../molecules/EventCard";
 import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
-import { ButtonGradientGreen } from "../atoms/Button";
+import Button from "../atoms/Button";
 import { useSelector } from "react-redux";
 
 const BodyContainerColumn = styled(BodyContainer)`
@@ -34,7 +34,7 @@ const EventOnboarding = () => {
           <RowHead>
             <H3>My hackathons</H3>
             <Link to="/dashboard/new">
-              <ButtonGradientGreen>Create New</ButtonGradientGreen>
+              <Button color="green">Create New</Button>
             </Link>
           </RowHead>
 
