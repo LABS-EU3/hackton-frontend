@@ -10,7 +10,7 @@ const Dashboard = () => {
     dispatch(fetchAllEvents());
   }, []);
 
-  return <EventOnboarding user="Mildred Pascal" />;
+  return <EventOnboarding />;
 };
 
 export default Dashboard;

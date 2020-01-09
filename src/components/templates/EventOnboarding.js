@@ -19,7 +19,7 @@ const BodyContainerColumn = styled(BodyContainer)`
 `;
 
 // @TODO styling events card
-const EventOnboarding = ({ user }) => {
+const EventOnboarding = () => {
   const events = useSelector(state => state.events.data);
   const { token } = useSelector(state => state.currentUser);
   const { subject, email } = jwtDecode(token);
@@ -28,7 +28,7 @@ const EventOnboarding = ({ user }) => {
 
   return (
     <div>
-      <UserHeader user={email} />
+      <UserHeader/>
       <WideBody>
         <BodyContainerColumn>
           <RowHead>

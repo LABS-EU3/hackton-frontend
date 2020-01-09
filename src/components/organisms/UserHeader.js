@@ -4,8 +4,13 @@ import WideHeader from "../atoms/WideHeader";
 import HeaderContainer from "../atoms/HeaderContainer";
 import Logo from "../atoms/Logo";
 import { ProfileImg } from "../atoms/ProfileImg";
+import { useSelector } from "react-redux";
+import jwtDecode from "jwt-decode";
 
-const Header = ({ user = "User" }) => {
+const UserHeader = () => {
+  const { token } = useSelector(state => state.currentUser);
+  const { email: user } = jwtDecode(token);
+
   const initial = user.charAt(0).toUpperCase();
   return (
     <WideHeader>
@@ -19,4 +24,4 @@ const Header = ({ user = "User" }) => {
   );
 };
 
-export default Header;
+export default UserHeader;

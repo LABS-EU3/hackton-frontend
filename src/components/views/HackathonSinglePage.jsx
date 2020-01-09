@@ -2,9 +2,7 @@ import React from "react";
 import HackathonSingle from "../templates/HackathonSingle";
 
 const HackathonSinglePage = (props) => (
-  <HackathonSingle 
-    user="Mildred Pascal"
-  />
+  <HackathonSingle />
 );
 
 export default HackathonSinglePage;

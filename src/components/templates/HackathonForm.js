@@ -75,7 +75,7 @@ const Onboarding = ({ initialState = defaultState }) => {
 
   return (
     <div>
-      <UserHeader />
+      <UserHeader user={"DDD"} />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
