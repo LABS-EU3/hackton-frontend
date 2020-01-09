@@ -9,7 +9,8 @@ import jwtDecode from "jwt-decode";
 
 const UserHeader = () => {
   const { token } = useSelector(state => state.currentUser);
-  const { email: user } = jwtDecode(token);
+  const { email } = jwtDecode(token);
+  const user = email || "User";
 
   const initial = user[0].toUpperCase();
   return (
