@@ -16,8 +16,8 @@ const I = styled(Field)`
   width: 180px;
   margin: 0 20px 10px 0;
 
-  ${({ wide }) =>
-    wide &&
+  ${({ display }) =>
+    display == "wide" &&
     `
     width: 100%;
   `};
@@ -28,10 +28,8 @@ const I = styled(Field)`
   }
 `;
 
-const Input = ({ type, placeholder, wide, ...inputProps }) => {
-  return (
-    <I type={type} placeholder={placeholder} wide={wide} {...inputProps} />
-  );
+const Input = ({ ...inputProps }) => {
+  return <I {...inputProps} />;
 };
 
 export default Input;

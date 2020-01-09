@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Formik, Form } from "formik";
@@ -14,14 +14,12 @@ import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
 
 const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
-  const [values, setValues] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
-  const { email, password } = values;
   const history = useHistory();
 
-  const action = e => {
-    e.preventDefault();
-
+  const handleSubmit = values => {
+    const { email, password } = values;
+    console.log("LOG", ctaText, email, password);
     if (ctaText.toLowerCase() === "log in") {
       dispatch(login(email, password, history));
       toast.success("🦄 Logging you in!", {
@@ -33,14 +31,6 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
         position: toast.POSITION.BOTTOM_RIGHT
       });
     }
-  };
-
-  const onInputChange = e => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value
-    });
   };
 
   const schema = Yup.object().shape({
@@ -59,28 +49,24 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
       <Paragraph>{formParagraph}</Paragraph>
       <Formik
         initialValues={{ email: "", password: "" }}
-        onSubmit={action}
+        onSubmit={handleSubmit}
         validationSchema={schema}
       >
         <Form>
           <Input
-            wide
+            display="wide"
             type="text"
             name="email"
             placeholder="Email address"
-            value={email}
-            onChange={onInputChange}
           />
           <Input
-            wide
+            display="wide"
             type="password"
             name="password"
             placeholder="Password"
-            value={password}
-            onChange={onInputChange}
           />
 
-          <ButtonGradientBlueWide onClick={action}>
+          <ButtonGradientBlueWide type="submit">
             {ctaText}
           </ButtonGradientBlueWide>
         </Form>
