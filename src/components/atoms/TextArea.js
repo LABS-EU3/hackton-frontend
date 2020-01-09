@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { Field } from "formik";
+
 import * as Fonts from "../variables/fonts";
 import * as Colors from "../variables/colors";
 
-const I = styled.textarea`
+const I = styled(Field)`
   ${Fonts.type.ROBOTO_MONO};
   font-size: 16px;
   font-weight: 500;
@@ -21,10 +23,8 @@ const I = styled.textarea`
   `};
 `;
 
-const TextArea = ({ type, placeholder, wide, ...inputProps }) => {
-  return (
-    <I type={type} placeholder={placeholder} wide={wide} {...inputProps} />
-  );
+const TextArea = ({ as = "textarea", ...inputProps }) => {
+  return <I as={as} {...inputProps} />;
 };
 
 export default TextArea;

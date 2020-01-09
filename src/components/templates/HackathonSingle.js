@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import jwtDecode from "jwt-decode";
+
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
@@ -53,32 +53,28 @@ const Separator = styled.hr`
   margin: 0 0 20px 0;
 `;
 
-const Onboarding = ({ user }) => {
+const Onboarding = () => {
   const { id } = useParams();
   const history = useHistory();
 
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
-  const event = events.filter(event => event.id === Number(id));
-  const { token } = useSelector(state => state.currentUser);
-  const { subject } = jwtDecode(token);
-  const userId = subject;
+  const event = events.find(event => event.id === Number(id));
+  const { userId } = useSelector(state => state.currentUser);
 
   // Destructure object inside array
-  const [
-    {
-      creator_id,
-      event_title: title,
-      event_description: description,
-      start_date,
-      end_date,
-      guidelines,
-      location
-    }
-  ] = event;
+  const {
+    creator_id,
+    event_title,
+    event_description: description,
+    start_date,
+    end_date,
+    guidelines,
+    location
+  } = event;
 
   // Grab the first letter of title
-  const initial = title && title.charAt(0);
+  const initial = event_title[0];
 
   // Date formatting
   const startDate = start_date.split("T")[0];
@@ -98,18 +94,18 @@ const Onboarding = ({ user }) => {
 
   return (
     <div>
-      <UserHeader user={user} />
+      <UserHeader />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
-            <H3>{title}</H3>
+            <H3>{event_title}</H3>
           </RowHead>
 
           <RowBody>
             <CardWide>
               <TitleContainer>
                 <StyledLetterIcon>{initial}</StyledLetterIcon>
-                <H2>{title}</H2>
+                <H2>{event_title}</H2>
               </TitleContainer>
 
               <Paragraph>

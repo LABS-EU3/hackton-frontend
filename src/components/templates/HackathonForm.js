@@ -79,7 +79,7 @@ const Onboarding = ({ initialState = defaultState }) => {
 
   return (
     <div>
-      <UserHeader user={"DDD"} />
+      <UserHeader />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
@@ -94,6 +94,7 @@ const Onboarding = ({ initialState = defaultState }) => {
                 onSubmit={handleSubmit}
                 initialValues={initialState}
                 validationSchema={schema}
+                enableReinitialize
               >
                 <Form>
                   <RowBody>
