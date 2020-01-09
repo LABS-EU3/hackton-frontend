@@ -19,7 +19,6 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
 
   const handleSubmit = values => {
     const { email, password } = values;
-    console.log("LOG", ctaText, email, password);
     if (ctaText.toLowerCase() === "log in") {
       dispatch(login(email, password, history));
       toast.success("🦄 Logging you in!", {
