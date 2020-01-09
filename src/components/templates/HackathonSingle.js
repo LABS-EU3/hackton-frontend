@@ -14,7 +14,7 @@ import { RowBody } from "../atoms/RowBody";
 import { CardWide } from "../atoms/Card";
 import { LetterIcon } from "../atoms/Icon";
 import { Paragraph } from "../atoms/Paragraph";
-import { ButtonGradientGrey, ButtonGradientBlue } from "../atoms/Button";
+import Button from "../atoms/Button";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -156,13 +156,13 @@ const Onboarding = ({ user }) => {
               <ButtonsGroup>
                 <div>
                   <Link to={"/dashboard"}>
-                    <ButtonGradientGrey>Back to Dashboard</ButtonGradientGrey>
+                    <Button color="grey">Back to Dashboard</Button>
                   </Link>
                   {creator_id === userId ? (
                     <Link to={"#"}>
-                      <ButtonGradientBlue onClick={handleEditClick}>
+                      <Button color="blue" onClick={handleEditClick}>
                         Edit
-                      </ButtonGradientBlue>
+                      </Button>
                     </Link>
                   ) : null}
                 </div>
