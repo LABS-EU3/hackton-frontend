@@ -20,18 +20,17 @@ const BodyContainerColumn = styled(BodyContainer)`
 
 // @TODO styling events card
 const EventOnboarding = () => {
-  // const events = useSelector(state => state.events.data);
-  // const { token } = useSelector(state => state.currentUser);
-  // const { userId, subject } = jwtDecode(token);
-  // const id = userId || subject;
-  // const userEvents = events.filter(event => event.creator_id === id);
-  // const globalEvents = events.filter(event => event.creator_id !== id);
+  const events = useSelector(state => state.events.data);
+  const { token } = useSelector(state => state.currentUser);
+  const { userId } = jwtDecode(token);
+  const userEvents = events.filter(event => event.creator_id === userId);
+  const globalEvents = events.filter(event => event.creator_userId !== userId);
 
   return (
     <div>
       <UserHeader />
       <WideBody>
-        {/* <BodyContainerColumn>
+        <BodyContainerColumn>
           <RowHead>
             <H3>My hackathons</H3>
             <Link to="/dashboard/new">
@@ -45,7 +44,7 @@ const EventOnboarding = () => {
                 <EventCard key={event.event_title} event={event} />
               ))
             ) : (
-              <H4>You haven't created any. Why wait?</H4>
+              <H4>You haven't created any events yet. Why wait?</H4>
             )}
           </RowBody>
 
@@ -66,7 +65,7 @@ const EventOnboarding = () => {
               />
             ))}
           </RowBody>
-        </BodyContainerColumn> */}
+        </BodyContainerColumn>
       </WideBody>
       <Footer />
     </div>

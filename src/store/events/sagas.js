@@ -19,7 +19,6 @@ function* fetchAllEventsAsync() {
     const {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/events");
-    yield console.log("RESPONSE", body);
     yield put(fetchAllEventsSuccess(body));
   } catch (error) {
     yield put(eventsError(error.message));

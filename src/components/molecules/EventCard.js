@@ -17,9 +17,8 @@ const StyledCardLink = styled(Link)`
   }
 `;
 
-const EventCard = ({
-  events: { id, event_title, event_description, start_date }
-}) => {
+const EventCard = ({ event }) => {
+  const { id, event_title, event_description, start_date } = event;
   const letter = event_title && event_title[0];
   const excerpt = event_description.substr(0, 100) + "...";
 
