@@ -1,18 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import jwtDecode from "jwt-decode";
+
 import WideHeader from "../atoms/WideHeader";
 import HeaderContainer from "../atoms/HeaderContainer";
 import Logo from "../atoms/Logo";
 import { ProfileImg } from "../atoms/ProfileImg";
-import { useSelector } from "react-redux";
-import jwtDecode from "jwt-decode";
 
 const UserHeader = () => {
   const { token } = useSelector(state => state.currentUser);
   const { email } = jwtDecode(token);
   const user = email || "User";
-
   const initial = user[0].toUpperCase();
+
   return (
     <WideHeader>
       <HeaderContainer>
