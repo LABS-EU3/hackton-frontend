@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     dispatch(fetchAllEvents());
-  }, []);
+  }, [dispatch]);
 
   return <EventOnboarding />;
 };

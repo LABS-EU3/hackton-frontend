@@ -17,7 +17,7 @@ const I = styled(Field)`
   margin: 0 20px 10px 0;
 
   ${({ display }) =>
-    display == "wide" &&
+    display === "wide" &&
     `
     width: 100%;
   `};
