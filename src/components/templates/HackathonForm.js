@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -16,13 +18,11 @@ import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
 import { ButtonGradientGrey, ButtonGradientGreen } from "../atoms/Button";
 
-import { useDispatch } from "react-redux";
 import {
   createEvent,
   fetchEventCategories,
   updateEvent
 } from "../../store/events/actions";
-import { Formik, Form } from "formik";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -64,6 +64,26 @@ const Onboarding = ({ initialState = defaultState }) => {
     }
   };
 
+  const schema = Yup.object().shape({
+    event_title: Yup.string()
+      .length(10, "title must be atleast 10 characters")
+      .required("title is required"),
+    start_date: Yup.string().required("start date is required"),
+    end_date: Yup.string().required("end date is required"),
+    event_description: Yup.string()
+      .length(10, "description must be atleast 50 characters")
+      .required("description is required"),
+    location: Yup.string().required("location is required"),
+    guidelines: Yup.string()
+      .length(10, "guidelines must be atleast 50 characters")
+      .required("guidelines is required"),
+    participation_type: Yup.string().required("participation type is required"),
+    category_id: Yup.number()
+      .required("select event category")
+      .positive()
+      .integer()
+  });
+
   const {
     event_title,
     start_date,
@@ -84,7 +104,11 @@ const Onboarding = ({ initialState = defaultState }) => {
 
           <RowBody>
             <CardWide>
-              <Formik onSubmit={handleSubmit} initialValues={defaultState}>
+              <Formik
+                onSubmit={handleSubmit}
+                initialValues={defaultState}
+                validationSchema={schema}
+              >
                 <Form>
                   <RowBody>
                     <Input
