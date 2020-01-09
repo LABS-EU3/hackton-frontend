@@ -11,7 +11,7 @@ const UserHeader = () => {
   const { token } = useSelector(state => state.currentUser);
   const { email: user } = jwtDecode(token);
 
-  const initial = user.charAt(0).toUpperCase();
+  const initial = user[0].toUpperCase();
   return (
     <WideHeader>
       <HeaderContainer>
