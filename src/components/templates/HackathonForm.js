@@ -164,7 +164,6 @@ const Onboarding = ({ initialState = defaultState }) => {
                   </RowBody>
                 </Form>
               </Formik>
-              s
             </CardWide>
           </RowBody>
         </BodyContainerColumn>
