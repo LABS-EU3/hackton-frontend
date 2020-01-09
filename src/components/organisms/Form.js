@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
 import Container from "../atoms/Container";
 import { H1 } from "../atoms/Heading";
@@ -8,9 +12,6 @@ import { ButtonGradientBlueWide } from "../atoms/Button";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Formik, Form } from "formik";
 
 const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
   const [values, setValues] = useState({ email: "", password: "" });
@@ -42,12 +43,25 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
     });
   };
 
+  const schema = Yup.object().shape({
+    email: Yup.string()
+      .email()
+      .required(),
+    password: Yup.string()
+      .required()
+      .length(8)
+  });
+
   return (
     <Container>
       <H1>{formHeader}</H1>
 
       <Paragraph>{formParagraph}</Paragraph>
-      <Formik initialValues={{ email: "", password: "" }} onSubmit={action}>
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        onSubmit={action}
+        validationSchema={schema}
+      >
         <Form>
           <Input
             wide
