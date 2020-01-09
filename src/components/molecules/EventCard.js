@@ -13,16 +13,18 @@ const StyledCardLink = styled(Link)`
 
   &:hover > div {
     transition: all 0.5s;
-    box-shadow: 0px 0px 25px rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.3);
   }
 `;
 
-const EventCard = ({ id, title, description, startDate }) => {
-  const letter = title && title.charAt(0);
-  const excerpt = description.substr(0, 100) + "...";
+const EventCard = ({
+  events: { id, event_title, event_description, start_date }
+}) => {
+  const letter = event_title && event_title[0];
+  const excerpt = event_description.substr(0, 100) + "...";
 
   // Date formatting
-  const date = startDate.split("T")[0];
+  const date = start_date.split("T")[0];
   const dateArr = date.split("-");
   const formattedDate = dateArr[2] + "-" + dateArr[1] + "-" + dateArr[0];
 
@@ -30,9 +32,9 @@ const EventCard = ({ id, title, description, startDate }) => {
     <StyledCardLink to={`/dashboard/event/${id}`}>
       <Card>
         <LetterIcon>{letter}</LetterIcon>
-        <H4>{title}</H4>
+        <H4>{event_title}</H4>
         <Paragraph>{excerpt}</Paragraph>
-        <CardFooter startDate={formattedDate} />
+        <CardFooter start_date={formattedDate} />
       </Card>
     </StyledCardLink>
   );

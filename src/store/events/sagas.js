@@ -1,4 +1,5 @@
 import { put, takeLatest, call, all, select } from "redux-saga/effects";
+import { toast } from "react-toastify";
 
 import { axiosWithAuth } from "../../utils/api";
 import {
@@ -9,15 +10,17 @@ import {
   fetchAllEvents,
   fetchEventCategoriesSuccess
 } from "./actions";
-import { toast } from "react-toastify";
 
 const selectToken = state => state.currentUser.token;
 
 function* fetchAllEventsAsync() {
   try {
     const token = yield select(selectToken);
-    const { data } = yield axiosWithAuth(token).get("/api/events");
-    yield put(fetchAllEventsSuccess(data));
+    const {
+      data: { body }
+    } = yield axiosWithAuth(token).get("/api/events");
+    yield console.log("RESPONSE", body);
+    yield put(fetchAllEventsSuccess(body));
   } catch (error) {
     yield put(eventsError(error.message));
     toast.error(`⚠️ ${error.message}`);
@@ -52,8 +55,7 @@ function* deleteEventAsync({ payload }) {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
     yield put(deleteEventSuccess(data));
-      toast.success(`😲 ${data.message}`);
-       
+    toast.success(`😲 ${data.message}`);
   } catch (error) {
     yield put(eventsError(error.message));
     toast.error(`⚠️ ${error.message}`);

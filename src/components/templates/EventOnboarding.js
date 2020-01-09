@@ -20,17 +20,18 @@ const BodyContainerColumn = styled(BodyContainer)`
 
 // @TODO styling events card
 const EventOnboarding = () => {
-  const events = useSelector(state => state.events.data);
-  const { token } = useSelector(state => state.currentUser);
-  const { subject, email } = jwtDecode(token);
-  const userEvents = events.filter(event => event.creator_id === subject);
-  const globalEvents = events.filter(event => event.creator_id !== subject);
+  // const events = useSelector(state => state.events.data);
+  // const { token } = useSelector(state => state.currentUser);
+  // const { userId, subject } = jwtDecode(token);
+  // const id = userId || subject;
+  // const userEvents = events.filter(event => event.creator_id === id);
+  // const globalEvents = events.filter(event => event.creator_id !== id);
 
   return (
     <div>
-      <UserHeader/>
+      <UserHeader />
       <WideBody>
-        <BodyContainerColumn>
+        {/* <BodyContainerColumn>
           <RowHead>
             <H3>My hackathons</H3>
             <Link to="/dashboard/new">
@@ -41,15 +42,7 @@ const EventOnboarding = () => {
           <RowBody>
             {userEvents.length !== 0 ? (
               userEvents.map(event => (
-                <EventCard
-                  key={event.event_title}
-                  {...{
-                    id: event.id,
-                    title: event.event_title,
-                    description: event.event_description,
-                    startDate: event.start_date
-                  }}
-                />
+                <EventCard key={event.event_title} event={event} />
               ))
             ) : (
               <H4>You haven't created any. Why wait?</H4>
@@ -73,7 +66,7 @@ const EventOnboarding = () => {
               />
             ))}
           </RowBody>
-        </BodyContainerColumn>
+        </BodyContainerColumn> */}
       </WideBody>
       <Footer />
     </div>

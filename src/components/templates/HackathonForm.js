@@ -41,7 +41,6 @@ const defaultState = {
 };
 
 const Onboarding = ({ initialState = defaultState }) => {
-  const [formValues, setFormValues] = useState(initialState);
   const dispatch = useDispatch();
   const history = useHistory();
   const { categories } = useSelector(state => state.events);
@@ -50,17 +49,11 @@ const Onboarding = ({ initialState = defaultState }) => {
     dispatch(fetchEventCategories());
   }, []);
 
-  const handleInputChange = e => {
-    const { name, value } = e.target;
-    setFormValues(values => ({ ...values, [name]: value }));
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (formValues.title !== "" && !formValues.id) {
-      dispatch(createEvent(formValues, history));
-    } else if (formValues.title !== "" && formValues.id) {
-      dispatch(updateEvent(formValues, history));
+  const handleSubmit = values => {
+    if (values.title !== "" && !values.id) {
+      dispatch(createEvent(values, history));
+    } else if (values.title !== "" && values.id) {
+      dispatch(updateEvent(values, history));
     }
   };
 
@@ -84,53 +77,36 @@ const Onboarding = ({ initialState = defaultState }) => {
       .integer()
   });
 
-  const {
-    event_title,
-    start_date,
-    end_date,
-    event_description,
-    guidelines,
-    location
-  } = formValues;
-
   return (
     <div>
       <UserHeader user={"DDD"} />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
-            <H3>{formValues.id ? `Edit Hackathon` : `Create New Hackathon`}</H3>
+            <H3>
+              {initialState.id ? `Edit Hackathon` : `Create New Hackathon`}
+            </H3>
           </RowHead>
 
           <RowBody>
             <CardWide>
               <Formik
                 onSubmit={handleSubmit}
-                initialValues={defaultState}
+                initialValues={initialState}
                 validationSchema={schema}
               >
                 <Form>
                   <RowBody>
-                    <Input
-                      type="text"
-                      name="event_title"
-                      placeholder="Title"
-                      onChange={handleInputChange}
-                      value={event_title}
-                    />
+                    <Input type="text" name="event_title" placeholder="Title" />
                     <Input
                       type="date"
                       name="start_date"
                       placeholder="Event starts"
-                      onChange={handleInputChange}
-                      value={start_date}
                     />
                     <Input
                       type="date"
                       name="end_date"
                       placeholder="Event ends"
-                      onChange={handleInputChange}
-                      value={end_date}
                     />
                   </RowBody>
                   <RowBody>
@@ -155,18 +131,10 @@ const Onboarding = ({ initialState = defaultState }) => {
                       type="text"
                       name="event_description"
                       placeholder="Description"
-                      onChange={handleInputChange}
-                      value={event_description}
                     />
                   </RowBody>
                   <RowBody>
-                    <Input
-                      type="text"
-                      name="location"
-                      placeholder="Address"
-                      onChange={handleInputChange}
-                      value={location}
-                    />
+                    <Input type="text" name="location" placeholder="Address" />
                   </RowBody>
                   <RowBody>
                     <TextArea
@@ -174,8 +142,6 @@ const Onboarding = ({ initialState = defaultState }) => {
                       type="text"
                       name="guidelines"
                       placeholder="Guidelines"
-                      onChange={handleInputChange}
-                      value={guidelines}
                     />
                   </RowBody>
                   <RowBody>
