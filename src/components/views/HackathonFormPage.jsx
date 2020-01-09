@@ -1,10 +1,6 @@
 import React from "react";
 import HackathonForm from "../templates/HackathonForm";
 
-const HackathonFormPage = () => (
-  <HackathonForm 
-    user="Mildred Pascal"
-  />
-);
+const HackathonFormPage = () => <HackathonForm />;
 
 export default HackathonFormPage;

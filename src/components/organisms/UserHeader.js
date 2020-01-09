@@ -5,7 +5,7 @@ import HeaderContainer from "../atoms/HeaderContainer";
 import Logo from "../atoms/Logo";
 import { ProfileImg } from "../atoms/ProfileImg";
 
-const Header = ({ user }) => {
+const Header = ({ user = "User" }) => {
   const initial = user.charAt(0).toUpperCase();
   return (
     <WideHeader>

@@ -22,6 +22,7 @@ import {
   fetchEventCategories,
   updateEvent
 } from "../../store/events/actions";
+import { Formik, Form } from "formik";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -39,10 +40,7 @@ const defaultState = {
   category_id: 1
 };
 
-const Onboarding = ({
-  user = "Mildred Pascal",
-  initialState = defaultState
-}) => {
+const Onboarding = ({ initialState = defaultState }) => {
   const [formValues, setFormValues] = useState(initialState);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -77,7 +75,7 @@ const Onboarding = ({
 
   return (
     <div>
-      <UserHeader user={user} />
+      <UserHeader />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
@@ -86,84 +84,87 @@ const Onboarding = ({
 
           <RowBody>
             <CardWide>
-              <form onSubmit={handleSubmit}>
-                <RowBody>
-                  <Input
-                    type="text"
-                    name="event_title"
-                    placeholder="Title"
-                    onChange={handleInputChange}
-                    value={event_title}
-                  />
-                  <Input
-                    type="date"
-                    name="start_date"
-                    placeholder="Event starts"
-                    onChange={handleInputChange}
-                    value={start_date}
-                  />
-                  <Input
-                    type="date"
-                    name="end_date"
-                    placeholder="Event ends"
-                    onChange={handleInputChange}
-                    value={end_date}
-                  />
-                </RowBody>
-                <RowBody>
-                  <Select name="participation_type">
-                    <option value="">Participation Type</option>
-                    <option value="team">team</option>
-                    <option value="individual">individual</option>
-                    <option value="both">both</option>
-                  </Select>
-                  <Select name="event_category">
-                    <option value="">Event Category</option>
-                    {categories.map(({ id, category_name }) => (
-                      <option key={id} value={id}>
-                        {category_name}
-                      </option>
-                    ))}
-                  </Select>
-                </RowBody>
-                <RowBody>
-                  <TextArea
-                    wide
-                    type="text"
-                    name="event_description"
-                    placeholder="Description"
-                    onChange={handleInputChange}
-                    value={event_description}
-                  />
-                </RowBody>
-                <RowBody>
-                  <Input
-                    type="text"
-                    name="location"
-                    placeholder="Address"
-                    onChange={handleInputChange}
-                    value={location}
-                  />
-                </RowBody>
-                <RowBody>
-                  <TextArea
-                    wide
-                    type="text"
-                    name="guidelines"
-                    placeholder="Guidelines"
-                    onChange={handleInputChange}
-                    value={guidelines}
-                  />
-                </RowBody>
-                <RowBody>
-                  <Link to="/dashboard">
-                    <ButtonGradientGrey>Cancel</ButtonGradientGrey>
-                  </Link>
-                  <ButtonGradientGreen type="submit">
-                    Submit
-                  </ButtonGradientGreen>
-                </RowBody>
-              </form>
+              <Formik onSubmit={handleSubmit} initialValues={defaultState}>
+                <Form>
+                  <RowBody>
+                    <Input
+                      type="text"
+                      name="event_title"
+                      placeholder="Title"
+                      onChange={handleInputChange}
+                      value={event_title}
+                    />
+                    <Input
+                      type="date"
+                      name="start_date"
+                      placeholder="Event starts"
+                      onChange={handleInputChange}
+                      value={start_date}
+                    />
+                    <Input
+                      type="date"
+                      name="end_date"
+                      placeholder="Event ends"
+                      onChange={handleInputChange}
+                      value={end_date}
+                    />
+                  </RowBody>
+                  <RowBody>
+                    <Select name="participation_type">
+                      <option value="">Participation Type</option>
+                      <option value="team">team</option>
+                      <option value="individual">individual</option>
+                      <option value="both">both</option>
+                    </Select>
+                    <Select name="event_category">
+                      <option value="">Event Category</option>
+                      {categories.map(({ id, category_name }) => (
+                        <option key={id} value={id}>
+                          {category_name}
+                        </option>
+                      ))}
+                    </Select>
+                  </RowBody>
+                  <RowBody>
+                    <TextArea
+                      wide
+                      type="text"
+                      name="event_description"
+                      placeholder="Description"
+                      onChange={handleInputChange}
+                      value={event_description}
+                    />
+                  </RowBody>
+                  <RowBody>
+                    <Input
+                      type="text"
+                      name="location"
+                      placeholder="Address"
+                      onChange={handleInputChange}
+                      value={location}
+                    />
+                  </RowBody>
+                  <RowBody>
+                    <TextArea
+                      wide
+                      type="text"
+                      name="guidelines"
+                      placeholder="Guidelines"
+                      onChange={handleInputChange}
+                      value={guidelines}
+                    />
+                  </RowBody>
+                  <RowBody>
+                    <Link to="/dashboard">
+                      <ButtonGradientGrey>Cancel</ButtonGradientGrey>
+                    </Link>
+                    <ButtonGradientGreen type="submit">
+                      Submit
+                    </ButtonGradientGreen>
+                  </RowBody>
+                </Form>
+              </Formik>
+              s
             </CardWide>
           </RowBody>
         </BodyContainerColumn>

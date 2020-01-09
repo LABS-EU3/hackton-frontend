@@ -10,8 +10,9 @@ import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Formik, Form } from "formik";
 
-const Form = ({ ctaText, formHeader, formParagraph }) => {
+const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
   const [values, setValues] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const { email, password } = values;
@@ -46,30 +47,34 @@ const Form = ({ ctaText, formHeader, formParagraph }) => {
       <H1>{formHeader}</H1>
 
       <Paragraph>{formParagraph}</Paragraph>
+      <Formik initialValues={{ email: "", password: "" }} onSubmit={action}>
+        <Form>
+          <Input
+            wide
+            type="text"
+            name="email"
+            placeholder="Email address"
+            value={email}
+            onChange={onInputChange}
+          />
+          <Input
+            wide
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={onInputChange}
+          />
 
-      <Input
-        wide
-        type="text"
-        name="email"
-        placeholder="Email address"
-        value={email}
-        onChange={onInputChange}
-      />
-      <Input
-        wide
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={password}
-        onChange={onInputChange}
-      />
+          <ButtonGradientBlueWide onClick={action}>
+            {ctaText}
+          </ButtonGradientBlueWide>
+        </Form>
+      </Formik>
 
-      <ButtonGradientBlueWide onClick={action}>
-        {ctaText}
-      </ButtonGradientBlueWide>
       <SocialMedia></SocialMedia>
     </Container>
   );
 };
 
-export default Form;
+export default CustomForm;

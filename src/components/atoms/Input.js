@@ -3,8 +3,9 @@ import styled from "styled-components";
 import * as Fonts from "../variables/fonts";
 import * as Colors from "../variables/colors";
 import { media } from "../index";
+import { Field } from "formik";
 
-const I = styled.input`
+const I = styled(Field)`
   ${Fonts.type.ROBOTO_MONO};
   font-size: 16px;
   font-weight: 500;
