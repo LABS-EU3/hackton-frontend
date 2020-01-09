@@ -54,15 +54,7 @@ const EventOnboarding = () => {
 
           <RowBody>
             {globalEvents.map(event => (
-              <EventCard
-                key={event.event_title}
-                {...{
-                  id: event.id,
-                  title: event.event_title,
-                  description: event.event_description,
-                  startDate: event.start_date
-                }}
-              />
+              <EventCard key={event.id} event={event} />
             ))}
           </RowBody>
         </BodyContainerColumn>
