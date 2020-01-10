@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Formik, Form } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import Container from "../atoms/Container";
@@ -38,7 +38,7 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
       .required(),
     password: Yup.string()
       .required()
-      .length(8)
+      .min(8)
   });
 
   return (
@@ -51,24 +51,34 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
         onSubmit={handleSubmit}
         validationSchema={schema}
       >
-        <Form>
+        {
+          ({errors, touched})=>(<Form>
           <Input
             display="wide"
             type="text"
             name="email"
             placeholder="Email address"
           />
+          {errors.name && touched.name ? (
+           <div>{errors.name}</div>
+         ) : null}
+        <ErrorMessage name="email" />
           <Input
             display="wide"
             type="password"
             name="password"
             placeholder="Password"
           />
+          {errors.name && touched.name ? (
+           <div>{errors.name}</div>
+         ) : null}
+        <ErrorMessage name="password" />
 
           <Button type="submit" size="wide" color="blue">
             {ctaText}
           </Button>
-        </Form>
+        </Form>)
+        }
       </Formik>
 
       <SocialMedia></SocialMedia>

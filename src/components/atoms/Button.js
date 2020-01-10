@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { type, smallFontSize, Gradient, Solid, media } from "../index";
 
-export default function Button({ children, anchor, ...props }) {
+export default function Button({ children, anchor, color, ...props }) {
   if (anchor) {
-    return <StyledLink {...props}>{children}</StyledLink>
-  } else return <StyledButton {...props}>{children}</StyledButton>;
+    return <StyledLink color={color} {...props}>{children}</StyledLink>
+  } else return <StyledButton color={color} {...props}>{children}</StyledButton>;
 }
 
 const StyledButton = styled.button`

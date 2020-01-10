@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Formik, Form } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import UserHeader from "../organisms/UserHeader";
@@ -44,7 +44,7 @@ const Onboarding = ({ initialState = defaultState }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { categories } = useSelector(state => state.events);
-
+  console.log("===LOG EVENTS===", initialState);
   useEffect(() => {
     dispatch(fetchEventCategories());
   }, [dispatch]);
@@ -59,16 +59,16 @@ const Onboarding = ({ initialState = defaultState }) => {
 
   const schema = Yup.object().shape({
     event_title: Yup.string()
-      .length(10, "title must be atleast 10 characters")
+      .min(10, "title must be atleast 10 characters")
       .required("title is required"),
     start_date: Yup.string().required("start date is required"),
     end_date: Yup.string().required("end date is required"),
     event_description: Yup.string()
-      .length(10, "description must be atleast 50 characters")
+      .min(50, "description must be atleast 50 characters")
       .required("description is required"),
     location: Yup.string().required("location is required"),
     guidelines: Yup.string()
-      .length(10, "guidelines must be atleast 50 characters")
+      .min(50, "guidelines must be atleast 50 characters")
       .required("guidelines is required"),
     participation_type: Yup.string().required("participation type is required"),
     category_id: Yup.number()
@@ -96,7 +96,9 @@ const Onboarding = ({ initialState = defaultState }) => {
                 validationSchema={schema}
                 enableReinitialize
               >
-                <Form>
+                {
+                  ({errors, touched})=>(
+                    <Form>
                   <RowBody>
                     <Input type="text" name="event_title" placeholder="Title" />
                     <Input
@@ -104,11 +106,18 @@ const Onboarding = ({ initialState = defaultState }) => {
                       name="start_date"
                       placeholder="Event starts"
                     />
+                    {errors.name && touched.name ? (
+           <div>{errors.name}</div>
+         ) : null}
+        <ErrorMessage name="start_date" />
                     <Input
                       type="date"
                       name="end_date"
                       placeholder="Event ends"
                     />
+                    {errors.name && touched.name ? (
+            <div>{errors.name}</div>          ) : null}
+         <ErrorMessage name="end_date" />
                   </RowBody>
                   <RowBody>
                     <Select name="participation_type">
@@ -117,6 +126,10 @@ const Onboarding = ({ initialState = defaultState }) => {
                       <option value="individual">individual</option>
                       <option value="both">both</option>
                     </Select>
+                    {errors.name && touched.name ? (
+            <div>{errors.name}</div>
+          ) : null}
+         <ErrorMessage name="participation_type" />
                     <Select name="event_category">
                       <option value="">Event Category</option>
                       {categories.map(({ id, category_name }) => (
@@ -125,35 +138,55 @@ const Onboarding = ({ initialState = defaultState }) => {
                         </option>
                       ))}
                     </Select>
+                    {errors.name && touched.name ? (
+            <div>{errors.name}</div>
+          ) : null}
+         <ErrorMessage name="event_category" />
                   </RowBody>
                   <RowBody>
                     <TextArea
                       wide
+                      as="textarea"
                       type="text"
                       name="event_description"
                       placeholder="Description"
                     />
+                    {errors.name && touched.name ? (
+            <div>{errors.name}</div>
+          ) : null}
+         <ErrorMessage name="event_description" />
                   </RowBody>
                   <RowBody>
                     <Input type="text" name="location" placeholder="Address" />
+                    {errors.name && touched.name ? (
+            <div>{errors.name}</div>
+          ) : null}
+         <ErrorMessage name="location" />
                   </RowBody>
                   <RowBody>
                     <TextArea
                       wide
+                      as="textarea"
                       type="text"
                       name="guidelines"
                       placeholder="Guidelines"
                     />
+                    {errors.name && touched.name ? (
+            <div>{errors.name}</div>
+          ) : null}
+         <ErrorMessage name="guidelines" />
                   </RowBody>
                   <RowBody>
-                    <Link to="/dashboard">
-                      <Button color="grey">Cancel</Button>
-                    </Link>
+                    <Button to="/dashboard" color="grey" anchor>
+                      Cancel
+                    </Button>
                     <Button color="green" type="submit">
                       Submit
                     </Button>
                   </RowBody>
                 </Form>
+                  )
+                }
               </Formik>
             </CardWide>
           </RowBody>

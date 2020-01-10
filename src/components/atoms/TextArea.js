@@ -5,7 +5,16 @@ import { Field } from "formik";
 import * as Fonts from "../variables/fonts";
 import * as Colors from "../variables/colors";
 
-const I = styled(Field)`
+const I = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+${({ wide }) =>
+    wide &&
+    `
+    width: 100%;
+  `};
+textarea{
   ${Fonts.type.ROBOTO_MONO};
   font-size: 16px;
   font-weight: 500;
@@ -21,10 +30,15 @@ const I = styled(Field)`
     `
     width: 100%;
   `};
+}
 `;
 
-const TextArea = ({ as = "textarea", ...inputProps }) => {
-  return <I as={as} {...inputProps} />;
+const TextArea = ({ wide, ...inputProps }) => {
+  return (
+    <I wide>
+<Field {...inputProps} />
+    </I>
+  );
 };
 
 export default TextArea;
