@@ -44,7 +44,6 @@ const Onboarding = ({ initialState = defaultState }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { categories } = useSelector(state => state.events);
-  console.log("===LOG EVENTS===", initialState);
   useEffect(() => {
     dispatch(fetchEventCategories());
   }, [dispatch]);
