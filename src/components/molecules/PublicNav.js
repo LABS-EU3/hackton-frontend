@@ -1,16 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { BlueLinkButton, LinkButton } from "../atoms/Button";
+import Button from "../atoms/Button";
 
-const LoginBTN = styled(LinkButton)`
-  margin: 0 10px 0 10px;
+const StyledPublicNav = styled.div`
+  & a:first-child {
+    margin: 0 10px 0 0;
+  }
 `;
 
 const PublicNav = () => (
-  <div>
-    <LoginBTN to="/login">Log In</LoginBTN>
-    <BlueLinkButton to="/register">Sign Up</BlueLinkButton>
-  </div>
+  <StyledPublicNav>
+    <Button anchor to="/login">Log In</Button>
+    <Button anchor color="blue" to="/register">Sign Up</Button>
+  </StyledPublicNav>
 );
 
 export default PublicNav;

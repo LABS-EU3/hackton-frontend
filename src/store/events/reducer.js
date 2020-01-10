@@ -13,13 +13,13 @@ export const eventsReducer = (events = initialState, action) => {
         ...events,
         isLoading: true
       };
-    case EventsTypes.FETCH_ALL_EVENTS_SUCCESS:
+    case EventsTypes.SET_EVENTS:
       return {
         ...events,
         data: action.payload,
         isLoading: false
       };
-    case EventsTypes.FETCH_EVENT_CATEGORIES_SUCCESS:
+    case EventsTypes.SET_EVENT_CATEGORIES:
       return {
         ...events,
         categories: action.payload

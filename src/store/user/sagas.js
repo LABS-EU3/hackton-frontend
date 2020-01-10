@@ -1,65 +1,73 @@
 import { all, call, takeLatest, put } from "redux-saga/effects";
-import {
-  loginFail,
-  loginSuccess,
-  registerSuccess,
-  registerFail,
-  socialAuthSuccess,
-  UserTypes
-} from "./actions";
+import { UserTypes, setUser, userError, resetUser } from "./actions";
 
 import { axios } from "../../utils/api";
 import { toast } from "react-toastify";
-import jwtDecode from "jwt-decode";
-
 
 function* loginAsync({ payload, history }) {
   try {
-    const { data } = yield axios.post("/api/auth/login", payload);
-    yield put(loginSuccess(data));
-   const {email } = jwtDecode(data.token);
-    toast.success(`😎 Welcome ${email}`);
+    const {
+      data: { body }
+    } = yield axios.post("/api/auth/login", payload);
+    yield put(setUser(body.token));
     yield history.push("/dashboard");
+    yield toast.success(`😎 Welcome`);
   } catch (error) {
-    yield put(loginFail(error.message));
+    yield put(userError(error));
     toast.error(`⚠️ ${error.message}`);
   }
-}
-
-function* registerAsync({ payload, history }) {
-  try {
-    const { data } = yield axios.post("/api/auth/register", payload);
-    yield put(registerSuccess(data));
-    const {email } = jwtDecode(data.token);
-    toast.success(`😎 Welcome ${email}`);
-    yield history.push("/dashboard");
-  } catch (error) {
-    yield put(registerFail(error.message));
-    toast.error(`⚠️ ${error.message}`);
-  }
-}
-
-function* socialAuthAsync() {
-  try {
-    const { data } = yield axios.get("/api/auth/token");
-    yield put(socialAuthSuccess(data));
-  } catch (error) {
-    yield put(registerFail(error.message));
-  }
-}
-
-function* watchSocialAuth() {
-  yield takeLatest(UserTypes.SOCIAL_AUTH_LOAD, socialAuthAsync);
 }
 
 function* watchLogin() {
   yield takeLatest(UserTypes.LOGIN, loginAsync);
 }
 
+function* registerAsync({ payload, history }) {
+  try {
+    const {
+      data: { body }
+    } = yield axios.post("/api/auth/register", payload);
+    yield put(setUser(body.token));
+    toast.success(`😎 Welcome`);
+    yield history.push("/dashboard");
+  } catch (error) {
+    yield put(userError(error));
+    toast.error(`⚠️ ${error.message}`);
+  }
+}
+
 function* watchRegister() {
   yield takeLatest(UserTypes.REGISTER, registerAsync);
 }
 
+function* socialAuthAsync() {
+  try {
+    const {
+      data: { body }
+    } = yield axios.get("/api/auth/token");
+    yield put(setUser(body.token));
+  } catch (error) {
+    yield put(userError(error));
+  }
+}
+
+function* watchSocialAuth() {
+  yield takeLatest(UserTypes.SOCIAL_AUTH, socialAuthAsync);
+}
+
+function* logout() {
+  yield put(resetUser());
+}
+
+function* watchLogout() {
+  yield takeLatest(UserTypes.RESET_USER, logout);
+}
+
 export function* userSagas() {
-  yield all([call(watchLogin), call(watchRegister), call(watchSocialAuth)]);
+  yield all([
+    call(watchLogin),
+    call(watchRegister),
+    call(watchSocialAuth),
+    call(watchLogout)
+  ]);
 }

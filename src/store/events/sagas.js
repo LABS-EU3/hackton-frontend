@@ -1,23 +1,24 @@
 import { put, takeLatest, call, all, select } from "redux-saga/effects";
+import { toast } from "react-toastify";
 
 import { axiosWithAuth } from "../../utils/api";
 import {
   EventsTypes,
-  deleteEventSuccess,
   eventsError,
-  fetchAllEventsSuccess,
   fetchAllEvents,
-  fetchEventCategoriesSuccess
+  setEvents,
+  setEventCategories
 } from "./actions";
-import { toast } from "react-toastify";
 
 const selectToken = state => state.currentUser.token;
 
 function* fetchAllEventsAsync() {
   try {
     const token = yield select(selectToken);
-    const { data } = yield axiosWithAuth(token).get("/api/events");
-    yield put(fetchAllEventsSuccess(data));
+    const {
+      data: { body }
+    } = yield axiosWithAuth(token).get("/api/events");
+    yield put(setEvents(body));
   } catch (error) {
     yield put(eventsError(error.message));
     toast.error(`⚠️ ${error.message}`);
@@ -51,9 +52,8 @@ function* deleteEventAsync({ payload }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
-    yield put(deleteEventSuccess(data));
-      toast.success(`😲 ${data.message}`);
-       
+    yield put(fetchAllEvents());
+    toast.success(`😲 ${data.message}`);
   } catch (error) {
     yield put(eventsError(error.message));
     toast.error(`⚠️ ${error.message}`);
@@ -90,8 +90,10 @@ function* watchUpdateEvent() {
 function* fetchEventCategoriesAsync() {
   try {
     const token = yield select(selectToken);
-    const { data } = yield axiosWithAuth(token).get("/api/event-category");
-    yield put(fetchEventCategoriesSuccess(data));
+    const {
+      data: { body }
+    } = yield axiosWithAuth(token).get("/api/event-category");
+    yield put(setEventCategories(body));
   } catch (error) {
     yield put(eventsError(error.message));
   }

@@ -10,7 +10,7 @@ import EventCard from "../molecules/EventCard";
 import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
-import { ButtonGradientGreen } from "../atoms/Button";
+import Button from "../atoms/Button";
 import { useSelector } from "react-redux";
 
 const BodyContainerColumn = styled(BodyContainer)`
@@ -19,40 +19,32 @@ const BodyContainerColumn = styled(BodyContainer)`
 `;
 
 // @TODO styling events card
-const EventOnboarding = ({ user }) => {
+const EventOnboarding = () => {
   const events = useSelector(state => state.events.data);
   const { token } = useSelector(state => state.currentUser);
-  const { subject, email } = jwtDecode(token);
-  const userEvents = events.filter(event => event.creator_id === subject);
-  const globalEvents = events.filter(event => event.creator_id !== subject);
+  const { userId } = jwtDecode(token);
+  const userEvents = events.filter(event => event.creator_id === userId);
+  const globalEvents = events.filter(event => event.creator_userId !== userId);
 
   return (
     <div>
-      <UserHeader user={email} />
+      <UserHeader />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
             <H3>My hackathons</H3>
             <Link to="/dashboard/new">
-              <ButtonGradientGreen>Create New</ButtonGradientGreen>
+              <Button color="green">Create New</Button>
             </Link>
           </RowHead>
 
           <RowBody>
             {userEvents.length !== 0 ? (
               userEvents.map(event => (
-                <EventCard
-                  key={event.event_title}
-                  {...{
-                    id: event.id,
-                    title: event.event_title,
-                    description: event.event_description,
-                    startDate: event.start_date
-                  }}
-                />
+                <EventCard key={event.event_title} event={event} />
               ))
             ) : (
-              <H4>You haven't created any. Why wait?</H4>
+              <H4>You haven't created any events yet. Why wait?</H4>
             )}
           </RowBody>
 
@@ -62,15 +54,7 @@ const EventOnboarding = ({ user }) => {
 
           <RowBody>
             {globalEvents.map(event => (
-              <EventCard
-                key={event.event_title}
-                {...{
-                  id: event.id,
-                  title: event.event_title,
-                  description: event.event_description,
-                  startDate: event.start_date
-                }}
-              />
+              <EventCard key={event.id} event={event} />
             ))}
           </RowBody>
         </BodyContainerColumn>
