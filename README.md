@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/LABS-EU3/hackton-frontend.svg?branch=develop)](https://travis-ci.org/LABS-EU3/hackton-frontend)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0b0d93d0-04af-4a75-9a62-773eed6eac75/deploy-status)](https://app.netlify.com/sites/sharp-panini-3ec54b/deploys)
+
 # Hackton
 
 A comprehensive portal for hackathons where students can submit their work and judges can evaluate in one place.
