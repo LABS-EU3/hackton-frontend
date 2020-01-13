@@ -1,7 +1,7 @@
 import React from "react";
 import { Social } from "../atoms/SocialIcon";
 
-const baseUrl = process.env.REACT_APP_PRODUCTION_API || 'https://hackton-staging.herokuapp.com'
+const baseUrl = process.env.REACT_APP_API_URL;
 const MediaIcons = () => {
   return (
     <Social>
