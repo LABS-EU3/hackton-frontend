@@ -1,7 +1,7 @@
 import React from "react";
 import { Social } from "../atoms/SocialIcon";
 
-const baseUrl = process.env.REACT_APP_STAGING_API || process.env.REACT_APP_PRODUCTION_API
+const baseUrl = process.env.REACT_APP_API_URL;
 const MediaIcons = () => {
   return (
     <Social>

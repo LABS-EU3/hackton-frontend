@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const baseURL = process.env.REACT_APP_STAGING_API || process.env.REACT_APP_PRODUCTION_API;
+const baseURL = process.env.REACT_APP_API_URL;
 
 export const axiosWithAuth = token =>
   Axios.create({
