@@ -21,6 +21,66 @@ const BodyContainerColumn = styled(BodyContainer)`
   justify-content: start;
 `;
 
+export const EventCardWide = styled(CardWide)`
+  width: 60%;
+`;
+
+export const RegisterCardWide = styled(CardWide)`
+  width: 30%;
+  padding: 0px;
+  height: 50%;
+  border:none;
+  box-shadow: none;
+  background-color: #FAFAFA;
+
+  button {
+    margin-left:10px;
+    margin-top:10px;
+    width: 100%;
+  }
+`;
+
+export const TagsCardWide = styled(CardWide)`
+  width: 100%;
+  padding: 20px;
+  height: 80%;
+  line-height: 30px;
+  .tags-header {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    border-bottom: 1px solid lightgray;
+  }
+  .status {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-bottom: 1px solid lightgray;
+  }
+  .date {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-bottom: 1px solid lightgray;
+  }
+  .tags {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-bottom: none;
+    text-align: center;
+    div {
+      display: flex;
+      flex-direction: row;
+      h5 {
+        background-color: #fbe192;
+        width: 30%;
+        margin: 10px;
+      }
+    }
+  }
+`;
+
 const TitleContainer = styled.div`
   margin: 0 0 20px 0;
   display: flex;
@@ -62,6 +122,7 @@ const Onboarding = () => {
   const event = events.find(event => event.id === Number(id));
   const { userId } = useSelector(state => state.currentUser);
 
+  console.log("events body", event);
   // Destructure object inside array
   const {
     creator_id,
@@ -70,6 +131,7 @@ const Onboarding = () => {
     start_date,
     end_date,
     guidelines,
+    participation_type,
     location
   } = event;
 
@@ -102,7 +164,7 @@ const Onboarding = () => {
           </RowHead>
 
           <RowBody>
-            <CardWide>
+            <EventCardWide className="single-event">
               <TitleContainer>
                 <StyledLetterIcon>{initial}</StyledLetterIcon>
                 <H2>{event_title}</H2>
@@ -163,7 +225,47 @@ const Onboarding = () => {
                   ) : null}
                 </div>
               </ButtonsGroup>
-            </CardWide>
+            </EventCardWide>
+            <RegisterCardWide>
+              <TagsCardWide>
+                <div className="tags-header">
+                  <StyledLetterIcon>{initial}</StyledLetterIcon>
+                  <div>
+                    <h4>Hosted by:</h4>
+                    <h5>Mildred Pascal</h5>
+                  </div>
+                </div>
+                <div className="status">
+                  <h4>
+                    Status: <span>Open</span>
+                  </h4>
+                  <h5>
+                    Type: <span>{participation_type}</span>
+                  </h5>
+                </div>
+                <div className="date">
+                  <h4>
+                    From: <span>{formattedStartDate}</span>
+                  </h4>
+                  <h5>
+                    To: <span>{formattedEndDate}</span>
+                  </h5>
+                </div>
+                <div className="tags">
+                  <div>
+                    <h5>Tag1</h5>
+                    <h5>Tag1</h5>
+                    <h5>Tag1</h5>
+                  </div>
+                  <div>
+                    <h5>Tag1</h5>
+                    <h5>Tag1</h5>
+                    <h5>Tag1</h5>
+                  </div>
+                </div>
+              </TagsCardWide>
+              <Button color="green">Register</Button>
+            </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>
       </WideBody>
