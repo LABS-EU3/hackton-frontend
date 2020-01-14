@@ -7,7 +7,7 @@ import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
 import BodyContainer from "../atoms/BodyContainer";
-import { H2, H3 } from "../atoms/Heading";
+import { H2, H3, H4 } from "../atoms/Heading";
 import { BoldSpan } from "../atoms/Span";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
@@ -29,13 +29,13 @@ export const RegisterCardWide = styled(CardWide)`
   width: 30%;
   padding: 0px;
   height: 50%;
-  border:none;
+  border: none;
   box-shadow: none;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 
   button {
-    margin-left:10px;
-    margin-top:10px;
+    margin-left: 10px;
+    margin-top: 10px;
     width: 100%;
   }
 `;
@@ -85,6 +85,27 @@ const TitleContainer = styled.div`
   margin: 0 0 20px 0;
   display: flex;
   align-items: baseline;
+`;
+
+const JudgesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  .judge-header {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+  }
+  .judge-name {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+`;
+
+const StyledJudgesIcon = styled(LetterIcon)`
+  margin: 10px !important;
 `;
 
 const StyledLetterIcon = styled(LetterIcon)`
@@ -210,7 +231,34 @@ const Onboarding = () => {
                 <BoldSpan>Guidelines:</BoldSpan>
                 {guidelines}
               </Paragraph>
-
+              <Separator />
+              <Paragraph>
+                <BoldSpan>Rubrics:</BoldSpan>
+                {guidelines}
+              </Paragraph>
+              <Separator />
+              <JudgesContainer>
+                <div className="judge-header">
+                  <BoldSpan>Judges:</BoldSpan>
+                </div>
+                <div className="judge-name">
+                  <StyledJudgesIcon>{initial}</StyledJudgesIcon>
+                  <Paragraph>Mildred Pascal</Paragraph>
+                  <StyledJudgesIcon>{initial}</StyledJudgesIcon>
+                  <Paragraph>Mildred Pascal</Paragraph>
+                  <StyledJudgesIcon>{initial}</StyledJudgesIcon>
+                  <Paragraph>Mildred Pascal</Paragraph>
+                </div>
+              </JudgesContainer>
+              <Separator />
+              <JudgesContainer>
+                <div className="judge-header">
+                  <BoldSpan>Participants:</BoldSpan>
+                </div>
+                <div className="judge-name">
+                  <StyledJudgesIcon>{initial}</StyledJudgesIcon>
+                </div>
+              </JudgesContainer>
               <ButtonsGroup>
                 <div>
                   <Link to={"/dashboard"}>
