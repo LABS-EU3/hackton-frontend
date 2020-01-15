@@ -21,6 +21,17 @@ const BodyContainerColumn = styled(BodyContainer)`
   justify-content: start;
 `;
 
+export const NormalSpan = styled(BoldSpan)`
+    font-weight:normal;
+`;
+
+export const PTags = styled(Paragraph)`
+        background-color: #fbe192;
+        width: 30%;
+        margin: 10px;
+      
+`;
+
 export const EventCardWide = styled(CardWide)`
   width: 60%;
 `;
@@ -48,19 +59,19 @@ export const TagsCardWide = styled(CardWide)`
   .tags-header {
     display: flex;
     flex-direction: row;
-    padding: 20px;
+    padding: 10px;
     border-bottom: 1px solid lightgray;
   }
   .status {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 10px;
     border-bottom: 1px solid lightgray;
   }
   .date {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 10px;
     border-bottom: 1px solid lightgray;
   }
   .tags {
@@ -72,11 +83,7 @@ export const TagsCardWide = styled(CardWide)`
     div {
       display: flex;
       flex-direction: row;
-      h5 {
-        background-color: #fbe192;
-        width: 30%;
-        margin: 10px;
-      }
+      
     }
   }
 `;
@@ -279,36 +286,36 @@ const Onboarding = () => {
                 <div className="tags-header">
                   <StyledLetterIcon>{initial}</StyledLetterIcon>
                   <div>
-                    <h4>Hosted by:</h4>
-                    <h5>Mildred Pascal</h5>
+                    <BoldSpan>Hosted by:</BoldSpan>
+                    <Paragraph>Mildred Pascal</Paragraph>
                   </div>
                 </div>
                 <div className="status">
-                  <h4>
-                    Status: <span>Open</span>
-                  </h4>
-                  <h5>
-                    Type: <span>{participation_type}</span>
-                  </h5>
+                  <BoldSpan>
+                    Status: <NormalSpan>Open</NormalSpan>
+                  </BoldSpan>
+                  <BoldSpan>
+                    Type: <NormalSpan>{participation_type}</NormalSpan>
+                  </BoldSpan>
                 </div>
                 <div className="date">
-                  <h4>
-                    From: <span>{formattedStartDate}</span>
-                  </h4>
-                  <h5>
-                    To: <span>{formattedEndDate}</span>
-                  </h5>
+                  <BoldSpan>
+                    From: <NormalSpan>{formattedStartDate}</NormalSpan>
+                  </BoldSpan>
+                  <BoldSpan>
+                    To: <NormalSpan>{formattedEndDate}</NormalSpan>
+                  </BoldSpan>
                 </div>
                 <div className="tags">
                   <div>
-                    <h5>Tag1</h5>
-                    <h5>Tag1</h5>
-                    <h5>Tag1</h5>
+                    <PTags>Tag1</PTags>
+                    <PTags>Tag1</PTags>
+                    <PTags>Tag1</PTags>
                   </div>
                   <div>
-                    <h5>Tag1</h5>
-                    <h5>Tag1</h5>
-                    <h5>Tag1</h5>
+                    <PTags>Tag1</PTags>
+                    <PTags>Tag1</PTags>
+                    <PTags>Tag1</PTags>
                   </div>
                 </div>
               </TagsCardWide>
