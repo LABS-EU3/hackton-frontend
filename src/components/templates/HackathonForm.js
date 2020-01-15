@@ -36,6 +36,7 @@ const defaultState = {
   end_date: "",
   event_description: "",
   location: "",
+  tag_name: [],
   guidelines: "",
   participation_type: "team",
   category_id: 1
@@ -50,9 +51,14 @@ const Onboarding = ({ initialState = defaultState }) => {
   }, [dispatch]);
 
   const handleSubmit = values => {
+    let tagss = JSON.parse(window.localStorage.getItem("tags"));
+    console.log("values from form", values);
+
     if (values.title !== "" && !values.id) {
+      values.tag_name = tagss;
       dispatch(createEvent(values, history));
     } else if (values.title !== "" && values.id) {
+      values.tag_name = tagss;
       dispatch(updateEvent(values, history));
     }
   };

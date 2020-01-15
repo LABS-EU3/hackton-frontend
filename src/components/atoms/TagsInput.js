@@ -32,6 +32,7 @@ class InputTag extends React.Component {
 
   render() {
     const { tags } = this.state;
+    window.localStorage.setItem("tags", JSON.stringify(tags));
 
     return (
       <div className="input-tag">
@@ -65,6 +66,7 @@ class InputTag extends React.Component {
 }
 
 export default InputTag;
+
 //   ReactDOM.render(
 //     <InputTag />,
 //     document.getElementById('content')
