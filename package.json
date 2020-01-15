@@ -32,11 +32,6 @@
     "coverage": "react-scripts test --update-snapshot --env=jsdom --watchAll=false --coverage",
     "coveralls": "npm run coverage && cat coverage/lcov.info | coveralls"
   },
-  "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
   "eslintConfig": {
     "extends": "react-app"
   },
