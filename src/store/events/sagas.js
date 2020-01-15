@@ -106,12 +106,33 @@ function* watchFetchEventCategories() {
   );
 }
 
+function* addTeamMemberAsync({ payload }) {
+  try {
+    const { userId, eventId, role } = payload;
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(
+      token
+    ).post(`/api/events/${eventId}/team`, { userId, role });
+    if (data) {
+      yield toast.success(`Added successfully`);
+    }
+  } catch (error) {
+    yield put(eventsError(error.message));
+    toast.error(`⚠️ ${error.message}`);
+  }
+}
+
+function* watchAddTeamMember() {
+  yield takeLatest(EventsTypes.ADD_TEAM_MEMBER, addTeamMemberAsync);
+}
+
 export function* eventsSagas() {
   yield all([
     call(watchFetchAllEvents),
     call(watchCreateEvent),
     call(watchDeleteEvent),
     call(watchUpdateEvent),
-    call(watchFetchEventCategories)
+    call(watchFetchEventCategories),
+    call(watchAddTeamMember)
   ]);
 }
