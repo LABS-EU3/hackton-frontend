@@ -15,6 +15,7 @@ import { CardWide } from "../atoms/Card";
 import { LetterIcon } from "../atoms/Icon";
 import { Paragraph } from "../atoms/Paragraph";
 import Button from "../atoms/Button";
+import user_icon from "../../assets/user_icon.svg";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -23,6 +24,12 @@ const BodyContainerColumn = styled(BodyContainer)`
 
 export const NormalSpan = styled(BoldSpan)`
   font-weight: normal;
+`;
+
+export const Image = styled.img`
+    width:8vw;
+    height:8vh;
+    padding-bottom: 10px;
 `;
 
 export const PTags = styled(Paragraph)`
@@ -58,6 +65,8 @@ export const TagsCardWide = styled(CardWide)`
   .tags-header {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     padding: 10px;
     border-bottom: 1px solid lightgray;
   }
@@ -105,13 +114,11 @@ const JudgesContainer = styled.div`
     padding: 10px;
     display: flex;
     flex-direction: row;
-    align-items: baseline;
+    align-items: center;
   }
 `;
 
-const StyledJudgesIcon = styled(LetterIcon)`
-  margin: 10px !important;
-`;
+
 
 const StyledLetterIcon = styled(LetterIcon)`
   margin: 0 20px 0 0 !important;
@@ -248,11 +255,11 @@ const Onboarding = () => {
                   <BoldSpan>Judges:</BoldSpan>
                 </div>
                 <div className="judge-name">
-                  <StyledJudgesIcon>{initial}</StyledJudgesIcon>
+                <Image src={user_icon} alt="user_icon" />
                   <Paragraph>Mildred Pascal</Paragraph>
-                  <StyledJudgesIcon>{initial}</StyledJudgesIcon>
+                  <Image src={user_icon} alt="user_icon" />
                   <Paragraph>Mildred Pascal</Paragraph>
-                  <StyledJudgesIcon>{initial}</StyledJudgesIcon>
+                  <Image src={user_icon} alt="user_icon" />
                   <Paragraph>Mildred Pascal</Paragraph>
                 </div>
               </JudgesContainer>
@@ -262,7 +269,7 @@ const Onboarding = () => {
                   <BoldSpan>Participants:</BoldSpan>
                 </div>
                 <div className="judge-name">
-                  <StyledJudgesIcon>{initial}</StyledJudgesIcon>
+                <Image src={user_icon} alt="user_icon" />
                 </div>
               </JudgesContainer>
               <ButtonsGroup>
@@ -283,7 +290,7 @@ const Onboarding = () => {
             <RegisterCardWide>
               <TagsCardWide>
                 <div className="tags-header">
-                  <StyledLetterIcon>{initial}</StyledLetterIcon>
+                  <Image src={user_icon} alt="user_icon" />
                   <div>
                     <BoldSpan>Hosted by:</BoldSpan>
                     <Paragraph>Mildred Pascal</Paragraph>
