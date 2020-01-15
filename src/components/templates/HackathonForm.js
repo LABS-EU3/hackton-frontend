@@ -52,7 +52,7 @@ const Onboarding = ({ initialState = defaultState }) => {
 
   const handleSubmit = values => {
     let tagss = JSON.parse(window.localStorage.getItem("tags"));
-    console.log("values from form", values);
+
 
     if (values.title !== "" && !values.id) {
       values.tag_name = tagss;

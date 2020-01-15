@@ -22,14 +22,13 @@ const BodyContainerColumn = styled(BodyContainer)`
 `;
 
 export const NormalSpan = styled(BoldSpan)`
-    font-weight:normal;
+  font-weight: normal;
 `;
 
 export const PTags = styled(Paragraph)`
-        background-color: #fbe192;
-        width: 30%;
-        margin: 10px;
-      
+  background-color: #fbe192;
+  width: 30%;
+  margin: 10px;
 `;
 
 export const EventCardWide = styled(CardWide)`
@@ -83,7 +82,6 @@ export const TagsCardWide = styled(CardWide)`
     div {
       display: flex;
       flex-direction: row;
-      
     }
   }
 `;
@@ -160,6 +158,7 @@ const Onboarding = () => {
     end_date,
     guidelines,
     participation_type,
+    tag_name,
     location
   } = event;
 
@@ -307,16 +306,22 @@ const Onboarding = () => {
                   </BoldSpan>
                 </div>
                 <div className="tags">
-                  <div>
+                  {tag_name ? (
+                    tag_name.map((tagged, index) => {
+                      return (
+                        <div key={index}>
+                          <PTags>{tagged}</PTags>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <Paragraph>No tags provided for this event</Paragraph>
+                  )}
+                  {/* <div>
                     <PTags>Tag1</PTags>
                     <PTags>Tag1</PTags>
                     <PTags>Tag1</PTags>
-                  </div>
-                  <div>
-                    <PTags>Tag1</PTags>
-                    <PTags>Tag1</PTags>
-                    <PTags>Tag1</PTags>
-                  </div>
+                  </div> */}
                 </div>
               </TagsCardWide>
               <Button color="green">Register</Button>
