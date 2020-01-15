@@ -7,7 +7,7 @@ import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
 import BodyContainer from "../atoms/BodyContainer";
-import { H2, H3, H4 } from "../atoms/Heading";
+import { H2, H3 } from "../atoms/Heading";
 import { BoldSpan } from "../atoms/Span";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
