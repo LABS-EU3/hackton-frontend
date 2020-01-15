@@ -53,7 +53,7 @@ const Separator = styled.hr`
   margin: 0 0 20px 0;
 `;
 
-const Onboarding = () => {
+const HackathonSingle = () => {
   const { id } = useParams();
   const history = useHistory();
 
@@ -172,4 +172,4 @@ const Onboarding = () => {
   );
 };
 
-export default Onboarding;
+export default HackathonSingle;

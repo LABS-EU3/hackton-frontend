@@ -40,7 +40,7 @@ const defaultState = {
   category_id: 1
 };
 
-const Onboarding = ({ initialState = defaultState }) => {
+const HackathonForm = ({ initialState = defaultState }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { categories } = useSelector(state => state.events);
@@ -196,4 +196,4 @@ const Onboarding = ({ initialState = defaultState }) => {
   );
 };
 
-export default Onboarding;
+export default HackathonForm;
