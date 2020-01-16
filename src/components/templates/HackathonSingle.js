@@ -162,7 +162,7 @@ const Separator = styled.hr`
   margin: 0 0 20px 0;
 `;
 
-const Onboarding = ({ initialState = defaultState }) => {
+const HackathonSingle = ({ initialState = defaultState }) => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -423,4 +423,4 @@ const Onboarding = ({ initialState = defaultState }) => {
   );
 };
 
-export default Onboarding;
+export default HackathonSingle;
