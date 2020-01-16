@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -12,6 +12,7 @@ import BodyContainer from "../atoms/BodyContainer";
 import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
+import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
@@ -19,6 +20,7 @@ import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import { Paragraph } from "../atoms/Paragraph";
+import { ErrorSpan } from "../atoms/Span";
 
 import {
   createEvent,
@@ -60,20 +62,22 @@ const HackathonForm = ({ initialState = defaultState }) => {
 
   const schema = Yup.object().shape({
     event_title: Yup.string()
-      .min(10, "title must be atleast 10 characters")
-      .required("title is required"),
-    start_date: Yup.string().required("start date is required"),
-    end_date: Yup.string().required("end date is required"),
+      .min(10, "Title must be at least 10 characters long.")
+      .required("Title is required."),
+    start_date: Yup.string().required("Start date is required."),
+    end_date: Yup.string().required("End date is required."),
     event_description: Yup.string()
-      .min(50, "description must be atleast 50 characters")
-      .required("description is required"),
-    location: Yup.string().required("location is required"),
+      .min(50, "Description must be at least 50 characters long.")
+      .required("Description is required."),
+    location: Yup.string().required("Location is required."),
     guidelines: Yup.string()
-      .min(50, "guidelines must be atleast 50 characters")
-      .required("guidelines is required"),
-    participation_type: Yup.string().required("participation type is required"),
+      .min(50, "Guidelines must be at least 50 characters long.")
+      .required("Guidelines are required."),
+    participation_type: Yup.string().required(
+      "Participation type is required."
+    ),
     category_id: Yup.number()
-      .required("select event category")
+      .required("Please select event category.")
       .positive()
       .integer()
   });
@@ -89,7 +93,7 @@ const HackathonForm = ({ initialState = defaultState }) => {
             </H3>
           </RowHead>
 
-          <RowBody>
+          <Column>
             <CardWide>
               <Formik
                 onSubmit={handleSubmit}
@@ -100,40 +104,54 @@ const HackathonForm = ({ initialState = defaultState }) => {
                 {({ errors, touched }) => (
                   <Form>
                     <RowBody>
-                      <Label for="event_title">Hackathon Title</Label>
+                      <Label htmlFor="event_title">Hackathon Title</Label>
                       <Input
                         id="event_title"
                         display="wide"
                         type="text"
                         name="event_title"
                       />
-                    </RowBody>
-                    <RowBody>
-                      <Label for="start_date">Event starts</Label>
-                      <Input
-                        id="start_date"
-                        type="date"
-                        name="start_date"
-                        placeholder="Event starts"
-                      />
                       {errors.name && touched.name ? (
                         <div>{errors.name}</div>
                       ) : null}
-                      <ErrorMessage name="start_date" />
-                      <Label for="end_date">Event ends</Label>
-                      <Input
-                        id="end_date"
-                        type="date"
-                        name="end_date"
-                        placeholder="Event ends"
-                      />
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="end_date" />
+                      <ErrorSpan>
+                        <ErrorMessage name="event_title" />
+                      </ErrorSpan>
                     </RowBody>
                     <RowBody>
-                      <Label for="event_description">Description</Label>
+                      <Column>
+                        <Label htmlFor="start_date">Event Starts</Label>
+                        <Input
+                          id="start_date"
+                          type="date"
+                          name="start_date"
+                          placeholder="Event starts"
+                        />
+                        {errors.name && touched.name ? (
+                          <div>{errors.name}</div>
+                        ) : null}
+                        <ErrorSpan>
+                          <ErrorMessage name="start_date" />
+                        </ErrorSpan>
+                      </Column>
+                      <Column>
+                        <Label htmlFor="end_date">Event Ends</Label>
+                        <Input
+                          id="end_date"
+                          type="date"
+                          name="end_date"
+                          placeholder="Event ends"
+                        />
+                        {errors.name && touched.name ? (
+                          <div>{errors.name}</div>
+                        ) : null}
+                        <ErrorSpan>
+                          <ErrorMessage name="end_date" />
+                        </ErrorSpan>
+                      </Column>
+                    </RowBody>
+                    <RowBody>
+                      <Label htmlFor="event_description">Description</Label>
                       <TextArea
                         wide
                         id="event_description"
@@ -144,36 +162,55 @@ const HackathonForm = ({ initialState = defaultState }) => {
                       {errors.name && touched.name ? (
                         <div>{errors.name}</div>
                       ) : null}
-                      <ErrorMessage name="event_description" />
+                      <ErrorSpan>
+                        <ErrorMessage name="event_description" />
+                      </ErrorSpan>
                     </RowBody>
                     <RowBody>
-                      <Label for="participation_type">Participation Type</Label>
-                      <Select id="participation_type" name="participation_type">
-                        <option value="" selected disabled hidden>Choose</option>
-                        <option value="individual">Individual</option>
-                        <option value="team">Team</option>
-                        <option value="both">Both</option>
-                      </Select>
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="participation_type" />
-                      <Label for="event_category">Event Category</Label>
-                      <Select id="event_category" name="event_category">
-                        <option value="" selected disabled hidden>Choose</option>
-                        {categories.map(({ id, category_name }) => (
-                          <option key={id} value={id}>
-                            {category_name}
+                      <Column>
+                        <Label htmlFor="participation_type">
+                          Participation Type
+                        </Label>
+                        <Select
+                          id="participation_type"
+                          name="participation_type"
+                        >
+                          <option value="" disabled hidden>
+                            Choose
                           </option>
-                        ))}
-                      </Select>
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="event_category" />
+                          <option value="individual">Individual</option>
+                          <option value="team">Team</option>
+                          <option value="both">Both</option>
+                        </Select>
+                        {errors.name && touched.name ? (
+                          <div>{errors.name}</div>
+                        ) : null}
+                        <ErrorSpan>
+                          <ErrorMessage name="participation_type" />
+                        </ErrorSpan>
+                      </Column>
+                      <Column>
+                        <Label htmlFor="event_category">Event Category</Label>
+                        <Select id="event_category" name="event_category">
+                          <option value="" disabled hidden>
+                            Choose
+                          </option>
+                          {categories.map(({ id, category_name }) => (
+                            <option key={id} value={id}>
+                              {category_name}
+                            </option>
+                          ))}
+                        </Select>
+                        {errors.name && touched.name ? (
+                          <div>{errors.name}</div>
+                        ) : null}
+                        <ErrorSpan>
+                          <ErrorMessage name="event_category" />
+                        </ErrorSpan>
+                      </Column>
                     </RowBody>
                     <RowBody>
-                      <Label for="location">Location</Label>
+                      <Label htmlFor="location">Location</Label>
                       <Input
                         display="wide"
                         id="location"
@@ -183,47 +220,78 @@ const HackathonForm = ({ initialState = defaultState }) => {
                       {errors.name && touched.name ? (
                         <div>{errors.name}</div>
                       ) : null}
-                      <ErrorMessage name="location" />
+                      <ErrorSpan>
+                        <ErrorMessage name="location" />
+                      </ErrorSpan>
                     </RowBody>
-                    
-                    <Label for="grading_rubrics">Grading Rubrics</Label>
+
                     <RowBody id="grading_rubrics">
-                      <Paragraph>Judges  will be expected to grade project submissions on  which one of the following* (tick on all that apply)</Paragraph>
-                      
+                      <Label htmlFor="grading_rubrics">Grading Rubrics</Label>
+                      <Paragraph>
+                        Judges will be expected to grade project submissions on
+                        which one of the following* (tick on all that apply)
+                      </Paragraph>
+
                       <div>
-                        <input id="presentation" name="presentation" type="checkbox" />
-                        <label for="presentation">Presentation</label>
+                        <input
+                          id="presentation"
+                          name="presentation"
+                          type="checkbox"
+                        />
+                        <Label htmlFor="presentation">Presentation</Label>
                       </div>
 
                       <div>
-                        <input id="market_fit" name="market_fit" type="checkbox" />
-                        <label for="market_fit">Product Market Fit</label>
+                        <input
+                          id="market_fit"
+                          name="market_fit"
+                          type="checkbox"
+                        />
+                        <Label htmlFor="market_fit">Product Market Fit</Label>
                       </div>
 
                       <div>
-                        <input id="innovation" name="innovation" type="checkbox" />
-                        <label for="innovation">Innovation</label>
+                        <input
+                          id="innovation"
+                          name="innovation"
+                          type="checkbox"
+                        />
+                        <Label htmlFor="innovation">Innovation</Label>
                       </div>
 
                       <div>
-                        <input id="product_design" name="product_design" type="checkbox" />
-                        <label for="product_design">Product Design</label>
+                        <input
+                          id="product_design"
+                          name="product_design"
+                          type="checkbox"
+                        />
+                        <Label htmlFor="product_design">Product Design</Label>
                       </div>
 
                       <div>
-                        <input id="functionality" name="functionality" type="checkbox" />
-                        <label for="functionality">Functionality</label>
+                        <input
+                          id="functionality"
+                          name="functionality"
+                          type="checkbox"
+                        />
+                        <Label htmlFor="functionality">Functionality</Label>
                       </div>
 
                       <div>
-                        <input id="extensibility" name="extensibility" type="checkbox" />
-                        <label for="extensibility">Extensibility</label>
+                        <input
+                          id="extensibility"
+                          name="extensibility"
+                          type="checkbox"
+                        />
+                        <Label htmlFor="extensibility">Extensibility</Label>
                       </div>
 
-                      <Paragraph>*10 star rating system is used in each metric.</Paragraph>
+                      <Paragraph>
+                        *10 star rating system is used in each metric.
+                      </Paragraph>
                     </RowBody>
                     <RowBody>
-                      <Label for="guidelines">Guidelines</Label>
+                      <Label htmlFor="guidelines">Guidelines</Label>
                       <TextArea
                         id="guidelines"
                         wide
@@ -234,36 +302,45 @@ const HackathonForm = ({ initialState = defaultState }) => {
                       {errors.name && touched.name ? (
                         <div>{errors.name}</div>
                       ) : null}
-                      <ErrorMessage name="guidelines" />
+                      <ErrorSpan>
+                        <ErrorMessage name="guidelines" />
+                      </ErrorSpan>
                     </RowBody>
-                    <Label for="submission_requirements">Project Submission Requirements</Label>
+                    <Label htmlFor="submission_requirements">
+                      Project Submission Requirements
+                    </Label>
                     <RowBody id="submission_requirements">
-                      <Paragraph>Participants will be expected to submit which one of the following (tick on all that apply)</Paragraph>
-                      
+                      <Paragraph>
+                        Participants will be expected to submit which one of the
+                        following (tick on all that apply)
+                      </Paragraph>
+
                       <div>
                         <input id="video" name="video" type="checkbox" />
-                        <label for="video">Video</label>
+                        <Label htmlFor="video">Video</Label>
                       </div>
 
                       <div>
                         <input id="url" name="url" type="checkbox" />
-                        <label for="url">URL</label>
+                        <Label htmlFor="url">URL</Label>
                       </div>
 
                       <div>
                         <input id="images" name="images" type="checkbox" />
-                        <label for="images">Images</label>
+                        <Label htmlFor="images">Images</Label>
                       </div>
 
                       <div>
                         <input id="writeups" name="writeups" type="checkbox" />
-                        <label for="writeups">Writeups</label>
+                        <Label htmlFor="writeups">Writeups</Label>
                       </div>
                     </RowBody>
                     <RowBody>
-                      <Button to="/dashboard" color="grey" anchor>
-                        Cancel
-                      </Button>
+                      <Link to="/dashboard">
+                        <Button color="grey" to="/dashboard">
+                          Cancel
+                        </Button>
+                      </Link>
                       <Button color="green" type="submit">
                         Submit
                       </Button>
@@ -272,7 +349,7 @@ const HackathonForm = ({ initialState = defaultState }) => {
                 )}
               </Formik>
             </CardWide>
-          </RowBody>
+          </Column>
         </BodyContainerColumn>
       </WideBody>
       <Footer />
