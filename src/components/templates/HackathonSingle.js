@@ -178,9 +178,9 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     dispatch(fetchAllParticipants(id));
     participantsData.filter(user => {
       if (user.user_id !== userId) {
-        setRegistered(false);
+        return setRegistered(false);
       } else {
-        setRegistered(true);
+        return setRegistered(true);
       }
     });
   }, [dispatch, participantsData, userId, id]);
