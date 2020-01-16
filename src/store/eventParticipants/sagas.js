@@ -6,8 +6,6 @@ import {
   EventParticipantTypes,
   eventParticipantError,
   fetchAllParticipants,
-  registerEvent,
-  unregisterEvent,
   setEventParticipants
 } from "./actions";
 
