@@ -17,6 +17,7 @@ import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
 import Button from "../atoms/Button";
+import InputTag from "../atoms/TagsInput.js";
 
 import {
   createEvent,
@@ -35,6 +36,7 @@ const defaultState = {
   end_date: "",
   event_description: "",
   location: "",
+  tag_name: [],
   guidelines: "",
   participation_type: "team",
   category_id: 1
@@ -49,9 +51,13 @@ const HackathonForm = ({ initialState = defaultState }) => {
   }, [dispatch]);
 
   const handleSubmit = values => {
+    let tagss = JSON.parse(window.localStorage.getItem("tags"));
+
     if (values.title !== "" && !values.id) {
+      values.tag_name = tagss;
       dispatch(createEvent(values, history));
     } else if (values.title !== "" && values.id) {
+      values.tag_name = tagss;
       dispatch(updateEvent(values, history));
     }
   };
@@ -95,97 +101,109 @@ const HackathonForm = ({ initialState = defaultState }) => {
                 validationSchema={schema}
                 enableReinitialize
               >
-                {
-                  ({errors, touched})=>(
-                    <Form>
-                  <RowBody>
-                    <Input type="text" name="event_title" placeholder="Title" />
-                    <Input
-                      type="date"
-                      name="start_date"
-                      placeholder="Event starts"
-                    />
-                    {errors.name && touched.name ? (
-           <div>{errors.name}</div>
-         ) : null}
-        <ErrorMessage name="start_date" />
-                    <Input
-                      type="date"
-                      name="end_date"
-                      placeholder="Event ends"
-                    />
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>          ) : null}
-         <ErrorMessage name="end_date" />
-                  </RowBody>
-                  <RowBody>
-                    <Select name="participation_type">
-                      <option value="">Participation Type</option>
-                      <option value="team">team</option>
-                      <option value="individual">individual</option>
-                      <option value="both">both</option>
-                    </Select>
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="participation_type" />
-                    <Select name="event_category">
-                      <option value="">Event Category</option>
-                      {categories.map(({ id, category_name }) => (
-                        <option key={id} value={id}>
-                          {category_name}
-                        </option>
-                      ))}
-                    </Select>
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="event_category" />
-                  </RowBody>
-                  <RowBody>
-                    <TextArea
-                      wide
-                      as="textarea"
-                      type="text"
-                      name="event_description"
-                      placeholder="Description"
-                    />
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="event_description" />
-                  </RowBody>
-                  <RowBody>
-                    <Input type="text" name="location" placeholder="Address" />
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="location" />
-                  </RowBody>
-                  <RowBody>
-                    <TextArea
-                      wide
-                      as="textarea"
-                      type="text"
-                      name="guidelines"
-                      placeholder="Guidelines"
-                    />
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="guidelines" />
-                  </RowBody>
-                  <RowBody>
-                    <Button to="/dashboard" color="grey" anchor>
-                      Cancel
-                    </Button>
-                    <Button color="green" type="submit">
-                      Submit
-                    </Button>
-                  </RowBody>
-                </Form>
-                  )
-                }
+                {({ errors, touched }) => (
+                  <Form>
+                    <RowBody>
+                      <Input
+                        type="text"
+                        name="event_title"
+                        placeholder="Title"
+                      />
+                      <Input
+                        type="date"
+                        name="start_date"
+                        placeholder="Event starts"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="start_date" />
+                      <Input
+                        type="date"
+                        name="end_date"
+                        placeholder="Event ends"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="end_date" />
+                    </RowBody>
+                    <RowBody>
+                      <Select name="participation_type">
+                        <option value="">Participation Type</option>
+                        <option value="team">team</option>
+                        <option value="individual">individual</option>
+                        <option value="both">both</option>
+                      </Select>
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="participation_type" />
+                      <Select name="event_category">
+                        <option value="">Event Category</option>
+                        {categories.map(({ id, category_name }) => (
+                          <option key={id} value={id}>
+                            {category_name}
+                          </option>
+                        ))}
+                      </Select>
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+
+                      <ErrorMessage name="event_category" />
+                    </RowBody>
+                    <RowBody>
+                      {" "}
+                      <InputTag />
+                    </RowBody>
+                    <RowBody>
+                      <TextArea
+                        wide
+                        as="textarea"
+                        type="text"
+                        name="event_description"
+                        placeholder="Description"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="event_description" />
+                    </RowBody>
+                    <RowBody>
+                      <Input
+                        type="text"
+                        name="location"
+                        placeholder="Address"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="location" />
+                    </RowBody>
+                    <RowBody>
+                      <TextArea
+                        wide
+                        as="textarea"
+                        type="text"
+                        name="guidelines"
+                        placeholder="Guidelines"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="guidelines" />
+                    </RowBody>
+                    <RowBody>
+                      <Button to="/dashboard" color="grey" anchor>
+                        Cancel
+                      </Button>
+                      <Button color="green" type="submit">
+                        Submit
+                      </Button>
+                    </RowBody>
+                  </Form>
+                )}
               </Formik>
             </CardWide>
           </RowBody>
