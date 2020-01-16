@@ -183,7 +183,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
         setRegistered(true);
       }
     });
-  }, [dispatch, participantsData]);
+  }, [dispatch, participantsData, userId, id]);
 
   // Number of participants registered
   console.log(" hacky hacks", participantsData);
