@@ -27,8 +27,8 @@ export const NormalSpan = styled(BoldSpan)`
 `;
 
 export const Image = styled.img`
-  width: 8vw;
-  height: 8vh;
+  width: 60px;
+  height: 60px;
   padding-bottom: 10px;
 `;
 
