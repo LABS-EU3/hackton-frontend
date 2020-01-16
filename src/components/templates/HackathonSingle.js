@@ -206,29 +206,25 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   let dateNow = Date.now();
   let startDateInMs = new Date(startDate).getTime();
   let daysToEvent = Math.floor((startDateInMs - dateNow) / (1000 * 3600 * 24));
-  console.log(dateNow);
-  console.log("ISO string date", startDateInMs);
   window.localStorage.setItem("closingDate", JSON.stringify(eventIsOpen));
   let storedDeadline = JSON.parse(window.localStorage.getItem("closingDate"));
-  console.log("difference in ms", storedDeadline, daysToEvent);
 
   useEffect(() => {
     dispatch(fetchAllParticipants(id));
     const handleRegisterLogic = () => {
       participantsData.filter(user => {
         if (user.user_id !== userId) {
-          setRegistered(false);
+          return setRegistered(false);
         } else {
-          setRegistered(true);
+          return setRegistered(true);
         }
       });
     };
     const handleStatusLogic = () => {
       if (daysToEvent <= 0) {
-        console.log("closed event", daysToEvent);
-        setEventIsOpen(false);
+        return setEventIsOpen(false);
       } else {
-        setEventIsOpen(true);
+        return setEventIsOpen(true);
       }
     };
 
@@ -252,7 +248,6 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     e.preventDefault();
     initialState.event_id = event.id;
     initialState.user_id = userId;
-    console.log("registration button", initialState);
     dispatch(unregisterEvent(initialState, history));
   };
 
@@ -281,10 +276,6 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     e.preventDefault();
     history.push(`/dashboard/event/${id}/edit`);
   };
-  
-  // const disabledButton = document.getElementById("disabled-register");
-  // console.log(disabledButton);
-  // disabledButton.disabled = true;
 
   window.addEventListener('load', () => {
     document.querySelector('#disabled-register').disabled = true;
