@@ -163,7 +163,7 @@ const Separator = styled.hr`
   margin: 0 0 20px 0;
 `;
 
-const Onboarding = ({ initialState = defaultState }) => {
+const HackathonSingle = ({ initialState = defaultState }) => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -234,7 +234,7 @@ const Onboarding = ({ initialState = defaultState }) => {
 
     handleRegisterLogic();
     handleStatusLogic();
-  }, [dispatch, participantsData]);
+  }, [dispatch, participantsData, userId, id]);
 
   // Number of participants registered
   const registeredPartcipants = participantsData.length;
@@ -460,4 +460,4 @@ const Onboarding = ({ initialState = defaultState }) => {
   );
 };
 
-export default Onboarding;
+export default HackathonSingle;

@@ -1,10 +1,11 @@
 language: node_js
 node_js:
-  - 10.14.1
-notifications:
-  email:
-    recipients:
-    - justinas@vebra.dev
-      if: branch = develop
-        on_success: change
-        on_failure: always
+  - "stable"
+cache:
+  directories:
+  - node_modules
+script:
+  - npm test
+  - npm run build
+after_success:
+  - npm run coveralls
