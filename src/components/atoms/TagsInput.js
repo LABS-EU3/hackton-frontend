@@ -3,7 +3,7 @@ import "./TagsInput.css";
 
 const InputTag = () => {
   let tagInput;
-  const [tags, setTags] = useState(["add", "event", "tags"]);
+  const [tags, setTags] = useState([]);
 
   const removeTag = i => {
     const newTags = [...tags];
@@ -46,6 +46,7 @@ const InputTag = () => {
         <li className="input-tag__tags__input">
           <input
             type="text"
+            placeholder="Add event tags"
             onKeyDown={inputKeyDown}
             ref={c => {
               tagInput = c;
