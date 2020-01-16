@@ -66,9 +66,9 @@ export const RegisterCardWide = styled(CardWide)`
   height: 50%;
   border: none;
   box-shadow: none;
-  background-color: #F2F2F2;
-  opacity: 1.0;
-     button {
+  background-color: #f2f2f2;
+  opacity: 1;
+  button {
     margin-left: 10px;
     margin-top: 10px;
     width: 100%;
@@ -222,6 +222,9 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     };
     const handleStatusLogic = () => {
       if (daysToEvent <= 0) {
+        window.addEventListener("load", () => {
+          document.querySelector("#disabled-register").disabled = true;
+        });
         return setEventIsOpen(false);
       } else {
         return setEventIsOpen(true);
@@ -276,10 +279,6 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     e.preventDefault();
     history.push(`/dashboard/event/${id}/edit`);
   };
-
-  window.addEventListener('load', () => {
-    document.querySelector('#disabled-register').disabled = true;
-  });
 
   return (
     <div>
@@ -430,7 +429,11 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                 </div>
               </TagsCardWide>
               {!storedDeadline ? (
-                <Button style={{border:"2px solid lightgray", color:"lightgray"}} id="disabled-register" onClick={handleEventRegistration}>
+                <Button
+                  style={{ border: "2px solid lightgray", color: "lightgray" }}
+                  id="disabled-register"
+                  onClick={handleEventRegistration}
+                >
                   Register
                 </Button>
               ) : registered === false ? (
