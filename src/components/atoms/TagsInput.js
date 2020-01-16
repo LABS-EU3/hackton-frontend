@@ -1,73 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TagsInput.css";
-class InputTag extends React.Component {
-  constructor() {
-    super();
 
-    this.state = {
-      tags: ["add", "event", "tags"]
-    };
-  }
+const InputTag = () => {
+  let tagInput;
+  const [tags, setTags] = useState(["add", "event", "tags"]);
 
-  removeTag = i => {
-    const newTags = [...this.state.tags];
+  const removeTag = i => {
+    const newTags = [...tags];
     newTags.splice(i, 1);
-    this.setState({ tags: newTags });
+    setTags(newTags);
   };
 
-  inputKeyDown = e => {
+  const inputKeyDown = e => {
     const val = e.target.value;
     if (e.key === "Enter" && val) {
-      if (
-        this.state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())
-      ) {
+      if (tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
         return;
       }
-      this.setState({ tags: [...this.state.tags, val] });
-      this.tagInput.value = null;
+      setTags([...tags, val]);
+
+      tagInput.value = null;
     } else if (e.key === "Backspace" && !val) {
-      this.removeTag(this.state.tags.length - 1);
+      removeTag(tags.length - 1);
     }
   };
 
-  render() {
-    const { tags } = this.state;
-    window.localStorage.setItem("tags", JSON.stringify(tags));
+  window.localStorage.setItem("tags", JSON.stringify(tags));
 
-    return (
-      <div className="input-tag">
-        <ul className="input-tag__tags">
-          {tags.map((tag, i) => (
-            <li key={tag}>
-              {tag}
-              <button
-                type="button"
-                onClick={() => {
-                  this.removeTag(i);
-                }}
-              >
-                +
-              </button>
-            </li>
-          ))}
-          <li className="input-tag__tags__input">
-            <input
-              type="text"
-              onKeyDown={this.inputKeyDown}
-              ref={c => {
-                this.tagInput = c;
+  return (
+    <div className="input-tag">
+      <ul className="input-tag__tags">
+        {tags.map((tag, i) => (
+          <li key={tag}>
+            {tag}
+            <button
+              type="button"
+              onClick={() => {
+                removeTag(i);
               }}
-            />
+            >
+              +
+            </button>
           </li>
-        </ul>
-      </div>
-    );
-  }
-}
-
+        ))}
+        <li className="input-tag__tags__input">
+          <input
+            type="text"
+            onKeyDown={inputKeyDown}
+            ref={c => {
+              tagInput = c;
+            }}
+          />
+        </li>
+      </ul>
+    </div>
+  );
+};
 export default InputTag;
-
-//   ReactDOM.render(
-//     <InputTag />,
-//     document.getElementById('content')
-//   );

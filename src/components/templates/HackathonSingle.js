@@ -107,7 +107,7 @@ export const TagsCardWide = styled(CardWide)`
     text-align: center;
     div {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
     }
   }
 `;
