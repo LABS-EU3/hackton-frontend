@@ -13,10 +13,12 @@ import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { CardWide } from "../atoms/Card";
+import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
 import Button from "../atoms/Button";
+import { Paragraph } from "../atoms/Paragraph";
 
 import {
   createEvent,
@@ -95,97 +97,179 @@ const HackathonForm = ({ initialState = defaultState }) => {
                 validationSchema={schema}
                 enableReinitialize
               >
-                {
-                  ({errors, touched})=>(
-                    <Form>
-                  <RowBody>
-                    <Input type="text" name="event_title" placeholder="Title" />
-                    <Input
-                      type="date"
-                      name="start_date"
-                      placeholder="Event starts"
-                    />
-                    {errors.name && touched.name ? (
-           <div>{errors.name}</div>
-         ) : null}
-        <ErrorMessage name="start_date" />
-                    <Input
-                      type="date"
-                      name="end_date"
-                      placeholder="Event ends"
-                    />
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>          ) : null}
-         <ErrorMessage name="end_date" />
-                  </RowBody>
-                  <RowBody>
-                    <Select name="participation_type">
-                      <option value="">Participation Type</option>
-                      <option value="team">team</option>
-                      <option value="individual">individual</option>
-                      <option value="both">both</option>
-                    </Select>
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="participation_type" />
-                    <Select name="event_category">
-                      <option value="">Event Category</option>
-                      {categories.map(({ id, category_name }) => (
-                        <option key={id} value={id}>
-                          {category_name}
-                        </option>
-                      ))}
-                    </Select>
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="event_category" />
-                  </RowBody>
-                  <RowBody>
-                    <TextArea
-                      wide
-                      as="textarea"
-                      type="text"
-                      name="event_description"
-                      placeholder="Description"
-                    />
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="event_description" />
-                  </RowBody>
-                  <RowBody>
-                    <Input type="text" name="location" placeholder="Address" />
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="location" />
-                  </RowBody>
-                  <RowBody>
-                    <TextArea
-                      wide
-                      as="textarea"
-                      type="text"
-                      name="guidelines"
-                      placeholder="Guidelines"
-                    />
-                    {errors.name && touched.name ? (
-            <div>{errors.name}</div>
-          ) : null}
-         <ErrorMessage name="guidelines" />
-                  </RowBody>
-                  <RowBody>
-                    <Button to="/dashboard" color="grey" anchor>
-                      Cancel
-                    </Button>
-                    <Button color="green" type="submit">
-                      Submit
-                    </Button>
-                  </RowBody>
-                </Form>
-                  )
-                }
+                {({ errors, touched }) => (
+                  <Form>
+                    <RowBody>
+                      <Label for="event_title">Hackathon Title</Label>
+                      <Input
+                        id="event_title"
+                        display="wide"
+                        type="text"
+                        name="event_title"
+                      />
+                    </RowBody>
+                    <RowBody>
+                      <Label for="start_date">Event starts</Label>
+                      <Input
+                        id="start_date"
+                        type="date"
+                        name="start_date"
+                        placeholder="Event starts"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="start_date" />
+                      <Label for="end_date">Event ends</Label>
+                      <Input
+                        id="end_date"
+                        type="date"
+                        name="end_date"
+                        placeholder="Event ends"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="end_date" />
+                    </RowBody>
+                    <RowBody>
+                      <Label for="event_description">Description</Label>
+                      <TextArea
+                        wide
+                        id="event_description"
+                        as="textarea"
+                        type="text"
+                        name="event_description"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="event_description" />
+                    </RowBody>
+                    <RowBody>
+                      <Label for="participation_type">Participation Type</Label>
+                      <Select id="participation_type" name="participation_type">
+                        <option value="" selected disabled hidden>Choose</option>
+                        <option value="individual">Individual</option>
+                        <option value="team">Team</option>
+                        <option value="both">Both</option>
+                      </Select>
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="participation_type" />
+                      <Label for="event_category">Event Category</Label>
+                      <Select id="event_category" name="event_category">
+                        <option value="" selected disabled hidden>Choose</option>
+                        {categories.map(({ id, category_name }) => (
+                          <option key={id} value={id}>
+                            {category_name}
+                          </option>
+                        ))}
+                      </Select>
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="event_category" />
+                    </RowBody>
+                    <RowBody>
+                      <Label for="location">Location</Label>
+                      <Input
+                        display="wide"
+                        id="location"
+                        type="text"
+                        name="location"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="location" />
+                    </RowBody>
+                    
+                    <Label for="grading_rubrics">Grading Rubrics</Label>
+                    <RowBody id="grading_rubrics">
+                      <Paragraph>Judges  will be expected to grade project submissions on  which one of the following* (tick on all that apply)</Paragraph>
+                      
+                      <div>
+                        <input id="presentation" name="presentation" type="checkbox" />
+                        <label for="presentation">Presentation</label>
+                      </div>
+
+                      <div>
+                        <input id="market_fit" name="market_fit" type="checkbox" />
+                        <label for="market_fit">Product Market Fit</label>
+                      </div>
+
+                      <div>
+                        <input id="innovation" name="innovation" type="checkbox" />
+                        <label for="innovation">Innovation</label>
+                      </div>
+
+                      <div>
+                        <input id="product_design" name="product_design" type="checkbox" />
+                        <label for="product_design">Product Design</label>
+                      </div>
+
+                      <div>
+                        <input id="functionality" name="functionality" type="checkbox" />
+                        <label for="functionality">Functionality</label>
+                      </div>
+
+                      <div>
+                        <input id="extensibility" name="extensibility" type="checkbox" />
+                        <label for="extensibility">Extensibility</label>
+                      </div>
+
+                      <Paragraph>*10 star rating system is used in each metric.</Paragraph>
+                    </RowBody>
+                    <RowBody>
+                      <Label for="guidelines">Guidelines</Label>
+                      <TextArea
+                        id="guidelines"
+                        wide
+                        as="textarea"
+                        type="text"
+                        name="guidelines"
+                      />
+                      {errors.name && touched.name ? (
+                        <div>{errors.name}</div>
+                      ) : null}
+                      <ErrorMessage name="guidelines" />
+                    </RowBody>
+                    <Label for="submission_requirements">Project Submission Requirements</Label>
+                    <RowBody id="submission_requirements">
+                      <Paragraph>Participants will be expected to submit which one of the following (tick on all that apply)</Paragraph>
+                      
+                      <div>
+                        <input id="video" name="video" type="checkbox" />
+                        <label for="video">Video</label>
+                      </div>
+
+                      <div>
+                        <input id="url" name="url" type="checkbox" />
+                        <label for="url">URL</label>
+                      </div>
+
+                      <div>
+                        <input id="images" name="images" type="checkbox" />
+                        <label for="images">Images</label>
+                      </div>
+
+                      <div>
+                        <input id="writeups" name="writeups" type="checkbox" />
+                        <label for="writeups">Writeups</label>
+                      </div>
+                    </RowBody>
+                    <RowBody>
+                      <Button to="/dashboard" color="grey" anchor>
+                        Cancel
+                      </Button>
+                      <Button color="green" type="submit">
+                        Submit
+                      </Button>
+                    </RowBody>
+                  </Form>
+                )}
               </Formik>
             </CardWide>
           </RowBody>
