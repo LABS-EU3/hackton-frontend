@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -16,6 +16,17 @@ import { LetterIcon } from "../atoms/Icon";
 import { Paragraph } from "../atoms/Paragraph";
 import Button from "../atoms/Button";
 import user_icon from "../../assets/user_icon.svg";
+
+import {
+  fetchAllParticipants,
+  registerEvent,
+  unregisterEvent
+} from "../../store/eventParticipants/actions";
+
+const defaultState = {
+  user_id: 1,
+  event_id: 1
+};
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -150,14 +161,41 @@ const Separator = styled.hr`
   margin: 0 0 20px 0;
 `;
 
-const Onboarding = () => {
+const Onboarding = ({ initialState = defaultState }) => {
   const { id } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [registered, setRegistered] = useState(false);
+  const { participantsData } = useSelector(state => state.eventParticipants);
+
+  useEffect(() => {
+    dispatch(fetchAllParticipants());
+  }, [dispatch]);
 
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
   const event = events.find(event => event.id === Number(id));
   const { userId } = useSelector(state => state.currentUser);
+
+  // handles event registration
+  const handleEventRegistration = e => {
+    e.preventDefault();
+    initialState.event_id = event.id;
+    initialState.user_id = userId;
+    console.log("registration button", initialState);
+    dispatch(registerEvent(initialState, history));
+    setRegistered(true);
+  };
+
+  // handles event unregistration
+  const handleEventUnRegistration = e => {
+    e.preventDefault();
+    initialState.event_id = event.id;
+    initialState.user_id = userId;
+    console.log("registration button", initialState);
+    dispatch(unregisterEvent(initialState, history));
+    setRegistered(false);
+  };
 
   // Destructure object inside array
   const {
@@ -352,7 +390,18 @@ const Onboarding = () => {
                   </div>
                 </div>
               </TagsCardWide>
-              <Button color="green">Register</Button>
+              {registered === false ? (
+                <Button color="green" onClick={handleEventRegistration}>
+                  Register
+                </Button>
+              ) : (
+                <Button color="grey" onClick={handleEventUnRegistration}>
+                  Unregister
+                </Button>
+              )}
+              {/* <Button color="green" onClick={handleEventRegistration}>
+                Register
+              </Button> */}
             </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>

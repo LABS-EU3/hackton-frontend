@@ -8,7 +8,7 @@ export const EventParticipantTypes = {
 
 export const fetchAllParticipants = () => {
   return {
-    type: EventParticipantTypes.FETCH_ALL_PARTICPANTS
+    type: EventParticipantTypes.FETCH_ALL_PARTICIPANTS
   };
 };
 export const setEventParticipants = participants => {

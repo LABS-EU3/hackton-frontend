@@ -7,7 +7,7 @@ const initialState = {
   isLoading: false
 };
 
-export const eventParticpantsReducer = (
+export const eventParticipantsReducer = (
   eventParticipants = initialState,
   action
 ) => {
@@ -17,7 +17,7 @@ export const eventParticpantsReducer = (
         ...eventParticipants,
         isLoading: true
       };
-      case EventParticipantTypes.SET_EVENT_PARTICIPANTS:
+    case EventParticipantTypes.SET_EVENT_PARTICIPANTS:
       return {
         ...eventParticipants,
         participantsData: action.payload,
