@@ -53,7 +53,6 @@ const Onboarding = ({ initialState = defaultState }) => {
   const handleSubmit = values => {
     let tagss = JSON.parse(window.localStorage.getItem("tags"));
 
-
     if (values.title !== "" && !values.id) {
       values.tag_name = tagss;
       dispatch(createEvent(values, history));
@@ -151,8 +150,12 @@ const Onboarding = ({ initialState = defaultState }) => {
                       {errors.name && touched.name ? (
                         <div>{errors.name}</div>
                       ) : null}
-                      <InputTag />
+
                       <ErrorMessage name="event_category" />
+                    </RowBody>
+                    <RowBody>
+                      {" "}
+                      <InputTag />
                     </RowBody>
                     <RowBody>
                       <TextArea

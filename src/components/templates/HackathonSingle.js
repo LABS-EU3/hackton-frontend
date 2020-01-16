@@ -174,11 +174,11 @@ const Onboarding = () => {
     organizer_name
   } = event;
 
-// Redacting user emails before rendering
-let redactedEmail = organizer_email.split("");
-let atIndex = redactedEmail.indexOf("@");
-let emailUser = redactedEmail.slice(0,atIndex);
-let emailHost = redactedEmail.slice(atIndex,redactedEmail.length);
+  // Redacting user emails before rendering
+  let redactedEmail = organizer_email.split("");
+  let atIndex = redactedEmail.indexOf("@");
+  let emailUser = redactedEmail.slice(0, atIndex);
+  let emailHost = redactedEmail.slice(atIndex, redactedEmail.length);
 
   emailUser = emailUser
     .map((redact, index) => {
@@ -188,7 +188,9 @@ let emailHost = redactedEmail.slice(atIndex,redactedEmail.length);
         redact = "*";
         return redact;
       }
-    }).concat(emailHost).join("");
+    })
+    .concat(emailHost)
+    .join("");
 
   // Grab the first letter of title
   const initial = event_title[0];
