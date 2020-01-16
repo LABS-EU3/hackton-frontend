@@ -41,6 +41,7 @@ export const Image = styled.img`
   width: 60px;
   height: 60px;
   padding-bottom: 10px;
+  margin-right: 10px;
 `;
 
 export const PTags = styled(Paragraph)`
@@ -168,14 +169,26 @@ const Onboarding = ({ initialState = defaultState }) => {
   const [registered, setRegistered] = useState(false);
   const { participantsData } = useSelector(state => state.eventParticipants);
 
-  useEffect(() => {
-    dispatch(fetchAllParticipants());
-  }, [dispatch]);
-
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
   const event = events.find(event => event.id === Number(id));
   const { userId } = useSelector(state => state.currentUser);
+
+  useEffect(() => {
+    dispatch(fetchAllParticipants(id));
+    participantsData.filter(user => {
+      if (user.user_id !== userId) {
+        setRegistered(false);
+      } else {
+        setRegistered(true);
+      }
+    });
+  }, [dispatch, participantsData]);
+
+  // Number of participants registered
+  console.log(" hacky hacks", participantsData);
+  const registeredPartcipants = participantsData.length;
+
 
   // handles event registration
   const handleEventRegistration = e => {
@@ -184,7 +197,6 @@ const Onboarding = ({ initialState = defaultState }) => {
     initialState.user_id = userId;
     console.log("registration button", initialState);
     dispatch(registerEvent(initialState, history));
-    setRegistered(true);
   };
 
   // handles event unregistration
@@ -194,7 +206,6 @@ const Onboarding = ({ initialState = defaultState }) => {
     initialState.user_id = userId;
     console.log("registration button", initialState);
     dispatch(unregisterEvent(initialState, history));
-    setRegistered(false);
   };
 
   // Destructure object inside array
@@ -331,6 +342,7 @@ const Onboarding = ({ initialState = defaultState }) => {
                 </div>
                 <div className="judge-name">
                   <Image src={user_icon} alt="user_icon" />
+                  <Paragraph>{registeredPartcipants}</Paragraph>
                 </div>
               </JudgesContainer>
               <ButtonsGroup>

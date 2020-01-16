@@ -6,9 +6,11 @@ export const EventParticipantTypes = {
   SET_EVENT_PARTICIPANTS: "SET_EVENT_PARTICIPANTS"
 };
 
-export const fetchAllParticipants = () => {
+export const fetchAllParticipants = (id) => {
+    console.log("actions id",id);
   return {
-    type: EventParticipantTypes.FETCH_ALL_PARTICIPANTS
+    type: EventParticipantTypes.FETCH_ALL_PARTICIPANTS,
+    payload: id
   };
 };
 export const setEventParticipants = participants => {
