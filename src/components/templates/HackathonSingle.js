@@ -233,7 +233,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
 
     handleRegisterLogic();
     handleStatusLogic();
-  }, [dispatch, participantsData, userId, id]);
+  }, [dispatch, participantsData, userId, id, daysToEvent]);
 
   // Number of participants registered
   const registeredPartcipants = participantsData.length;
