@@ -27,15 +27,21 @@ export const NormalSpan = styled(BoldSpan)`
 `;
 
 export const Image = styled.img`
-    width:8vw;
-    height:8vh;
-    padding-bottom: 10px;
+  width: 8vw;
+  height: 8vh;
+  padding-bottom: 10px;
 `;
 
 export const PTags = styled(Paragraph)`
   background-color: #fbe192;
-  width: 30%;
   margin: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+`;
+
+export const PHosted = styled(Paragraph)`
+  font-size: 12px;
+  color: darkgray;
 `;
 
 export const EventCardWide = styled(CardWide)`
@@ -85,7 +91,7 @@ export const TagsCardWide = styled(CardWide)`
   .tags {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 10px;
     border-bottom: none;
     text-align: center;
     div {
@@ -117,8 +123,6 @@ const JudgesContainer = styled.div`
     align-items: center;
   }
 `;
-
-
 
 const StyledLetterIcon = styled(LetterIcon)`
   margin: 0 20px 0 0 !important;
@@ -155,7 +159,6 @@ const Onboarding = () => {
   const event = events.find(event => event.id === Number(id));
   const { userId } = useSelector(state => state.currentUser);
 
-  console.log("events body", event);
   // Destructure object inside array
   const {
     creator_id,
@@ -166,8 +169,26 @@ const Onboarding = () => {
     guidelines,
     participation_type,
     tag_name,
-    location
+    location,
+    organizer_email,
+    organizer_name
   } = event;
+
+// Redacting user emails before rendering
+let redactedEmail = organizer_email.split("");
+let atIndex = redactedEmail.indexOf("@");
+let emailUser = redactedEmail.slice(0,atIndex);
+let emailHost = redactedEmail.slice(atIndex,redactedEmail.length);
+
+  emailUser = emailUser
+    .map((redact, index) => {
+      if (index === 0 || index === emailUser.length - 1) {
+        return redact;
+      } else {
+        redact = "*";
+        return redact;
+      }
+    }).concat(emailHost).join("");
 
   // Grab the first letter of title
   const initial = event_title[0];
@@ -255,7 +276,7 @@ const Onboarding = () => {
                   <BoldSpan>Judges:</BoldSpan>
                 </div>
                 <div className="judge-name">
-                <Image src={user_icon} alt="user_icon" />
+                  <Image src={user_icon} alt="user_icon" />
                   <Paragraph>Mildred Pascal</Paragraph>
                   <Image src={user_icon} alt="user_icon" />
                   <Paragraph>Mildred Pascal</Paragraph>
@@ -269,7 +290,7 @@ const Onboarding = () => {
                   <BoldSpan>Participants:</BoldSpan>
                 </div>
                 <div className="judge-name">
-                <Image src={user_icon} alt="user_icon" />
+                  <Image src={user_icon} alt="user_icon" />
                 </div>
               </JudgesContainer>
               <ButtonsGroup>
@@ -293,7 +314,11 @@ const Onboarding = () => {
                   <Image src={user_icon} alt="user_icon" />
                   <div>
                     <BoldSpan>Hosted by:</BoldSpan>
-                    <Paragraph>Mildred Pascal</Paragraph>
+                    {organizer_name !== null ? (
+                      <PHosted>{organizer_name}</PHosted>
+                    ) : (
+                      <PHosted>{emailUser}</PHosted>
+                    )}
                   </div>
                 </div>
                 <div className="status">
@@ -313,22 +338,16 @@ const Onboarding = () => {
                   </BoldSpan>
                 </div>
                 <div className="tags">
-                  {tag_name ? (
-                    tag_name.map((tagged, index) => {
-                      return (
-                        <div key={index}>
-                          <PTags>{tagged}</PTags>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <Paragraph>No tags provided for this event</Paragraph>
-                  )}
-                  {/* <div>
-                    <PTags>Tag1</PTags>
-                    <PTags>Tag1</PTags>
-                    <PTags>Tag1</PTags>
-                  </div> */}
+                  <BoldSpan>Event Tags</BoldSpan>
+                  <div>
+                    {tag_name.length !== 0 ? (
+                      tag_name.map((tagged, index) => {
+                        return <PTags key={index}>{tagged}</PTags>;
+                      })
+                    ) : (
+                      <Paragraph>No tags provided for this event</Paragraph>
+                    )}
+                  </div>
                 </div>
               </TagsCardWide>
               <Button color="green">Register</Button>
