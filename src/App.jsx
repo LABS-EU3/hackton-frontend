@@ -10,7 +10,7 @@ import HackathonFormPage from "./components/views/HackathonFormPage";
 import HackathonSinglePage from "./components/views/HackathonSinglePage";
 import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
-import ParticipantSubmission from "./components/views/ParticipantSubmission";
+import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionPage";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
       </Switch>
       <ToastContainer /> */}
 
-      <ParticipantSubmission />
+      <ParticipantSubmissionPage />
     </>
   );
 }
