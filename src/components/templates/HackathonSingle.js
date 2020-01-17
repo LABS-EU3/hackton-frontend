@@ -66,8 +66,8 @@ export const RegisterCardWide = styled(CardWide)`
   height: 50%;
   border: none;
   box-shadow: none;
-  background-color: #fafafa;
-
+  background-color: #f2f2f2;
+  opacity: 1;
   button {
     margin-left: 10px;
     margin-top: 10px;
@@ -80,6 +80,7 @@ export const TagsCardWide = styled(CardWide)`
   padding: 20px;
   height: 80%;
   line-height: 30px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
   .tags-header {
     display: flex;
     flex-direction: row;
@@ -167,46 +168,13 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [registered, setRegistered] = useState(false);
+  const [eventIsOpen, setEventIsOpen] = useState(true);
   const { participantsData } = useSelector(state => state.eventParticipants);
 
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
   const event = events.find(event => event.id === Number(id));
   const { userId } = useSelector(state => state.currentUser);
-
-  useEffect(() => {
-    dispatch(fetchAllParticipants(id));
-    participantsData.filter(user => {
-      if (user.user_id !== userId) {
-        return setRegistered(false);
-      } else {
-        return setRegistered(true);
-      }
-    });
-  }, [dispatch, participantsData, userId, id]);
-
-  // Number of participants registered
-  console.log(" hacky hacks", participantsData);
-  const registeredPartcipants = participantsData.length;
-
-
-  // handles event registration
-  const handleEventRegistration = e => {
-    e.preventDefault();
-    initialState.event_id = event.id;
-    initialState.user_id = userId;
-    console.log("registration button", initialState);
-    dispatch(registerEvent(initialState, history));
-  };
-
-  // handles event unregistration
-  const handleEventUnRegistration = e => {
-    e.preventDefault();
-    initialState.event_id = event.id;
-    initialState.user_id = userId;
-    console.log("registration button", initialState);
-    dispatch(unregisterEvent(initialState, history));
-  };
 
   // Destructure object inside array
   const {
@@ -222,6 +190,69 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     organizer_email,
     organizer_name
   } = event;
+
+  // Date formatting
+  const startDate = start_date.split("T")[0];
+  const startDateArr = startDate.split("-");
+  const formattedStartDate =
+    startDateArr[2] + "-" + startDateArr[1] + "-" + startDateArr[0];
+
+  const endDate = end_date.split("T")[0];
+  const endDateArr = endDate.split("-");
+  const formattedEndDate =
+    endDateArr[2] + "-" + endDateArr[1] + "-" + endDateArr[0];
+
+  // Event is open or closed for registration
+  let dateNow = Date.now();
+  let startDateInMs = new Date(startDate).getTime();
+  let daysToEvent = Math.floor((startDateInMs - dateNow) / (1000 * 3600 * 24));
+  window.localStorage.setItem("closingDate", JSON.stringify(eventIsOpen));
+  let storedDeadline = JSON.parse(window.localStorage.getItem("closingDate"));
+
+  useEffect(() => {
+    dispatch(fetchAllParticipants(id));
+    const handleRegisterLogic = () => {
+      participantsData.filter(user => {
+        if (user.user_id !== userId) {
+          return setRegistered(false);
+        } else {
+          return setRegistered(true);
+        }
+      });
+    };
+    const handleStatusLogic = () => {
+      if (daysToEvent <= 0) {
+        window.addEventListener("load", () => {
+          document.querySelector("#disabled-register").disabled = true;
+        });
+        return setEventIsOpen(false);
+      } else {
+        return setEventIsOpen(true);
+      }
+    };
+
+    handleRegisterLogic();
+    handleStatusLogic();
+  }, [dispatch, participantsData, userId, id, daysToEvent]);
+
+  // Number of participants registered
+  const registeredPartcipants = participantsData.length;
+
+  // handles event registration
+  const handleEventRegistration = e => {
+    e.preventDefault();
+    initialState.event_id = event.id;
+    initialState.user_id = userId;
+    dispatch(registerEvent(initialState, history));
+  };
+
+  // handles event unregistration
+  const handleEventUnRegistration = e => {
+    e.preventDefault();
+    initialState.event_id = event.id;
+    initialState.user_id = userId;
+    dispatch(unregisterEvent(initialState, history));
+  };
 
   // Redacting user emails before rendering
   let redactedEmail = organizer_email.split("");
@@ -243,17 +274,6 @@ const HackathonSingle = ({ initialState = defaultState }) => {
 
   // Grab the first letter of title
   const initial = event_title[0];
-
-  // Date formatting
-  const startDate = start_date.split("T")[0];
-  const startDateArr = startDate.split("-");
-  const formattedStartDate =
-    startDateArr[2] + "-" + startDateArr[1] + "-" + startDateArr[0];
-
-  const endDate = end_date.split("T")[0];
-  const endDateArr = endDate.split("-");
-  const formattedEndDate =
-    endDateArr[2] + "-" + endDateArr[1] + "-" + endDateArr[0];
 
   const handleEditClick = e => {
     e.preventDefault();
@@ -374,9 +394,15 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   </div>
                 </div>
                 <div className="status">
-                  <BoldSpan>
-                    Status: <NormalSpan>Open</NormalSpan>
-                  </BoldSpan>
+                  {storedDeadline ? (
+                    <BoldSpan>
+                      Status: <NormalSpan>Open</NormalSpan>
+                    </BoldSpan>
+                  ) : (
+                    <BoldSpan>
+                      Status: <NormalSpan>Closed</NormalSpan>
+                    </BoldSpan>
+                  )}
                   <BoldSpan>
                     Type: <NormalSpan>{participation_type}</NormalSpan>
                   </BoldSpan>
@@ -402,7 +428,15 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   </div>
                 </div>
               </TagsCardWide>
-              {registered === false ? (
+              {!storedDeadline ? (
+                <Button
+                  style={{ border: "2px solid lightgray", color: "lightgray" }}
+                  id="disabled-register"
+                  onClick={handleEventRegistration}
+                >
+                  Register
+                </Button>
+              ) : registered === false ? (
                 <Button color="green" onClick={handleEventRegistration}>
                   Register
                 </Button>
@@ -411,9 +445,6 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   Unregister
                 </Button>
               )}
-              {/* <Button color="green" onClick={handleEventRegistration}>
-                Register
-              </Button> */}
             </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>
