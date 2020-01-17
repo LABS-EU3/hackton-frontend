@@ -12,6 +12,7 @@ import BodyContainer from "../atoms/BodyContainer";
 import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
+import { ColumnBody } from "../atoms/ColumnBody";
 import { CardWide } from "../atoms/Card";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
@@ -108,11 +109,14 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                 {({ errors, touched }) => (
                   <Form>
                     <RowBody>
+                      <ColumnBody>
+                      <label>Project Name</label>
                       <Input
                         type="text"
                         name="event_title"
                         placeholder="Title"
                       />
+                      </ColumnBody>
                       <Input
                         type="date"
                         name="start_date"
