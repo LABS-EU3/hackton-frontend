@@ -13,11 +13,11 @@ import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { CardWide } from "../atoms/Card";
+import { Paragraph } from "../atoms/Paragraph";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
 import Button from "../atoms/Button";
-import InputTag from "../atoms/TagsInput.js";
 
 import {
   createEvent,
@@ -82,6 +82,15 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
       .integer()
   });
 
+  const grading_rubrics = [
+    { value: "presentation", label: "Presentation" },
+    { value: "product_market_fit", label: "Product market fit" },
+    { value: "innovation", label: "Innovation" },
+    { value: "product_design", label: "Product design" },
+    { value: "functionality", label: "Functionality" },
+    { value: "extensibility", label: "Extensibility" }
+  ];
+
   return (
     <div>
       <UserHeader />
@@ -123,24 +132,6 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         name="team/participant_name"
                         placeholder="Team/Participant Name"
                       />
-                      {/* <Input
-                        type="date"
-                        name="start_date"
-                        placeholder="Event starts"
-                      />
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="start_date" />
-                      <Input
-                        type="date"
-                        name="end_date"
-                        placeholder="Event ends"
-                      />
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="end_date" /> */}
                     </RowBody>
 
                     <RowBody>
@@ -148,13 +139,13 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         type="text"
                         name="github_url"
                         placeholder="Github Url"
-                        style={{"width": "33%"}}
+                        style={{ width: "33%" }}
                       />
                       <Input
                         type="text"
                         name="video_url"
                         placeholder="Video Url"
-                        style={{"width": "33%"}}
+                        style={{ width: "33%" }}
                       />
                     </RowBody>
 
@@ -184,13 +175,29 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                     </RowBody>
 
                     <RowBody>
-                        <Input
-                            type="text"
-                            name="images"
-                            placeholder="Images submission"
-                            style={{"width": "100%"}}
-                        />
+                      <Input
+                        type="text"
+                        name="images"
+                        placeholder="Images submission"
+                        style={{ width: "100%" }}
+                      />
                     </RowBody>
+
+                    <div>
+                      <H3>Grading Rubrics</H3>
+                      <H4 style={{"font-size": "10px"}}>
+                        Judges will be expected to grade Project submissions on
+                        which one of the following* (tick on all that apply)
+                      </H4>
+                      <RowBody>
+                      {grading_rubrics.map(tag => (
+                        <label key={tag.value} style={{"width": "30%", "margin": "10px"}}>
+                          <input name="tags" type="checkbox" value={tag} style={{"width": "30%"}}/>
+                          <span>{tag.label}</span>
+                        </label>
+                      ))}
+                      </RowBody>
+                    </div>
 
                     <RowBody>
                       <TextArea
@@ -205,7 +212,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       ) : null}
                       <ErrorMessage name="event_description" />
                     </RowBody>
-                    
+
                     <RowBody>
                       <Button to="/dashboard" color="grey" anchor>
                         Cancel
