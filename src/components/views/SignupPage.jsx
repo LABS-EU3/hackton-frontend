@@ -1,24 +1,25 @@
 import React, { useEffect } from "react";
 import { Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import queryString from "query-string";
+
 import image from "../../assets/Signup.png";
 import { UserOnboarding } from "../templates";
 import { socialAuthLoad } from "../../store/user/actions";
-import queryString from "query-string";
 
 const SignupPage = () => {
-  const { token } = useSelector(state => state.currentUser);
+  let { search } = useLocation();
   const dispatch = useDispatch();
-  let url = useLocation();
+  const { token } = useSelector(state => state.currentUser);
 
   useEffect(() => {
-    const parsed = queryString.parse(url.search);
+    const parsed = queryString.parse(search);
     if (parsed.google || parsed.github) {
       dispatch(socialAuthLoad());
     }
-  }, []);
+  }, [search, dispatch]);
 
-  if (token !== "") {
+  if (token) {
     return <Redirect to="/dashboard" />;
   }
 

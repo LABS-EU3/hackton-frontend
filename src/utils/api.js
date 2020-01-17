@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const baseURL = "https://hackton-staging.herokuapp.com";
+const baseURL = process.env.REACT_APP_API_URL;
 
 export const axiosWithAuth = token =>
   Axios.create({

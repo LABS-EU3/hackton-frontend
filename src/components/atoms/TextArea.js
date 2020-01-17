@@ -1,9 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { Field } from "formik";
+
 import * as Fonts from "../variables/fonts";
 import * as Colors from "../variables/colors";
 
-const I = styled.textarea`
+const I = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+${({ wide }) =>
+    wide &&
+    `
+    width: 100%;
+  `};
+textarea{
   ${Fonts.type.ROBOTO_MONO};
   font-size: 16px;
   font-weight: 500;
@@ -19,11 +30,14 @@ const I = styled.textarea`
     `
     width: 100%;
   `};
+}
 `;
 
-const TextArea = ({ type, placeholder, wide, ...inputProps }) => {
+const TextArea = ({ wide, ...inputProps }) => {
   return (
-    <I type={type} placeholder={placeholder} wide={wide} {...inputProps} />
+    <I wide>
+<Field {...inputProps} />
+    </I>
   );
 };
 

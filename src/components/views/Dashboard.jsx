@@ -8,9 +8,9 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     dispatch(fetchAllEvents());
-  }, []);
+  }, [dispatch]);
 
-  return <EventOnboarding user="Mildred Pascal" />;
+  return <EventOnboarding />;
 };
 
 export default Dashboard;

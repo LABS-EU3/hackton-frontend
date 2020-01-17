@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`It should render <Footer/> template correctly renders the Footer templatet correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sc-bdVaJa bDiKvh"
+      >
+        <div
+          class="sc-bwzfXH ldOoJf"
+        >
+          <div>
+            <img
+              alt="LinkedIn"
+              class="sc-htpNat hwcHdo"
+              src="Icon-linkedin.png"
+            />
+            <img
+              alt="Twitter"
+              class="sc-htpNat hwcHdo"
+              src="Icon-twitter.png"
+            />
+            <img
+              alt="Facebook"
+              class="sc-htpNat hwcHdo"
+              src="Icon-facebook.png"
+            />
+          </div>
+          <div>
+            <a
+              class="sc-EHOje sc-gzVnrw iKqYXF"
+              href="#"
+            >
+              Team
+            </a>
+            <a
+              class="sc-EHOje sc-gzVnrw iKqYXF"
+              href="#"
+            >
+              Privacy
+            </a>
+            <a
+              class="sc-EHOje sc-gzVnrw iKqYXF"
+              href="#"
+            >
+              Contacts
+            </a>
+          </div>
+          <div>
+            <p
+              class="sc-htoDjs sc-dnqmqq fMTgah"
+            >
+              International Crafters © 2020
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sc-bdVaJa bDiKvh"
+    >
+      <div
+        class="sc-bwzfXH ldOoJf"
+      >
+        <div>
+          <img
+            alt="LinkedIn"
+            class="sc-htpNat hwcHdo"
+            src="Icon-linkedin.png"
+          />
+          <img
+            alt="Twitter"
+            class="sc-htpNat hwcHdo"
+            src="Icon-twitter.png"
+          />
+          <img
+            alt="Facebook"
+            class="sc-htpNat hwcHdo"
+            src="Icon-facebook.png"
+          />
+        </div>
+        <div>
+          <a
+            class="sc-EHOje sc-gzVnrw iKqYXF"
+            href="#"
+          >
+            Team
+          </a>
+          <a
+            class="sc-EHOje sc-gzVnrw iKqYXF"
+            href="#"
+          >
+            Privacy
+          </a>
+          <a
+            class="sc-EHOje sc-gzVnrw iKqYXF"
+            href="#"
+          >
+            Contacts
+          </a>
+        </div>
+        <div>
+          <p
+            class="sc-htoDjs sc-dnqmqq fMTgah"
+          >
+            International Crafters © 2020
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

@@ -1,12 +1,12 @@
+import jwtDecode from "jwt-decode";
+
 export const UserTypes = {
   LOGIN: "LOGIN",
-  LOGIN_SUCCESS: "LOGIN_SUCCESS",
-  LOGIN_FAIL: "LOGIN_FAIL",
   REGISTER: "REGISTER",
-  REGISTER_SUCCESS: "REGISTER_SUCCESS",
-  REGISTER_FAIL: "REGISTER_FAIL",
-  SOCIAL_AUTH_LOAD: "SOCIAL_AUTH_LOAD",
-  SOCIAL_AUTH_SUCCESS: "SOCIAL_AUTH_SUCCESS"
+  SOCIAL_AUTH: "SOCIAL_AUTH",
+  SET_USER: "SET_USER",
+  RESET_USER: "RESET_USER",
+  USER_ERROR: "USER_ERROR"
 };
 
 export const login = (email, password, history) => {
@@ -14,20 +14,6 @@ export const login = (email, password, history) => {
     type: UserTypes.LOGIN,
     payload: { email, password },
     history
-  };
-};
-
-export const loginSuccess = user => {
-  return {
-    type: UserTypes.LOGIN_SUCCESS,
-    payload: user
-  };
-};
-
-export const loginFail = errorMessage => {
-  return {
-    type: UserTypes.LOGIN_FAIL,
-    error: errorMessage
   };
 };
 
@@ -39,28 +25,28 @@ export const register = (email, password, history) => {
   };
 };
 
-export const registerSuccess = user => {
-  return {
-    type: UserTypes.REGISTER_SUCCESS,
-    payload: user
-  };
-};
-
-export const registerFail = errorMessage => {
-  return {
-    type: UserTypes.REGISTER_FAIL,
-    error: errorMessage
-  };
-};
-
 export const socialAuthLoad = () => {
   return {
-    type: UserTypes.SOCIAL_AUTH_LOAD
+    type: UserTypes.SOCIAL_AUTH
   };
 };
-export const socialAuthSuccess = user => {
+
+export const setUser = token => {
+  const { email, userId } = jwtDecode(token);
+
   return {
-    type: UserTypes.SOCIAL_AUTH_SUCCESS,
-    payload: user
+    type: UserTypes.SET_USER,
+    payload: { token, email, userId }
+  };
+};
+
+export const resetUser = () => {
+  return { type: UserTypes.RESET_USER };
+};
+
+export const userError = error => {
+  console.error("ERROR: ", error.message);
+  return {
+    type: UserTypes.USER_ERROR
   };
 };
