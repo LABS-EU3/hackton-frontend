@@ -91,6 +91,13 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
     { value: "extensibility", label: "Extensibility" }
   ];
 
+  const submission_requirements = [
+    { value: "video", label: "video" },
+    { value: "url", label: "URL" },
+    { value: "images", label: "Images" },
+    { value: "writeups", label: "Write Ups" }
+  ];
+
   return (
     <div>
       <UserHeader />
@@ -185,17 +192,25 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
 
                     <div>
                       <H3>Grading Rubrics</H3>
-                      <H4 style={{"font-size": "10px"}}>
-                        Judges will be expected to grade Project submissions on
-                        which one of the following* (tick on all that apply)
+                      <H4 style={{ "font-size": "13px" }}>
+                        *Judges will be expected to grade Project submissions on
+                        which one of the following (tick on all that apply)
                       </H4>
                       <RowBody>
-                      {grading_rubrics.map(tag => (
-                        <label key={tag.value} style={{"width": "30%", "margin": "10px"}}>
-                          <input name="tags" type="checkbox" value={tag} style={{"width": "30%"}}/>
-                          <span>{tag.label}</span>
-                        </label>
-                      ))}
+                        {grading_rubrics.map(tag => (
+                          <label
+                            key={tag.value}
+                            style={{ width: "30%", margin: "10px" }}
+                          >
+                            <input
+                              name="tags"
+                              type="checkbox"
+                              value={tag}
+                              style={{ width: "30%" }}
+                            />
+                            <span>{tag.label}</span>
+                          </label>
+                        ))}
                       </RowBody>
                     </div>
 
@@ -212,6 +227,30 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       ) : null}
                       <ErrorMessage name="event_description" />
                     </RowBody>
+
+                    <div>
+                      <H3>Project Submission Requirements</H3>
+                      <H4 style={{ "font-size": "13px" }}>
+                        *Participants will be required to submit which one of
+                        the following (tick on all that apply)
+                      </H4>
+                      <RowBody>
+                        {grading_rubrics.map(tag => (
+                          <label
+                            key={tag.value}
+                            style={{ width: "30%", margin: "10px" }}
+                          >
+                            <input
+                              name="tags"
+                              type="checkbox"
+                              value={tag}
+                              style={{ width: "30%" }}
+                            />
+                            <span>{tag.label}</span>
+                          </label>
+                        ))}
+                      </RowBody>
+                    </div>
 
                     <RowBody>
                       <Button to="/dashboard" color="grey" anchor>
