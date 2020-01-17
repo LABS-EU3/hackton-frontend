@@ -286,9 +286,6 @@ const HackathonForm = ({ initialState = defaultState }) => {
                         <Label htmlFor="extensibility">Extensibility</Label>
                       </div>
 
-                      <Paragraph>
-                        *10 star rating system is used in each metric.
-                      </Paragraph>
                     </RowBody>
                     <RowBody>
                       <Label htmlFor="guidelines">Guidelines</Label>

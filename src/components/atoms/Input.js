@@ -14,6 +14,11 @@ const I = styled(Field)`
   width: 180px;
   margin: 0 20px 10px 0;
 
+  &:focus {
+    transition: all 0.5s;
+    box-shadow: 0 0 3px #ddd;
+  }
+
   ${({ display }) =>
     display === "wide" &&
     `

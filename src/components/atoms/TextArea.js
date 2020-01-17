@@ -23,6 +23,11 @@ const I = styled.div`
     margin: 0 0 10px 0;
     min-height: 100px;
 
+    &:focus {
+      transition: all 0.5s;
+      box-shadow: 0 0 3px #ddd;
+    }
+
     ${({ wide }) =>
       wide &&
       `
