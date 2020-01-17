@@ -12,7 +12,6 @@ import BodyContainer from "../atoms/BodyContainer";
 import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
-import { ColumnBody } from "../atoms/ColumnBody";
 import { CardWide } from "../atoms/Card";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
@@ -109,15 +108,22 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                 {({ errors, touched }) => (
                   <Form>
                     <RowBody>
-                      <ColumnBody>
-                      <label>Project Name</label>
                       <Input
                         type="text"
-                        name="event_title"
-                        placeholder="Title"
+                        name="project_name"
+                        placeholder="Project Name"
                       />
-                      </ColumnBody>
                       <Input
+                        type="text"
+                        name="participation_type"
+                        placeholder="Participation Type"
+                      />
+                      <Input
+                        type="text"
+                        name="team/participant_name"
+                        placeholder="Team/Participant Name"
+                      />
+                      {/* <Input
                         type="date"
                         name="start_date"
                         placeholder="Event starts"
@@ -134,8 +140,24 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       {errors.name && touched.name ? (
                         <div>{errors.name}</div>
                       ) : null}
-                      <ErrorMessage name="end_date" />
+                      <ErrorMessage name="end_date" /> */}
                     </RowBody>
+
+                    <RowBody>
+                      <Input
+                        type="text"
+                        name="github_url"
+                        placeholder="Github Url"
+                        style={{"width": "33%"}}
+                      />
+                      <Input
+                        type="text"
+                        name="video_url"
+                        placeholder="Video Url"
+                        style={{"width": "33%"}}
+                      />
+                    </RowBody>
+
                     <RowBody>
                       <Select name="participation_type">
                         <option value="">Participation Type</option>
@@ -148,7 +170,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       ) : null}
                       <ErrorMessage name="participation_type" />
                       <Select name="event_category">
-                        <option value="">Event Category</option>
+                        <option value="">Hackathon Category</option>
                         {categories.map(({ id, category_name }) => (
                           <option key={id} value={id}>
                             {category_name}
@@ -158,50 +180,32 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       {errors.name && touched.name ? (
                         <div>{errors.name}</div>
                       ) : null}
-
                       <ErrorMessage name="event_category" />
                     </RowBody>
+
                     <RowBody>
-                      {" "}
-                      <InputTag />
+                        <Input
+                            type="text"
+                            name="images"
+                            placeholder="Images submission"
+                            style={{"width": "100%"}}
+                        />
                     </RowBody>
+
                     <RowBody>
                       <TextArea
                         wide
                         as="textarea"
                         type="text"
-                        name="event_description"
-                        placeholder="Description"
+                        name="writeup"
+                        placeholder="Project Writeup"
                       />
                       {errors.name && touched.name ? (
                         <div>{errors.name}</div>
                       ) : null}
                       <ErrorMessage name="event_description" />
                     </RowBody>
-                    <RowBody>
-                      <Input
-                        type="text"
-                        name="location"
-                        placeholder="Address"
-                      />
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="location" />
-                    </RowBody>
-                    <RowBody>
-                      <TextArea
-                        wide
-                        as="textarea"
-                        type="text"
-                        name="guidelines"
-                        placeholder="Guidelines"
-                      />
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="guidelines" />
-                    </RowBody>
+                    
                     <RowBody>
                       <Button to="/dashboard" color="grey" anchor>
                         Cancel
