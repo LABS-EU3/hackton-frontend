@@ -434,7 +434,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   id="disabled-register"
                   onClick={handleEventRegistration}
                 >
-                  Register
+                  Registration Closed
                 </Button>
               ) : registered === false ? (
                 <Button color="green" onClick={handleEventRegistration}>
