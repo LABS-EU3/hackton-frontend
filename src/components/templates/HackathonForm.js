@@ -21,6 +21,7 @@ import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import { Paragraph } from "../atoms/Paragraph";
 import { ErrorSpan } from "../atoms/Span";
+import InputTag from "../atoms/TagsInput.js";
 
 import {
   createEvent,
@@ -39,6 +40,7 @@ const defaultState = {
   end_date: "",
   event_description: "",
   location: "",
+  tag_name: [],
   guidelines: "",
   participation_type: "team",
   category_id: 1
@@ -53,9 +55,13 @@ const HackathonForm = ({ initialState = defaultState }) => {
   }, [dispatch]);
 
   const handleSubmit = values => {
+    let tagss = JSON.parse(window.localStorage.getItem("tags"));
+
     if (values.title !== "" && !values.id) {
+      values.tag_name = tagss;
       dispatch(createEvent(values, history));
     } else if (values.title !== "" && values.id) {
+      values.tag_name = tagss;
       dispatch(updateEvent(values, history));
     }
   };
@@ -149,6 +155,10 @@ const HackathonForm = ({ initialState = defaultState }) => {
                           <ErrorMessage name="end_date" />
                         </ErrorSpan>
                       </Column>
+                    </RowBody>
+                    <RowBody>
+                      {" "}
+                      <InputTag />
                     </RowBody>
                     <RowBody>
                       <Label htmlFor="event_description">Description</Label>
