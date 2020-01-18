@@ -23,7 +23,6 @@ const S = styled(Field)`
   }
 `;
 
-
 const Select = ({ as = "select", ...inputProps }) => {
   return <S as={as} {...inputProps}></S>;
 };
