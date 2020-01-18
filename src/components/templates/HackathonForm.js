@@ -16,6 +16,8 @@ import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
+import CheckGroup from "../molecules/CheckGroup";
+import Checkbox from "../atoms/Checkbox";
 import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
 import Button from "../atoms/Button";
@@ -157,10 +159,6 @@ const HackathonForm = ({ initialState = defaultState }) => {
                       </Column>
                     </RowBody>
                     <RowBody>
-                      {" "}
-                      <InputTag />
-                    </RowBody>
-                    <RowBody>
                       <Label htmlFor="event_description">Description</Label>
                       <TextArea
                         wide
@@ -175,6 +173,11 @@ const HackathonForm = ({ initialState = defaultState }) => {
                       <ErrorSpan>
                         <ErrorMessage name="event_description" />
                       </ErrorSpan>
+                    </RowBody>
+                    <RowBody>
+                      {" "}
+                      <Label htmlFor="input_tags">Tags</Label>
+                      <InputTag id="input_tags" />
                     </RowBody>
                     <RowBody>
                       <Column>
@@ -242,60 +245,35 @@ const HackathonForm = ({ initialState = defaultState }) => {
                         which one of the following* (tick on all that apply)
                       </Paragraph>
 
-                      <div>
-                        <input
-                          id="presentation"
-                          name="presentation"
-                          type="checkbox"
-                        />
+                      <CheckGroup>
+                        <Checkbox name="presentation" />
                         <Label htmlFor="presentation">Presentation</Label>
-                      </div>
+                      </CheckGroup>
 
-                      <div>
-                        <input
-                          id="market_fit"
-                          name="market_fit"
-                          type="checkbox"
-                        />
+                      <CheckGroup>
+                        <Checkbox name="market_fit" />
                         <Label htmlFor="market_fit">Product Market Fit</Label>
-                      </div>
+                      </CheckGroup>
 
-                      <div>
-                        <input
-                          id="innovation"
-                          name="innovation"
-                          type="checkbox"
-                        />
+                      <CheckGroup>
+                        <Checkbox name="innovation" />
                         <Label htmlFor="innovation">Innovation</Label>
-                      </div>
+                      </CheckGroup>
 
-                      <div>
-                        <input
-                          id="product_design"
-                          name="product_design"
-                          type="checkbox"
-                        />
+                      <CheckGroup>
+                        <Checkbox name="product_design" />
                         <Label htmlFor="product_design">Product Design</Label>
-                      </div>
+                      </CheckGroup>
 
-                      <div>
-                        <input
-                          id="functionality"
-                          name="functionality"
-                          type="checkbox"
-                        />
+                      <CheckGroup>
+                        <Checkbox name="functionality" />
                         <Label htmlFor="functionality">Functionality</Label>
-                      </div>
+                      </CheckGroup>
 
-                      <div>
-                        <input
-                          id="extensibility"
-                          name="extensibility"
-                          type="checkbox"
-                        />
+                      <CheckGroup>
+                        <Checkbox name="extensibility" />
                         <Label htmlFor="extensibility">Extensibility</Label>
-                      </div>
-
+                      </CheckGroup>
                     </RowBody>
                     <RowBody>
                       <Label htmlFor="guidelines">Guidelines</Label>
@@ -322,25 +300,25 @@ const HackathonForm = ({ initialState = defaultState }) => {
                         following (tick on all that apply)
                       </Paragraph>
 
-                      <div>
-                        <input id="video" name="video" type="checkbox" />
+                      <CheckGroup short>
+                        <Checkbox name="video" />
                         <Label htmlFor="video">Video</Label>
-                      </div>
+                      </CheckGroup>
 
-                      <div>
-                        <input id="url" name="url" type="checkbox" />
+                      <CheckGroup short>
+                        <Checkbox name="url" />
                         <Label htmlFor="url">URL</Label>
-                      </div>
+                      </CheckGroup>
 
-                      <div>
-                        <input id="images" name="images" type="checkbox" />
+                      <CheckGroup short>
+                        <Checkbox name="images" />
                         <Label htmlFor="images">Images</Label>
-                      </div>
+                      </CheckGroup>
 
-                      <div>
-                        <input id="writeups" name="writeups" type="checkbox" />
+                      <CheckGroup short>
+                        <Checkbox name="writeups" />
                         <Label htmlFor="writeups">Writeups</Label>
-                      </div>
+                      </CheckGroup>
                     </RowBody>
                     <RowBody>
                       <Link to="/dashboard">
