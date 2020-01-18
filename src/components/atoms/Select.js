@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Field } from "formik";
+import { media } from "../index";
 
 import * as Fonts from "../variables/fonts";
 import * as Colors from "../variables/colors";
@@ -15,7 +16,13 @@ const S = styled(Field)`
   padding: 10px;
   width: 200px;
   margin: 0 20px 10px 0;
+
+  @media ${media.mobile} {
+    width: 80%;
+    align-self: center;
+  }
 `;
+
 
 const Select = ({ as = "select", ...inputProps }) => {
   return <S as={as} {...inputProps}></S>;
