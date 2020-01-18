@@ -26,6 +26,12 @@ const I = styled(Field)`
     width: 100%;
     margin-right: 0;
   }
+
+  @media ${media.mobile} {
+    width: 80%;
+    align-self: center;
+    /* margin-right: 0; */
+  }
 `;
 
 const Input = ({ ...inputProps }) => {
