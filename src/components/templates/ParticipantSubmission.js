@@ -154,7 +154,6 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         type="text"
                         name="images"
                         placeholder="Images submission"
-                        style={{ width: "100%" }}
                       />
                     </RowBody>
 
