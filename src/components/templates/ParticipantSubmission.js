@@ -13,7 +13,6 @@ import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { CardWide } from "../atoms/Card";
-import { Paragraph } from "../atoms/Paragraph";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
@@ -31,15 +30,11 @@ const BodyContainerColumn = styled(BodyContainer)`
 `;
 
 const defaultState = {
-  event_title: "",
-  start_date: "",
-  end_date: "",
-  event_description: "",
-  location: "",
-  tag_name: [],
-  guidelines: "",
-  participation_type: "team",
-  category_id: 1
+  project_name: "",
+  team_or_participant_name: "",
+  participation_type: "",
+  event_category: "",
+  writeup: ""
 };
 
 const ParticipantSubmission = ({ initialState = defaultState }) => {
@@ -63,40 +58,20 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
   };
 
   const schema = Yup.object().shape({
-    event_title: Yup.string()
-      .min(10, "title must be atleast 10 characters")
+    project_name: Yup.string()
+      .min(3, "project name must be atleast 3 characters")
       .required("title is required"),
-    start_date: Yup.string().required("start date is required"),
-    end_date: Yup.string().required("end date is required"),
-    event_description: Yup.string()
-      .min(50, "description must be atleast 50 characters")
-      .required("description is required"),
-    location: Yup.string().required("location is required"),
-    guidelines: Yup.string()
-      .min(50, "guidelines must be atleast 50 characters")
-      .required("guidelines is required"),
-    participation_type: Yup.string().required("participation type is required"),
-    category_id: Yup.number()
-      .required("select event category")
-      .positive()
-      .integer()
+    team_or_participant_name: Yup.string()
+      .min(2, "Team/participants name must be atleast 2 characters")
+      .required("Team/participants name is required"),
+    participation_type: Yup.string()
+      .required("Participation type is required"),
+    event_category: Yup.string()
+      .required("Event category is required"),
+    writeup: Yup.string()
+        .min(50, "project writeup must be atleast 50 characters")
+        .required("project writeup is required"),
   });
-
-  const grading_rubrics = [
-    { value: "presentation", label: "Presentation" },
-    { value: "product_market_fit", label: "Product market fit" },
-    { value: "innovation", label: "Innovation" },
-    { value: "product_design", label: "Product design" },
-    { value: "functionality", label: "Functionality" },
-    { value: "extensibility", label: "Extensibility" }
-  ];
-
-  const submission_requirements = [
-    { value: "video", label: "video" },
-    { value: "url", label: "URL" },
-    { value: "images", label: "Images" },
-    { value: "writeups", label: "Write Ups" }
-  ];
 
   return (
     <div>
@@ -131,12 +106,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       />
                       <Input
                         type="text"
-                        name="participation_type"
-                        placeholder="Participation Type"
-                      />
-                      <Input
-                        type="text"
-                        name="team/participant_name"
+                        name="team_or_participant_name"
                         placeholder="Team/Participant Name"
                       />
                     </RowBody>
@@ -190,30 +160,6 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       />
                     </RowBody>
 
-                    <div>
-                      <H3>Grading Rubrics</H3>
-                      <H4 style={{ "font-size": "13px" }}>
-                        *Judges will be expected to grade Project submissions on
-                        which one of the following (tick on all that apply)
-                      </H4>
-                      <RowBody>
-                        {grading_rubrics.map(tag => (
-                          <label
-                            key={tag.value}
-                            style={{ width: "30%", margin: "10px" }}
-                          >
-                            <input
-                              name="tags"
-                              type="checkbox"
-                              value={tag}
-                              style={{ width: "30%" }}
-                            />
-                            <span>{tag.label}</span>
-                          </label>
-                        ))}
-                      </RowBody>
-                    </div>
-
                     <RowBody>
                       <TextArea
                         wide
@@ -227,30 +173,6 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       ) : null}
                       <ErrorMessage name="event_description" />
                     </RowBody>
-
-                    <div>
-                      <H3>Project Submission Requirements</H3>
-                      <H4 style={{ "font-size": "13px" }}>
-                        *Participants will be required to submit which one of
-                        the following (tick on all that apply)
-                      </H4>
-                      <RowBody>
-                        {grading_rubrics.map(tag => (
-                          <label
-                            key={tag.value}
-                            style={{ width: "30%", margin: "10px" }}
-                          >
-                            <input
-                              name="tags"
-                              type="checkbox"
-                              value={tag}
-                              style={{ width: "30%" }}
-                            />
-                            <span>{tag.label}</span>
-                          </label>
-                        ))}
-                      </RowBody>
-                    </div>
 
                     <RowBody>
                       <Button to="/dashboard" color="grey" anchor>
