@@ -209,6 +209,9 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   window.localStorage.setItem("closingDate", JSON.stringify(eventIsOpen));
   let storedDeadline = JSON.parse(window.localStorage.getItem("closingDate"));
 
+  // window.localStorage.setItem("ProjectSubmissionclosingDate", JSON.stringify(eventIsOpen));
+  // let projectSubmissionDeadline = JSON.parse(window.localStorage.getItem("ProjectSubmissionclosingDate"))
+
   useEffect(() => {
     dispatch(fetchAllParticipants(id));
     const handleRegisterLogic = () => {
@@ -447,9 +450,14 @@ const HackathonSingle = ({ initialState = defaultState }) => {
               )}
 
               <Link to={`/dashboard/event/${id}/participant_submission`}>
-                <Button color="blue">
-                  Submit Project
+                { !storedDeadline ? (
+                <Button color="gray" disabled>
+                  Project Submission Closed
                 </Button>
+                ) : (<Button color="blue">
+                Submit Project
+              </Button>
+                )}
               </Link>
             </RegisterCardWide>
           </RowBody>
