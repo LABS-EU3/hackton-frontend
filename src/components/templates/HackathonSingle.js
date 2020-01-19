@@ -446,9 +446,11 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                 </Button>
               )}
 
-              <Button color="blue">
-                Submit Project
-              </Button>
+              <Link to={`/dashboard/event/${id}/participant_submission`}>
+                <Button color="blue">
+                  Submit Project
+                </Button>
+              </Link>
             </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>
