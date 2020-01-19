@@ -170,6 +170,8 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   const [registered, setRegistered] = useState(false);
   const [eventIsOpen, setEventIsOpen] = useState(true);
   const { participantsData } = useSelector(state => state.eventParticipants);
+  const [submissionIsClosed, setSubmissionIsClosed] = useState(false);
+
 
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
@@ -209,7 +211,10 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   window.localStorage.setItem("closingDate", JSON.stringify(eventIsOpen));
   let storedDeadline = JSON.parse(window.localStorage.getItem("closingDate"));
 
-  // window.localStorage.setItem("ProjectSubmissionclosingDate", JSON.stringify(eventIsOpen));
+  let closedDate = new Date(endDate).getTime();
+  let daysToEndDate = closedDate - dateNow
+  console.log(daysToEndDate)
+  // window.localStorage.setItem("ProjectSubmissionclosingDate", JSON.stringify(formattedEndDate));
   // let projectSubmissionDeadline = JSON.parse(window.localStorage.getItem("ProjectSubmissionclosingDate"))
 
   useEffect(() => {
@@ -450,7 +455,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
               )}
 
               <Link to={`/dashboard/event/${id}/participant_submission`}>
-                { !storedDeadline ? (
+                { daysToEndDate < 0 ? (
                 <Button color="gray" disabled>
                   Project Submission Closed
                 </Button>

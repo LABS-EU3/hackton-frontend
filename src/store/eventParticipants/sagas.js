@@ -12,7 +12,7 @@ import {
 const selectToken = state => state.currentUser.token;
 
 function* fetchAllParticipantsAsync({ payload }) {
-    console.log("sagas id", payload);
+    // console.log("sagas id", payload);
   try {
     const token = yield select(selectToken);
     const {
@@ -36,7 +36,7 @@ function* watchFetchAllEventParticipants() {
 
 function* registerEventAsync({ payload, history }) {
   try {
-    console.log("register id", payload);
+    // console.log("register id", payload);
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
       `/api/events/${payload.event_id}/participants`,
@@ -57,7 +57,7 @@ function* WatchRegisterEvent() {
 }
 
 function* unregisterEventAsync({ payload, history }) {
-    console.log("unregister id", payload);
+    // console.log("unregister id", payload);
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).delete(
