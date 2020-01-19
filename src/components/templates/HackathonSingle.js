@@ -170,8 +170,6 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   const [registered, setRegistered] = useState(false);
   const [eventIsOpen, setEventIsOpen] = useState(true);
   const { participantsData } = useSelector(state => state.eventParticipants);
-  const [submissionIsClosed, setSubmissionIsClosed] = useState(false);
-
 
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
@@ -213,9 +211,6 @@ const HackathonSingle = ({ initialState = defaultState }) => {
 
   let closedDate = new Date(endDate).getTime();
   let daysToEndDate = closedDate - dateNow
-  console.log(daysToEndDate)
-  // window.localStorage.setItem("ProjectSubmissionclosingDate", JSON.stringify(formattedEndDate));
-  // let projectSubmissionDeadline = JSON.parse(window.localStorage.getItem("ProjectSubmissionclosingDate"))
 
   useEffect(() => {
     dispatch(fetchAllParticipants(id));
