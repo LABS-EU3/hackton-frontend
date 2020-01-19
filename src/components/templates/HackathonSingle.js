@@ -445,6 +445,10 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   Unregister
                 </Button>
               )}
+
+              <Button color="blue">
+                Submit Project
+              </Button>
             </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>
