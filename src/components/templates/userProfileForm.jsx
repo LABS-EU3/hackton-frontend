@@ -23,6 +23,9 @@ import Button from "../atoms/Button";
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
 `;
+const NewLabel = styled(Label)`
+padding-left: 3px;
+`;
 
 const defaultState = {
   first_name: "",
@@ -63,7 +66,7 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                   <Form>
                     <RowBody>
                       <Column>
-                        <Label htmlFor="first_name">First Name</Label>
+                        <NewLabel htmlFor="first_name">First Name</NewLabel>
                         <Input
                           type="text"
                           name="first_name"
@@ -71,7 +74,7 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                         />
                       </Column>
                       <Column>
-                        <Label htmlFor="last_name">Last Name</Label>
+                        <NewLabel htmlFor="last_name">Last Name</NewLabel>
                         <Input
                           type="text"
                           name="last_name"
@@ -81,7 +84,7 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                     </RowBody>
                     <RowBody>
                       <Column>
-                        <Label htmlFor="email">Email</Label>
+                        <NewLabel htmlFor="email">Email</NewLabel>
                         <Input type="text" name="email" placeholder="Email" />
                         {errors.name && touched.name ? (
                           <div>{errors.name}</div>
@@ -89,7 +92,7 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                         <ErrorMessage name="email" />
                       </Column>
                       <Column>
-                        <Label htmlFor="username">Username</Label>
+                        <NewLabel htmlFor="username">Username</NewLabel>
                         <Input
                           type="text"
                           name="username"
@@ -102,7 +105,7 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                       </Column>
                     </RowBody>
                     <RowBody>
-                      <Label htmlFor="bio">Bio</Label>
+                      <NewLabel htmlFor="bio">Bio</NewLabel>
                       <TextArea
                         wide
                         as="textarea"
