@@ -27,4 +27,4 @@ export function* ParticipantsSubmissionSagas() {
     yield all([
       call(watchCreateParticipantSubmission)
     ]);
-  }
+}
