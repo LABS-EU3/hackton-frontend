@@ -16,7 +16,6 @@ import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
-import CheckGroup from "../molecules/CheckGroup";
 import Checkbox from "../atoms/Checkbox";
 import TextArea from "../atoms/TextArea";
 import Select from "../atoms/Select";
@@ -60,7 +59,6 @@ const HackathonForm = ({ initialState = defaultState }) => {
 
   const handleSubmit = values => {
     let tagss = JSON.parse(window.localStorage.getItem("tags"));
-    console.log("Form values: ", values);
     if (values.title !== "" && !values.id) {
       values.tag_name = tagss;
       dispatch(createEvent(values, history));
@@ -247,35 +245,11 @@ const HackathonForm = ({ initialState = defaultState }) => {
                         which one of the following* (tick on all that apply)
                       </Paragraph>
 
-                      <CheckGroup>
-                        <Checkbox name="rubrics" value="presentation" />
-                        <Label htmlFor="presentation">Presentation</Label>
-                      </CheckGroup>
-
-                      <CheckGroup>
-                        <Checkbox name="rubrics" value="market_fit" />
-                        <Label htmlFor="market_fit">Product Market Fit</Label>
-                      </CheckGroup>
-
-                      <CheckGroup>
-                        <Checkbox name="rubrics" value="innovation" />
-                        <Label htmlFor="innovation">Innovation</Label>
-                      </CheckGroup>
-
-                      <CheckGroup>
-                        <Checkbox name="rubrics" value="product_design" />
-                        <Label htmlFor="product_design">Product Design</Label>
-                      </CheckGroup>
-
-                      <CheckGroup>
-                        <Checkbox name="rubrics" value="functionality" />
-                        <Label htmlFor="functionality">Functionality</Label>
-                      </CheckGroup>
-
-                      <CheckGroup>
-                        <Checkbox name="rubrics" value="extensibility" />
-                        <Label htmlFor="extensibility">Extensibility</Label>
-                      </CheckGroup>
+                        <Checkbox name="rubrics" value='presentation' label="Presentation" />
+                        <Checkbox name="rubrics" value="market_fit" label="Market Fit" />
+                        <Checkbox name="rubrics" value="innovation" label="Innovation" />
+                        <Checkbox name="rubrics" value="product_design" label="Product Design" />
+                        <Checkbox name="rubrics" value="extensibility" label="Extensibility" />
                     </RowBody>
                     <RowBody>
                       <Label htmlFor="guidelines">Guidelines</Label>
@@ -302,25 +276,11 @@ const HackathonForm = ({ initialState = defaultState }) => {
                         following (tick on all that apply)
                       </Paragraph>
 
-                      <CheckGroup short>
-                        <Checkbox name="requirements" value="video" />
-                        <Label htmlFor="video">Video</Label>
-                      </CheckGroup>
+                        <Checkbox name="requirements" value="video" label="Video" />
+                        <Checkbox name="requirements" value="url" label="URL" />
+                        <Checkbox name="requirements" value="images" label="Images" />
+                        <Checkbox name="requirements" value="writeups" label="Writeups" />
 
-                      <CheckGroup short>
-                        <Checkbox name="requirements" value="url" />
-                        <Label htmlFor="url">URL</Label>
-                      </CheckGroup>
-
-                      <CheckGroup short>
-                        <Checkbox name="requirements" value="images" />
-                        <Label htmlFor="images">Images</Label>
-                      </CheckGroup>
-
-                      <CheckGroup short>
-                        <Checkbox name="requirements" value="writeups" />
-                        <Label htmlFor="writeups">Writeups</Label>
-                      </CheckGroup>
                     </RowBody>
                     <RowBody>
                       <Link to="/dashboard">
