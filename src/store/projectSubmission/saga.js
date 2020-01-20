@@ -5,7 +5,7 @@ import { ProjectSubmissionTypes, createSubmission, fetchAllSubmissions, submissi
 
 const userToken = state => state.currentUser.token;
 
-function createProjectSubmissionAsync({ payload, history }) {
+function* createProjectSubmissionAsync({ payload, history }) {
     try {
         const token = yield select(userToken);
         const { data } = yield axiosWithAuth(token).post(`/api/events/${payload.event_id}/projects/submissions`, payload);
@@ -17,4 +17,8 @@ function createProjectSubmissionAsync({ payload, history }) {
         yield put(submissionsError(error.message));
         toast.error(`⚠️ ${error.message}`);
     }
+}
+
+function* watchCreateProjectSubmission() {
+    yield takeLatest(ProjectSubmissionTypes.CREATE_SUBMISSION, createProjectSubmissionAsync)
 }
