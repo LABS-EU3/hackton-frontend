@@ -1,5 +1,6 @@
 export const ProjectSubmissionTypes = {
-    CREATE_EVENT: "CREATE_EVENT"
+    CREATE_EVENT: "CREATE_EVENT",
+    FETCH_ALL_SUBMISSIONS: "FETCH_ALL_SUBMISSIONS"
 }
 
 export const createEvent = (eventData, history) => {
@@ -8,4 +9,11 @@ export const createEvent = (eventData, history) => {
         payload: eventData,
         history
     };
+}
+
+export const fetchAllSubmissions = ( id ) => {
+    return {
+        type: ProjectSubmissionTypes.FETCH_ALL_SUBMISSIONS,
+        payload: id
+    }
 }
