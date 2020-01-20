@@ -43,8 +43,10 @@ const defaultState = {
   event_description: "",
   location: "",
   tag_name: [],
+  rubrics: [],
+  requirements: [],
   guidelines: "",
-  participation_type: "team",
+  participation_type: "individual",
   category_id: 1
 };
 
@@ -58,7 +60,7 @@ const HackathonForm = ({ initialState = defaultState }) => {
 
   const handleSubmit = values => {
     let tagss = JSON.parse(window.localStorage.getItem("tags"));
-
+    console.log("Form values: ", values);
     if (values.title !== "" && !values.id) {
       values.tag_name = tagss;
       dispatch(createEvent(values, history));
@@ -246,32 +248,32 @@ const HackathonForm = ({ initialState = defaultState }) => {
                       </Paragraph>
 
                       <CheckGroup>
-                        <Checkbox name="presentation" />
+                        <Checkbox name="rubrics" value="presentation" />
                         <Label htmlFor="presentation">Presentation</Label>
                       </CheckGroup>
 
                       <CheckGroup>
-                        <Checkbox name="market_fit" />
+                        <Checkbox name="rubrics" value="market_fit" />
                         <Label htmlFor="market_fit">Product Market Fit</Label>
                       </CheckGroup>
 
                       <CheckGroup>
-                        <Checkbox name="innovation" />
+                        <Checkbox name="rubrics" value="innovation" />
                         <Label htmlFor="innovation">Innovation</Label>
                       </CheckGroup>
 
                       <CheckGroup>
-                        <Checkbox name="product_design" />
+                        <Checkbox name="rubrics" value="product_design" />
                         <Label htmlFor="product_design">Product Design</Label>
                       </CheckGroup>
 
                       <CheckGroup>
-                        <Checkbox name="functionality" />
+                        <Checkbox name="rubrics" value="functionality" />
                         <Label htmlFor="functionality">Functionality</Label>
                       </CheckGroup>
 
                       <CheckGroup>
-                        <Checkbox name="extensibility" />
+                        <Checkbox name="rubrics" value="extensibility" />
                         <Label htmlFor="extensibility">Extensibility</Label>
                       </CheckGroup>
                     </RowBody>
@@ -301,22 +303,22 @@ const HackathonForm = ({ initialState = defaultState }) => {
                       </Paragraph>
 
                       <CheckGroup short>
-                        <Checkbox name="video" />
+                        <Checkbox name="requirements" value="video" />
                         <Label htmlFor="video">Video</Label>
                       </CheckGroup>
 
                       <CheckGroup short>
-                        <Checkbox name="url" />
+                        <Checkbox name="requirements" value="url" />
                         <Label htmlFor="url">URL</Label>
                       </CheckGroup>
 
                       <CheckGroup short>
-                        <Checkbox name="images" />
+                        <Checkbox name="requirements" value="images" />
                         <Label htmlFor="images">Images</Label>
                       </CheckGroup>
 
                       <CheckGroup short>
-                        <Checkbox name="writeups" />
+                        <Checkbox name="requirements" value="writeups" />
                         <Label htmlFor="writeups">Writeups</Label>
                       </CheckGroup>
                     </RowBody>
