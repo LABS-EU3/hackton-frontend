@@ -15,7 +15,6 @@ import { RowBody } from "../atoms/RowBody";
 import { CardWide } from "../atoms/Card";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
-import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 
 import {
