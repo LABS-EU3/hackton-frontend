@@ -34,7 +34,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [ submissionData, setSubmissionData ] = useState([])
+  // const [ submissionData, setSubmissionData ] = useState([])
   
   useEffect(() => {
     dispatch(fetchAllSubmissions(id));
@@ -42,11 +42,11 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
 
 
   const handleSubmit = values => {
+    const event_id = Number(id);
     // if (project_name !== "" && team_or_participant_name !== "") {
-      dispatch(createSubmission(initialState, history));
+      dispatch(createSubmission({...values, event_id}, history));
     // }
   };
-  console.log("submit data", handleSubmit)
 
   const schema = Yup.object().shape({
     project_title: Yup.string()
@@ -54,7 +54,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
       .required("title is required"),
     participant_or_team_name: Yup.string()
       .min(2, "Team/participants name must be atleast 2 characters")
-      .required("Team/participants name is required"),
+      .required("Team/participants name is required")
   });
 
   return (

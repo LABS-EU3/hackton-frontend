@@ -13,4 +13,4 @@ export const participantSubmissionReducer = ( participantSubmission = initialSta
             }
         }
         console.log("submission data", participantSubmissionData)
-}
+    }

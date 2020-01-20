@@ -12,10 +12,10 @@ export const createSubmission = (submissionData, history) => {
     };
 }
 
-export const fetchAllSubmissions = ( id ) => {
+export const fetchAllSubmissions = ( eventId ) => {
     return {
         type: ParticipantSubmissionTypes.FETCH_ALL_SUBMISSIONS,
-        payload: id
+        payload: eventId
     }
 }
 

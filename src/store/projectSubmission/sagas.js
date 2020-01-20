@@ -6,9 +6,11 @@ import { ParticipantSubmissionTypes, fetchAllSubmissions, submissionsError } fro
 const userToken = state => state.currentUser.token;
 
 function* createParticipantSubmissionAsync({ payload, history }) {
+    const { event_id: id, ...submissionData } = payload;
     try {
         const token = yield select(userToken);
-        const { data } = yield axiosWithAuth(token).post(`/api/events/${payload.event_id}/projects/submissions`, payload);
+        const { data } = yield axiosWithAuth(token).post(`/api/events/${id}/projects/submissions`, submissionData);
+        console.log('DATA', data);
         if (data) {
             yield put(fetchAllSubmissions(payload.event_id));
             toast.success(`😀 ${data.message}`);
@@ -16,6 +18,7 @@ function* createParticipantSubmissionAsync({ payload, history }) {
     } catch (error) {
         yield put(submissionsError(error.message));
         toast.error(`⚠️ ${error.message}`);
+        alert(error)
     }
 }
 
