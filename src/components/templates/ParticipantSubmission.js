@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -15,7 +15,7 @@ import { CardWide } from "../atoms/Card";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
-import { createSubmission } from "../../store/projectSubmission/actions";
+import { createSubmission, fetchAllSubmissions } from "../../store/projectSubmission/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -24,46 +24,37 @@ const BodyContainerColumn = styled(BodyContainer)`
 
 const defaultState = {
   project_name: "",
-  team_or_participant_name: "",
-  participation_type: "",
-  event_category: "",
-  writeup: ""
+  participant_or_team_name: "",
+  git_url: "",
+  video_url: "",
+  project_writeups: ""
 };
 
 const ParticipantSubmission = ({ initialState = defaultState }) => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { categories } = useSelector(state => state.events);
+  const [ submissionData, setSubmissionData ] = useState([])
+  
   useEffect(() => {
-    dispatch(fetchEventCategories());
+    dispatch(fetchAllSubmissions(id));
   }, [dispatch]);
 
-  const handleSubmit = values => {
-    let tagss = JSON.parse(window.localStorage.getItem("tags"));
 
-    if (values.title !== "" && !values.id) {
-      values.tag_name = tagss;
-      dispatch(createEvent(values, history));
-    } else if (values.title !== "" && values.id) {
-      values.tag_name = tagss;
-      dispatch(updateEvent(values, history));
-    }
+  const handleSubmit = values => {
+    // if (project_name !== "" && team_or_participant_name !== "") {
+      dispatch(createSubmission(initialState, history));
+    // }
   };
+  console.log("submit data", handleSubmit)
 
   const schema = Yup.object().shape({
-    project_name: Yup.string()
+    project_title: Yup.string()
       .min(3, "project name must be atleast 3 characters")
       .required("title is required"),
-    team_or_participant_name: Yup.string()
+    participant_or_team_name: Yup.string()
       .min(2, "Team/participants name must be atleast 2 characters")
       .required("Team/participants name is required"),
-    participation_type: Yup.string()
-      .required("Participation type is required"),
-    event_category: Yup.string()
-      .required("Event category is required"),
-    writeup: Yup.string()
-        .min(50, "project writeup must be atleast 50 characters")
-        .required("project writeup is required"),
   });
 
   return (
@@ -94,20 +85,22 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                     <RowBody>
                       <Input
                         type="text"
-                        name="project_name"
+                        name="project_title"
                         placeholder="Project Name"
                       />
+                      <ErrorMessage name='project_title' component='div' />
                       <Input
                         type="text"
-                        name="team_or_participant_name"
+                        name="participant_or_team_name"
                         placeholder="Team/Participant Name"
                       />
+                      <ErrorMessage name='participant_or_team_name' component='div' />
                     </RowBody>
 
                     <RowBody>
                       <Input
                         type="text"
-                        name="github_url"
+                        name="git_url"
                         placeholder="Github Url"
                         style={{"width": "100%"}}
                       />
@@ -127,7 +120,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         wide
                         as="textarea"
                         type="text"
-                        name="writeup"
+                        name="project_writeups"
                         placeholder="Project Writeup"
                       />
                       {errors.name && touched.name ? (
