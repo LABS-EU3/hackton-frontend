@@ -12,7 +12,6 @@ import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./components/views/PageNotFound";
-import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   return (
