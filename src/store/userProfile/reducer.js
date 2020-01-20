@@ -2,7 +2,6 @@ import { UserProfileTypes } from "./actions";
 
 const initialState = {
   data: [],
-  categories: [],
   isLoading: false
 };
 

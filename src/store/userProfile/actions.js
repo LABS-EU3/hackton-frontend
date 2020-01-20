@@ -1,6 +1,5 @@
 export const UserProfileTypes = {
     FETCH_USER_PROFILE: "FETCH_USER_PROFILE",
-    CREATE_PROFILE: "CREATE_PROFILE",
     UPDATE_PROFILE: "UPDATE_PROFILE",
     SET_PROFILE: "SET_PROFILE",
     PROFILE_ERROR: "PROFILE_ERROR"
@@ -11,11 +10,6 @@ export const fetchUserProfile = () => {
     };
   };
 
-export const createUserProfile = () => {
-    return {
-        type: UserProfileTypes.CREATE_PROFILE
-    };
-};
 
 export const updateUserProfile = (updatedProfile, history) => {
     return {
