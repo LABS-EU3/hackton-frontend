@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
-      <GlobalStyles />
+      {/* <GlobalStyles />
       <Switch>
         <Route exact path="/register" component={SignupPage} />
         <Route exact path="/login" component={LoginPage} />
@@ -43,7 +43,9 @@ function App() {
         />
         <Redirect to="/register" />
       </Switch>
-      <ToastContainer />
+      <ToastContainer /> */}
+
+      <ParticipantSubmissionPage />
     </>
   );
 }

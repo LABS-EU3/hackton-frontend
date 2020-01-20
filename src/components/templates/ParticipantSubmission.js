@@ -125,39 +125,6 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                     </RowBody>
 
                     <RowBody>
-                      <Select name="participation_type">
-                        <option value="">Participation Type</option>
-                        <option value="team">team</option>
-                        <option value="individual">individual</option>
-                        <option value="both">both</option>
-                      </Select>
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="participation_type" />
-                      <Select name="event_category">
-                        <option value="">Hackathon Category</option>
-                        {categories.map(({ id, category_name }) => (
-                          <option key={id} value={id}>
-                            {category_name}
-                          </option>
-                        ))}
-                      </Select>
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="event_category" />
-                    </RowBody>
-
-                    <RowBody>
-                      <Input
-                        type="text"
-                        name="images"
-                        placeholder="Images submission"
-                      />
-                    </RowBody>
-
-                    <RowBody>
                       <TextArea
                         wide
                         as="textarea"
