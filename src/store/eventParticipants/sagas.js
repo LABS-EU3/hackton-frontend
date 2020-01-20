@@ -48,6 +48,9 @@ function* registerEventAsync({ payload, history }) {
     }
   } catch (error) {
     yield put(eventParticipantError(error.message));
+    if(error.message === "Request failed with status code 404" ) {
+      history.push("/not-found");
+    }
     toast.error(`⚠️ ${error.message}`);
   }
 }
@@ -67,6 +70,9 @@ function* unregisterEventAsync({ payload, history }) {
     toast.success(`😲 ${data.message}`);
   } catch (error) {
     yield put(eventParticipantError(error.message));
+    if(error.message === "Request failed with status code 404" ) {
+      history.push("/not-found");
+    }
     toast.error(`⚠️ ${error.message}`);
   }
 }
