@@ -1,7 +1,7 @@
 import { put, takeLatest, call, all, select } from "redux-saga/effects";
 import { toast } from "react-toastify";
 import { axiosWithAuth } from "../../utils/api";
-import { ProjectSubmissionTypes, createEvent } from "./actions";
+import { ProjectSubmissionTypes, createSubmission } from "./actions";
 
 const userToken = state => state.currentUser.token;
 
