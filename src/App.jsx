@@ -10,6 +10,7 @@ import HackathonFormPage from "./components/views/HackathonFormPage";
 import HackathonSinglePage from "./components/views/HackathonSinglePage";
 import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
+import UserProfileFormPage from "./components/views/userProfileFormPage";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -34,6 +35,11 @@ function App() {
           exact
           path="/dashboard/event/:id/edit"
           component={EditHackathon}
+        />
+         <PrivateRoute
+          exact
+          path="/dashboard/user/profile"
+          component={UserProfileFormPage}
         />
         <Redirect to="/register" />
       </Switch>
