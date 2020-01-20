@@ -9,6 +9,7 @@ import { H1 } from "../atoms/Heading";
 import { Paragraph } from "../atoms/Paragraph";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
+import { ErrorSpan } from "../atoms/Span";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
@@ -34,11 +35,11 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
 
   const schema = Yup.object().shape({
     email: Yup.string()
-      .email()
-      .required(),
+      .email("Please use a valid email address.")
+      .required("Email address is required."),
     password: Yup.string()
-      .required()
-      .min(8)
+      .required("Password is required.")
+      .min(8, "Password must be at least 8 characters long.")
   });
 
   return (
@@ -51,34 +52,34 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
         onSubmit={handleSubmit}
         validationSchema={schema}
       >
-        {
-          ({errors, touched})=>(<Form>
-          <Input
-            display="wide"
-            type="text"
-            name="email"
-            placeholder="Email address"
-          />
-          {errors.name && touched.name ? (
-           <div>{errors.name}</div>
-         ) : null}
-        <ErrorMessage name="email" />
-          <Input
-            display="wide"
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
-          {errors.name && touched.name ? (
-           <div>{errors.name}</div>
-         ) : null}
-        <ErrorMessage name="password" />
+        {({ errors, touched }) => (
+          <Form>
+            <Input
+              display="wide"
+              type="text"
+              name="email"
+              placeholder="Email address"
+            />
+            {errors.name && touched.name ? <div>{errors.name}</div> : null}
+            <ErrorSpan>
+              <ErrorMessage name="email" />
+            </ErrorSpan>
+            <Input
+              display="wide"
+              type="password"
+              name="password"
+              placeholder="Password"
+            />
+            {errors.name && touched.name ? <div>{errors.name}</div> : null}
+            <ErrorSpan>
+              <ErrorMessage name="password" />
+            </ErrorSpan>
 
-          <Button type="submit" size="wide" color="blue">
-            {ctaText}
-          </Button>
-        </Form>)
-        }
+            <Button type="submit" size="wide" color="blue">
+              {ctaText}
+            </Button>
+          </Form>
+        )}
       </Formik>
 
       <SocialMedia></SocialMedia>

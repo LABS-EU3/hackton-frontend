@@ -276,10 +276,8 @@ const HackathonForm = ({ initialState = defaultState }) => {
                         following (tick on all that apply)
                       </Paragraph>
 
-                        <Checkbox name="requirements" value="video" label="Video" />
-                        <Checkbox name="requirements" value="url" label="URL" />
-                        <Checkbox name="requirements" value="images" label="Images" />
-                        <Checkbox name="requirements" value="writeups" label="Writeups" />
+                        <Checkbox name="requirements" value="video_url" label="Video URL" />
+                        <Checkbox name="requirements" value="github_url" label="GitHub URL" />
 
                     </RowBody>
                     <RowBody>
