@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./TagsInput.css";
 
-const InputTag = () => {
+const InputTag = (props) => {
   let tagInput;
   const [tags, setTags] = useState([]);
 
@@ -12,8 +12,11 @@ const InputTag = () => {
   };
 
   const inputKeyDown = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+    }
     const val = e.target.value;
-    if (e.key === "Enter" && val) {
+    if (e.keyCode === 13 && val) {
       if (tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
         return;
       }
@@ -28,7 +31,7 @@ const InputTag = () => {
   window.localStorage.setItem("tags", JSON.stringify(tags));
 
   return (
-    <div className="input-tag">
+    <div {...props} className="input-tag">
       <ul className="input-tag__tags">
         {tags.map((tag, i) => (
           <li key={tag}>
@@ -46,7 +49,6 @@ const InputTag = () => {
         <li className="input-tag__tags__input">
           <input
             type="text"
-            placeholder="Add event tags"
             onKeyDown={inputKeyDown}
             ref={c => {
               tagInput = c;

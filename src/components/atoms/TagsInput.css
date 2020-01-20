@@ -1,6 +1,6 @@
 * {
-  font-family: sans-serif;
-  font-size: 17px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
 }
 
 body {
@@ -9,14 +9,16 @@ body {
 }
 
 .input-tag {
-  background: white;
-  border: 1px solid #d6d6d6;
-  border-radius: 2px;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 5px 5px 0;
-  border-radius: 5px;
-  margin-top: 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #212121;
+  border: 1px solid #c3cfd9;
+  border-radius: 6px;
+  padding: 10px;
+  width: 180px;
+  margin: 0 20px 10px 0;
+  width: 100%;
 }
 
 .input-tag input {
@@ -34,15 +36,16 @@ body {
 
 .input-tag__tags li {
   align-items: center;
-  background: #85a3bf;
-  border-radius: 2px;
+  background: #e9b75f;
+  border-radius: 6px;
   color: white;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
   display: flex;
-  font-weight: 300;
   list-style: none;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  padding: 5px 10px;
+  margin: 5px 5px 5px 0;
+  padding: 10px 15px;
 }
 
 .input-tag__tags li button {
