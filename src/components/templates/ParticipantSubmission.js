@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
@@ -16,12 +15,7 @@ import { CardWide } from "../atoms/Card";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
-
-import {
-  createEvent,
-  fetchEventCategories,
-  updateEvent
-} from "../../store/events/actions";
+import { createSubmission } from "../../store/projectSubmission/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
