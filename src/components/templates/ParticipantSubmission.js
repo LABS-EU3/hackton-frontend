@@ -116,11 +116,16 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         type="text"
                         name="github_url"
                         placeholder="Github Url"
+                        style={{"width": "100%"}}
                       />
+                    </RowBody>
+
+                    <RowBody>
                       <Input
                         type="text"
                         name="video_url"
                         placeholder="Video Url"
+                        style={{"width": "100%"}}
                       />
                     </RowBody>
 
