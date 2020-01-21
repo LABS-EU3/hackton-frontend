@@ -22,6 +22,7 @@ import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import profileImg from "../../assets/profile-image.png";
 
+
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
 `;
@@ -101,38 +102,32 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                     </Column>
 
                     <RowBody>
-                      <Column>
-                        <NewLabel htmlFor="first_name">First Name</NewLabel>
+                    
+                        <Label htmlFor="full_name">Full Name</Label>
                         <Input
                           type="text"
-                          name="first_name"
-                          placeholder="First Name"
+                          name="full_name"
+                          display="wide"
+                          placeholder="Full Name"
                         />
-                      </Column>
-                      <Column>
-                        <NewLabel htmlFor="last_name">Last Name</NewLabel>
-                        <Input
-                          type="text"
-                          name="last_name"
-                          placeholder="Last Name"
-                        />
-                      </Column>
+                    
                     </RowBody>
                     <RowBody>
                       <Column>
-                        <NewLabel htmlFor="email">Email</NewLabel>
-                        <Input type="text" name="email" placeholder="Email" />
+                        <Label htmlFor="email">Email</Label>
+                        <Input type="text" name="email" placeholder="Email" display="wide"/>
                         {errors.name && touched.name ? (
                           <div>{errors.name}</div>
                         ) : null}
                         <ErrorMessage name="email" />
                       </Column>
                       <Column>
-                        <NewLabel htmlFor="username">Username</NewLabel>
+                        <Label htmlFor="username">Username</Label>
                         <Input
                           type="text"
                           name="username"
                           placeholder="Username"
+                          display="wide"
                         />
                         {errors.name && touched.name ? (
                           <div>{errors.name}</div>
@@ -141,7 +136,7 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                       </Column>
                     </RowBody>
                     <RowBody>
-                      <NewLabel htmlFor="bio">Bio</NewLabel>
+                      <Label htmlFor="bio">Bio</Label>
                       <TextArea
                         wide
                         as="textarea"
