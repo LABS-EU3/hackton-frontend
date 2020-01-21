@@ -147,7 +147,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       <Button to="/dashboard" color="grey" anchor>
                         Cancel
                       </Button>
-                      <Button color="green" type="submit">
+                      <Button color="green" type="submit" to="/dashboard">
                         Submit
                       </Button>
                     </RowBody>
