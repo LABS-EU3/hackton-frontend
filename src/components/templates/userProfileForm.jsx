@@ -18,10 +18,8 @@ import { CardWide } from "../atoms/Card";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
-import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import profileImg from "../../assets/profile-image.png";
-
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -41,8 +39,8 @@ var border = {
   width: "20%"
 };
 var pad = {
-    marginRight: "5px",
-}
+  marginRight: "5px"
+};
 
 const defaultState = {
   first_name: "",
@@ -102,20 +100,23 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                     </Column>
 
                     <RowBody>
-                    
-                        <Label htmlFor="full_name">Full Name</Label>
-                        <Input
-                          type="text"
-                          name="full_name"
-                          display="wide"
-                          placeholder="Full Name"
-                        />
-                    
+                      <Label htmlFor="full_name">Full Name</Label>
+                      <Input
+                        type="text"
+                        name="full_name"
+                        display="wide"
+                        placeholder="Full Name"
+                      />
                     </RowBody>
                     <RowBody>
                       <Column>
                         <Label htmlFor="email">Email</Label>
-                        <Input type="text" name="email" placeholder="Email" display="wide"/>
+                        <Input
+                          type="text"
+                          name="email"
+                          placeholder="Email"
+                          display="wide"
+                        />
                         {errors.name && touched.name ? (
                           <div>{errors.name}</div>
                         ) : null}
