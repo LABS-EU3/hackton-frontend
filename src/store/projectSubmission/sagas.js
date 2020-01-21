@@ -4,7 +4,8 @@ import { axiosWithAuth } from "../../utils/api";
 import {
   ParticipantSubmissionTypes,
   fetchAllSubmissions,
-  submissionsError
+  submissionsError,
+  setSubmissions
 } from "./actions";
 
 const userToken = state => state.currentUser.token;
@@ -92,10 +93,32 @@ function* watchDeleteParticipantSubmission() {
   );
 }
 
-export function* ParticipantsSubmissionSagas() {
-  yield all([
-    call(watchCreateParticipantSubmission),
-    call(watchEditParticipantSubmission),
-    call(watchDeleteParticipantSubmission)
-  ]);
+function* fetchAllSubmissionsAsync({ payload }) {
+  try {
+    const token = yield select(userToken);
+    const { data: { body } } = yield axiosWithAuth(token).get(
+      `/api/events/${payload.event_id}/projects/submissions`,
+      payload
+    );
+    yield put(setSubmissions(body));
+  } catch (error) {
+    yield put(submissionsError(error.message));
+    toast.error(`⚠️ ${error.message}`);
+  }
 }
+
+// function* watchFetchAllSubmissionsAsync() {
+//   yield takeLatest(
+//     ParticipantSubmissionTypes.FETCH_ALL_SUBMISSIONS,
+//     fetchAllSubmissionsAsync
+//   );
+// }
+
+// export function* ParticipantsSubmissionSagas() {
+//   yield all([
+//     call(watchCreateParticipantSubmission),
+//     call(watchEditParticipantSubmission),
+//     call(watchDeleteParticipantSubmission),
+//     call(watchFetchAllSubmissionsAsync)
+//   ]);
+// }
