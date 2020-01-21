@@ -107,18 +107,18 @@ function* fetchAllSubmissionsAsync({ payload }) {
   }
 }
 
-// function* watchFetchAllSubmissionsAsync() {
-//   yield takeLatest(
-//     ParticipantSubmissionTypes.FETCH_ALL_SUBMISSIONS,
-//     fetchAllSubmissionsAsync
-//   );
-// }
+function* watchFetchAllSubmissionsAsync() {
+  yield takeLatest(
+    ParticipantSubmissionTypes.FETCH_ALL_SUBMISSIONS,
+    fetchAllSubmissionsAsync
+  );
+}
 
-// export function* ParticipantsSubmissionSagas() {
-//   yield all([
-//     call(watchCreateParticipantSubmission),
-//     call(watchEditParticipantSubmission),
-//     call(watchDeleteParticipantSubmission),
-//     call(watchFetchAllSubmissionsAsync)
-//   ]);
-// }
+export function* ParticipantsSubmissionSagas() {
+  yield all([
+    call(watchCreateParticipantSubmission),
+    call(watchEditParticipantSubmission),
+    call(watchDeleteParticipantSubmission),
+    call(watchFetchAllSubmissionsAsync)
+  ]);
+}
