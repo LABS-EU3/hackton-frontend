@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 import { axiosWithAuth } from "../../utils/api";
 import { Footer } from "../organisms/index";
@@ -35,7 +36,6 @@ const AddTeammates = () => {
   }, [token]);
 
   useEffect(() => {
-    // inputRef.current.focus();
     const match = searchString
       ? users
           .filter(user =>
@@ -66,6 +66,7 @@ const AddTeammates = () => {
   };
 
   const SearchWidget = () => {
+    const history = useHistory();
     const inputRef = useRef(null);
     useEffect(() => {
       inputRef.current.focus();
@@ -110,7 +111,13 @@ const AddTeammates = () => {
         {matches.map(user => (
           <UserWidget key={user.id} user={user} select={setSelectedUser} />
         ))}
-        <Button>Back to dashboard</Button>
+        <Button
+          onClick={() => {
+            history.push("/dashboard");
+          }}
+        >
+          Back to dashboard
+        </Button>
       </Container>
     );
   };
@@ -195,7 +202,6 @@ const AddTeammates = () => {
     return (
       <StyledContainer>
         <Radio label="organiser" name="role" value="organiser" />
-
         <Radio name="role" value="judge" />
       </StyledContainer>
     );
