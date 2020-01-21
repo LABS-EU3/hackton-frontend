@@ -20,7 +20,6 @@ import {
   createSubmission,
   fetchAllSubmissions
 } from "../../store/projectSubmission/actions";
-import { fetchAllEvents } from "../../store/events/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -37,24 +36,18 @@ const defaultState = {
 
 const ParticipantSubmission = ({ initialState = defaultState }) => {
   const { id } = useParams();
+  const event_id = Number(id);
   const dispatch = useDispatch();
   const history = useHistory();
-  const events = useSelector(state => state.events.data);
-  // console.log("events data", events);
+  const currentEvent = useSelector(state =>
+    state.events.data.find(e => e.id === event_id)
+  );
 
   useEffect(() => {
-    dispatch(fetchAllSubmissions(id));
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchAllEvents());
-  }, []);
-
-  let currentEvent = events.find(e => e.id == id);
-  // console.log("current", currentEvent);
+    dispatch(fetchAllSubmissions(event_id));
+  }, [dispatch, event_id]);
 
   const handleSubmit = values => {
-    const event_id = Number(id);
     dispatch(createSubmission({ ...values, event_id }, history));
   };
 
@@ -88,10 +81,10 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
           <RowBody>
             <CardWide>
               <H4>
-                You are making a submission for the {currentEvent.event_title} 2020 Hackathon.
-                Please ensure you have read the event guidelines and have gone
-                through the grading rubrics for this event before you make your
-                submission.
+                You are making a submission for the {currentEvent.event_title}{" "}
+                2020 Hackathon. Please ensure you have read the event guidelines
+                and have gone through the grading rubrics for this event before
+                you make your submission.
               </H4>
               <Formik
                 onSubmit={handleSubmit}
