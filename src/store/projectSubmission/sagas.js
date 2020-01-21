@@ -4,20 +4,18 @@ import { axiosWithAuth } from "../../utils/api";
 import {
   ParticipantSubmissionTypes,
   fetchAllSubmissions,
-  submissionsError,
-  editSubmission,
-  deleteSubmission
+  submissionsError
 } from "./actions";
 
 const userToken = state => state.currentUser.token;
 
 function* createParticipantSubmissionAsync({ payload, history }) {
-  const { event_id: id, ...submissionData } = payload;
+//   const { event_id: id, ...submissionData } = payload;
   try {
     const token = yield select(userToken);
     const { data } = yield axiosWithAuth(token).post(
-      `/api/events/${id}/projects/submissions`,
-      submissionData
+      `/api/events/${payload.event_id}/projects/submissions`,
+      payload
     );
     console.log("DATA", data);
     if (data) {
@@ -38,16 +36,15 @@ function* watchCreateParticipantSubmission() {
   );
 }
 
-function* editParticipantSubmissionAsync({payload, history}) {
+function* editParticipantSubmissionAsync({ payload, history }) {
     try {
-        const { submission_id: id, ...editSubmissionData } = payload;
         const token = yield select(userToken);
         const { data } = yield axiosWithAuth(token).put(
-            `/api/events/projects/submissions/${id}`,
-            editSubmissionData
+            `/api/events/projects/submissions/${payload.id}`,
+            payload
         );
         if (data) {
-            yield put(fetchAllSubmissions(payload.event_id));
+            yield put(fetchAllSubmissions(payload.id));
             toast.success(`😀 ${data.message}`);
         }
     } catch (error) {
@@ -63,6 +60,25 @@ function* watchEditParticipantSubmission() {
       editParticipantSubmissionAsync
     );
 }
+
+function* deleteParticipantSubmissionAsync({ payload }) {
+    try {
+        const token = yield select(userToken);
+        const { data } = yield axiosWithAuth(token).delete(
+            `/api/events/projects/submissions/${payload.id}`,
+            payload
+        );
+        if (data) {
+            yield put(fetchAllSubmissions(payload.id));
+            toast.success(`😀 ${data.message}`);
+        }
+    } catch (error) {
+        yield put(submissionsError(error.message));
+        toast.error(`⚠️ ${error.message}`);
+        alert(error);
+    }
+}
+
 
 export function* ParticipantsSubmissionSagas() {
   yield all([
