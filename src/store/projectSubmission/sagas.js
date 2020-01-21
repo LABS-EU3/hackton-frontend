@@ -57,6 +57,16 @@ function* editParticipantSubmissionAsync({payload, history}) {
     }
 }
 
+function* watchEditParticipantSubmission() {
+    yield takeLatest(
+      ParticipantSubmissionTypes.EDIT_SUBMISSION,
+      editParticipantSubmissionAsync
+    );
+}
+
 export function* ParticipantsSubmissionSagas() {
-  yield all([call(watchCreateParticipantSubmission)]);
+  yield all([
+      call(watchCreateParticipantSubmission),
+      call(watchEditParticipantSubmission)
+    ]);
 }
