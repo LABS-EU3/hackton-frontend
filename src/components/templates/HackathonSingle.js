@@ -211,7 +211,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
 
   useEffect(() => {
     dispatch(fetchAllParticipants(id));
-  }, []);
+  }, [dispatch, id]);
 
   useEffect(() => {
     const handleRegisterLogic = () => {
