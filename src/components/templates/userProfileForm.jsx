@@ -24,7 +24,7 @@ import profileImg from "../../assets/profile-image.png";
 import {
   fetchUserProfile,
   updateUserProfile
-} from "../../store/userProfile/actions";
+} from "../../store/user/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -47,18 +47,12 @@ var pad = {
   marginRight: "5px"
 };
 
-const defaultState = {
-  first_name: "",
-  last_name: "",
-  email: "",
-  username: "",
-  bio: "",
-  id: 1
-};
-
-const UserProfileForm = ({ initialState = defaultState }) => {
+const UserProfileForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { currentUser: initialState } = useSelector(state => state);
+
+
   useEffect(() => {
     dispatch(fetchUserProfile());
   }, [dispatch]);
@@ -81,7 +75,7 @@ const UserProfileForm = ({ initialState = defaultState }) => {
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
-            <H3>{initialState.id ? `Edit Profile` : `Create Profile`}</H3>
+            <H3>Edit Profile</H3>
           </RowHead>
 
           <RowBody>
@@ -157,7 +151,6 @@ const UserProfileForm = ({ initialState = defaultState }) => {
                       <TextArea
                         wide
                         as="textarea"
-                        type="text"
                         name="bio"
                         placeholder="bio"
                       />

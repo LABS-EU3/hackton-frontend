@@ -1,7 +1,7 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
+import { all, call, takeLatest, put, select } from "redux-saga/effects";
 import { UserTypes, setUser, userError, resetUser } from "./actions";
 
-import { axios } from "../../utils/api";
+import { axios, axiosWithAuth, selectToken } from "../../utils/api";
 import { toast } from "react-toastify";
 
 function* loginAsync({ payload, history }) {
