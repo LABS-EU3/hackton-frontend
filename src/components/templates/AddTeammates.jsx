@@ -52,9 +52,10 @@ const AddTeammates = () => {
   }, [searchString, users]);
 
   const handleSubmit = () => {
+    const { email } = selectedUser;
     const data = {
       eventId: Number(id),
-      userId: selectedUser.id,
+      email,
       role
     };
     dispatch(addTeamMember(data, history));

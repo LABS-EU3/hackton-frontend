@@ -40,7 +40,7 @@ function* createEventAsync({ payload, history }) {
     yield history.push("/dashboard");
   } catch (error) {
     yield put(eventsError(error.message));
-    if(error.message === "Request failed with status code 404" ) {
+    if (error.message === "Request failed with status code 404") {
       history.push("/not-found");
     }
     toast.error(`⚠️ ${error.message}`);
@@ -82,7 +82,7 @@ function* updateEventAsync({ payload, history }) {
     }
   } catch (error) {
     yield put(eventsError(error.message));
-    if(error.message === "Request failed with status code 404" ) {
+    if (error.message === "Request failed with status code 404") {
       history.push("/not-found");
     }
     toast.error(`⚠️ ${error.message}`);
@@ -112,16 +112,21 @@ function* watchFetchEventCategories() {
   );
 }
 
-function* addTeamMemberAsync({ payload }) {
+function* addTeamMemberAsync({ payload, history }) {
   try {
-    const { userId, eventId, role } = payload;
+    const { eventId, email, role } = payload;
     const token = yield select(selectToken);
-    const { data } = yield axiosWithAuth(
-      token
-    ).post(`/api/events/${eventId}/team`, { userId, role });
+    const { data } = yield axiosWithAuth(token).post(
+      `/api/events/${eventId}/team`,
+      {
+        email,
+        role_type: role
+      }
+    );
     if (data) {
       yield toast.success(`Added successfully`);
     }
+    history.push(`/dashboard/event/${eventId}`);
   } catch (error) {
     yield put(eventsError(error.message));
     toast.error(`⚠️ ${error.message}`);
