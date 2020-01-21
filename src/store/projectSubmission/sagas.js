@@ -11,11 +11,10 @@ import {
 const userToken = state => state.currentUser.token;
 
 function* createParticipantSubmissionAsync({ payload, history }) {
-  //   const { event_id: id, ...submissionData } = payload;
   try {
     const token = yield select(userToken);
     const { data } = yield axiosWithAuth(token).post(
-      `/api/events/${payload.event_id}/projects/submissions`,
+      `/api/events/${payload.event_id}/projects`,
       payload
     );
     console.log("DATA", data);
@@ -23,6 +22,7 @@ function* createParticipantSubmissionAsync({ payload, history }) {
       yield put(fetchAllSubmissions(payload.event_id));
       toast.success(`😀 ${data.message}`);
     }
+    yield history.push("/dashboard");
   } catch (error) {
     yield put(submissionsError(error.message));
     if (error.message === "Request failed with status code 404") {
