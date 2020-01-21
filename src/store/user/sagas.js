@@ -76,6 +76,7 @@ function* fetchUserProfileAsync({payload}) {
       data: { body:{user} }
     } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
     yield console.log('USER', user);
+    // yield put(setUser(user))
   } catch (error) {
     yield put(userError(error.message));
     toast.error(`⚠️ ${error.message}`);
