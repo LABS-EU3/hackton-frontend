@@ -105,7 +105,7 @@ function* updateUserProfileAsync({ payload, history }) {
 }
 
 function* watchUpdateUserProfile() {
-  yield takeLatest(UserTypes.UPDATE_PROFILE, updateUserProfileAsync);
+  yield takeLatest(UserTypes.UPDATE_USER_PROFILE, updateUserProfileAsync);
 }
 
 export function* userSagas() {

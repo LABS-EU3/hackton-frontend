@@ -2,13 +2,12 @@ import { UserTypes } from "./actions";
 
 const initialState = {
   token: null,
-  email: null,
   userId: null,
-  first_name: "",
-  last_name: "",
-  email: "",
-  username: "",
-  bio: "",
+  first_name: '',
+  last_name: '',
+  email: '',
+  username: '',
+  bio: '',
 };
 
 export const userReducer = (user = initialState, action) => {
