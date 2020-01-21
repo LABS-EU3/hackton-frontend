@@ -220,10 +220,10 @@ const AddTeammates = () => {
       <StyledContainer>
         <RowBody direction="column-reverse">
           <Radio
-            label="organiser"
+            label="organizer"
             name="role"
-            onChange={() => setRole("organiser")}
-            checked={role === "organiser"}
+            onChange={() => setRole("organizer")}
+            checked={role === "organizer"}
           />
           <Radio
             name="role"
