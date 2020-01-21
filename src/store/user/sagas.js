@@ -69,11 +69,52 @@ function* watchLogout() {
   yield takeLatest(UserTypes.RESET_USER, logout);
 }
 
+function* fetchUserProfileAsync({payload}) {
+  try {
+    const token = yield select(selectToken);
+    const {
+      data: { body:{user} }
+    } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
+    yield console.log('USER', user);
+  } catch (error) {
+    yield put(userError(error.message));
+    toast.error(`⚠️ ${error.message}`);
+  }
+}
+
+function* watchFetchUserProfile() {
+  yield takeLatest(UserTypes.FETCH_USER_PROFILE, fetchUserProfileAsync);
+}
+
+function* updateUserProfileAsync({ payload, history }) {
+  try {
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).put(
+      "/api/users/profile",
+      payload
+    );
+
+    if (data) {
+      toast.success(`🎉 ${data.message}`);
+      yield history.push("/dashboard");
+    }
+  } catch (error) {
+    yield put(userError(error.message));
+    toast.error(`⚠️ ${error.message}`);
+  }
+}
+
+function* watchUpdateUserProfile() {
+  yield takeLatest(UserTypes.UPDATE_PROFILE, updateUserProfileAsync);
+}
+
 export function* userSagas() {
   yield all([
     call(watchLogin),
     call(watchRegister),
     call(watchSocialAuth),
-    call(watchLogout)
+    call(watchLogout),
+    call(watchFetchUserProfile),
+    call(watchUpdateUserProfile)
   ]);
 }
