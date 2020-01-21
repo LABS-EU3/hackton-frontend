@@ -10,7 +10,7 @@ import HackathonFormPage from "./components/views/HackathonFormPage";
 import HackathonSinglePage from "./components/views/HackathonSinglePage";
 import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
-import UserProfileFormPage from "./components/views/userProfileFormPage";
+import UserProfileFormPage from "./components/views/UserProfileFormPage";
 import PageNotFound from "./components/views/PageNotFound";
 import "react-toastify/dist/ReactToastify.css";
 
