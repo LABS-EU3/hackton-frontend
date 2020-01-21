@@ -17,6 +17,7 @@ import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import { createSubmission, fetchAllSubmissions } from "../../store/projectSubmission/actions";
+import { fetchAllEvents } from "../../store/events/actions"
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -35,11 +36,19 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+  const events = useSelector(state => state.events.data);
+  console.log('events data', events);
   
   useEffect(() => {
     dispatch(fetchAllSubmissions(id));
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchAllEvents())
+  }, [])
+
+  let currentEvent = events.find(e => e.id == id)
+  console.log('current', currentEvent)
 
   const handleSubmit = values => {
     const event_id = Number(id);
