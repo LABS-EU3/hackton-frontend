@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { axiosWithAuth } from "../../utils/api";
 import { Footer } from "../organisms/index";
@@ -15,12 +15,17 @@ import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import Button from "../atoms/Button";
 import { type, Solid, media } from "../index";
+import { addTeamMember } from "../../store/events/actions";
 
 const AddTeammates = () => {
   const [users, setUsers] = useState([]);
   const [matches, setMatches] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
+  const [role, setRole] = useState("");
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { id } = useParams();
   const { token } = useSelector(state => state.currentUser);
 
   useEffect(() => {
@@ -46,12 +51,24 @@ const AddTeammates = () => {
     setMatches(match);
   }, [searchString, users]);
 
+  const handleSubmit = () => {
+    const eventId = Number(id);
+    dispatch(addTeamMember(selectedUser.id, eventId, role, history));
+  };
+
+  const redirect = (location = "/dashboard") => {
+    history.push(location);
+  };
+
   const BodyContainerColumn = styled(BodyContainer)`
     flex-direction: column;
     justify-content: start;
   `;
 
-  const StyledContainer = styled.div``;
+  const StyledContainer = styled.div`
+    display: block;
+    position: relative;
+  `;
 
   const UserWidget = ({ user, select, ...otherProps }) => {
     const StyledWidget = styled.div`
@@ -66,7 +83,6 @@ const AddTeammates = () => {
   };
 
   const SearchWidget = () => {
-    const history = useHistory();
     const inputRef = useRef(null);
     useEffect(() => {
       inputRef.current.focus();
@@ -111,11 +127,7 @@ const AddTeammates = () => {
         {matches.map(user => (
           <UserWidget key={user.id} user={user} select={setSelectedUser} />
         ))}
-        <Button
-          onClick={() => {
-            history.push("/dashboard");
-          }}
-        >
+        <Button color="grey" onClick={() => redirect()}>
           Back to dashboard
         </Button>
       </Container>
@@ -201,8 +213,28 @@ const AddTeammates = () => {
   const RoleWidget = () => {
     return (
       <StyledContainer>
-        <Radio label="organiser" name="role" value="organiser" />
-        <Radio name="role" value="judge" />
+        <RowBody direction="column-reverse">
+          <Radio
+            label="organiser"
+            name="role"
+            onChange={() => setRole("organiser")}
+            checked={role === "organiser"}
+          />
+          <Radio
+            name="role"
+            label="judge"
+            onChange={() => setRole("judge")}
+            checked={role === "judge"}
+          />
+        </RowBody>
+        <RowBody>
+          <Button color="grey" onClick={() => redirect()}>
+            Back to dashboard
+          </Button>
+          <Button color="green" onClick={handleSubmit}>
+            Add teammate
+          </Button>
+        </RowBody>
       </StyledContainer>
     );
   };
