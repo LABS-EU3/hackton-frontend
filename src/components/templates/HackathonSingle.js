@@ -421,7 +421,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                 <div className="tags">
                   <BoldSpan>Event Tags</BoldSpan>
                   <div>
-                    {tag_name.length !== 0 ? (
+                    {tag_name && tag_name.length !== 0 ? (
                       tag_name.map((tagged, index) => {
                         return <PTags key={index}>{tagged}</PTags>;
                       })

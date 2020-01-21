@@ -16,7 +16,7 @@ export const Card = styled.div`
 `;
 
 export const CardWide = styled(Card)`
-  width: 100%;
+  width: 650px;
   padding: 40px;
   height: auto;
 

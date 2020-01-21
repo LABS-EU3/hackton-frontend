@@ -45,3 +45,9 @@ export const StrikedSpan = styled(Span)`
     }
   }
 `;
+
+export const ErrorSpan = styled(Span)`
+  color: #DB2824;
+  margin: 0 0 10px 0;
+  display: inline-block;
+`;
