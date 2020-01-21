@@ -66,9 +66,10 @@ export const eventsError = errorMessage => {
   };
 };
 
-export const addTeamMember = (userId, eventId, role) => {
+export const addTeamMember = (info, history) => {
   return {
     type: EventsTypes.ADD_TEAM_MEMBER,
-    payload: { userId, eventId, role }
+    payload: info,
+    history
   };
 };

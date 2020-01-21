@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
 import { axiosWithAuth } from "../../utils/api";
@@ -52,8 +52,12 @@ const AddTeammates = () => {
   }, [searchString, users]);
 
   const handleSubmit = () => {
-    const eventId = Number(id);
-    dispatch(addTeamMember(selectedUser.id, eventId, role, history));
+    const data = {
+      eventId: Number(id),
+      userId: selectedUser.id,
+      role
+    };
+    dispatch(addTeamMember(data, history));
   };
 
   const redirect = (location = "/dashboard") => {
