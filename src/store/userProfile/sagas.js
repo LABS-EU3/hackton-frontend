@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { axiosWithAuth } from "../../utils/api";
 import {
     UserProfileTypes,
-    // createUserProfile,
     setProfile,
     profileError,
     fetchUserProfile
@@ -17,7 +16,7 @@ function* fetchUserProfileAsync() {
       const token = yield select(selectToken);
       const {
         data: { body }
-      } = yield axiosWithAuth(token).get("");
+      } = yield axiosWithAuth(token).get("/api/users");
       yield put(setProfile(body));
     } catch (error) {
       yield put(profileError(error.message));
@@ -34,13 +33,13 @@ function* updateProfileAsync({ payload, history }) {
     const { id, ...profileInfo } = payload;
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).put(
-      "" + id,
+      "/api/users/profile" + id,
       profileInfo
     );
     if (data) {
       yield put(fetchUserProfile());
       toast.success(`🎉 ${data.message}`);
-      yield history.push("/dashboard/user/profile");
+      yield history.push("/dashboard");
     }
   } catch (error) {
     yield put(profileError(error.message));

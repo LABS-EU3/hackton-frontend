@@ -40,7 +40,7 @@ function App() {
         />
          <PrivateRoute
           exact
-          path="/dashboard/user/profile"
+          path="/dashboard/user/profile/edit"
           component={UserProfileFormPage}
         />
         <Redirect to="/register" />

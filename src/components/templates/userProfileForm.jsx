@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useHistory, Link } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -20,6 +20,11 @@ import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import profileImg from "../../assets/profile-image.png";
+
+import {
+  fetchUserProfile,
+  updateUserProfile
+} from "../../store/userProfile/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -52,6 +57,16 @@ const defaultState = {
 };
 
 const UserProfileForm = ({ initialState = defaultState }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, [dispatch]);
+
+  const handleSubmit = values => {
+      dispatch(updateUserProfile(values, history));
+  };
+
   const schema = Yup.object().shape({
     first_name: Yup.string().required("first name is required"),
     last_name: Yup.string().required("last name is required"),
@@ -72,6 +87,7 @@ const UserProfileForm = ({ initialState = defaultState }) => {
           <RowBody>
             <CardWider>
               <Formik
+                onSubmit={handleSubmit}
                 initialValues={initialState}
                 validationSchema={schema}
                 enableReinitialize
