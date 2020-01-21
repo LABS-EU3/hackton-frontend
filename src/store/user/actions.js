@@ -45,7 +45,6 @@ export const resetUser = () => {
 };
 
 export const userError = error => {
-  console.error("ERROR: ", error.message);
   return {
     type: UserTypes.USER_ERROR
   };
