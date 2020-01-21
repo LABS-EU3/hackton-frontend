@@ -12,6 +12,7 @@ import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { CardWide } from "../atoms/Card";
+import { ErrorSpan } from "../atoms/Span";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
@@ -85,13 +86,17 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         name="project_title"
                         placeholder="Project Title"
                       />
-                      <ErrorMessage name='project_title' component='div' />
+                      <ErrorSpan>
+                        <ErrorMessage name='project_title' component='div' />
+                      </ErrorSpan>
                       <Input
                         type="text"
                         name="participant_or_team_name"
                         placeholder="Team/Participant Name"
                       />
-                      <ErrorMessage name='participant_or_team_name' component='div' />
+                      <ErrorSpan>
+                        <ErrorMessage name='participant_or_team_name' component='div' />
+                      </ErrorSpan>
                     </RowBody>
 
                     <RowBody>
