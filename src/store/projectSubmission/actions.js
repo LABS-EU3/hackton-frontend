@@ -3,7 +3,8 @@ export const ParticipantSubmissionTypes = {
     FETCH_ALL_SUBMISSIONS: "FETCH_ALL_SUBMISSIONS",
     SUBMISSIONS_ERROR: "SUBMISSIONS_ERROR",
     EDIT_SUBMISSION: "EDIT_SUBMISSION",
-    DELETE_SUBMISSION: "DELETE_SUBMISSION"
+    DELETE_SUBMISSION: "DELETE_SUBMISSION",
+    SET_SUBMISSIONS: "SET_SUBMISSIONS"
 }
 
 export const createSubmission = (submissionData, history) => {
@@ -40,5 +41,12 @@ export const deleteSubmission = ( submissionId ) => {
     return {
         type: ParticipantSubmissionTypes.DELETE_SUBMISSION,
         payload: submissionId
+    }
+}
+
+export const setSubmissions = ( submission ) => {
+    return {
+        type: ParticipantSubmissionTypes.SET_SUBMISSIONS,
+        payload: submission
     }
 }
