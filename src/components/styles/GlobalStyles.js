@@ -82,14 +82,14 @@ h3 {
   font-size: ${h4FontSize};
 }
 
-#root > div {
+#root > div:first-child {
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 100vh;
 }
 
-#root > div > :nth-child(2) {
+#root > div:first-child > div:nth-child(2) {
   flex: 1;
 }
 

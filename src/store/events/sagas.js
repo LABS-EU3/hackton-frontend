@@ -40,6 +40,9 @@ function* createEventAsync({ payload, history }) {
     yield history.push("/dashboard");
   } catch (error) {
     yield put(eventsError(error.message));
+    if(error.message === "Request failed with status code 404" ) {
+      history.push("/not-found");
+    }
     toast.error(`⚠️ ${error.message}`);
   }
 }
@@ -79,6 +82,9 @@ function* updateEventAsync({ payload, history }) {
     }
   } catch (error) {
     yield put(eventsError(error.message));
+    if(error.message === "Request failed with status code 404" ) {
+      history.push("/not-found");
+    }
     toast.error(`⚠️ ${error.message}`);
   }
 }
