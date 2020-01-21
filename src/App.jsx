@@ -10,15 +10,11 @@ import HackathonFormPage from "./components/views/HackathonFormPage";
 import HackathonSinglePage from "./components/views/HackathonSinglePage";
 import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
-<<<<<<< HEAD
-import UserProfileFormPage from "./components/views/UserProfileFormPage";
-=======
 import AddTeammates from "./components/templates/AddTeammates";
 import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionPage";
-import "react-toastify/dist/ReactToastify.css";
->>>>>>> 223d240590f6e07bb90c59896a0f849e73647676
 import PageNotFound from "./components/views/PageNotFound";
 import "react-toastify/dist/ReactToastify.css";
+import UserProfileFormPage from "./components/views/UserProfileFormPage";
 
 function App() {
   return (
@@ -49,17 +45,15 @@ function App() {
           path="/dashboard/event/:id/edit"
           component={EditHackathon}
         />
-<<<<<<< HEAD
-         <PrivateRoute
-          exact
-          path="/dashboard/profile/edit"
-          component={UserProfileFormPage}
-=======
         <PrivateRoute
           exact
           path="/dashboard/event/:id/team"
           component={AddTeammates}
->>>>>>> 223d240590f6e07bb90c59896a0f849e73647676
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/profile/edit"
+          component={UserProfileFormPage}
         />
         <Redirect to="/register" />
       </Switch>
