@@ -48,11 +48,17 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
 
   const schema = Yup.object().shape({
     project_title: Yup.string()
-      .min(3, "project name must be atleast 3 characters")
-      .required("title is required"),
+      .min(3, "Project title must be atleast 3 characters")
+      .required("Project title is required"),
     participant_or_team_name: Yup.string()
       .min(2, "Team/participants name must be atleast 2 characters")
-      .required("Team/participants name is required")
+      .required("Team/participants name is required"),
+    git_url: Yup.string()
+      .min(8, "GIt url name must be atleast 8 characters")
+      .required("Git url is required"),
+    video_url: Yup.string()
+      .min(8, "Video url must be atleast 8 characters")
+      .required("Video url is required")
   });
 
   return (
@@ -106,6 +112,9 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         placeholder="Github Url"
                         style={{"width": "100%"}}
                       />
+                      <ErrorSpan>
+                        <ErrorMessage name='git_url' component='div' />
+                      </ErrorSpan>
                     </RowBody>
 
                     <RowBody>
@@ -115,6 +124,9 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         placeholder="Video Url"
                         style={{"width": "100%"}}
                       />
+                      <ErrorSpan>
+                        <ErrorMessage name='video_url' component='div' />
+                      </ErrorSpan>
                     </RowBody>
 
                     <RowBody>
