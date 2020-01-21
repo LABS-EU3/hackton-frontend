@@ -10,6 +10,7 @@ import HackathonFormPage from "./components/views/HackathonFormPage";
 import HackathonSinglePage from "./components/views/HackathonSinglePage";
 import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
+import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionPage";
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./components/views/PageNotFound";
 
@@ -26,6 +27,11 @@ function App() {
           exact
           path="/dashboard/new"
           component={HackathonFormPage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/participant_submission"
+          component={ParticipantSubmissionPage}
         />
         <PrivateRoute
           exact
