@@ -19,6 +19,7 @@ function* fetchAllEventsAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/events");
     yield put(setEvents(body));
+    console.log(body)
   } catch (error) {
     yield put(eventsError(error.message));
     toast.error(`⚠️ ${error.message}`);
