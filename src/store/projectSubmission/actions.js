@@ -36,9 +36,9 @@ export const editSubmission = (editSubmissionData, history) => {
     }
 }
 
-export const deleteSubmission = ( id ) => {
+export const deleteSubmission = ( submissionId ) => {
     return {
         type: ParticipantSubmissionTypes.DELETE_SUBMISSION,
-        payload: id
+        payload: submissionId
     }
 }
