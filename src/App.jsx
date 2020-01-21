@@ -11,8 +11,8 @@ import HackathonSinglePage from "./components/views/HackathonSinglePage";
 import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
 import UserProfileFormPage from "./components/views/userProfileFormPage";
-import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./components/views/PageNotFound";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
         />
          <PrivateRoute
           exact
-          path="/dashboard/user/profile/edit"
+          path="/dashboard/profile/edit"
           component={UserProfileFormPage}
         />
         <Redirect to="/register" />
