@@ -79,10 +79,17 @@ function* deleteParticipantSubmissionAsync({ payload }) {
     }
 }
 
+function* watchDeleteParticipantSubmission() {
+    yield takeLatest(
+      ParticipantSubmissionTypes.DELETE_SUBMISSION,
+      deleteParticipantSubmissionAsync
+    );
+}
 
 export function* ParticipantsSubmissionSagas() {
   yield all([
       call(watchCreateParticipantSubmission),
-      call(watchEditParticipantSubmission)
+      call(watchEditParticipantSubmission),
+      call(watchDeleteParticipantSubmission)
     ]);
 }
