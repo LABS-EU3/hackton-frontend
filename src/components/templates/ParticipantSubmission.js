@@ -70,7 +70,10 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
       .required("Git url is required"),
     video_url: Yup.string()
       .min(8, "Video url must be atleast 8 characters")
-      .required("Video url is required")
+      .required("Video url is required"),
+    project_writeups: Yup.string()
+      .min(8, "Project writeup must be atleast 8 characters")
+      .required("Project writeup is required")
   });
 
   return (
@@ -155,10 +158,9 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         name="project_writeups"
                         placeholder="Project Writeup"
                       />
-                      {errors.name && touched.name ? (
-                        <div>{errors.name}</div>
-                      ) : null}
-                      <ErrorMessage name="event_description" />
+                      <ErrorSpan>
+                        <ErrorMessage name="project_writeups" />
+                      </ErrorSpan>
                     </RowBody>
 
                     <RowBody>
