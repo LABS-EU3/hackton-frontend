@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import jwtDecode from "jwt-decode";
 import { Link } from "react-router-dom";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -18,11 +17,9 @@ const BodyContainerColumn = styled(BodyContainer)`
   align-items: start;
 `;
 
-// @TODO styling events card
 const EventOnboarding = () => {
   const events = useSelector(state => state.events.data);
-  const { token } = useSelector(state => state.currentUser);
-  const { userId } = jwtDecode(token);
+  const { userId } = useSelector(state => state.currentUser);
   const userEvents = events.filter(event => event.creator_id === userId);
   const globalEvents = events.filter(event => event.creator_userId !== userId);
 
