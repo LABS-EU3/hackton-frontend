@@ -1,5 +1,5 @@
 import { all, call, takeLatest, put, select } from "redux-saga/effects";
-import { UserTypes, setUser, userError, resetUser } from "./actions";
+import { UserTypes, setUser, userError, resetUser, setUserProfile } from "./actions";
 
 import { axios, axiosWithAuth, selectToken } from "../../utils/api";
 import { toast } from "react-toastify";
@@ -76,7 +76,11 @@ function* fetchUserProfileAsync({payload}) {
       data: { body:{user} }
     } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
     yield console.log('USER', user);
+<<<<<<< Updated upstream
     // yield put(setUser(user))
+=======
+    // yield put(setUserProfile(user));
+>>>>>>> Stashed changes
   } catch (error) {
     yield put(userError(error.message));
     toast.error(`⚠️ ${error.message}`);

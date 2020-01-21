@@ -71,7 +71,6 @@ export const updateUserProfile = (updatedProfile, history) => {
 };
 
 export const userError = error => {
-  console.error("ERROR: ", error.message);
   return {
     type: UserTypes.USER_ERROR
   };
