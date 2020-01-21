@@ -211,6 +211,9 @@ const HackathonSingle = ({ initialState = defaultState }) => {
 
   useEffect(() => {
     dispatch(fetchAllParticipants(id));
+  }, []);
+
+  useEffect(() => {
     const handleRegisterLogic = () => {
       participantsData.filter(user => {
         if (user.user_id !== userId) {
