@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import styled from "styled-components";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,7 +23,7 @@ const BodyContainerColumn = styled(BodyContainer)`
 `;
 
 const defaultState = {
-  project_name: "",
+  project_title: "",
   participant_or_team_name: "",
   git_url: "",
   video_url: "",
@@ -34,7 +34,6 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  // const [ submissionData, setSubmissionData ] = useState([])
   
   useEffect(() => {
     dispatch(fetchAllSubmissions(id));
@@ -43,9 +42,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
 
   const handleSubmit = values => {
     const event_id = Number(id);
-    // if (project_name !== "" && team_or_participant_name !== "") {
       dispatch(createSubmission({...values, event_id}, history));
-    // }
   };
 
   const schema = Yup.object().shape({
@@ -86,7 +83,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       <Input
                         type="text"
                         name="project_title"
-                        placeholder="Project Name"
+                        placeholder="Project Title"
                       />
                       <ErrorMessage name='project_title' component='div' />
                       <Input
