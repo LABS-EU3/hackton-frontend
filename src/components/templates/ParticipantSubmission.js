@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,8 +16,11 @@ import { ErrorSpan } from "../atoms/Span";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
-import { createSubmission, fetchAllSubmissions } from "../../store/projectSubmission/actions";
-import { fetchAllEvents } from "../../store/events/actions"
+import {
+  createSubmission,
+  fetchAllSubmissions
+} from "../../store/projectSubmission/actions";
+import { fetchAllEvents } from "../../store/events/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -37,22 +40,22 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const events = useSelector(state => state.events.data);
-  console.log('events data', events);
-  
+  console.log("events data", events);
+
   useEffect(() => {
     dispatch(fetchAllSubmissions(id));
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchAllEvents())
-  }, [])
+    dispatch(fetchAllEvents());
+  }, []);
 
-  let currentEvent = events.find(e => e.id == id)
-  console.log('current', currentEvent)
+  let currentEvent = events.find(e => e.id == id);
+  console.log("current", currentEvent);
 
   const handleSubmit = values => {
     const event_id = Number(id);
-      dispatch(createSubmission({...values, event_id}, history));
+    dispatch(createSubmission({ ...values, event_id }, history));
   };
 
   const schema = Yup.object().shape({
@@ -102,7 +105,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         placeholder="Project Title"
                       />
                       <ErrorSpan>
-                        <ErrorMessage name='project_title' component='div' />
+                        <ErrorMessage name="project_title" component="div" />
                       </ErrorSpan>
                       <Input
                         type="text"
@@ -110,34 +113,40 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                         placeholder="Team/Participant Name"
                       />
                       <ErrorSpan>
-                        <ErrorMessage name='participant_or_team_name' component='div' />
+                        <ErrorMessage
+                          name="participant_or_team_name"
+                          component="div"
+                        />
                       </ErrorSpan>
                     </RowBody>
 
-                    <RowBody>
-                      <Input
-                        type="text"
-                        name="git_url"
-                        placeholder="Github Url"
-                        style={{"width": "100%"}}
-                      />
-                      <ErrorSpan>
-                        <ErrorMessage name='git_url' component='div' />
-                      </ErrorSpan>
-                    </RowBody>
+                    {currentEvent.requirements.includes("github_url") ? (
+                      <RowBody>
+                        <Input
+                          type="text"
+                          name="git_url"
+                          placeholder="Github Url"
+                          style={{ width: "100%" }}
+                        />
+                        <ErrorSpan>
+                          <ErrorMessage name="git_url" component="div" />
+                        </ErrorSpan>
+                      </RowBody>
+                    ) : null}
 
-                    <RowBody>
-                      <Input
-                        type="text"
-                        name="video_url"
-                        placeholder="Video Url"
-                        style={{"width": "100%"}}
-                      />
-                      <ErrorSpan>
-                        <ErrorMessage name='video_url' component='div' />
-                      </ErrorSpan>
-                    </RowBody>
-
+                    {currentEvent.requirements.includes("video_url") ? (
+                      <RowBody>
+                        <Input
+                          type="text"
+                          name="video_url"
+                          placeholder="Video Url"
+                          style={{ width: "100%" }}
+                        />
+                        <ErrorSpan>
+                          <ErrorMessage name="video_url" component="div" />
+                        </ErrorSpan>
+                      </RowBody>
+                    ) : null}
                     <RowBody>
                       <TextArea
                         wide
