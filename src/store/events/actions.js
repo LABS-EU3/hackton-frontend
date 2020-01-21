@@ -6,7 +6,8 @@ export const EventsTypes = {
   FETCH_EVENT_CATEGORIES: "FETCH_EVENT_CATEGORIES",
   SET_EVENTS: "SET_EVENTS",
   SET_EVENT_CATEGORIES: "SET_EVENT_CATEGORIES",
-  EVENT_ERROR: "EVENT_ERROR"
+  EVENT_ERROR: "EVENT_ERROR",
+  ADD_TEAM_MEMBER: "ADD_TEAM_MEMBER"
 };
 
 export const fetchAllEvents = () => {
@@ -62,5 +63,13 @@ export const eventsError = errorMessage => {
   return {
     type: EventsTypes.EVENT_ERROR,
     errorMessage
+  };
+};
+
+export const addTeamMember = (data, history) => {
+  return {
+    type: EventsTypes.ADD_TEAM_MEMBER,
+    payload: data,
+    history
   };
 };

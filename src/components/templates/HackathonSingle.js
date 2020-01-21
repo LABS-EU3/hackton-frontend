@@ -203,11 +203,14 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     endDateArr[2] + "-" + endDateArr[1] + "-" + endDateArr[0];
 
   // Event is open or closed for registration
-  let dateNow = Date.now();
+  let dateNow = Date.now(); 
   let startDateInMs = new Date(startDate).getTime();
   let daysToEvent = Math.floor((startDateInMs - dateNow) / (1000 * 3600 * 24));
   window.localStorage.setItem("closingDate", JSON.stringify(eventIsOpen));
   let storedDeadline = JSON.parse(window.localStorage.getItem("closingDate"));
+
+  let closedDate = new Date(endDate).getTime();
+  let daysToEndDate = closedDate - dateNow
 
   useEffect(() => {
     dispatch(fetchAllParticipants(id));
@@ -448,6 +451,17 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   Unregister
                 </Button>
               )}
+
+              <Link to={`/dashboard/event/${id}/participant_submission`}>
+                { daysToEndDate < 0 ? (
+                <Button color="gray" disabled>
+                  Project Submission Closed
+                </Button>
+                ) : (<Button color="blue">
+                Submit Project
+              </Button>
+                )}
+              </Link>
             </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>
