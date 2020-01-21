@@ -48,7 +48,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
 
   useEffect(() => {
     dispatch(fetchAllEvents());
-  }, []);
+  }, [dispatch]);
 
   let currentEvent = events.find(e => e.id == id);
   // console.log("current", currentEvent);
