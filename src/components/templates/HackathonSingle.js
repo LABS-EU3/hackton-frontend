@@ -388,92 +388,98 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                 </div>
               </ButtonsGroup>
             </EventCardWide>
-
-            {currentEvent.creator_id !== userId ? (
-              <RegisterCardWide>
-                <TagsCardWide>
-                  <div className="tags-header">
-                    <Image src={user_icon} alt="user_icon" />
-                    <div>
-                      <BoldSpan>Hosted by:</BoldSpan>
-                      {organizer_name !== null ? (
-                        <PHosted>{organizer_name}</PHosted>
-                      ) : (
-                        <PHosted>{emailUser}</PHosted>
-                      )}
-                    </div>
-                  </div>
-                  <div className="status">
-                    {storedDeadline ? (
-                      <BoldSpan>
-                        Status: <NormalSpan>Open</NormalSpan>
-                      </BoldSpan>
+            <RegisterCardWide>
+              <TagsCardWide>
+                <div className="tags-header">
+                  <Image src={user_icon} alt="user_icon" />
+                  <div>
+                    <BoldSpan>Hosted by:</BoldSpan>
+                    {organizer_name !== null ? (
+                      <PHosted>{organizer_name}</PHosted>
                     ) : (
-                      <BoldSpan>
-                        Status: <NormalSpan>Closed</NormalSpan>
-                      </BoldSpan>
+                      <PHosted>{emailUser}</PHosted>
                     )}
-                    <BoldSpan>
-                      Type: <NormalSpan>{participation_type}</NormalSpan>
-                    </BoldSpan>
                   </div>
-                  <div className="date">
+                </div>
+                <div className="status">
+                  {storedDeadline ? (
                     <BoldSpan>
-                      From: <NormalSpan>{formattedStartDate}</NormalSpan>
+                      Status: <NormalSpan>Open</NormalSpan>
                     </BoldSpan>
-                    <BoldSpan>
-                      To: <NormalSpan>{formattedEndDate}</NormalSpan>
-                    </BoldSpan>
-                  </div>
-                  <div className="tags">
-                    <BoldSpan>Event Tags</BoldSpan>
-                    <div>
-                      {tag_name && tag_name.length !== 0 ? (
-                        tag_name.map((tagged, index) => {
-                          return <PTags key={index}>{tagged}</PTags>;
-                        })
-                      ) : (
-                        <Paragraph>No tags provided for this event</Paragraph>
-                      )}
-                    </div>
-                  </div>
-                </TagsCardWide>
-                {!storedDeadline ? (
-                  <Button
-                    style={{
-                      border: "2px solid lightgray",
-                      color: "lightgray"
-                    }}
-                    id="disabled-register"
-                    onClick={handleEventRegistration}
-                  >
-                    Registration Closed
-                  </Button>
-                ) : registered === false ? (
-                  <Button color="green" onClick={handleEventRegistration}>
-                    Register
-                  </Button>
-                ) : (
-                  <Button color="grey" onClick={handleEventUnRegistration}>
-                    Unregister
-                  </Button>
-                )}
-
-                <Link to={`/dashboard/event/${id}/participant_submission`}>
-                  {daysToEndDate < 0 ? (
-                    <Button color="gray" disabled>
-                      Project Submission Closed
-                    </Button>
-                  ) : daysToEndDate >= 0 && registered === true ? (
-                    <Button color="blue">Submit Project</Button>
                   ) : (
-                    <Button color="grey" disabled>
-                      You need to register to submit
+                    <BoldSpan>
+                      Status: <NormalSpan>Closed</NormalSpan>
+                    </BoldSpan>
+                  )}
+                  <BoldSpan>
+                    Type: <NormalSpan>{participation_type}</NormalSpan>
+                  </BoldSpan>
+                </div>
+                <div className="date">
+                  <BoldSpan>
+                    From: <NormalSpan>{formattedStartDate}</NormalSpan>
+                  </BoldSpan>
+                  <BoldSpan>
+                    To: <NormalSpan>{formattedEndDate}</NormalSpan>
+                  </BoldSpan>
+                </div>
+                <div className="tags">
+                  <BoldSpan>Event Tags</BoldSpan>
+                  <div>
+                    {tag_name && tag_name.length !== 0 ? (
+                      tag_name.map((tagged, index) => {
+                        return <PTags key={index}>{tagged}</PTags>;
+                      })
+                    ) : (
+                      <Paragraph>No tags provided for this event</Paragraph>
+                    )}
+                  </div>
+                </div>
+              </TagsCardWide>
+              {currentEvent.creator_id == userId ? (
+                <div>
+                  <Link to="/dashboard/new">
+                  <Button color="green">Add Co-organizer or Judges</Button>
+                  </Link>
+                </div>
+              ) : (
+                <div>
+                  {!storedDeadline ? (
+                    <Button
+                      style={{
+                        border: "2px solid lightgray",
+                        color: "lightgray"
+                      }}
+                      id="disabled-register"
+                      onClick={handleEventRegistration}
+                    >
+                      Registration Closed
+                    </Button>
+                  ) : registered === false ? (
+                    <Button color="green" onClick={handleEventRegistration}>
+                      Register
+                    </Button>
+                  ) : (
+                    <Button color="grey" onClick={handleEventUnRegistration}>
+                      Unregister
                     </Button>
                   )}
-                </Link>
-              </RegisterCardWide>
-            ) : null}
+                  <Link to={`/dashboard/event/${id}/participant_submission`}>
+                    {daysToEndDate < 0 ? (
+                      <Button color="gray" disabled>
+                        Project Submission Closed
+                      </Button>
+                    ) : daysToEndDate >= 0 && registered === true ? (
+                      <Button color="blue">Submit Project</Button>
+                    ) : (
+                      <Button color="grey" disabled>
+                        You need to register to submit
+                      </Button>
+                    )}
+                  </Link>
+                </div>
+              )}
+            </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>
       </WideBody>
