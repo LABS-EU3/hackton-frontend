@@ -169,7 +169,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   const dispatch = useDispatch();
   const [registered, setRegistered] = useState(false);
   const [eventIsOpen, setEventIsOpen] = useState(true);
-  const { participantsData } = useSelector(state => state.eventParticipants);
+  const { participantsData } = useSelector(state => state.participants);
 
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);

@@ -20,10 +20,14 @@ import emptyStar from "../../assets/star-hollow.png";
 import fullStar from "../../assets/star-full.png";
 
 const HackathonSingleProject = () => {
-  const { id } = useParams();
-  const events = useSelector(state => state.events.data);
-  const event = events.find(event => event.id === Number(id));
-  const { event_title, rubrics } = event;
+  const { id, projectId } = useParams();
+  const { event_title, rubrics } = useSelector(state =>
+    state.events.data.find(event => event.id === Number(id))
+  );
+
+  const {  project_title, participant_or_team_name, git_url, video_url, project_writeups } = useSelector(state =>
+    state.submissions.find(p => p.id === Number(projectId))
+  );
   // Convert rubrics names to Title Case
   const toTittleCase = item => {
     return item
@@ -32,15 +36,15 @@ const HackathonSingleProject = () => {
       .join(" ");
   };
 
-  const [grade, setGrade] = useState({feedback:''});
+  const [grade, setGrade] = useState({ feedback: "" });
 
   const changeHandler = ([rubric, rating]) => {
     setGrade(grade => ({ ...grade, [rubric]: rating }));
   };
 
   const handleSubmit = () => {
-    console.log('GRADES', grade);
-  }
+    console.log("GRADES", grade);
+  };
 
   return (
     <div>
@@ -57,7 +61,7 @@ const HackathonSingleProject = () => {
             <Card>
               <SubmissionEntry>
                 <Team>
-                  <H3>Cool Team</H3>
+                  <H3>{participant_or_team_name}</H3>
                 </Team>
                 <Label htmlFor="project_writeup">Project writeup</Label>
                 <Description id="project_writeup">
@@ -73,13 +77,17 @@ const HackathonSingleProject = () => {
                 <Rubrics id="rubrics">
                   {rubrics.map((rubric, i) => {
                     return (
-                      <RubricRow key={rubric} >
+                      <RubricRow key={rubric}>
                         {toTittleCase(rubric)}
                         <Rating
                           id={rubric}
-                          onChange={(rate) => changeHandler([rubric, rate])}
-                          emptySymbol={<img alt={toTittleCase(rubric)} src={emptyStar} />}
-                          fullSymbol={<img alt={toTittleCase(rubric)} src={fullStar} />}
+                          onChange={rate => changeHandler([rubric, rate])}
+                          emptySymbol={
+                            <img alt={toTittleCase(rubric)} src={emptyStar} />
+                          }
+                          fullSymbol={
+                            <img alt={toTittleCase(rubric)} src={fullStar} />
+                          }
                           initialRating={grade[rubric]}
                         />
                       </RubricRow>
@@ -87,13 +95,26 @@ const HackathonSingleProject = () => {
                   })}
                 </Rubrics>
                 <Label htmlFor="feedback">Feedback</Label>
-                <Feedback wide id="feedback" onChange={e => {
-                  const { id, value } = e.target;
-                  setGrade(grade => ({ ...grade, [id]: value }));
-                }} value={grade.feedback} />
+                <Feedback
+                  wide
+                  id="feedback"
+                  onChange={e => {
+                    const { id, value } = e.target;
+                    setGrade(grade => ({ ...grade, [id]: value }));
+                  }}
+                  value={grade.feedback}
+                />
               </SubmissionEntry>
-                <Button anchor to={`/dashboard/event/${id}/projects`} color="grey">Back to projects</Button>
-                <Button color="green" onClick={handleSubmit}>Submit Grading</Button>
+              <Button
+                anchor
+                to={`/dashboard/event/${id}/projects`}
+                color="grey"
+              >
+                Back to projects
+              </Button>
+              <Button color="green" onClick={handleSubmit}>
+                Submit Grading
+              </Button>
             </Card>
           </Column>
         </BodyContainerColumn>
@@ -173,9 +194,10 @@ const Rubrics = styled.div`
 const RubricRow = styled.div`
   display: flex;
   align-items: center;
+  font-weight: bold;
 
   & > span {
-    margin: 0 15px 0 0;
+    margin: 0 0 0 10px;
   }
 `;
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { media } from "../index";
 import UserHeader from "../organisms/UserHeader";
@@ -19,25 +19,19 @@ import Rating from "react-rating";
 import emptyStar from "../../assets/star-hollow.png";
 import fullStar from "../../assets/star-full.png";
 import { axiosWithAuth, selectToken } from "../../utils/api";
+import { fetchAllSubmissions } from "../../store/projectSubmission/actions";
 
 const HackathonProjects = () => {
   const { id } = useParams();
-  const event = useSelector(state =>
+  const { event_title } = useSelector(state =>
     state.events.data.find(event => event.id === Number(id))
   );
-  const token = useSelector(selectToken);
-  const { event_title } = event;
-  const [submissions, setSubmissions] = useState([]);
+  const { submissions } = useSelector(state => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchSubmisions = async () => {
-      const {
-        data: { body }
-      } = await axiosWithAuth(token).get(`/api/events/${Number(id)}/projects`);
-      setSubmissions(body);
-    };
-    fetchSubmisions();
-  }, [id, token]);
+    dispatch(fetchAllSubmissions(Number(id)));
+  }, [id]);
 
   return (
     <div>

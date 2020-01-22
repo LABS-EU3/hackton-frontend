@@ -34,10 +34,7 @@ function* watchSubmitProject() {
 function* fetchAllSubmissionsAsync({ payload }) {
   try {
     const token = yield select(selectToken);
-    const { data: { body } } = yield axiosWithAuth(token).get(
-      `/api/events/${payload.event_id}/projects/submissions`,
-      payload
-    );
+    const { data: { body } } = yield axiosWithAuth(token).get(`/api/events/${payload}/projects`);
     yield put(setSubmissions(body));
   } catch (error) {
     yield toast.error(`⚠️ ${error.message}`);
