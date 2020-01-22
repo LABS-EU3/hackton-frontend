@@ -22,7 +22,9 @@ Explain what these tests test and why
 
 ## Deployment
 
-This project was deployed with [Zeit](https://hackton-frontend-g3tpfw81r.now.sh/register).
+This project was deployed with [Zeit]
+* [Landing page](https://hackton.co/)
+* [Actual site](https://app.netlify.com/sites/sharp-panini-3ec54b/deploys)
 
 ## Built With
 
