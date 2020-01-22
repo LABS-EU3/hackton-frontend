@@ -191,7 +191,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     organizer_name
   } = event;
 
-  let currentEvent = events.find(e => e.id == id);
+  let currentEvent = events.find(e => e.id === Number(id));
 
   // Date formatting
   const startDate = start_date.split("T")[0];
@@ -436,7 +436,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   </div>
                 </div>
               </TagsCardWide>
-              {currentEvent.creator_id == userId ? (
+              {currentEvent.creator_id === Number(userId) ? (
                 <div>
                   <Link to={`/dashboard/event/${id}/team`}>
                   <Button color="green">Add Co-organizer or Judges</Button>
