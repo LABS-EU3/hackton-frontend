@@ -438,7 +438,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
               </TagsCardWide>
               {currentEvent.creator_id == userId ? (
                 <div>
-                  <Link to="/dashboard/new">
+                  <Link to={`/dashboard/event/${id}/team`}>
                   <Button color="green">Add Co-organizer or Judges</Button>
                   </Link>
                 </div>
