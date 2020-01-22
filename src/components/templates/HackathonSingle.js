@@ -452,6 +452,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                       }}
                       id="disabled-register"
                       onClick={handleEventRegistration}
+                      disabled
                     >
                       Registration Closed
                     </Button>
@@ -466,7 +467,10 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   )}
                   <Link to={`/dashboard/event/${id}/participant_submission`}>
                     {daysToEndDate < 0 ? (
-                      <Button color="gray" disabled>
+                      <Button color="gray" style={{
+                        border: "2px solid lightgray",
+                        color: "lightgray"
+                      }} disabled>
                         Project Submission Closed
                       </Button>
                     ) : daysToEndDate >= 0 && registered === true ? (
