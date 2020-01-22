@@ -40,59 +40,6 @@ function* watchCreateParticipantSubmission() {
   );
 }
 
-function* editParticipantSubmissionAsync({ payload, history }) {
-  try {
-    const token = yield select(userToken);
-    const { data } = yield axiosWithAuth(token).put(
-      `/api/events/projects/submissions/${payload.id}`,
-      payload
-    );
-    if (data) {
-      yield put(fetchAllSubmissions(payload.id));
-      toast.success(`😀 ${data.message}`);
-    }
-  } catch (error) {
-    yield put(submissionsError(error.message));
-    if (error.message === "Request failed with status code 404") {
-      history.push("/not-found");
-    }
-    toast.error(`⚠️ ${error.message}`);
-    alert(error);
-  }
-}
-
-function* watchEditParticipantSubmission() {
-  yield takeLatest(
-    ParticipantSubmissionTypes.EDIT_SUBMISSION,
-    editParticipantSubmissionAsync
-  );
-}
-
-function* deleteParticipantSubmissionAsync({ payload }) {
-  try {
-    const token = yield select(userToken);
-    const { data } = yield axiosWithAuth(token).delete(
-      `/api/events/projects/submissions/${payload.id}`,
-      payload
-    );
-    if (data) {
-      yield put(fetchAllSubmissions(payload.id));
-      toast.success(`😀 ${data.message}`);
-    }
-  } catch (error) {
-    yield put(submissionsError(error.message));
-    toast.error(`⚠️ ${error.message}`);
-    alert(error);
-  }
-}
-
-function* watchDeleteParticipantSubmission() {
-  yield takeLatest(
-    ParticipantSubmissionTypes.DELETE_SUBMISSION,
-    deleteParticipantSubmissionAsync
-  );
-}
-
 function* fetchAllSubmissionsAsync({ payload }) {
   try {
     const token = yield select(userToken);
@@ -117,8 +64,6 @@ function* watchFetchAllSubmissionsAsync() {
 export function* ParticipantsSubmissionSagas() {
   yield all([
     call(watchCreateParticipantSubmission),
-    call(watchEditParticipantSubmission),
-    call(watchDeleteParticipantSubmission),
     call(watchFetchAllSubmissionsAsync)
   ]);
 }

@@ -191,6 +191,8 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     organizer_name
   } = event;
 
+  let currentEvent = events.find(e => e.id === Number(id));
+
   // Date formatting
   const startDate = start_date.split("T")[0];
   const startDateArr = startDate.split("-");
@@ -203,14 +205,14 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     endDateArr[2] + "-" + endDateArr[1] + "-" + endDateArr[0];
 
   // Event is open or closed for registration
-  let dateNow = Date.now(); 
+  let dateNow = Date.now();
   let startDateInMs = new Date(startDate).getTime();
   let daysToEvent = Math.floor((startDateInMs - dateNow) / (1000 * 3600 * 24));
   window.localStorage.setItem("closingDate", JSON.stringify(eventIsOpen));
   let storedDeadline = JSON.parse(window.localStorage.getItem("closingDate"));
 
   let closedDate = new Date(endDate).getTime();
-  let daysToEndDate = closedDate - dateNow
+  let daysToEndDate = closedDate - dateNow;
 
   useEffect(() => {
     dispatch(fetchAllParticipants(id));
@@ -434,34 +436,53 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   </div>
                 </div>
               </TagsCardWide>
-              {!storedDeadline ? (
-                <Button
-                  style={{ border: "2px solid lightgray", color: "lightgray" }}
-                  id="disabled-register"
-                  onClick={handleEventRegistration}
-                >
-                  Registration Closed
-                </Button>
-              ) : registered === false ? (
-                <Button color="green" onClick={handleEventRegistration}>
-                  Register
-                </Button>
+              {currentEvent.creator_id === Number(userId) ? (
+                <div>
+                  <Link to={`/dashboard/event/${id}/team`}>
+                  <Button color="green">Add Co-organizer or Judges</Button>
+                  </Link>
+                </div>
               ) : (
-                <Button color="grey" onClick={handleEventUnRegistration}>
-                  Unregister
-                </Button>
+                <div>
+                  {!storedDeadline ? (
+                    <Button
+                      style={{
+                        border: "2px solid lightgray",
+                        color: "lightgray"
+                      }}
+                      id="disabled-register"
+                      onClick={handleEventRegistration}
+                      disabled
+                    >
+                      Registration Closed
+                    </Button>
+                  ) : registered === false ? (
+                    <Button color="green" onClick={handleEventRegistration}>
+                      Register
+                    </Button>
+                  ) : (
+                    <Button color="grey" onClick={handleEventUnRegistration}>
+                      Unregister
+                    </Button>
+                  )}
+                  <Link to={`/dashboard/event/${id}/participant_submission`}>
+                    {daysToEndDate < 0 ? (
+                      <Button color="gray" style={{
+                        border: "2px solid lightgray",
+                        color: "lightgray"
+                      }} disabled>
+                        Project Submission Closed
+                      </Button>
+                    ) : daysToEndDate >= 0 && registered === true ? (
+                      <Button color="blue">Submit Project</Button>
+                    ) : (
+                      <Button color="grey" disabled>
+                        You need to register to submit
+                      </Button>
+                    )}
+                  </Link>
+                </div>
               )}
-
-              <Link to={`/dashboard/event/${id}/participant_submission`}>
-                { daysToEndDate < 0 ? (
-                <Button color="gray" disabled>
-                  Project Submission Closed
-                </Button>
-                ) : (<Button color="blue">
-                Submit Project
-              </Button>
-                )}
-              </Link>
             </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>

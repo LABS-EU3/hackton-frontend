@@ -92,7 +92,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                 validationSchema={schema}
                 enableReinitialize
               >
-                {({ errors, touched }) => (
+                {() => (
                   <Form>
                     <RowBody>
                       <Input
@@ -125,7 +125,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                           style={{ width: "100%" }}
                         />
                         <ErrorSpan>
-                          <ErrorMessage name="git_url" component="div" />
+                          <ErrorMessage name="git_ur" component="div" />
                         </ErrorSpan>
                       </RowBody>
                     ) : null}
@@ -139,7 +139,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                           style={{ width: "100%" }}
                         />
                         <ErrorSpan>
-                          <ErrorMessage name="video_url" component="div" />
+                          <ErrorMessage name="video_ur" component="div" />
                         </ErrorSpan>
                       </RowBody>
                     ) : null}
