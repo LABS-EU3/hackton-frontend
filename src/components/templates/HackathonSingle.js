@@ -173,10 +173,8 @@ const HackathonSingle = ({ initialState = defaultState }) => {
 
   // Filter out event by URL param & grab user ID
   const events = useSelector(state => state.events.data);
-  // console.log('hackaton events', events);
   const event = events.find(event => event.id === Number(id));
   const { userId } = useSelector(state => state.currentUser);
-  // console.log("userId", userId);
 
   // Destructure object inside array
   const {
@@ -194,7 +192,6 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   } = event;
 
   let currentEvent = events.find(e => e.id == id);
-  // console.log("current", currentEvent);
 
   // Date formatting
   const startDate = start_date.split("T")[0];
