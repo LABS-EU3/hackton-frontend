@@ -1,7 +1,7 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
-import { UserTypes, setUser, userError, resetUser } from "./actions";
+import { all, call, takeLatest, put, select } from "redux-saga/effects";
+import { UserTypes, setUser, userError, resetUser, setUserProfile } from "./actions";
 
-import { axios } from "../../utils/api";
+import { axios, axiosWithAuth, selectToken } from "../../utils/api";
 import { toast } from "react-toastify";
 
 function* loginAsync({ payload, history }) {
@@ -69,11 +69,51 @@ function* watchLogout() {
   yield takeLatest(UserTypes.RESET_USER, logout);
 }
 
+function* fetchUserProfileAsync({payload}) {
+  try {
+    const token = yield select(selectToken);
+    const {
+      data: { body:{user} }
+    } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
+    yield console.log('USER', user);
+    yield put(setUserProfile(user));
+  } catch (error) {
+    yield put(userError(error.message));
+    toast.error(`⚠️ ${error.message}`);
+  }
+}
+
+function* watchFetchUserProfile() {
+  yield takeLatest(UserTypes.FETCH_USER_PROFILE, fetchUserProfileAsync);
+}
+
+function* updateUserProfileAsync({ payload, history }) {
+  try {
+    const token = yield select(selectToken);
+    const { data: {message, body: { userUpdates }} } = yield axiosWithAuth(token).put(
+      "/api/users/profile",
+      payload
+    );
+      yield put(setUserProfile(userUpdates))
+      yield toast.success(`🎉 ${message}`);
+      yield history.push("/dashboard");
+  } catch (error) {
+    yield put(userError(error.message));
+    toast.error(`⚠️ ${error.message}`);
+  }
+}
+
+function* watchUpdateUserProfile() {
+  yield takeLatest(UserTypes.UPDATE_USER_PROFILE, updateUserProfileAsync);
+}
+
 export function* userSagas() {
   yield all([
     call(watchLogin),
     call(watchRegister),
     call(watchSocialAuth),
-    call(watchLogout)
+    call(watchLogout),
+    call(watchFetchUserProfile),
+    call(watchUpdateUserProfile)
   ]);
 }

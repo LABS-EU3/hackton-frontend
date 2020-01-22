@@ -2,7 +2,7 @@ import React from 'react'
 import { Router, Route } from 'react-router';
 import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react'
-import UserOnboarding from '../UserOnboarding';
+import UserProfileForm from '../userProfileForm';
 const history = createMemoryHistory()
 
 const renderWithRouter = Component => render(
@@ -11,10 +11,10 @@ const renderWithRouter = Component => render(
   </Router>
 )
 
-describe("It should render <UserOnboarding/> template correctly", () => {
+describe("It should render <UserProfileForm/> template correctly", () => {
   
-    it("renders the User onboarding template correctly", () => {
-      const template = () => renderWithRouter(UserOnboarding)
+    it("renders the User Profile Form template correctly", () => {
+      const template = () => renderWithRouter(UserProfileForm)
       expect(template).toMatchSnapshot();
     });
   });
