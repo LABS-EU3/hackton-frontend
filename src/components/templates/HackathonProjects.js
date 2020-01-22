@@ -52,7 +52,7 @@ const HackathonProjects = () => {
                       <Rating>
                         {e === 2 ? "Not rated." : "⭐️⭐️⭐️⭐️⭐️"}
                       </Rating>
-                      <Link to={`projects/${i}`}>
+                      <Link to={`/dashboard/event/${id}/project/${i}`}>
                         <Button color="blue">View</Button>
                       </Link>
                     </SubmissionEntry>
