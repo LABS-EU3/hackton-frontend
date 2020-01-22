@@ -64,7 +64,7 @@ export const fetchUserProfile = (userId) => {
 
 export const updateUserProfile = (updatedProfile, history) => {
   return {
-    type: UserTypes.UPDATE_PROFILE,
+    type: UserTypes.UPDATE_USER_PROFILE,
     payload: updatedProfile,
     history
   };
