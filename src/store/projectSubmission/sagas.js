@@ -60,7 +60,7 @@ function* gradeSubmissionAsync({ id, payload, history }) {
       payload
     );
     yield console.log("RESPONSE", data);
-    yield history.push(`/dashboard/event/:id/projects`);
+    yield history.push(`/dashboard/event/${payload.project_event_id}/projects`);
   } catch (error) {
     yield toast.error(`⚠️ ${error.message}`);
     yield put(submissionsError(error.message));
