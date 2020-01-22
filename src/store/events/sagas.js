@@ -10,7 +10,6 @@ import {
   setEventCategories
 } from "./actions";
 
-
 function* fetchAllEventsAsync() {
   try {
     const token = yield select(selectToken);
@@ -136,6 +135,28 @@ function* watchAddTeamMember() {
   yield takeLatest(EventsTypes.ADD_TEAM_MEMBER, addTeamMemberAsync);
 }
 
+function* fetchEventSubmissionsAsync({ payload, history }) {
+  try {
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).get(
+      `/api/events/${payload}/projects`
+    );
+    if (data) {
+      history.push(`/dashboard/events/${payload}`);
+    }
+  } catch (error) {
+    yield put(eventsError(error.message));
+    yield toast.error(error.message);
+  }
+}
+
+function* watchFetchEventSubmissions() {
+  yield takeLatest(
+    EventsTypes.FETCH_EVENT_SUBMISSIONS,
+    fetchEventSubmissionsAsync
+  );
+}
+
 export function* eventsSagas() {
   yield all([
     call(watchFetchAllEvents),
@@ -143,6 +164,7 @@ export function* eventsSagas() {
     call(watchDeleteEvent),
     call(watchUpdateEvent),
     call(watchFetchEventCategories),
-    call(watchAddTeamMember)
+    call(watchAddTeamMember),
+    call(watchFetchEventSubmissions)
   ]);
 }

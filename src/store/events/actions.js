@@ -7,7 +7,8 @@ export const EventsTypes = {
   SET_EVENTS: "SET_EVENTS",
   SET_EVENT_CATEGORIES: "SET_EVENT_CATEGORIES",
   EVENT_ERROR: "EVENT_ERROR",
-  ADD_TEAM_MEMBER: "ADD_TEAM_MEMBER"
+  ADD_TEAM_MEMBER: "ADD_TEAM_MEMBER",
+  FETCH_EVENT_SUBMISSIONS: 'FETCH_EVENT_SUBMISSIONS'
 };
 
 export const fetchAllEvents = () => {
@@ -73,3 +74,11 @@ export const addTeamMember = (data, history) => {
     history
   };
 };
+
+export const fetchEventSubmissions = (eventId, history) => {
+  return {
+    type: EventsTypes.FETCH_EVENT_SUBMISSIONS,
+    payload: eventId,
+    history
+  }
+}

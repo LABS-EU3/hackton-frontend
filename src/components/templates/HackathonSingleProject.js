@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Rating from "react-rating";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { media } from "../index";
@@ -22,17 +22,25 @@ import fullStar from "../../assets/star-full.png";
 const HackathonSingleProject = () => {
   const { id } = useParams();
   const events = useSelector(state => state.events.data);
-  console.log("EVENTS: ", events);
   const event = events.find(event => event.id === Number(id));
-  console.log("EVENT: ", event);
-
-  const { event_title } = event;
-
-  const [grade, setGrade] = useState({});
-
-  const changeHandler = rate => {
-    console.log("RATING IS: ", rate);
+  const { event_title, rubrics } = event;
+  // Convert rubrics names to Title Case
+  const toTittleCase = item => {
+    return item
+      .split("_")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   };
+
+  const [grade, setGrade] = useState({feedback:''});
+
+  const changeHandler = ([rubric, rating]) => {
+    setGrade(grade => ({ ...grade, [rubric]: rating }));
+  };
+
+  const handleSubmit = () => {
+    console.log('GRADES', grade);
+  }
 
   return (
     <div>
@@ -63,41 +71,29 @@ const HackathonSingleProject = () => {
                 </Description>
                 <Label htmlFor="rubrics">Ratings</Label>
                 <Rubrics id="rubrics">
-                  <div>
-                    Presentation{" "}
-                    <Rating
-                      id="presentation"
-                      onChange={changeHandler}
-                      emptySymbol={<img src={emptyStar} />}
-                      fullSymbol={<img src={fullStar} />}
-                    />
-                  </div>
-                  <div>
-                    Market Fit{" "}
-                    <Rating
-                      onChange={changeHandler}
-                      emptySymbol={<img src={emptyStar} />}
-                      fullSymbol={<img src={fullStar} />}
-                    />
-                  </div>
-                  <div>
-                    Innovation{" "}
-                    <Rating
-                      onChange={changeHandler}
-                      emptySymbol={<img src={emptyStar} />}
-                      fullSymbol={<img src={fullStar} />}
-                    />
-                  </div>
+                  {rubrics.map((rubric, i) => {
+                    return (
+                      <RubricRow key={rubric} >
+                        {toTittleCase(rubric)}
+                        <Rating
+                          id={rubric}
+                          onChange={(rate) => changeHandler([rubric, rate])}
+                          emptySymbol={<img alt={toTittleCase(rubric)} src={emptyStar} />}
+                          fullSymbol={<img alt={toTittleCase(rubric)} src={fullStar} />}
+                          initialRating={grade[rubric]}
+                        />
+                      </RubricRow>
+                    );
+                  })}
                 </Rubrics>
                 <Label htmlFor="feedback">Feedback</Label>
-                <Feedback wide id="feedback" />
+                <Feedback wide id="feedback" onChange={e => {
+                  const { id, value } = e.target;
+                  setGrade(grade => ({ ...grade, [id]: value }));
+                }} value={grade.feedback} />
               </SubmissionEntry>
-              <Link to={`/dashboard/event/${id}/projects`}>
-                <Button color="grey">Back to projects</Button>
-              </Link>
-              <Link to={`/dashboard/event/${id}/projects`}>
-                <Button color="green">Submit Grading</Button>
-              </Link>
+                <Button anchor to={`/dashboard/event/${id}/projects`} color="grey">Back to projects</Button>
+                <Button color="green" onClick={handleSubmit}>Submit Grading</Button>
             </Card>
           </Column>
         </BodyContainerColumn>
@@ -171,6 +167,15 @@ const Rubrics = styled.div`
 
   div {
     margin: 0 0 10px 0;
+  }
+`;
+
+const RubricRow = styled.div`
+  display: flex;
+  align-items: center;
+
+  & > span {
+    margin: 0 15px 0 0;
   }
 `;
 

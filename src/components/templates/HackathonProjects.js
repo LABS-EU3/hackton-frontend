@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { media } from "../index";
 import UserHeader from "../organisms/UserHeader";
@@ -15,14 +15,29 @@ import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import { Paragraph } from "../atoms/Paragraph";
 import Button from "../atoms/Button";
-
-const entries = [1, 2, 3];
+import Rating from "react-rating";
+import emptyStar from "../../assets/star-hollow.png";
+import fullStar from "../../assets/star-full.png";
+import { axiosWithAuth, selectToken } from "../../utils/api";
 
 const HackathonProjects = () => {
   const { id } = useParams();
-  const events = useSelector(state => state.events.data);
-  const event = events.find(event => event.id === Number(id));
+  const event = useSelector(state =>
+    state.events.data.find(event => event.id === Number(id))
+  );
+  const token = useSelector(selectToken);
   const { event_title } = event;
+  const [submissions, setSubmissions] = useState([]);
+
+  useEffect(() => {
+    const fetchSubmisions = async () => {
+      const {
+        data: { body }
+      } = await axiosWithAuth(token).get(`/api/events/${Number(id)}/projects`);
+      setSubmissions(body);
+    };
+    fetchSubmisions();
+  }, [id, token]);
 
   return (
     <div>
@@ -38,30 +53,29 @@ const HackathonProjects = () => {
           <Column>
             <Card>
               <RowBody>
-                {entries.map((e, i) => {
+                {submissions.map((s, i) => {
                   return (
-                    <SubmissionEntry key={e + i}>
+                    <SubmissionEntry key={s.id}>
                       <Team>
-                        <H3>Cool Team</H3>
+                        <H3>{s.participant_or_team_name}</H3>
                       </Team>
-                      <Description>
-                        Cool description about the project submission. Could be
-                        a little bit longer so we need to trim it down on the
-                        project submissions page.
-                      </Description>
-                      <Rating>
-                        {e === 2 ? "Not rated." : "⭐️⭐️⭐️⭐️⭐️"}
-                      </Rating>
-                      <Link to={`/dashboard/event/${id}/project/${i}`}>
+                      <Description>{s.project_writeups}</Description>
+                      <Rating
+                        initialRating={2 + i}
+                        readonly
+                        emptySymbol={<img alt="Rubric star" src={emptyStar} />}
+                        fullSymbol={<img alt="Rubric star" src={fullStar} />}
+                      />
+                      <Link to={`/dashboard/event/${id}/project/${s.id}`}>
                         <Button color="blue">View</Button>
                       </Link>
                     </SubmissionEntry>
                   );
                 })}
               </RowBody>
-              <Link to={`/dashboard/event/${id}`}>
-                <Button color="grey">Back to event</Button>
-              </Link>
+              <Button anchor to={`/dashboard/event/${id}`} color="grey">
+                Back to event
+              </Button>
             </Card>
           </Column>
         </BodyContainerColumn>
@@ -122,5 +136,3 @@ const SubmissionEntry = styled.div`
     flex-direction: column;
   }
 `;
-
-const Rating = styled.div``;
