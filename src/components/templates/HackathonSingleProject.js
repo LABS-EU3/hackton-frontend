@@ -30,9 +30,9 @@ const HackathonSingleProject = () => {
 
   const [grade, setGrade] = useState({});
 
-  const changeHandler = (rate) => {
+  const changeHandler = rate => {
     console.log("RATING IS: ", rate);
-  }
+  };
 
   return (
     <div>
@@ -65,7 +65,8 @@ const HackathonSingleProject = () => {
                 <Rubrics id="rubrics">
                   <div>
                     Presentation{" "}
-                    <Rating id="presentation"
+                    <Rating
+                      id="presentation"
                       onChange={changeHandler}
                       emptySymbol={<img src={emptyStar} />}
                       fullSymbol={<img src={fullStar} />}
