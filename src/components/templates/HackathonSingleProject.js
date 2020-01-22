@@ -94,6 +94,9 @@ const HackathonSingleProject = () => {
               <Link to={`/dashboard/event/${id}/projects`}>
                 <Button color="grey">Back to projects</Button>
               </Link>
+              <Link to={`/dashboard/event/${id}/projects`}>
+                <Button color="green">Submit Grading</Button>
+              </Link>
             </Card>
           </Column>
         </BodyContainerColumn>
