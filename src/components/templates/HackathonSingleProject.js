@@ -18,6 +18,7 @@ import Button from "../atoms/Button";
 import Label from "../atoms/Label";
 import emptyStar from "../../assets/star-hollow.png";
 import fullStar from "../../assets/star-full.png";
+import {gradeSubmission} from "../../store/projectSubmission/actions";
 
 const HackathonSingleProject = () => {
   const { id, projectId } = useParams();
@@ -25,7 +26,13 @@ const HackathonSingleProject = () => {
     state.events.data.find(event => event.id === Number(id))
   );
 
-  const {  project_title, participant_or_team_name, git_url, video_url, project_writeups } = useSelector(state =>
+  const {
+    project_title,
+    participant_or_team_name,
+    git_url: github_url,
+    video_url,
+    project_writeups
+  } = useSelector(state =>
     state.submissions.find(p => p.id === Number(projectId))
   );
   // Convert rubrics names to Title Case
@@ -65,14 +72,13 @@ const HackathonSingleProject = () => {
                 </Team>
                 <Label htmlFor="project_writeup">Project writeup</Label>
                 <Description id="project_writeup">
-                  Cool description about the project submission. Could be a
-                  little bit longer so we need to trim it down on the project
-                  submissions page. Cool description about the project
-                  submission. Could be a little bit longer so we need to trim it
-                  down on the project submissions page. Cool description about
-                  the project submission. Could be a little bit longer so we
-                  need to trim it down on the project submissions page.
+                  {project_writeups}
                 </Description>
+                <Label htmlFor="github_url">GitHub URL</Label>
+                <div id="github_url">{github_url}</div>
+
+                <Label htmlFor="video_url">Video URL</Label>
+                <div id="video_url">{video_url}</div>
                 <Label htmlFor="rubrics">Ratings</Label>
                 <Rubrics id="rubrics">
                   {rubrics.map((rubric, i) => {

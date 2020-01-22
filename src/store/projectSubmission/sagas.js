@@ -49,9 +49,28 @@ function* watchFetchAllSubmissionsAsync() {
   );
 }
 
+function* gradeSubmissionAsync({ payload, history }) {
+  try {
+    const token = select(selectToken);
+    const { data } = axiosWithAuth(token).post(
+      `/api/events/projects/${payload.project_id}/grading`, payload
+    );
+    
+
+  } catch (error) {
+    yield toast.error(`⚠️ ${error.message}`);
+    yield put(submissionsError(error.message));
+  }
+}
+
+function* watchGradeSubmission() {
+  yield takeLatest(ProjectSubmissionTypes.GRADE_SUBMISSION, gradeSubmissionAsync);
+}
+
 export function* projectSubmissionsSagas() {
   yield all([
     call(watchSubmitProject),
-    call(watchFetchAllSubmissionsAsync)
+    call(watchFetchAllSubmissionsAsync),
+    call(watchGradeSubmission)
   ]);
 }
