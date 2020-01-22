@@ -55,7 +55,7 @@ function* gradeSubmissionAsync({ payload, history }) {
     const { data } = axiosWithAuth(token).post(
       `/api/events/projects/${payload.project_id}/grading`, payload
     );
-    
+
 
   } catch (error) {
     yield toast.error(`⚠️ ${error.message}`);
