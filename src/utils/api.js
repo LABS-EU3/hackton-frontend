@@ -11,3 +11,5 @@ export const axiosWithAuth = token =>
   });
 
 export const axios = Axios.create({ baseURL });
+
+export const selectToken = state => state.currentUser.token;

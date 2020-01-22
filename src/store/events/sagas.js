@@ -1,7 +1,7 @@
 import { put, takeLatest, call, all, select } from "redux-saga/effects";
 import { toast } from "react-toastify";
 
-import { axiosWithAuth } from "../../utils/api";
+import { axiosWithAuth, selectToken } from "../../utils/api";
 import {
   EventsTypes,
   eventsError,
@@ -10,7 +10,6 @@ import {
   setEventCategories
 } from "./actions";
 
-const selectToken = state => state.currentUser.token;
 
 function* fetchAllEventsAsync() {
   try {
