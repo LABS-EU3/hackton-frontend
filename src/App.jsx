@@ -63,7 +63,7 @@ function App() {
         />
         <PrivateRoute
           exact
-          path="/dashboard/event/:id/projects/:projectId"
+          path="/dashboard/event/:id/project/:projectId"
           component={HackathonProjectPage}
         />
         <Redirect to="/register" />
