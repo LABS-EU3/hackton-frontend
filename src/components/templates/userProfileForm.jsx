@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useHistory, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,7 +22,6 @@ import Button from "../atoms/Button";
 import profileImg from "../../assets/profile-image.png";
 
 import {
-  fetchUserProfile,
   updateUserProfile
 } from "../../store/user/actions";
 
@@ -50,25 +49,19 @@ var pad = {
 const UserProfileForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { currentUser: initialState } = useSelector(state => state);
-
-
-  useEffect(() => {
-    dispatch(fetchUserProfile());
-  }, [dispatch]);
+  const { bio, fullname, email, username } = useSelector(state => state.currentUser);
 
   const handleSubmit = values => {
       dispatch(updateUserProfile(values, history));
   };
 
   const schema = Yup.object().shape({
-    first_name: Yup.string().required("first name is required"),
-    last_name: Yup.string().required("last name is required"),
+    fullname: Yup.string().required("fullname is required"),
     email: Yup.string().required("email is required"),
     username: Yup.string().required("username is required"),
     bio: Yup.string()
   });
-
+const initialState = { bio, fullname, email, username }
   return (
     <div>
       <UserHeader />
@@ -97,23 +90,23 @@ const UserProfileForm = () => {
                           style={border}
                         />
                         <Row>
-                          <Link>
+                          <div>
                             <Button to="/dashboard" color="blue" style={pad}>
                               Upload New Picture
                             </Button>
                             <Button to="/dashboard" color="grey" anchor>
                               Remove
                             </Button>
-                          </Link>
+                          </div>
                         </Row>
                       </ProfileRow>
                     </Column>
 
                     <RowBody>
-                      <Label htmlFor="full_name">Full Name</Label>
+                      <Label htmlFor="fullname">Full Name</Label>
                       <Input
                         type="text"
-                        name="full_name"
+                        name="fullname"
                         display="wide"
                         placeholder="Full Name"
                       />

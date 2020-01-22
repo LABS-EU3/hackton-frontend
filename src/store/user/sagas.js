@@ -90,15 +90,13 @@ function* watchFetchUserProfile() {
 function* updateUserProfileAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
-    const { data } = yield axiosWithAuth(token).put(
+    const { data: {message, body: { userUpdates }} } = yield axiosWithAuth(token).put(
       "/api/users/profile",
       payload
     );
-
-    if (data) {
-      toast.success(`🎉 ${data.message}`);
+      yield put(setUserProfile(userUpdates))
+      yield toast.success(`🎉 ${message}`);
       yield history.push("/dashboard");
-    }
   } catch (error) {
     yield put(userError(error.message));
     toast.error(`⚠️ ${error.message}`);
