@@ -2,7 +2,7 @@ import React from 'react'
 import { Router, Route } from 'react-router';
 import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react'
-import UserProfileForm from '../UserProfileForm';
+import UserProfileForm from '../UserProfileForm.jsx';
 const history = createMemoryHistory()
 
 const renderWithRouter = Component => render(
