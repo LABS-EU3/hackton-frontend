@@ -5,8 +5,17 @@ import { type, smallFontSize, Gradient, Solid, media } from "../index";
 
 export default function Button({ children, anchor, color, ...props }) {
   if (anchor) {
-    return <StyledLink color={color} {...props}>{children}</StyledLink>
-  } else return <StyledButton color={color} {...props}>{children}</StyledButton>;
+    return (
+      <StyledLink color={color} {...props}>
+        {children}
+      </StyledLink>
+    );
+  } else
+    return (
+      <StyledButton color={color} {...props}>
+        {children}
+      </StyledButton>
+    );
 }
 
 const StyledButton = styled.button`
@@ -26,7 +35,7 @@ const StyledButton = styled.button`
   white-space: nowrap;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? `disabled` : `pointer`)};
   }
 
   @media ${media.tablet} {
@@ -93,7 +102,7 @@ const StyledLink = styled(Link)`
   white-space: nowrap;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? `disabled` : `pointer`)};
   }
 
   @media ${media.tablet} {

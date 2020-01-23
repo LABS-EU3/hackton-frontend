@@ -34,11 +34,11 @@ function* registerEventAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
-      `/api/events/${payload.event_id}/participants`,
+      `/api/events/${payload}/participants`,
       payload
     );
     if (data) {
-      yield put(fetchAllParticipants(payload.event_id));
+      yield put(fetchAllParticipants(payload));
       yield showSuccess(`😀 ${data.message}`);
     }
   } catch ({ response: { message, statusCode } }) {
@@ -57,9 +57,9 @@ function* unregisterEventAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).delete(
-      `/api/events/${payload.event_id}/participants`
+      `/api/events/${payload}/participants`
     );
-    yield put(fetchAllParticipants(payload.event_id));
+    yield put(fetchAllParticipants(payload));
     yield showSuccess(`😲 ${data.message}`);
   } catch ({ response: { message, statusCode } }) {
     if (statusCode === 404) {

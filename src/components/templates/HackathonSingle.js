@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import UserHeader from "../organisms/UserHeader";
@@ -22,11 +22,6 @@ import {
   registerEvent,
   unregisterEvent
 } from "../../store/eventParticipants/actions";
-
-const defaultState = {
-  user_id: 1,
-  event_id: 1
-};
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -163,20 +158,14 @@ const Separator = styled.hr`
   margin: 0 0 20px 0;
 `;
 
-const HackathonSingle = ({ initialState = defaultState }) => {
+const HackathonSingle = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [registered, setRegistered] = useState(false);
-  const [eventIsOpen, setEventIsOpen] = useState(true);
-  const { participantsData } = useSelector(state => state.eventParticipants);
-
-  // Filter out event by URL param & grab user ID
-  const events = useSelector(state => state.events.data);
-  const event = events.find(event => event.id === Number(id));
+  const { participants } = useSelector(state => state);
   const { userId } = useSelector(state => state.currentUser);
 
-  // Destructure object inside array
+  // Filter out event by URL param & grab user ID
   const {
     creator_id,
     event_title,
@@ -189,82 +178,28 @@ const HackathonSingle = ({ initialState = defaultState }) => {
     location,
     organizer_email,
     organizer_name
-  } = event;
-
-  let currentEvent = events.find(e => e.id === Number(id));
+  } = useSelector(state =>
+    state.events.data.find(event => event.id === Number(id))
+  );
 
   // Date formatting
-  const startDate = start_date.split("T")[0];
-  const startDateArr = startDate.split("-");
-  const formattedStartDate =
-    startDateArr[2] + "-" + startDateArr[1] + "-" + startDateArr[0];
-
-  const endDate = end_date.split("T")[0];
-  const endDateArr = endDate.split("-");
-  const formattedEndDate =
-    endDateArr[2] + "-" + endDateArr[1] + "-" + endDateArr[0];
+  const formattedStartDate = new Date(start_date).toLocaleDateString();
+  const formattedEndDate = new Date(end_date).toLocaleDateString();
 
   // Event is open or closed for registration
-  let dateNow = Date.now();
-  let startDateInMs = new Date(startDate).getTime();
-  let daysToEvent = Math.floor((startDateInMs - dateNow) / (1000 * 3600 * 24));
-  window.localStorage.setItem("closingDate", JSON.stringify(eventIsOpen));
-  let storedDeadline = JSON.parse(window.localStorage.getItem("closingDate"));
-
-  let closedDate = new Date(endDate).getTime();
-  let daysToEndDate = closedDate - dateNow;
+  const today = new Date().getTime();
+  const startTime = new Date(start_date).getTime();
+  const endTime = new Date(end_date).getTime();
+  const isOpen = today <= startTime;
+  const isRegistered = participants.find(p => p.user_id === userId);
+  const isEnded = today > endTime;
 
   useEffect(() => {
     dispatch(fetchAllParticipants(id));
   }, [dispatch, id]);
 
-  useEffect(() => {
-    const handleRegisterLogic = () => {
-      participantsData.filter(user => {
-        if (user.user_id !== userId) {
-          return setRegistered(false);
-        } else {
-          return setRegistered(true);
-        }
-      });
-    };
-
-    const handleStatusLogic = () => {
-      if (daysToEvent <= 0) {
-        window.addEventListener("load", () => {
-          const el = document.querySelector("#disabled-register");
-          if (el) {
-            el.disabled = true;
-          }
-        });
-        return setEventIsOpen(false);
-      } else {
-        return setEventIsOpen(true);
-      }
-    };
-
-    handleRegisterLogic();
-    handleStatusLogic();
-  }, [dispatch, participantsData, userId, id, daysToEvent]);
-
   // Number of participants registered
-  const registeredPartcipants = participantsData.length;
-
-  // handles event registration
-  const handleEventRegistration = e => {
-    e.preventDefault();
-    initialState.event_id = event.id;
-    initialState.user_id = userId;
-    dispatch(registerEvent(initialState, history));
-  };
-
-  // handles event unregistration
-  const handleEventUnRegistration = e => {
-    e.preventDefault();
-    initialState.event_id = event.id;
-    initialState.user_id = userId;
-    dispatch(unregisterEvent(initialState, history));
-  };
+  const registeredPartcipants = participants.length;
 
   // Redacting user emails before rendering
   let redactedEmail = organizer_email.split("");
@@ -287,9 +222,12 @@ const HackathonSingle = ({ initialState = defaultState }) => {
   // Grab the first letter of title
   const initial = event_title[0];
 
-  const handleEditClick = e => {
+  const handleRegistration = e => {
     e.preventDefault();
-    history.push(`/dashboard/event/${id}/edit`);
+    if (isRegistered) {
+      return dispatch(unregisterEvent(id, history));
+    }
+    return dispatch(registerEvent(id, history));
   };
 
   return (
@@ -379,16 +317,18 @@ const HackathonSingle = ({ initialState = defaultState }) => {
               </JudgesContainer>
               <ButtonsGroup>
                 <div>
-                  <Link to={"/dashboard"}>
-                    <Button color="grey">Back to Dashboard</Button>
-                  </Link>
-                  {creator_id === userId ? (
-                    <Link to={"#"}>
-                      <Button color="blue" onClick={handleEditClick}>
-                        Edit
-                      </Button>
-                    </Link>
-                  ) : null}
+                  <Button anchor to={"/dashboard"} color="grey">
+                    Back to Dashboard
+                  </Button>
+                  {creator_id === userId && (
+                    <Button
+                      anchor
+                      to={`/dashboard/event/${id}/edit`}
+                      color="blue"
+                    >
+                      Edit event
+                    </Button>
+                  )}
                 </div>
               </ButtonsGroup>
             </EventCardWide>
@@ -406,17 +346,13 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   </div>
                 </div>
                 <div className="status">
-                  {storedDeadline ? (
-                    <BoldSpan>
-                      Status: <NormalSpan>Open</NormalSpan>
-                    </BoldSpan>
-                  ) : (
-                    <BoldSpan>
-                      Status: <NormalSpan>Closed</NormalSpan>
-                    </BoldSpan>
-                  )}
                   <BoldSpan>
-                    Type: <NormalSpan>{participation_type}</NormalSpan>
+                    Status:
+                    <NormalSpan>{isOpen ? " Open" : " Closed"}</NormalSpan>
+                  </BoldSpan>
+                  <BoldSpan>
+                    Participation type:{" "}
+                    <NormalSpan>{participation_type}</NormalSpan>
                   </BoldSpan>
                 </div>
                 <div className="date">
@@ -440,55 +376,37 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   </div>
                 </div>
               </TagsCardWide>
-              {currentEvent.creator_id === Number(userId) ? (
+              {creator_id === userId && isEnded ? (
                 <div>
-                  <Link to={`/dashboard/event/${id}/team`}>
-                    <Button color="green">Add Co-organizer or Judges</Button>
-                  </Link>
+                  <Button
+                    anchor
+                    to={`/dashboard/event/${id}/team`}
+                    color="green"
+                  >
+                    Add Co-organizer or Judges
+                  </Button>
                 </div>
               ) : (
                 <div>
-                  {!storedDeadline ? (
+                  {!isOpen ? (
                     <Button
                       style={{
                         border: "2px solid lightgray",
                         color: "lightgray"
                       }}
-                      id="disabled-register"
-                      onClick={handleEventRegistration}
+                      color="grey"
                       disabled
                     >
                       Registration Closed
                     </Button>
-                  ) : registered === false ? (
-                    <Button color="green" onClick={handleEventRegistration}>
-                      Register
-                    </Button>
                   ) : (
-                    <Button color="grey" onClick={handleEventUnRegistration}>
-                      Unregister
+                    <Button
+                      color={isRegistered ? "grey" : "green"}
+                      onClick={handleRegistration}
+                    >
+                      {isRegistered ? `Unregister` : `Register`}
                     </Button>
                   )}
-                  <Link to={`/dashboard/event/${id}/participant_submission`}>
-                    {daysToEndDate < 0 ? (
-                      <Button
-                        color="gray"
-                        style={{
-                          border: "2px solid lightgray",
-                          color: "lightgray"
-                        }}
-                        disabled
-                      >
-                        Project Submission Closed
-                      </Button>
-                    ) : daysToEndDate >= 0 && registered === true ? (
-                      <Button color="blue">Submit Project</Button>
-                    ) : (
-                      <Button color="grey" disabled>
-                        You need to register to submit
-                      </Button>
-                    )}
-                  </Link>
                 </div>
               )}
             </RegisterCardWide>

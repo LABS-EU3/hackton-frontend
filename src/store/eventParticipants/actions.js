@@ -6,7 +6,6 @@ export const EventParticipantTypes = {
 };
 
 export const fetchAllParticipants = id => {
-  console.log("actions id", id);
   return {
     type: EventParticipantTypes.FETCH_ALL_PARTICIPANTS,
     payload: id
@@ -19,18 +18,18 @@ export const setEventParticipants = participants => {
   };
 };
 
-export const registerEvent = (participantData, history) => {
+export const registerEvent = (eventId, history) => {
   return {
     type: EventParticipantTypes.REGISTER_EVENT,
-    payload: participantData,
+    payload: eventId,
     history
   };
 };
 
-export const unregisterEvent = (participantData, history) => {
+export const unregisterEvent = (eventId, history) => {
   return {
     type: EventParticipantTypes.UNREGISTER_EVENT,
-    payload: participantData,
+    payload: eventId,
     history
   };
 };
