@@ -38,7 +38,7 @@ Run `npm test` or `yarn test` in the console.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/LABS-EU3/hackton-frontend/wiki/Pull-Request-Convention) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
