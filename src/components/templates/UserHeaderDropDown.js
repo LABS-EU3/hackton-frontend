@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from 'react-redux';
-import { Dropdown, Menu } from "semantic-ui-react";
+// import { Dropdown, Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { type, smallFontSize, Gradient, Solid, media } from "../index";

@@ -7,6 +7,7 @@ export {
   h2FontSize,
   h3FontSize,
   h4FontSize,
+  button_text
 } from './variables/fonts';
 export { Spacing } from './variables/spacing';
 export { media } from './variables/media';

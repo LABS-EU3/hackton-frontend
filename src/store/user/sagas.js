@@ -1,5 +1,7 @@
 import { all, call, takeLatest, put, select } from "redux-saga/effects";
-import { UserTypes, setUser, userError, resetUser, setUserProfile } from "./actions";
+import { persistStore } from 'redux-persist';
+import { store } from '../../store';
+import { UserTypes, setUser, userError, setUserProfile } from "./actions";
 
 import { axios, axiosWithAuth, selectToken } from "../../utils/api";
 import { toast } from "react-toastify";
@@ -62,11 +64,16 @@ function* watchSocialAuth() {
 }
 
 function* logout() {
-  yield put(resetUser());
+  try {
+    const persistor = persistStore(store)
+    yield put(persistor.purge());
+  }catch (error) {
+    yield put(userError(error));
+  } 
 }
 
 function* watchLogout() {
-  yield takeLatest(UserTypes.RESET_USER, logout);
+  yield takeLatest(UserTypes.PURGE, logout);
 }
 
 function* fetchUserProfileAsync({payload}) {
