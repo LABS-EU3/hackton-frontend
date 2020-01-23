@@ -1,4 +1,11 @@
-import { put, takeLatest, call, all, select } from "redux-saga/effects";
+import {
+  put,
+  takeLatest,
+  takeLeading,
+  call,
+  all,
+  select
+} from "redux-saga/effects";
 import {
   axiosWithAuth,
   selectToken,
@@ -25,7 +32,7 @@ function* fetchAllEventsAsync() {
 }
 
 function* watchFetchAllEvents() {
-  yield takeLatest(EventsTypes.FETCH_ALL_EVENTS, fetchAllEventsAsync);
+  yield takeLeading(EventsTypes.FETCH_ALL_EVENTS, fetchAllEventsAsync);
 }
 
 function* createEventAsync({ payload, history }) {
