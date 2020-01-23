@@ -7,6 +7,5 @@ import { projectSubmissionsReducer } from './projectSubmission/reducer';
 export const rootReducer = combineReducers({
   currentUser: userReducer,
   events: eventsReducer,
-  participants: eventParticipantsReducer,
-  submissions: projectSubmissionsReducer
+  participants: eventParticipantsReducer
 });

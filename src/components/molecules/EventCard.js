@@ -23,9 +23,7 @@ const EventCard = ({ event }) => {
   const excerpt = event_description.substr(0, 100) + "...";
 
   // Date formatting
-  const date = start_date.split("T")[0];
-  const dateArr = date.split("-");
-  const formattedDate = dateArr[2] + "-" + dateArr[1] + "-" + dateArr[0];
+  const formattedDate = new Date(start_date).toLocaleDateString();
 
   return (
     <StyledCardLink to={`/dashboard/event/${id}`}>

@@ -15,7 +15,7 @@ export const userReducer = (user = initialState, action) => {
       return action.payload;
     case UserTypes.SET_USER_PROFILE:
       return { ...user, ...action.payload };
-    case UserTypes.RESET_USER:
+    case UserTypes.PURGE:
       return initialState;
     default:
       return user;

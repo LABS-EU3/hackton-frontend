@@ -13,12 +13,27 @@ export const ProfileImg = styled.div`
   background-image: ${Gradient.ORANGE};
   width: 45px;
   height: 45px;
-
+  ul {
+    display: none;
+      li {
+        display: none;
+      }
+  }
+  &:hover {
+    ul {
+      display: flex;
+      flex-direction: column;
+      li {
+        display: block;
+      }
+    }
+  }
+  
   @media ${media.tablet} {
     width: 35px;
     height: 35px;
   }
-
+  
   @media ${media.mobile} {
     width: 30px;
     height: 30px;

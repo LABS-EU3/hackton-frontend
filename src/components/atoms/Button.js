@@ -35,7 +35,7 @@ const StyledButton = styled.button`
   white-space: nowrap;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? `disabled` : `pointer`)};
   }
 
   @media ${media.tablet} {
@@ -103,7 +103,7 @@ const StyledLink = styled(Link)`
   white-space: nowrap;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? `disabled` : `pointer`)};
   }
 
   @media ${media.tablet} {

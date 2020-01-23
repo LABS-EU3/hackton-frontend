@@ -6,9 +6,7 @@ export const EventsTypes = {
   FETCH_EVENT_CATEGORIES: "FETCH_EVENT_CATEGORIES",
   SET_EVENTS: "SET_EVENTS",
   SET_EVENT_CATEGORIES: "SET_EVENT_CATEGORIES",
-  EVENT_ERROR: "EVENT_ERROR",
-  ADD_TEAM_MEMBER: "ADD_TEAM_MEMBER",
-  FETCH_EVENT_SUBMISSIONS: 'FETCH_EVENT_SUBMISSIONS'
+  ADD_TEAM_MEMBER: "ADD_TEAM_MEMBER"
 };
 
 export const fetchAllEvents = () => {
@@ -57,13 +55,6 @@ export const setEventCategories = categories => {
   return {
     type: EventsTypes.SET_EVENT_CATEGORIES,
     payload: categories
-  };
-};
-
-export const eventsError = errorMessage => {
-  return {
-    type: EventsTypes.EVENT_ERROR,
-    errorMessage
   };
 };
 

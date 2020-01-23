@@ -35,27 +35,28 @@ const BodyContainerColumn = styled(BodyContainer)`
   justify-content: start;
 `;
 
-const defaultState = {
-  event_title: "",
-  start_date: "",
-  end_date: "",
-  event_description: "",
-  location: "",
-  tag_name: [],
-  rubrics: [],
-  requirements: [],
-  guidelines: "",
-  participation_type: "individual",
-  category_id: 1
-};
-
-const HackathonForm = ({ initialState = defaultState }) => {
+const HackathonForm = ({ initialState }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { categories } = useSelector(state => state.events);
   useEffect(() => {
     dispatch(fetchEventCategories());
   }, [dispatch]);
+
+  const defaultState = {
+    id: initialState?.id,
+    event_title: initialState?.event_title || "",
+    start_date: initialState?.start_date || "",
+    end_date: initialState?.end_date || "",
+    event_description: initialState?.event_description || "",
+    location: initialState?.location || "",
+    tag_name: initialState?.tag_name || [],
+    rubrics: initialState?.rubrics || [],
+    requirements: initialState?.requirements || [],
+    guidelines: initialState?.guidelines || "",
+    participation_type: initialState?.participation_type || "individual",
+    category_id: initialState?.category_id || 1
+  };
 
   const handleSubmit = values => {
     let tagss = JSON.parse(window.localStorage.getItem("tags"));
@@ -97,7 +98,7 @@ const HackathonForm = ({ initialState = defaultState }) => {
         <BodyContainerColumn>
           <RowHead>
             <H3>
-              {initialState.id ? `Edit Hackathon` : `Create New Hackathon`}
+              {defaultState.id ? `Edit Hackathon` : `Create New Hackathon`}
             </H3>
           </RowHead>
 
@@ -105,7 +106,7 @@ const HackathonForm = ({ initialState = defaultState }) => {
             <CardWide>
               <Formik
                 onSubmit={handleSubmit}
-                initialValues={initialState}
+                initialValues={defaultState}
                 validationSchema={schema}
                 enableReinitialize
               >
@@ -245,12 +246,31 @@ const HackathonForm = ({ initialState = defaultState }) => {
                         which one of the following* (tick on all that apply)
                       </Paragraph>
 
-                        <Checkbox name="rubrics" value='presentation' label="Presentation" />
-                        <Checkbox name="rubrics" value="product_fit" label="Product Fit" />
-                        <Checkbox name="rubrics" value="innovation" label="Innovation" />
-                        <Checkbox name="rubrics" value="product_design" label="Product Design" />
-                        <Checkbox name="rubrics" value="extensibility" label="Extensibility" />
-                        <Checkbox name="rubrics" value="functionality" label="Functionality" />
+                      <Checkbox
+                        name="rubrics"
+                        value="presentation"
+                        label="Presentation"
+                      />
+                      <Checkbox
+                        name="rubrics"
+                        value="market_fit"
+                        label="Market Fit"
+                      />
+                      <Checkbox
+                        name="rubrics"
+                        value="innovation"
+                        label="Innovation"
+                      />
+                      <Checkbox
+                        name="rubrics"
+                        value="product_design"
+                        label="Product Design"
+                      />
+                      <Checkbox
+                        name="rubrics"
+                        value="extensibility"
+                        label="Extensibility"
+                      />
                     </RowBody>
                     <RowBody>
                       <Label htmlFor="guidelines">Guidelines</Label>
@@ -277,9 +297,16 @@ const HackathonForm = ({ initialState = defaultState }) => {
                         following (tick on all that apply)
                       </Paragraph>
 
-                        <Checkbox name="requirements" value="video_url" label="Video URL" />
-                        <Checkbox name="requirements" value="github_url" label="GitHub URL" />
-
+                      <Checkbox
+                        name="requirements"
+                        value="video_url"
+                        label="Video URL"
+                      />
+                      <Checkbox
+                        name="requirements"
+                        value="github_url"
+                        label="GitHub URL"
+                      />
                     </RowBody>
                     <RowBody>
                       <Link to="/dashboard">

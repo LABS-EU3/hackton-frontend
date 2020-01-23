@@ -1,30 +1,34 @@
 import { put, takeLatest, call, all, select } from "redux-saga/effects";
-import { toast } from "react-toastify";
-import { axiosWithAuth, selectToken } from "../../utils/api";
 import {
-  ProjectSubmissionTypes,
-  submissionsError,
+  axiosWithAuth,
+  selectToken,
+  showError,
+  showSuccess
+} from "../../utils/api";
+import {
+  ParticipantSubmissionTypes,
+  fetchAllSubmissions,
   setSubmissions
 } from "./actions";
 
-function* submitProjectAsync({ payload, history }) {
+function* createParticipantSubmissionAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
       `/api/events/${payload.event_id}/projects`,
       payload
     );
+
     if (data) {
-      yield toast.success(`😀 ${data.message}`);
+      yield put(fetchAllSubmissions(payload.event_id));
+      yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
-  } catch (error) {
-    yield put(submissionsError(error.message));
-    if (error.message === "Request failed with status code 404") {
-      yield history.push("/not-found");
+  } catch ({ response: { message, statusCode } }) {
+    if (statusCode === 404) {
+      history.push("/not-found");
     }
-    yield toast.error(`⚠️ ${error.message}`);
-    yield put(submissionsError(error.message));
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -37,11 +41,13 @@ function* fetchAllSubmissionsAsync({ payload }) {
     const token = yield select(selectToken);
     const {
       data: { body }
-    } = yield axiosWithAuth(token).get(`/api/events/${payload}/projects`);
+    } = yield axiosWithAuth(token).get(
+      `/api/events/${payload.event_id}/projects/submissions`,
+      payload
+    );
     yield put(setSubmissions(body));
-  } catch (error) {
-    yield toast.error(`⚠️ ${error.message}`);
-    yield put(submissionsError(error.message));
+  } catch ({ response: { message } }) {
+    yield showError(`⚠️ ${message}`);
   }
 }
 

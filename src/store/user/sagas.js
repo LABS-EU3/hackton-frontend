@@ -1,8 +1,14 @@
 import { all, call, takeLatest, put, select } from "redux-saga/effects";
-import { UserTypes, setUser, userError, resetUser, setUserProfile } from "./actions";
+import { persistor } from "../../store";
+import { UserTypes, setUser, setUserProfile } from "./actions";
 
-import { axios, axiosWithAuth, selectToken } from "../../utils/api";
-import { toast } from "react-toastify";
+import {
+  axios,
+  axiosWithAuth,
+  selectToken,
+  showSuccess,
+  showError
+} from "../../utils/api";
 
 function* loginAsync({ payload, history }) {
   try {
@@ -11,13 +17,13 @@ function* loginAsync({ payload, history }) {
     } = yield axios.post("/api/auth/login", payload);
     yield put(setUser(body.token));
     yield history.push("/dashboard");
-    yield toast.success(`😎 Welcome`);
-  } catch (error) {
-    yield put(userError(error));
-    if(error.message === "Request failed with status code 404" ) {
+    yield showSuccess(`😎 Welcome`);
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
+    if (statusCode === 404) {
       history.push("/not-found");
     }
-    toast.error(`⚠️ ${error.message}`);
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -31,14 +37,14 @@ function* registerAsync({ payload, history }) {
       data: { body }
     } = yield axios.post("/api/auth/register", payload);
     yield put(setUser(body.token));
-    toast.success(`😎 Welcome`);
+    showSuccess(`😎 Welcome`);
     yield history.push("/dashboard");
-  } catch (error) {
-    yield put(userError(error));
-    if(error.message === "Request failed with status code 404" ) {
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
+    if (statusCode === 404) {
       history.push("/not-found");
     }
-    toast.error(`⚠️ ${error.message}`);
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -52,8 +58,8 @@ function* socialAuthAsync() {
       data: { body }
     } = yield axios.get("/api/auth/token");
     yield put(setUser(body.token));
-  } catch (error) {
-    yield put(userError(error));
+  } catch ({ response: { message } }) {
+    yield showError(message);
   }
 }
 
@@ -62,24 +68,28 @@ function* watchSocialAuth() {
 }
 
 function* logout() {
-  yield put(resetUser());
+  try {
+    yield put(persistor.purge());
+  } catch ({ message }) {
+    yield showError(message);
+  }
 }
 
 function* watchLogout() {
-  yield takeLatest(UserTypes.RESET_USER, logout);
+  yield takeLatest(UserTypes.PURGE, logout);
 }
 
-function* fetchUserProfileAsync({payload}) {
+function* fetchUserProfileAsync({ payload }) {
   try {
     const token = yield select(selectToken);
     const {
-      data: { body:{user} }
+      data: {
+        body: { user }
+      }
     } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
-    yield console.log('USER', user);
     yield put(setUserProfile(user));
-  } catch (error) {
-    yield put(userError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+  } catch ({ response: { message } }) {
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -90,16 +100,17 @@ function* watchFetchUserProfile() {
 function* updateUserProfileAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
-    const { data: {message, body: { userUpdates }} } = yield axiosWithAuth(token).put(
-      "/api/users/profile",
-      payload
-    );
-      yield put(setUserProfile(userUpdates))
-      yield toast.success(`🎉 ${message}`);
-      yield history.push("/dashboard");
-  } catch (error) {
-    yield put(userError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+    const {
+      data: {
+        message,
+        body: { userUpdates }
+      }
+    } = yield axiosWithAuth(token).put("/api/users/profile", payload);
+    yield put(setUserProfile(userUpdates));
+    yield showSuccess(`🎉 ${message}`);
+    yield history.push("/dashboard");
+  } catch ({ response: { message } }) {
+    yield showError(`⚠️ ${message}`);
   }
 }
 
