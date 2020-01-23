@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Rating from "react-rating";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useParams, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import { media } from "../index";
 import UserHeader from "../organisms/UserHeader";
@@ -18,7 +18,7 @@ import Button from "../atoms/Button";
 import Label from "../atoms/Label";
 import emptyStar from "../../assets/star-hollow.png";
 import fullStar from "../../assets/star-full.png";
-import {gradeSubmission} from "../../store/projectSubmission/actions";
+import { gradeSubmission } from "../../store/projectSubmission/actions";
 
 const HackathonSingleProject = () => {
   const { id, projectId } = useParams();
@@ -28,6 +28,7 @@ const HackathonSingleProject = () => {
 
   const {
     project_title,
+    project_event_id,
     participant_or_team_name,
     git_url: github_url,
     video_url,
@@ -43,14 +44,26 @@ const HackathonSingleProject = () => {
       .join(" ");
   };
 
-  const [grade, setGrade] = useState({ feedback: "" });
+  const [grade, setGrade] = useState({
+    product_design: 0,
+    functionality: 0,
+    innovation: 0,
+    product_fit: 0,
+    extensibility: 0,
+    presentation: 0,
+    project_event_id,
+    judge_comments: ""
+  });
+
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const changeHandler = ([rubric, rating]) => {
     setGrade(grade => ({ ...grade, [rubric]: rating }));
   };
 
   const handleSubmit = () => {
-    console.log("GRADES", grade);
+    dispatch(gradeSubmission(projectId, grade, history));
   };
 
   return (
@@ -68,7 +81,7 @@ const HackathonSingleProject = () => {
             <Card>
               <SubmissionEntry>
                 <Team>
-                  <H3>{participant_or_team_name}</H3>
+                  <H3>{participant_or_team_name || project_title}</H3>
                 </Team>
                 <Label htmlFor="project_writeup">Project writeup</Label>
                 <Description id="project_writeup">
@@ -103,12 +116,12 @@ const HackathonSingleProject = () => {
                 <Label htmlFor="feedback">Feedback</Label>
                 <Feedback
                   wide
-                  id="feedback"
+                  id="judge_comments"
                   onChange={e => {
                     const { id, value } = e.target;
-                    setGrade(grade => ({ ...grade, [id]: value }));
+                    changeHandler([id, value]);
                   }}
-                  value={grade.feedback}
+                  value={grade.judge_comments}
                 />
               </SubmissionEntry>
               <Button

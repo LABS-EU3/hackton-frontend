@@ -1,7 +1,11 @@
 import { put, takeLatest, call, all, select } from "redux-saga/effects";
 import { toast } from "react-toastify";
 import { axiosWithAuth, selectToken } from "../../utils/api";
-import { ProjectSubmissionTypes, submissionsError, setSubmissions } from "./actions";
+import {
+  ProjectSubmissionTypes,
+  submissionsError,
+  setSubmissions
+} from "./actions";
 
 function* submitProjectAsync({ payload, history }) {
   try {
@@ -25,16 +29,15 @@ function* submitProjectAsync({ payload, history }) {
 }
 
 function* watchSubmitProject() {
-  yield takeLatest(
-    ProjectSubmissionTypes.SUBMIT_PROJECT,
-    submitProjectAsync
-  );
+  yield takeLatest(ProjectSubmissionTypes.SUBMIT_PROJECT, submitProjectAsync);
 }
 
 function* fetchAllSubmissionsAsync({ payload }) {
   try {
     const token = yield select(selectToken);
-    const { data: { body } } = yield axiosWithAuth(token).get(`/api/events/${payload}/projects`);
+    const {
+      data: { body }
+    } = yield axiosWithAuth(token).get(`/api/events/${payload}/projects`);
     yield put(setSubmissions(body));
   } catch (error) {
     yield toast.error(`⚠️ ${error.message}`);
@@ -49,14 +52,15 @@ function* watchFetchAllSubmissionsAsync() {
   );
 }
 
-function* gradeSubmissionAsync({ payload, history }) {
+function* gradeSubmissionAsync({ id, payload, history }) {
   try {
-    const token = select(selectToken);
-    const { data } = axiosWithAuth(token).post(
-      `/api/events/projects/${payload.project_id}/grading`, payload
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).post(
+      `/api/events/projects/${id}}/grading`,
+      payload
     );
-
-
+    yield console.log("RESPONSE", data);
+    yield history.push(`/dashboard/event/${payload.project_event_id}/projects`);
   } catch (error) {
     yield toast.error(`⚠️ ${error.message}`);
     yield put(submissionsError(error.message));
@@ -64,7 +68,10 @@ function* gradeSubmissionAsync({ payload, history }) {
 }
 
 function* watchGradeSubmission() {
-  yield takeLatest(ProjectSubmissionTypes.GRADE_SUBMISSION, gradeSubmissionAsync);
+  yield takeLatest(
+    ProjectSubmissionTypes.GRADE_SUBMISSION,
+    gradeSubmissionAsync
+  );
 }
 
 export function* projectSubmissionsSagas() {

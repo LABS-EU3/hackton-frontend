@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -18,7 +18,6 @@ import Button from "../atoms/Button";
 import Rating from "react-rating";
 import emptyStar from "../../assets/star-hollow.png";
 import fullStar from "../../assets/star-full.png";
-import { axiosWithAuth, selectToken } from "../../utils/api";
 import { fetchAllSubmissions } from "../../store/projectSubmission/actions";
 
 const HackathonProjects = () => {
@@ -31,7 +30,7 @@ const HackathonProjects = () => {
 
   useEffect(() => {
     dispatch(fetchAllSubmissions(Number(id)));
-  }, [id]);
+  }, [id, dispatch]);
 
   return (
     <div>
