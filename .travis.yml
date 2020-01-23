@@ -4,6 +4,8 @@ node_js:
 cache:
   directories:
   - node_modules
+before_install:
+- mv src/components/templates/userProfileForm.jsx src/components/templates/UserProfileForm.jsx
 script:
   - npm test
   - npm run build
