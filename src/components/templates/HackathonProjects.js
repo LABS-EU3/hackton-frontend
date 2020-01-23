@@ -46,7 +46,8 @@ const HackathonProjects = () => {
           <Column>
             <Card>
               <RowBody>
-                {submissions.length === 0 && "No projects were submitted for this hackathon."}
+                {submissions.length === 0 &&
+                  "No projects were submitted for this hackathon."}
                 {submissions.map((s, i) => {
                   return (
                     <SubmissionEntry key={s.id}>
@@ -54,12 +55,18 @@ const HackathonProjects = () => {
                         <H3>{s.participant_or_team_name}</H3>
                       </Team>
                       <Description>{s.project_writeups}</Description>
-                      <Rating
-                        initialRating={2 + i}
-                        readonly
-                        emptySymbol={<img alt="Rubric star" src={emptyStar} />}
-                        fullSymbol={<img alt="Rubric star" src={fullStar} />}
-                      />
+                      {s.average_rating > 0 ? (
+                        <Rating
+                          initialRating={Math.floor(s.average_rating)}
+                          readonly
+                          emptySymbol={
+                            <img alt="Rubric star" src={emptyStar} />
+                          }
+                          fullSymbol={<img alt="Rubric star" src={fullStar} />}
+                        />
+                      ) : (
+                        "Not rated."
+                      )}
                       <Link to={`/dashboard/event/${id}/project/${s.id}`}>
                         <Button color="blue">View</Button>
                       </Link>
