@@ -22,9 +22,8 @@ Explain what these tests test and why
 
 ## Deployment
 
-This project was deployed with [Zeit]
-* [Landing page](https://hackton.co/)
-* [Actual site](https://app.netlify.com/sites/sharp-panini-3ec54b/deploys)
+* The landing page was deployed with [Zeit] (https://hackton.co/)
+* The Actual site was deployed with [Netlify](https://staging.hackton.co/register)
 
 ## Built With
 
