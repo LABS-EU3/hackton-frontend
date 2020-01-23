@@ -1,27 +1,25 @@
 import { put, takeLatest, call, all, select } from "redux-saga/effects";
-import { toast } from "react-toastify";
-
-import { axiosWithAuth, selectToken } from "../../utils/api";
+import {
+  axiosWithAuth,
+  selectToken,
+  showError,
+  showSuccess
+} from "../../utils/api";
 import {
   EventParticipantTypes,
-  eventParticipantError,
   fetchAllParticipants,
   setEventParticipants
 } from "./actions";
 
 function* fetchAllParticipantsAsync({ payload }) {
-    // console.log("sagas id", payload);
   try {
     const token = yield select(selectToken);
     const {
       data: { body }
-    } = yield axiosWithAuth(token).get(
-      `/api/events/${payload}/participants`
-    );
+    } = yield axiosWithAuth(token).get(`/api/events/${payload}/participants`);
     yield put(setEventParticipants(body));
-  } catch (error) {
-    yield put(eventParticipantError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+  } catch ({ response: { message } }) {
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -34,7 +32,6 @@ function* watchFetchAllEventParticipants() {
 
 function* registerEventAsync({ payload, history }) {
   try {
-    // console.log("register id", payload);
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
       `/api/events/${payload.event_id}/participants`,
@@ -42,14 +39,13 @@ function* registerEventAsync({ payload, history }) {
     );
     if (data) {
       yield put(fetchAllParticipants(payload.event_id));
-      toast.success(`😀 ${data.message}`);
+      yield showSuccess(`😀 ${data.message}`);
     }
-  } catch (error) {
-    yield put(eventParticipantError(error.message));
-    if(error.message === "Request failed with status code 404" ) {
+  } catch ({ response: { message, statusCode } }) {
+    if (statusCode === 404) {
       history.push("/not-found");
     }
-    toast.error(`⚠️ ${error.message}`);
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -58,20 +54,18 @@ function* WatchRegisterEvent() {
 }
 
 function* unregisterEventAsync({ payload, history }) {
-    // console.log("unregister id", payload);
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).delete(
       `/api/events/${payload.event_id}/participants`
     );
     yield put(fetchAllParticipants(payload.event_id));
-    toast.success(`😲 ${data.message}`);
-  } catch (error) {
-    yield put(eventParticipantError(error.message));
-    if(error.message === "Request failed with status code 404" ) {
+    yield showSuccess(`😲 ${data.message}`);
+  } catch ({ response: { message, statusCode } }) {
+    if (statusCode === 404) {
       history.push("/not-found");
     }
-    toast.error(`⚠️ ${error.message}`);
+    yield showError(`⚠️ ${message}`);
   }
 }
 
