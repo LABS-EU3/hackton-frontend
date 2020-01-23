@@ -374,7 +374,7 @@ const HackathonSingle = () => {
                   </div>
                 </div>
               </TagsCardWide>
-              {creator_id === userId && isEnded ? (
+              {creator_id === userId && !isEnded ? (
                 <div>
                   <Button
                     anchor
