@@ -56,7 +56,7 @@ function* gradeSubmissionAsync({ id, payload, history }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
-      `/api/events/projects/${id}}/grading`,
+      `/api/events/projects/${id}/grading`,
       payload
     );
     yield console.log("RESPONSE", data);
