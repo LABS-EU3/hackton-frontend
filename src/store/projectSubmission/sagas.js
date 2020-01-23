@@ -1,10 +1,13 @@
 import { put, takeLatest, call, all, select } from "redux-saga/effects";
-import { toast } from "react-toastify";
-import { axiosWithAuth, selectToken } from "../../utils/api";
+import {
+  axiosWithAuth,
+  selectToken,
+  showError,
+  showSuccess
+} from "../../utils/api";
 import {
   ParticipantSubmissionTypes,
   fetchAllSubmissions,
-  submissionsError,
   setSubmissions
 } from "./actions";
 
@@ -18,15 +21,14 @@ function* createParticipantSubmissionAsync({ payload, history }) {
 
     if (data) {
       yield put(fetchAllSubmissions(payload.event_id));
-      toast.success(`😀 ${data.message}`);
+      yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
   } catch ({ response: { message, statusCode } }) {
-    yield put(submissionsError(message));
     if (statusCode === 404) {
       history.push("/not-found");
     }
-    yield toast.error(`⚠️ ${message}`);
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -48,8 +50,7 @@ function* fetchAllSubmissionsAsync({ payload }) {
     );
     yield put(setSubmissions(body));
   } catch ({ response: { message } }) {
-    yield put(submissionsError(message));
-    yield toast.error(`⚠️ ${message}`);
+    yield showError(`⚠️ ${message}`);
   }
 }
 
