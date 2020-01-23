@@ -308,11 +308,9 @@ const HackathonSingle = () => {
               <Separator />
               <JudgesContainer>
                 <div className="judge-header">
-                  <BoldSpan>Participants:</BoldSpan>
-                </div>
-                <div className="judge-name">
-                  <Image src={user_icon} alt="user_icon" />
-                  <Paragraph>{registeredPartcipants}</Paragraph>
+                  <BoldSpan>
+                    Registered Participants: {registeredPartcipants}
+                  </BoldSpan>
                 </div>
               </JudgesContainer>
               <ButtonsGroup>
