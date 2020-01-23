@@ -13,8 +13,8 @@ function* loginAsync({ payload, history }) {
     yield put(setUser(body.token));
     yield history.push("/dashboard");
     yield toast.success(`😎 Welcome`);
-  } catch (error) {
-    const { message, statusCode } = error.response.data;
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
     yield put(userError(message));
     if (statusCode === 404) {
       history.push("/not-found");
@@ -35,8 +35,8 @@ function* registerAsync({ payload, history }) {
     yield put(setUser(body.token));
     toast.success(`😎 Welcome`);
     yield history.push("/dashboard");
-  } catch (error) {
-    const { message, statusCode } = error.response.data;
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
     yield put(userError(message));
     if (statusCode === 404) {
       history.push("/not-found");
@@ -55,8 +55,9 @@ function* socialAuthAsync() {
       data: { body }
     } = yield axios.get("/api/auth/token");
     yield put(setUser(body.token));
-  } catch (error) {
-    yield put(userError(error));
+  } catch ({ response }) {
+    const { message } = response.data;
+    yield put(userError(message));
   }
 }
 
@@ -67,8 +68,8 @@ function* watchSocialAuth() {
 function* logout() {
   try {
     yield put(persistor.purge());
-  } catch (error) {
-    yield put(userError(error));
+  } catch ({ message }) {
+    yield put(userError(message));
   }
 }
 
@@ -84,11 +85,11 @@ function* fetchUserProfileAsync({ payload }) {
         body: { user }
       }
     } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
-    yield console.log("USER", user);
     yield put(setUserProfile(user));
-  } catch (error) {
-    yield put(userError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+  } catch ({ response }) {
+    const { message } = response.data;
+    yield toast.error(`⚠️ ${message}`);
+    yield put(userError(message));
   }
 }
 
@@ -108,9 +109,9 @@ function* updateUserProfileAsync({ payload, history }) {
     yield put(setUserProfile(userUpdates));
     yield toast.success(`🎉 ${message}`);
     yield history.push("/dashboard");
-  } catch (error) {
-    yield put(userError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+  } catch ({ response: { message } }) {
+    yield put(userError(message));
+    yield toast.error(`⚠️ ${message}`);
   }
 }
 
