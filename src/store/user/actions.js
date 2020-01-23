@@ -7,7 +7,6 @@ export const UserTypes = {
   SET_USER: "SET_USER",
   SET_USER_PROFILE: "SET_USER_PROFILE",
   PURGE: "PURGE",
-  USER_ERROR: "USER_ERROR",
   FETCH_USER_PROFILE: "FETCH_USER_PROFILE",
   UPDATE_USER_PROFILE: "UPDATE_USER_PROFILE"
 };
@@ -66,12 +65,5 @@ export const updateUserProfile = (updatedProfile, history) => {
     type: UserTypes.UPDATE_USER_PROFILE,
     payload: updatedProfile,
     history
-  };
-};
-
-export const userError = errorMessage => {
-  console.error(errorMessage);
-  return {
-    type: UserTypes.USER_ERROR
   };
 };
