@@ -1,15 +1,23 @@
-import { put, takeLatest, call, all, select } from "redux-saga/effects";
-import { toast } from "react-toastify";
-
-import { axiosWithAuth, selectToken } from "../../utils/api";
+import {
+  put,
+  takeLatest,
+  takeLeading,
+  call,
+  all,
+  select
+} from "redux-saga/effects";
+import {
+  axiosWithAuth,
+  selectToken,
+  showSuccess,
+  showError
+} from "../../utils/api";
 import {
   EventsTypes,
-  eventsError,
   fetchAllEvents,
   setEvents,
   setEventCategories
 } from "./actions";
-
 
 function* fetchAllEventsAsync() {
   try {
@@ -18,14 +26,13 @@ function* fetchAllEventsAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/events");
     yield put(setEvents(body));
-  } catch (error) {
-    yield put(eventsError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+  } catch ({ response: { message } }) {
+    yield showError(`⚠️ ${message}`);
   }
 }
 
 function* watchFetchAllEvents() {
-  yield takeLatest(EventsTypes.FETCH_ALL_EVENTS, fetchAllEventsAsync);
+  yield takeLeading(EventsTypes.FETCH_ALL_EVENTS, fetchAllEventsAsync);
 }
 
 function* createEventAsync({ payload, history }) {
@@ -34,15 +41,14 @@ function* createEventAsync({ payload, history }) {
     const { data } = yield axiosWithAuth(token).post("/api/events", payload);
     if (data) {
       yield put(fetchAllEvents());
-      toast.success(`😀 ${data.message}`);
+      yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
-  } catch (error) {
-    yield put(eventsError(error.message));
-    if (error.message === "Request failed with status code 404") {
+  } catch ({ response: { message, statusCode } }) {
+    if (statusCode === 404) {
       history.push("/not-found");
     }
-    toast.error(`⚠️ ${error.message}`);
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -55,10 +61,9 @@ function* deleteEventAsync({ payload }) {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
     yield put(fetchAllEvents());
-    toast.success(`😲 ${data.message}`);
+    yield showSuccess(`😲 ${data.message}`);
   } catch (error) {
-    yield put(eventsError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+    yield showError(`⚠️ ${error.message}`);
   }
 }
 
@@ -76,15 +81,14 @@ function* updateEventAsync({ payload, history }) {
     );
     if (data) {
       yield put(fetchAllEvents());
-      toast.success(`🎉 ${data.message}`);
+      yield showSuccess(`🎉 ${data.message}`);
       yield history.push("/dashboard");
     }
-  } catch (error) {
-    yield put(eventsError(error.message));
-    if (error.message === "Request failed with status code 404") {
+  } catch ({ response: { message, statusCode } }) {
+    if (statusCode === 404) {
       history.push("/not-found");
     }
-    toast.error(`⚠️ ${error.message}`);
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -99,8 +103,8 @@ function* fetchEventCategoriesAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/event-category");
     yield put(setEventCategories(body));
-  } catch (error) {
-    yield put(eventsError(error.message));
+  } catch ({ response: { message } }) {
+    yield showError(message);
   }
 }
 
@@ -123,12 +127,11 @@ function* addTeamMemberAsync({ payload, history }) {
       }
     );
     if (data) {
-      yield toast.success(`Added successfully`);
+      yield showSuccess(`Added successfully`);
     }
     history.push(`/dashboard/event/${eventId}`);
-  } catch (error) {
-    yield put(eventsError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+  } catch ({ response: { message } }) {
+    yield showError(`⚠️ ${message}`);
   }
 }
 

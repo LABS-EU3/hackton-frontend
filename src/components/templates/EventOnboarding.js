@@ -21,7 +21,7 @@ const EventOnboarding = () => {
   const events = useSelector(state => state.events.data);
   const { userId } = useSelector(state => state.currentUser);
   const userEvents = events.filter(event => event.creator_id === userId);
-  const globalEvents = events.filter(event => event.creator_userId !== userId);
+  const globalEvents = events.filter(event => event.creator_id !== userId);
 
   return (
     <div>
