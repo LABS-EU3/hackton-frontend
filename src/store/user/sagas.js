@@ -14,9 +14,9 @@ function* loginAsync({ payload, history }) {
     yield history.push("/dashboard");
     yield toast.success(`😎 Welcome`);
   } catch (error) {
-    const { message } = error.response.data;
+    const { message, statusCode } = error.response.data;
     yield put(userError(message));
-    if (error.message === "Request failed with status code 404") {
+    if (statusCode === 404) {
       history.push("/not-found");
     }
     toast.error(`⚠️ ${message}`);
@@ -36,11 +36,12 @@ function* registerAsync({ payload, history }) {
     toast.success(`😎 Welcome`);
     yield history.push("/dashboard");
   } catch (error) {
-    yield put(userError(error));
-    if (error.message === "Request failed with status code 404") {
+    const { message, statusCode } = error.response.data;
+    yield put(userError(message));
+    if (statusCode === 404) {
       history.push("/not-found");
     }
-    toast.error(`⚠️ ${error.message}`);
+    toast.error(`⚠️ ${message}`);
   }
 }
 
