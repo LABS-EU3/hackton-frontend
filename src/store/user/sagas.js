@@ -1,6 +1,5 @@
 import { all, call, takeLatest, put, select } from "redux-saga/effects";
-import { persistStore } from 'redux-persist';
-import { store } from '../../store';
+import { persistor } from '../../store';
 import { UserTypes, setUser, userError, setUserProfile } from "./actions";
 
 import { axios, axiosWithAuth, selectToken } from "../../utils/api";
@@ -65,7 +64,6 @@ function* watchSocialAuth() {
 
 function* logout() {
   try {
-    const persistor = persistStore(store)
     yield put(persistor.purge());
   }catch (error) {
     yield put(userError(error));
