@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Rating from "react-rating";
 import { useParams, useHistory } from "react-router-dom";
@@ -28,7 +28,6 @@ const HackathonSingleProject = () => {
 
   const {
     project_title,
-    project_event_id,
     participant_or_team_name,
     git_url: github_url,
     video_url,
