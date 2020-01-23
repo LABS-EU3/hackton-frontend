@@ -43,7 +43,7 @@ function* fetchAllSubmissionsAsync({ payload }) {
     const {
       data: { body }
     } = yield axiosWithAuth(token).get(
-      `/api/events/${payload.event_id}/projects/submissions`,
+      `/api/events/${payload}/projects`,
       payload
     );
     yield put(setSubmissions(body));
@@ -67,8 +67,9 @@ function* gradeSubmissionAsync({ id, payload, history }) {
       `/api/events/projects/${id}/grading`,
       payload
     );
-    yield console.log("RESPONSE", data);
-    yield history.push(`/dashboard/event/${payload.project_event_id}/projects`);
+    if (data){
+      history.push(` /dashboard/event/${payload.project_event_id}/projects`);
+    }  
   } catch ({response}) {
     const {message} = response.data;
     yield showError(`⚠️ ${message}`);
