@@ -6,12 +6,12 @@ import {
   showSuccess
 } from "../../utils/api";
 import {
-  ParticipantSubmissionTypes,
+  ProjectSubmissionTypes,
   fetchAllSubmissions,
   setSubmissions
 } from "./actions";
 
-function* createParticipantSubmissionAsync({ payload, history }) {
+function* submitProjectAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
@@ -24,7 +24,8 @@ function* createParticipantSubmissionAsync({ payload, history }) {
       yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
-  } catch ({ response: { message, statusCode } }) {
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
     if (statusCode === 404) {
       history.push("/not-found");
     }
@@ -46,7 +47,8 @@ function* fetchAllSubmissionsAsync({ payload }) {
       payload
     );
     yield put(setSubmissions(body));
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }
@@ -67,9 +69,9 @@ function* gradeSubmissionAsync({ id, payload, history }) {
     );
     yield console.log("RESPONSE", data);
     yield history.push(`/dashboard/event/${payload.project_event_id}/projects`);
-  } catch (error) {
-    yield toast.error(`⚠️ ${error.message}`);
-    yield put(submissionsError(error.message));
+  } catch ({response}) {
+    const {message} = response.data;
+    yield showError(`⚠️ ${message}`);
   }
 }
 

@@ -17,7 +17,7 @@ import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import {
-  submitProject,
+  createSubmission,
   fetchAllSubmissions
 } from "../../store/projectSubmission/actions";
 
@@ -48,7 +48,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
   }, [dispatch, event_id]);
 
   const handleSubmit = values => {
-    dispatch(submitProject({ ...values, event_id }, history));
+    dispatch(createSubmission({ ...values, event_id }, history));
   };
 
   const schema = Yup.object().shape({

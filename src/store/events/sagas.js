@@ -26,7 +26,8 @@ function* fetchAllEventsAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/events");
     yield put(setEvents(body));
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }
@@ -44,7 +45,8 @@ function* createEventAsync({ payload, history }) {
       yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
-  } catch ({ response: { message, statusCode } }) {
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
     if (statusCode === 404) {
       history.push("/not-found");
     }
@@ -62,8 +64,9 @@ function* deleteEventAsync({ payload }) {
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
     yield put(fetchAllEvents());
     yield showSuccess(`😲 ${data.message}`);
-  } catch (error) {
-    yield showError(`⚠️ ${error.message}`);
+  } catch ({response}) {
+    const {message} = response.data;
+    yield showError(`⚠️ ${message}`);
   }
 }
 
@@ -84,7 +87,8 @@ function* updateEventAsync({ payload, history }) {
       yield showSuccess(`🎉 ${data.message}`);
       yield history.push("/dashboard");
     }
-  } catch ({ response: { message, statusCode } }) {
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
     if (statusCode === 404) {
       history.push("/not-found");
     }
@@ -103,7 +107,8 @@ function* fetchEventCategoriesAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/event-category");
     yield put(setEventCategories(body));
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(message);
   }
 }
@@ -130,7 +135,8 @@ function* addTeamMemberAsync({ payload, history }) {
       yield showSuccess(`Added successfully`);
     }
     history.push(`/dashboard/event/${eventId}`);
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }
@@ -148,9 +154,9 @@ function* fetchEventSubmissionsAsync({ payload, history }) {
     if (data) {
       history.push(`/dashboard/events/${payload}`);
     }
-  } catch (error) {
-    yield put(eventsError(error.message));
-    yield toast.error(error.message);
+  } catch ({ response }) {
+    const { message } = response.data;
+    yield showError(message);
   }
 }
 

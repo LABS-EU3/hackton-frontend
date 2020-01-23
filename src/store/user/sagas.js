@@ -58,7 +58,8 @@ function* socialAuthAsync() {
       data: { body }
     } = yield axios.get("/api/auth/token");
     yield put(setUser(body.token));
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(message);
   }
 }
@@ -69,7 +70,7 @@ function* watchSocialAuth() {
 
 function* logout() {
   try {
-    yield put(persistor.purge());
+    yield persistor.purge();
   } catch ({ message }) {
     yield showError(message);
   }
@@ -88,7 +89,8 @@ function* fetchUserProfileAsync({ payload }) {
       }
     } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
     yield put(setUserProfile(user));
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }
@@ -109,7 +111,8 @@ function* updateUserProfileAsync({ payload, history }) {
     yield put(setUserProfile(userUpdates));
     yield showSuccess(`🎉 ${message}`);
     yield history.push("/dashboard");
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }

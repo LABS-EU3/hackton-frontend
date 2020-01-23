@@ -1,12 +1,14 @@
-export const ParticipantSubmissionTypes = {
+export const ProjectSubmissionTypes = {
   CREATE_SUBMISSION: "CREATE_SUBMISSION",
   FETCH_ALL_SUBMISSIONS: "FETCH_ALL_SUBMISSIONS",
-  SET_SUBMISSIONS: "SET_SUBMISSIONS"
+  SET_SUBMISSIONS: "SET_SUBMISSIONS",
+  SUBMIT_PROJECT:'SUBMIT_PROJECT',
+  GRADE_SUBMISSION:'GRADE_SUBMISSION'
 };
 
 export const createSubmission = (submissionData, history) => {
   return {
-    type: ParticipantSubmissionTypes.CREATE_SUBMISSION,
+    type: ProjectSubmissionTypes.CREATE_SUBMISSION,
     payload: submissionData,
     history
   };
@@ -14,14 +16,31 @@ export const createSubmission = (submissionData, history) => {
 
 export const fetchAllSubmissions = eventId => {
   return {
-    type: ParticipantSubmissionTypes.FETCH_ALL_SUBMISSIONS,
+    type: ProjectSubmissionTypes.FETCH_ALL_SUBMISSIONS,
     payload: eventId
   };
 };
 
-export const setSubmissions = submission => {
+export const setSubmissions = submissions => {
   return {
-    type: ParticipantSubmissionTypes.SET_SUBMISSIONS,
-    payload: submission
+    type: ProjectSubmissionTypes.SET_SUBMISSIONS,
+    payload: submissions
   };
 };
+
+export const gradeSubmission = (id, grade, history) => {
+  return {
+    type: ProjectSubmissionTypes.GRADE_SUBMISSION,
+    payload: grade,
+    id,
+    history
+  }
+}
+
+export const submitProject = (projectData, history)=>{
+  return {
+    type: ProjectSubmissionTypes.SUBMIT_PROJECT,
+    payload: projectData,
+    history
+  }
+}

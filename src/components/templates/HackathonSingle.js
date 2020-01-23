@@ -408,9 +408,13 @@ const HackathonSingle = () => {
                 </div>
               )}
               <div>
-                <Link to={`/dashboard/event/${id}/projects`}>
-                  <Button color="blue">View submissions</Button>
-                </Link>
+                  <Button
+                    anchor
+                    to={`/dashboard/event/${id}/projects`}
+                    color="blue"
+                  >
+                    View submissions
+                  </Button>
               </div>
             </RegisterCardWide>
           </RowBody>
