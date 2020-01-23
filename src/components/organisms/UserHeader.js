@@ -6,6 +6,7 @@ import WideHeader from "../atoms/WideHeader";
 import HeaderContainer from "../atoms/HeaderContainer";
 import Logo from "../atoms/Logo";
 import { ProfileImg } from "../atoms/ProfileImg";
+import { Dropdown } from '../atoms/DropDown';
 
 const UserHeader = () => {
   const { email: user } = useSelector(state => state.currentUser);
@@ -17,7 +18,10 @@ const UserHeader = () => {
         <Link to="/dashboard">
           <Logo />
         </Link>
-        <ProfileImg>{initial}</ProfileImg>
+        <ProfileImg>{initial}
+        
+        <Dropdown className="row2tab" />
+        </ProfileImg>
       </HeaderContainer>
     </WideHeader>
   );
