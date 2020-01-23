@@ -18,7 +18,12 @@ Run `npm test` or `yarn test` in the console.
 
 ### Break down into end to end tests
 
-Explain what these tests test and why
+* **EditHackathon test** - renders the User EditHackathon template correctly
+* **EventOnboarding test** - renders the User EventOnboarding template correctly.
+* **HackathonForm test** - renders the User HackathonForm template correctly.
+* **HackathonSingle test** - renders the User HackathonSingle template correctly.
+* **UserOnboarding test** - renders the User UserOnboarding template correctly.
+* **UserProfileForm test** - renders the User UserProfileForm template correctly.
 
 ## Deployment
 
