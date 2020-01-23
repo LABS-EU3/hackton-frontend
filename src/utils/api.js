@@ -18,3 +18,7 @@ export const selectToken = state => state.currentUser.token;
 export const showError = message => {
   toast.error(message);
 };
+
+export const showSuccess = message => {
+  toast.success(message);
+};
