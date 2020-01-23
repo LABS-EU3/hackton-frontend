@@ -42,7 +42,7 @@ Please read [CONTRIBUTING.md](https://gist.github.com) for details on our code o
 
 ## Versioning
 
-This is version 0.0.1 (Release canvas 1)
+This is version 0.0.2 (Release canvas 2)
 
 ## Authors
 
