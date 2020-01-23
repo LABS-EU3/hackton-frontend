@@ -246,10 +246,11 @@ const HackathonForm = ({ initialState = defaultState }) => {
                       </Paragraph>
 
                         <Checkbox name="rubrics" value='presentation' label="Presentation" />
-                        <Checkbox name="rubrics" value="market_fit" label="Market Fit" />
+                        <Checkbox name="rubrics" value="product_fit" label="Product Fit" />
                         <Checkbox name="rubrics" value="innovation" label="Innovation" />
                         <Checkbox name="rubrics" value="product_design" label="Product Design" />
                         <Checkbox name="rubrics" value="extensibility" label="Extensibility" />
+                        <Checkbox name="rubrics" value="functionality" label="Functionality" />
                     </RowBody>
                     <RowBody>
                       <Label htmlFor="guidelines">Guidelines</Label>
