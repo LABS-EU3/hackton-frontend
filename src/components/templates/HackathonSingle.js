@@ -228,10 +228,14 @@ const HackathonSingle = ({ initialState = defaultState }) => {
         }
       });
     };
+
     const handleStatusLogic = () => {
       if (daysToEvent <= 0) {
         window.addEventListener("load", () => {
-          document.querySelector("#disabled-register").disabled = true;
+          const el = document.querySelector("#disabled-register");
+          if (el) {
+            el.disabled = true;
+          }
         });
         return setEventIsOpen(false);
       } else {
@@ -439,7 +443,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
               {currentEvent.creator_id === Number(userId) ? (
                 <div>
                   <Link to={`/dashboard/event/${id}/team`}>
-                  <Button color="green">Add Co-organizer or Judges</Button>
+                    <Button color="green">Add Co-organizer or Judges</Button>
                   </Link>
                 </div>
               ) : (
@@ -467,10 +471,14 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   )}
                   <Link to={`/dashboard/event/${id}/participant_submission`}>
                     {daysToEndDate < 0 ? (
-                      <Button color="gray" style={{
-                        border: "2px solid lightgray",
-                        color: "lightgray"
-                      }} disabled>
+                      <Button
+                        color="gray"
+                        style={{
+                          border: "2px solid lightgray",
+                          color: "lightgray"
+                        }}
+                        disabled
+                      >
                         Project Submission Closed
                       </Button>
                     ) : daysToEndDate >= 0 && registered === true ? (

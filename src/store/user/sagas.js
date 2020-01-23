@@ -1,5 +1,5 @@
 import { all, call, takeLatest, put, select } from "redux-saga/effects";
-import { persistor } from '../../store';
+import { persistor } from "../../store";
 import { UserTypes, setUser, userError, setUserProfile } from "./actions";
 
 import { axios, axiosWithAuth, selectToken } from "../../utils/api";
@@ -14,11 +14,12 @@ function* loginAsync({ payload, history }) {
     yield history.push("/dashboard");
     yield toast.success(`😎 Welcome`);
   } catch (error) {
-    yield put(userError(error));
-    if(error.message === "Request failed with status code 404" ) {
+    const { message } = error.response.data;
+    yield put(userError(message));
+    if (error.message === "Request failed with status code 404") {
       history.push("/not-found");
     }
-    toast.error(`⚠️ ${error.message}`);
+    toast.error(`⚠️ ${message}`);
   }
 }
 
@@ -36,7 +37,7 @@ function* registerAsync({ payload, history }) {
     yield history.push("/dashboard");
   } catch (error) {
     yield put(userError(error));
-    if(error.message === "Request failed with status code 404" ) {
+    if (error.message === "Request failed with status code 404") {
       history.push("/not-found");
     }
     toast.error(`⚠️ ${error.message}`);
@@ -65,22 +66,24 @@ function* watchSocialAuth() {
 function* logout() {
   try {
     yield put(persistor.purge());
-  }catch (error) {
+  } catch (error) {
     yield put(userError(error));
-  } 
+  }
 }
 
 function* watchLogout() {
   yield takeLatest(UserTypes.PURGE, logout);
 }
 
-function* fetchUserProfileAsync({payload}) {
+function* fetchUserProfileAsync({ payload }) {
   try {
     const token = yield select(selectToken);
     const {
-      data: { body:{user} }
+      data: {
+        body: { user }
+      }
     } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
-    yield console.log('USER', user);
+    yield console.log("USER", user);
     yield put(setUserProfile(user));
   } catch (error) {
     yield put(userError(error.message));
@@ -95,13 +98,15 @@ function* watchFetchUserProfile() {
 function* updateUserProfileAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
-    const { data: {message, body: { userUpdates }} } = yield axiosWithAuth(token).put(
-      "/api/users/profile",
-      payload
-    );
-      yield put(setUserProfile(userUpdates))
-      yield toast.success(`🎉 ${message}`);
-      yield history.push("/dashboard");
+    const {
+      data: {
+        message,
+        body: { userUpdates }
+      }
+    } = yield axiosWithAuth(token).put("/api/users/profile", payload);
+    yield put(setUserProfile(userUpdates));
+    yield toast.success(`🎉 ${message}`);
+    yield history.push("/dashboard");
   } catch (error) {
     yield put(userError(error.message));
     toast.error(`⚠️ ${error.message}`);

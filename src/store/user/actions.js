@@ -54,13 +54,12 @@ export const resetUser = () => {
   return { type: UserTypes.PURGE };
 };
 
-export const fetchUserProfile = (userId) => {
+export const fetchUserProfile = userId => {
   return {
     type: UserTypes.FETCH_USER_PROFILE,
     payload: userId
   };
 };
-
 
 export const updateUserProfile = (updatedProfile, history) => {
   return {
@@ -70,7 +69,8 @@ export const updateUserProfile = (updatedProfile, history) => {
   };
 };
 
-export const userError = error => {
+export const userError = errorMessage => {
+  console.error(errorMessage);
   return {
     type: UserTypes.USER_ERROR
   };
