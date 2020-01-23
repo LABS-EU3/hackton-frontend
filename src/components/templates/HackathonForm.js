@@ -44,6 +44,7 @@ const HackathonForm = ({ initialState }) => {
   }, [dispatch]);
 
   const defaultState = {
+    id: initialState?.id,
     event_title: initialState?.event_title || "",
     start_date: initialState?.start_date || "",
     end_date: initialState?.end_date || "",
