@@ -439,7 +439,7 @@ const HackathonSingle = ({ initialState = defaultState }) => {
               {currentEvent.creator_id === Number(userId) ? (
                 <div>
                   <Link to={`/dashboard/event/${id}/team`}>
-                  <Button color="green">Add Co-organizer or Judges</Button>
+                    <Button color="green">Add team members</Button>
                   </Link>
                 </div>
               ) : (
@@ -467,10 +467,14 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   )}
                   <Link to={`/dashboard/event/${id}/participant_submission`}>
                     {daysToEndDate < 0 ? (
-                      <Button color="gray" style={{
-                        border: "2px solid lightgray",
-                        color: "lightgray"
-                      }} disabled>
+                      <Button
+                        color="gray"
+                        style={{
+                          border: "2px solid lightgray",
+                          color: "lightgray"
+                        }}
+                        disabled
+                      >
                         Project Submission Closed
                       </Button>
                     ) : daysToEndDate >= 0 && registered === true ? (
@@ -483,6 +487,11 @@ const HackathonSingle = ({ initialState = defaultState }) => {
                   </Link>
                 </div>
               )}
+              <div>
+                <Link to={`/dashboard/event/${id}/projects`}>
+                  <Button color="blue">View submissions</Button>
+                </Link>
+              </div>
             </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>

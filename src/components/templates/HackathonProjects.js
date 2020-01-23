@@ -47,6 +47,7 @@ const HackathonProjects = () => {
           <Column>
             <Card>
               <RowBody>
+                {submissions.length === 0 && "No projects were submitted for this hackathon."}
                 {submissions.map((s, i) => {
                   return (
                     <SubmissionEntry key={s.id}>
