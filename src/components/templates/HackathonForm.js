@@ -35,21 +35,7 @@ const BodyContainerColumn = styled(BodyContainer)`
   justify-content: start;
 `;
 
-const HackathonForm = ({
-  initialState: {
-    event_title,
-    start_date,
-    end_date,
-    event_description,
-    location,
-    tag_name,
-    rubrics,
-    requirements,
-    guidelines,
-    participation_type,
-    category_id
-  }
-}) => {
+const HackathonForm = ({ initialState }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { categories } = useSelector(state => state.events);
@@ -58,17 +44,17 @@ const HackathonForm = ({
   }, [dispatch]);
 
   const defaultState = {
-    event_title: event_title || "",
-    start_date: start_date || "",
-    end_date: end_date || "",
-    event_description: event_description || "",
-    location: location || "",
-    tag_name: tag_name || [],
-    rubrics: rubrics || [],
-    requirements: requirements || [],
-    guidelines: guidelines || "",
-    participation_type: participation_type || "individual",
-    category_id: category_id || 1
+    event_title: initialState?.event_title || "",
+    start_date: initialState?.start_date || "",
+    end_date: initialState?.end_date || "",
+    event_description: initialState?.event_description || "",
+    location: initialState?.location || "",
+    tag_name: initialState?.tag_name || [],
+    rubrics: initialState?.rubrics || [],
+    requirements: initialState?.requirements || [],
+    guidelines: initialState?.guidelines || "",
+    participation_type: initialState?.participation_type || "individual",
+    category_id: initialState?.category_id || 1
   };
 
   const handleSubmit = values => {
