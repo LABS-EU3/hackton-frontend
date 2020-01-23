@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Rating from "react-rating";
 import { useParams, useHistory } from "react-router-dom";
@@ -45,13 +45,13 @@ const HackathonSingleProject = () => {
   };
 
   const [grade, setGrade] = useState({
-    product_design: 0,
-    functionality: 0,
-    innovation: 0,
-    product_fit: 0,
-    extensibility: 0,
-    presentation: 0,
-    project_event_id,
+    product_design: null,
+    functionality: null,
+    innovation: null,
+    product_fit: null,
+    extensibility: null,
+    presentation: null,
+    project_event_id: id,
     judge_comments: ""
   });
 
