@@ -27,7 +27,7 @@ Run `npm test` or `yarn test` in the console.
 
 ## Deployment
 
-* The landing page was deployed with [Zeit] (https://hackton.co/)
+* The landing page was deployed with [Zeit](https://hackton.co/)
 * The Actual site was deployed with [Netlify](https://staging.hackton.co/register)
 
 ## Built With
