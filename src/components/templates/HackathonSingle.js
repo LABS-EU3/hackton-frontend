@@ -407,6 +407,15 @@ const HackathonSingle = () => {
                   )}
                 </div>
               )}
+              <div>
+                  <Button
+                    anchor
+                    to={`/dashboard/event/${id}/projects`}
+                    color="blue"
+                  >
+                    View submissions
+                  </Button>
+              </div>
             </RegisterCardWide>
           </RowBody>
         </BodyContainerColumn>

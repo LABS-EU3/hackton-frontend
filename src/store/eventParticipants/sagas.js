@@ -18,7 +18,8 @@ function* fetchAllParticipantsAsync({ payload }) {
       data: { body }
     } = yield axiosWithAuth(token).get(`/api/events/${payload}/participants`);
     yield put(setEventParticipants(body));
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }
@@ -41,7 +42,8 @@ function* registerEventAsync({ payload, history }) {
       yield put(fetchAllParticipants(payload));
       yield showSuccess(`😀 ${data.message}`);
     }
-  } catch ({ response: { message, statusCode } }) {
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
     if (statusCode === 404) {
       history.push("/not-found");
     }
@@ -61,7 +63,8 @@ function* unregisterEventAsync({ payload, history }) {
     );
     yield put(fetchAllParticipants(payload));
     yield showSuccess(`😲 ${data.message}`);
-  } catch ({ response: { message, statusCode } }) {
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
     if (statusCode === 404) {
       history.push("/not-found");
     }

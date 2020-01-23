@@ -98,6 +98,7 @@ const StyledLink = styled(Link)`
   border: 2px solid ${Solid.BLACK};
   background: ${Solid.WHITE};
   outline: none;
+  text-align: center;
   text-decoration: none;
   white-space: nowrap;
 
@@ -122,5 +123,24 @@ const StyledLink = styled(Link)`
         border: 0;
     `;
     }
+    if (color === "green")
+      return `
+        background: ${Gradient.GREEN};
+        border: 0;
+        padding: 14px 22px;
+        color: ${Solid.WHITE};
+    `;
+    if (color === "grey")
+      return `
+        background: ${Gradient.GREY};
+        border: 0;
+        padding: 14px 22px;
+        color: ${Solid.WHITE};
+
+        @media ${media.tablet} {
+          width: 100%;
+          order: 1;
+        }
+      `;
   }};
 `;

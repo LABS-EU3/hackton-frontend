@@ -6,12 +6,12 @@ import {
   showSuccess
 } from "../../utils/api";
 import {
-  ParticipantSubmissionTypes,
+  ProjectSubmissionTypes,
   fetchAllSubmissions,
   setSubmissions
 } from "./actions";
 
-function* createParticipantSubmissionAsync({ payload, history }) {
+function* submitProjectAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
@@ -24,7 +24,8 @@ function* createParticipantSubmissionAsync({ payload, history }) {
       yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
-  } catch ({ response: { message, statusCode } }) {
+  } catch ({ response }) {
+    const { message, statusCode } = response.data;
     if (statusCode === 404) {
       history.push("/not-found");
     }
@@ -32,11 +33,8 @@ function* createParticipantSubmissionAsync({ payload, history }) {
   }
 }
 
-function* watchCreateParticipantSubmission() {
-  yield takeLatest(
-    ParticipantSubmissionTypes.CREATE_SUBMISSION,
-    createParticipantSubmissionAsync
-  );
+function* watchSubmitProject() {
+  yield takeLatest(ProjectSubmissionTypes.SUBMIT_PROJECT, submitProjectAsync);
 }
 
 function* fetchAllSubmissionsAsync({ payload }) {
@@ -45,25 +43,50 @@ function* fetchAllSubmissionsAsync({ payload }) {
     const {
       data: { body }
     } = yield axiosWithAuth(token).get(
-      `/api/events/${payload.event_id}/projects/submissions`,
+      `/api/events/${payload}/projects`,
       payload
     );
     yield put(setSubmissions(body));
-  } catch ({ response: { message } }) {
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }
 
 function* watchFetchAllSubmissionsAsync() {
   yield takeLatest(
-    ParticipantSubmissionTypes.FETCH_ALL_SUBMISSIONS,
+    ProjectSubmissionTypes.FETCH_ALL_SUBMISSIONS,
     fetchAllSubmissionsAsync
   );
 }
 
-export function* ParticipantsSubmissionSagas() {
+function* gradeSubmissionAsync({ id, payload, history }) {
+  try {
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).post(
+      `/api/events/projects/${id}/grading`,
+      payload
+    );
+    if (data){
+      history.push(` /dashboard/event/${payload.project_event_id}/projects`);
+    }  
+  } catch ({response}) {
+    const {message} = response.data;
+    yield showError(`⚠️ ${message}`);
+  }
+}
+
+function* watchGradeSubmission() {
+  yield takeLatest(
+    ProjectSubmissionTypes.GRADE_SUBMISSION,
+    gradeSubmissionAsync
+  );
+}
+
+export function* projectSubmissionsSagas() {
   yield all([
-    call(watchCreateParticipantSubmission),
-    call(watchFetchAllSubmissionsAsync)
+    call(watchSubmitProject),
+    call(watchFetchAllSubmissionsAsync),
+    call(watchGradeSubmission)
   ]);
 }

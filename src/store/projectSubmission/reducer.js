@@ -1,16 +1,10 @@
-import { ParticipantSubmissionTypes } from "./actions";
+import { ProjectSubmissionTypes } from "./actions";
 
-const initialState = {
-    participantSubmissionData = []
-}
-
-export const participantSubmissionReducer = ( participantSubmission = initialState, action ) => {
-    switch (action.type) {
-        case ParticipantSubmissionTypes.CREATE_SUBMISSION:
-            return {
-                ...participantSubmission,
-                participantSubmissionData: action.payload
-            }
-        }
-        console.log("submission data", participantSubmissionData)
+export const projectSubmissionsReducer = (projectSubmissions = [], action) => {
+    switch (action.type) { 
+        case ProjectSubmissionTypes.SET_SUBMISSIONS:
+            return action.payload;
+        default:
+            return projectSubmissions;
     }
+}
