@@ -7,7 +7,7 @@ export const Card = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 302px;
-  height: 220px;
+  min-height: 220px;
   border: 1px solid ${Solid.BORDER_GREY};
   border-radius: 6px;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
@@ -16,16 +16,15 @@ export const Card = styled.div`
 `;
 
 export const CardWide = styled(Card)`
-  width: 650px;
+  max-width: 650px;
+  width: 100%;
   padding: 40px;
-  height: auto;
 
   @media ${media.tablet} {
-    width: 350px;
-    padding: 20px;
+    width: 100%;
   }
 
   @media ${media.mobile} {
-    width: 250px;
+    width: 100%;
   }
 `;
