@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useHistory, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -46,14 +46,19 @@ const CardWider = styled(CardWide)`
 //   marginRight: "5px"
 // };
 
-const UserProfileForm = () => {
+const UserProfileForm = ({initialState}) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { bio, fullname, email, username } = useSelector(state => state.currentUser);
-
   const handleSubmit = values => {
       dispatch(updateUserProfile(values, history));
   };
+
+  const defaultState = {
+    bio: initialState?.bio || "",
+    fullname: initialState?.fullname || "",
+    email: initialState?.email || "",
+    username: initialState?.username || ""
+  }
 
   const schema = Yup.object().shape({
     fullname: Yup.string().required("fullname is required"),
@@ -61,7 +66,7 @@ const UserProfileForm = () => {
     username: Yup.string().required("username is required"),
     bio: Yup.string()
   });
-const initialState = { bio, fullname, email, username }
+
   return (
     <div>
       <UserHeader />
@@ -75,7 +80,7 @@ const initialState = { bio, fullname, email, username }
             <CardWider>
               <Formik
                 onSubmit={handleSubmit}
-                initialValues={initialState}
+                initialValues={defaultState}
                 validationSchema={schema}
                 enableReinitialize
               >

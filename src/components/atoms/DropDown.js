@@ -22,7 +22,7 @@ export const UL = styled.ul`
   li {
     text-align: center;
     font-size: 12px;
-    a {
+    a, span {
       font-weight: bold;
       font-size: 15px;
       font-family: ${type.ROBOTO};
@@ -51,7 +51,7 @@ export const Dropdown = () => {
         <Link to="/dashboard/profile/edit">Profile</Link>
       </li>
       <li>
-        <Link onClick={handleLogOut}>LogOut</Link>
+        <span onClick={handleLogOut}>LogOut</span>
       </li>
     </UL>
   );
