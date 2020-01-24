@@ -52,18 +52,25 @@ const HackathonProjects = () => {
                   return (
                     <SubmissionEntry key={s.id}>
                       <Team>
-                        <H3>{s.participant_or_team_name}</H3>
+                        <H3>{s.participant_or_team_name || s.project_title}</H3>
                       </Team>
                       <Description>{s.project_writeups}</Description>
                       {s.average_rating > 0 ? (
-                        <Rating
-                          initialRating={Math.floor(s.average_rating)}
-                          readonly
-                          emptySymbol={
-                            <img alt="Rubric star" src={emptyStar} />
-                          }
-                          fullSymbol={<img alt="Rubric star" src={fullStar} />}
-                        />
+                        <RatingGroup>
+                          <Rating
+                            initialRating={s.average_rating}
+                            readonly
+                            emptySymbol={
+                              <img alt="Rubric star" src={emptyStar} />
+                            }
+                            fullSymbol={
+                              <img alt="Rubric star" src={fullStar} />
+                            }
+                          />
+                          <JudgeCount>
+                            {`${s.acted_judges}/${s.number_of_judges + 1} voted`}
+                          </JudgeCount>
+                        </RatingGroup>
                       ) : (
                         "Not rated."
                       )}
@@ -116,6 +123,31 @@ const Description = styled(Paragraph)`
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media ${media.tablet} {
+    max-width: 100%;
+    margin: 0 0 20px 0;
+    padding: 0 20px;
+  }
+
+  @media ${media.mobile} {
+    padding: 0;
+  }
+`;
+
+const RatingGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media ${media.tablet} {
+    margin: 0 0 20px 0;
+  }
+`;
+
+const JudgeCount = styled.span`
+  font-size: 12px;
+  margin: 5px 0 0 0;
 `;
 
 const SubmissionEntry = styled.div`

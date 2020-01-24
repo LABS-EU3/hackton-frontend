@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Rating from "react-rating";
 import { useParams, useHistory } from "react-router-dom";
@@ -9,7 +9,7 @@ import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
 import BodyContainer from "../atoms/BodyContainer";
-import { H3 } from "../atoms/Heading";
+import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
@@ -19,12 +19,48 @@ import Label from "../atoms/Label";
 import emptyStar from "../../assets/star-hollow.png";
 import fullStar from "../../assets/star-full.png";
 import { gradeSubmission } from "../../store/projectSubmission/actions";
+import { axiosWithAuth } from "../../utils/api";
 
 const HackathonSingleProject = () => {
   const { id, projectId } = useParams();
   const { event_title, rubrics } = useSelector(state =>
     state.events.data.find(event => event.id === Number(id))
   );
+  const { userId, token } = useSelector(state => state.currentUser);
+  const [canGrade, setCanGrade] = useState(false);
+
+  useEffect(() => {
+    const getGrades = axiosWithAuth(token).get(
+        `/api/events/projects/${projectId}/grading`
+      );
+    const getTeam = axiosWithAuth(token).get(
+        `/api/events/${id}/team`
+    );
+    
+    const getData = async () => {
+      const [
+        {
+          data: {
+            body: { members: team }
+          }
+        },
+        {
+          data: { body: grades }
+        }
+      ] = await Promise.all([getTeam, getGrades]);
+      const judge = team.find(
+        t => t.role_type === "judge" && t.user_id === userId
+      );
+
+      if (judge) {
+        const graded = grades.find(g => g.judge_id === userId);
+        
+        setCanGrade(!graded);
+      }
+    }
+    getData();
+
+  }, [projectId, token, userId, id]);
 
   const {
     project_title,
@@ -84,44 +120,83 @@ const HackathonSingleProject = () => {
                 </Team>
                 <Label htmlFor="project_writeup">Project writeup</Label>
                 <Description id="project_writeup">
-                  {project_writeups}
+                  <Paragraph>{project_writeups}</Paragraph>
+                  {github_url && (
+                    <>
+                      <Label htmlFor="github_url">GitHub URL</Label>
+                      <Paragraph id="github_url">
+                        <a
+                          href={github_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {github_url}
+                        </a>
+                      </Paragraph>
+                    </>
+                  )}
+                  {video_url && (
+                    <>
+                      <Label htmlFor="video_url">Video URL</Label>
+                      <Paragraph id="video_url">
+                        <a
+                          href={video_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {video_url}
+                        </a>
+                      </Paragraph>
+                    </>
+                  )}
                 </Description>
-                <Label htmlFor="github_url">GitHub URL</Label>
-                <div id="github_url">{github_url}</div>
-
-                <Label htmlFor="video_url">Video URL</Label>
-                <div id="video_url">{video_url}</div>
-                <Label htmlFor="rubrics">Ratings</Label>
-                <Rubrics id="rubrics">
-                  {rubrics.map((rubric, i) => {
-                    return (
-                      <RubricRow key={rubric}>
-                        {toTittleCase(rubric)}
-                        <Rating
-                          id={rubric}
-                          onChange={rate => changeHandler([rubric, rate])}
-                          emptySymbol={
-                            <img alt={toTittleCase(rubric)} src={emptyStar} />
-                          }
-                          fullSymbol={
-                            <img alt={toTittleCase(rubric)} src={fullStar} />
-                          }
-                          initialRating={grade[rubric]}
-                        />
-                      </RubricRow>
-                    );
-                  })}
-                </Rubrics>
-                <Label htmlFor="feedback">Feedback</Label>
-                <Feedback
-                  wide
-                  id="judge_comments"
-                  onChange={e => {
-                    const { id, value } = e.target;
-                    changeHandler([id, value]);
-                  }}
-                  value={grade.judge_comments}
-                />
+                {canGrade ? (
+                  <JudgeView>
+                    <H4>Grading Form</H4>
+                    <Paragraph>
+                      Please rate this project submission using the rubrics
+                      provided below and leave a feedback explaining your
+                      grading.
+                    </Paragraph>
+                    <Label htmlFor="rubrics"></Label>
+                    <Rubrics id="rubrics">
+                      {rubrics.map((rubric, i) => {
+                        return (
+                          <RubricRow key={rubric}>
+                            {toTittleCase(rubric)}
+                            <Rating
+                              id={rubric}
+                              onChange={rate => changeHandler([rubric, rate])}
+                              emptySymbol={
+                                <img
+                                  alt={toTittleCase(rubric)}
+                                  src={emptyStar}
+                                />
+                              }
+                              fullSymbol={
+                                <img
+                                  alt={toTittleCase(rubric)}
+                                  src={fullStar}
+                                />
+                              }
+                              initialRating={grade[rubric]}
+                            />
+                          </RubricRow>
+                        );
+                      })}
+                    </Rubrics>
+                    <Label htmlFor="feedback">Feedback</Label>
+                    <Feedback
+                      wide
+                      id="judge_comments"
+                      onChange={e => {
+                        const { id, value } = e.target;
+                        changeHandler([id, value]);
+                      }}
+                      value={grade.judge_comments}
+                    />
+                  </JudgeView>
+                ) : (<H4>"We have your grading on record. Thank you!"</H4>)}
               </SubmissionEntry>
               <Button
                 anchor
@@ -169,7 +244,7 @@ const Strong = styled.strong`
   font-weight: bold;
 `;
 
-const Description = styled(Paragraph)`
+const Description = styled.div`
   display: block;
   margin: 0;
   border-bottom: 1px solid #c8c8c8;
@@ -201,11 +276,22 @@ const Rubrics = styled.div`
   font-family: "Roboto", sans-serif;
   width: 100%;
   border-bottom: 1px solid #c8c8c8;
-  padding: 0 0 20px 0;
+  padding: 10px 0 20px 0;
   margin: 0 0 20px 0;
 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  @media ${media.tablet} {
+    justify-content: center;
+  }
+
   div {
-    margin: 0 0 10px 0;
+    margin: 0 30px 20px 0;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -215,7 +301,7 @@ const RubricRow = styled.div`
   font-weight: bold;
 
   & > span {
-    margin: 0 0 0 10px;
+    margin: 10px 0 0 10px;
   }
 `;
 
@@ -224,7 +310,7 @@ const Feedback = styled.textarea`
   font-size: 16px;
   font-weight: 500;
   color: #212121;
-  border: 1px solid #c8c8c8;
+  border: 1px solid #e8e8e8;
   border-radius: 6px;
   padding: 10px;
   margin: 0 0 10px 0;
@@ -240,4 +326,12 @@ const Feedback = styled.textarea`
     `
     width: 100%;
   `};
+`;
+
+const JudgeView = styled.div`
+  border-radius: 6px;
+  border: 1px solid #e8e8e8;
+  padding: 20px;
+  background-color: #f2f2f2;
+  width: 100%;
 `;
