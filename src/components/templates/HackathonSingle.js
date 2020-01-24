@@ -87,12 +87,6 @@ export const TagsCardWide = styled(CardWide)`
     padding: 10px;
     border-bottom: 1px solid lightgray;
   }
-  .tags {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    border-bottom: none;
-    text-align: center;
     div {
       display: flex;
       flex-direction: column;
@@ -137,6 +131,10 @@ const ButtonsDashGroup = styled.div`
 const Separator = styled.hr`
   border-top: 0;
   border-bottom: 1px solid #c3cfd9;
+  margin: 0 0 20px 0;
+`;
+
+const TagsGroup = styled.div`
   margin: 0 0 20px 0;
 `;
 
@@ -274,18 +272,17 @@ const HackathonSingle = () => {
                 {guidelines}
               </Paragraph>
               <Separator />
-              <Paragraph>
-                <div className="tags">
-                  <BoldSpan>Event Tags:</BoldSpan>
-                  {tag_name && tag_name.length !== 0 ? (
-                    tag_name.map((tagged, index) => {
-                      return <PTags key={index}>{tagged}</PTags>;
-                    })
-                  ) : (
-                    <Paragraph>No tags provided for this event</Paragraph>
-                  )}
-                </div>
-              </Paragraph>
+              <TagsGroup>
+                <BoldSpan>Event Tags:</BoldSpan>
+                {tag_name && tag_name.length !== 0 ? (
+                  tag_name.map((tagged, index) => {
+                    return <PTags key={index}>{tagged}</PTags>;
+                  })
+                ) : (
+                  <Paragraph>No tags provided for this event</Paragraph>
+                )}
+              </TagsGroup>
+              <Separator />
               <ButtonsDashGroup>
                 <div>
                   <Button anchor to={"/dashboard"} color="grey">
