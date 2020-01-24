@@ -13,13 +13,13 @@ import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { Column } from "../atoms/Column";
-import { Row } from "../atoms/Row";
+// import { Row } from "../atoms/Row";
 import { CardWide } from "../atoms/Card";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
-import profileImg from "../../assets/profile-image.png";
+// import profileImg from "../../assets/profile-image.png";
 
 import {
   updateUserProfile
@@ -28,23 +28,23 @@ import {
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
 `;
-const NewLabel = styled(Label)`
-  padding-left: 3px;
-`;
+// const NewLabel = styled(Label)`
+//   padding-left: 3px;
+// `;
 const CardWider = styled(CardWide)`
   margin-left: 150px;
 `;
-const ProfileRow = styled(Row)`
-  justify-content: space-around;
-`;
+// const ProfileRow = styled(Row)`
+//   justify-content: space-around;
+// `;
 
-var border = {
-  borderRadius: "50%",
-  width: "20%"
-};
-var pad = {
-  marginRight: "5px"
-};
+// var border = {
+//   borderRadius: "50%",
+//   width: "20%"
+// };
+// var pad = {
+//   marginRight: "5px"
+// };
 
 const UserProfileForm = () => {
   const dispatch = useDispatch();
