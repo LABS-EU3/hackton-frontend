@@ -13,6 +13,7 @@ export const LetterIcon = styled.div`
   font-family: ${type.ROBOTO_MONO};
   font-size: 20px;
   font-weight: 500;
+  text-transform: uppercase;
   color: ${Solid.WHITE};
   width: 40px;
   height: 40px;
