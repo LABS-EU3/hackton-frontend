@@ -21,6 +21,7 @@ export const ProfileImg = styled.div`
       }
   }
   &:hover {
+    cursor: pointer;
     ul {
       display: flex;
       flex-direction: column;
