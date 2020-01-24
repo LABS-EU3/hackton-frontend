@@ -12,7 +12,6 @@ import {
 } from "./actions";
 
 function* submitProjectAsync({ payload, history }) {
-  console.log("---PAYLOAD---", payload);
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
