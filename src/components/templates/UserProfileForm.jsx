@@ -81,7 +81,7 @@ const initialState = { bio, fullname, email, username }
               >
                 {({ errors, touched }) => (
                   <Form>
-                    <Column>
+                    {/* <Column>
                       <NewLabel htmlFor="image">Profile picture</NewLabel>
                       <ProfileRow>
                         <img
@@ -100,7 +100,7 @@ const initialState = { bio, fullname, email, username }
                           </div>
                         </Row>
                       </ProfileRow>
-                    </Column>
+                    </Column> */}
 
                     <RowBody>
                       <Label htmlFor="fullname">Full Name</Label>
