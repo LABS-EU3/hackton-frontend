@@ -27,22 +27,40 @@ const HackathonSingleProject = () => {
     state.events.data.find(event => event.id === Number(id))
   );
   const { userId, token } = useSelector(state => state.currentUser);
-  const [judgesGrades, setJudgesGrades] = useState([]);
-  const [judge, setJudge] = useState(null);
+  const [canGrade, setCanGrade] = useState(false);
 
   useEffect(() => {
-    const getGrades = async () => {
-      const {
-        data: { body }
-      } = await axiosWithAuth(token).get(
+    const getGrades = axiosWithAuth(token).get(
         `/api/events/projects/${projectId}/grading`
       );
-      setJudgesGrades(body);
-      const judge = body.find(grade => grade.judge_id === Number(userId));
-      setJudge(judge);
-    };
-    getGrades();
-  }, [projectId, token, userId]);
+    const getTeam = axiosWithAuth(token).get(
+        `/api/events/${id}/team`
+    );
+    
+    const getData = async () => {
+      const [
+        {
+          data: {
+            body: { members: team }
+          }
+        },
+        {
+          data: { body: grades }
+        }
+      ] = await Promise.all([getTeam, getGrades]);
+      const judge = team.find(
+        t => t.role_type === "judge" && t.user_id === userId
+      );
+
+      if (judge) {
+        const graded = grades.find(g => g.judge_id === userId);
+        
+        setCanGrade(!graded);
+      }
+    }
+    getData();
+
+  }, [projectId, token, userId, id]);
 
   const {
     project_title,
@@ -132,7 +150,7 @@ const HackathonSingleProject = () => {
                     </>
                   )}
                 </Description>
-                {judge && !judge.judge_id > 0 ? (
+                {canGrade ? (
                   <JudgeView>
                     <H4>Grading Form</H4>
                     <Paragraph>
