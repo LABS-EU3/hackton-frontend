@@ -44,9 +44,6 @@ const HackathonSingleProject = () => {
     getGrades();
   }, [projectId, token, userId]);
 
-  console.log("JUDGE GRADES: ", judgesGrades);
-  console.log("JUDGE: ", judge);
-
   const {
     project_title,
     participant_or_team_name,
