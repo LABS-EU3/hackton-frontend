@@ -3,47 +3,39 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { resetUser } from "../../store/user/actions";
-import { Spacing } from "../index";
-import { Solid } from "../index";
+import { Solid, type, Gradient } from "../index";
 
 export const UL = styled.ul`
-  margin: 0px;
-  margin-top: 40px;
-  padding: 0px;
+  position: relative;
+  top: 40px;
+  right: -25px;
+  padding: 5px;
   list-style: none;
   z-index: 1;
   position: absolute;
   display: flex;
   flex-direction: column;
-  :after {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -8px;
-    width: 0; height: 0;
-    border-bottom: 8px solid ${Solid.BLACK};
-    border-right: 8px solid transparent;
-    border-left: 8px solid transparent;
-}
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  border-radius: 6px;
+  transition: 0.3s;
   li {
-    float: right;
-    width: 100px;
-    height: 25px;
-    cursor: pointer;
-    background-color: #76b852;
-    opacity: 0.8;
-    line-height: 10px;
     text-align: center;
     font-size: 12px;
-    padding: 6px ${Spacing.small_space};
     a {
+      font-weight: bold;
+      font-size: 15px;
+      font-family: ${type.ROBOTO};
+      padding: 15px 20px;
       text-decoration: none;
-      color: ${Solid.WHITE};
+      color: ${Solid.DARK_GREY};
       display: block;
-    }
-    &:hover {
-      background-color: #FFA500;
+      
+      &:hover {
+        background: ${Gradient.BLUE};
+        color: ${Solid.WHITE};
+        transition: all 0.3s;
+      }
     }
   }
 `;
@@ -58,7 +50,9 @@ export const Dropdown = () => {
       <li>
         <Link to="/dashboard/profile/edit">Profile</Link>
       </li>
-      <li onClick={handleLogOut}>LogOut</li>
+      <li>
+        <Link onClick={handleLogOut}>LogOut</Link>
+      </li>
     </UL>
   );
 };
