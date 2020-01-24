@@ -56,8 +56,17 @@ const HackathonSingleProject = () => {
 
         setCanGrade(!graded);
       }
+      const features = {
+        comments: [],
+        product_design: 0,
+        functionality: 0,
+        innovation: 0,
+        product_fit: 0,
+        extensibility: 0,
+        presentation: 0
+      };
 
-      if (!graded) {
+      if (!graded && grades.length > 0) {
         // setAverages(averages);
         const keys = [
           "product_design",
@@ -68,31 +77,21 @@ const HackathonSingleProject = () => {
           "presentation",
           "judge_comments"
         ];
-        const averageGrades = grades.reduce(
-          (accum, c) => {
-            const newObj = { ...accum };
-            keys.forEach(key => {
-              const value = c[key];
-              if (key === "judge_comments") {
-                if (value) newObj.comments.push(value);
-              } else {
-                if (value !== undefined) {
-                  newObj[key] += value;
-                }
+
+        const averageGrades = grades.reduce((accum, c) => {
+          const newObj = { ...accum };
+          keys.forEach(key => {
+            const value = c[key];
+            if (key === "judge_comments") {
+              if (value) newObj.comments.push(value);
+            } else {
+              if (value !== undefined) {
+                newObj[key] += value;
               }
-            });
-            return newObj;
-          },
-          {
-            comments: [],
-            product_design: 0,
-            functionality: 0,
-            innovation: 0,
-            product_fit: 0,
-            extensibility: 0,
-            presentation: 0
-          }
-        );
+            }
+          });
+          return newObj;
+        }, features);
         const averages = {};
         Object.keys(averageGrades).forEach(key => {
           const value = averageGrades[key];
@@ -102,7 +101,7 @@ const HackathonSingleProject = () => {
         });
 
         setAverages(averages);
-      }
+      } else if (grades.length === 0) setAverages(features);
     };
     getData();
   }, [projectId, token, userId, id]);
