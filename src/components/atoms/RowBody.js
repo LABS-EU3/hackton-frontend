@@ -13,11 +13,13 @@ export const RowBody = styled.div`
 
   @media ${media.tablet} {
     flex-direction: row;
-    justify-content: center;
+    ${({ justify }) => 
+      justify ? `justify-content: ${justify}l` : `justify-content: center;`}
   }
 
   @media ${media.mobile} {
     flex-direction: row;
-    justify-content: center;
+    ${({ justify }) => 
+      justify ? `justify-content: ${justify}l` : `justify-content: center;`}
   }
 `;
