@@ -94,9 +94,10 @@ const HackathonForm = ({ initialState }) => {
   const ButtonGroup = styled.div`
     display: block;
     width: 100%;
-    
+
     a,
     button {
+      width: 100%;
       margin: 0 0 10px 0;
     }
   `;
