@@ -132,7 +132,7 @@ const HackathonSingleProject = () => {
                     </>
                   )}
                 </Description>
-                {judge && !judge.judge_id > 0 ? (
+                {!judge ? (
                   <JudgeView>
                     <H4>Grading Form</H4>
                     <Paragraph>
@@ -178,18 +178,22 @@ const HackathonSingleProject = () => {
                       value={grade.judge_comments}
                     />
                   </JudgeView>
-                ) : (<H4>"We have your grading on record. Thank you!"</H4>)}
+                ) : (
+                  <H4>"We have your grading on record. Thank you!"</H4>
+                )}
               </SubmissionEntry>
-              <Button
-                anchor
-                to={`/dashboard/event/${id}/projects`}
-                color="grey"
-              >
-                Back to projects
-              </Button>
-              <Button color="green" onClick={handleSubmit}>
-                Submit Grading
-              </Button>
+              <ButtonGroup>
+                <Button
+                  anchor
+                  to={`/dashboard/event/${id}/projects`}
+                  color="grey"
+                >
+                  Back to projects
+                </Button>
+                <Button color="green" onClick={handleSubmit}>
+                  Submit Grading
+                </Button>
+              </ButtonGroup>
             </Card>
           </Column>
         </BodyContainerColumn>
@@ -316,4 +320,12 @@ const JudgeView = styled.div`
   padding: 20px;
   background-color: #f2f2f2;
   width: 100%;
+`;
+
+const ButtonGroup = styled.div`
+  a, button {
+    width: 100%;
+    display: block;
+    margin: 0 0 10px 0;
+  }
 `;
