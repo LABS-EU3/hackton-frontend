@@ -67,11 +67,11 @@ function* gradeSubmissionAsync({ id, payload, history }) {
       `/api/events/projects/${id}/grading`,
       payload
     );
-    if (data){
-      history.push(` /dashboard/event/${payload.project_event_id}/projects`);
-    }  
-  } catch ({response}) {
-    const {message} = response.data;
+    if (data) {
+      history.push(` /dashboard/event/${id}/projects`);
+    }
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }
