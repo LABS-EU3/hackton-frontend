@@ -31,12 +31,10 @@ const HackathonSingleProject = () => {
 
   useEffect(() => {
     const getGrades = axiosWithAuth(token).get(
-        `/api/events/projects/${projectId}/grading`
-      );
-    const getTeam = axiosWithAuth(token).get(
-        `/api/events/${id}/team`
+      `/api/events/projects/${projectId}/grading`
     );
-    
+    const getTeam = axiosWithAuth(token).get(`/api/events/${id}/team`);
+
     const getData = async () => {
       const [
         {
@@ -54,12 +52,11 @@ const HackathonSingleProject = () => {
 
       if (judge) {
         const graded = grades.find(g => g.judge_id === userId);
-        
+
         setCanGrade(!graded);
       }
-    }
+    };
     getData();
-
   }, [projectId, token, userId, id]);
 
   const {
@@ -208,9 +205,11 @@ const HackathonSingleProject = () => {
                 >
                   Back to projects
                 </Button>
-                <Button color="green" onClick={handleSubmit}>
-                  Submit Grading
-                </Button>
+                {canGrade && (
+                  <Button color="green" onClick={handleSubmit}>
+                    Submit Grading
+                  </Button>
+                )}
               </ButtonGroup>
             </Card>
           </Column>
@@ -341,7 +340,8 @@ const JudgeView = styled.div`
 `;
 
 const ButtonGroup = styled.div`
-  a, button {
+  a,
+  button {
     width: 100%;
     display: block;
     margin: 0 0 10px 0;
