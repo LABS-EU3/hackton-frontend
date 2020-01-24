@@ -28,6 +28,7 @@ const HackathonSingleProject = () => {
   );
   const { userId, token } = useSelector(state => state.currentUser);
   const [canGrade, setCanGrade] = useState(false);
+  const [averages, setAverages] = useState({});
 
   useEffect(() => {
     const getGrades = axiosWithAuth(token).get(
@@ -49,11 +50,58 @@ const HackathonSingleProject = () => {
       const judge = team.find(
         t => t.role_type === "judge" && t.user_id === userId
       );
-
+      let graded;
       if (judge) {
-        const graded = grades.find(g => g.judge_id === userId);
+        graded = grades.find(g => g.judge_id === userId);
 
         setCanGrade(!graded);
+      }
+
+      if (!graded) {
+        // setAverages(averages);
+        const keys = [
+          "product_design",
+          "functionality",
+          "innovation",
+          "product_fit",
+          "extensibility",
+          "presentation",
+          "judge_comments"
+        ];
+        const averageGrades = grades.reduce(
+          (accum, c) => {
+            const newObj = { ...accum };
+            keys.forEach(key => {
+              const value = c[key];
+              if (key === "judge_comments") {
+                if (value) newObj.comments.push(value);
+              } else {
+                if (value !== undefined) {
+                  newObj[key] += value;
+                }
+              }
+            });
+            return newObj;
+          },
+          {
+            comments: [],
+            product_design: 0,
+            functionality: 0,
+            innovation: 0,
+            product_fit: 0,
+            extensibility: 0,
+            presentation: 0
+          }
+        );
+        const averages = {};
+        Object.keys(averageGrades).forEach(key => {
+          const value = averageGrades[key];
+          if (key === "comments") {
+            averages[key] = value;
+          } else averages[key] = value / grades.length;
+        });
+
+        setAverages(averages);
       }
     };
     getData();
@@ -157,7 +205,7 @@ const HackathonSingleProject = () => {
                     </Paragraph>
                     <Label htmlFor="rubrics"></Label>
                     <Rubrics id="rubrics">
-                      {rubrics.map((rubric, i) => {
+                      {rubrics.map(rubric => {
                         return (
                           <RubricRow key={rubric}>
                             {toTittleCase(rubric)}
@@ -194,7 +242,42 @@ const HackathonSingleProject = () => {
                     />
                   </JudgeView>
                 ) : (
-                  <H4>"We have your grading on record. Thank you!"</H4>
+                  <JudgeView>
+                    <Label htmlFor="rubrics"></Label>
+                    <Rubrics id="rubrics">
+                      {Object.keys(averages).map(rubric => {
+                        return rubric !== "comments" ? (
+                          <RubricRow key={rubric}>
+                            {toTittleCase(rubric)}
+                            <Rating
+                              emptySymbol={
+                                <img
+                                  alt={toTittleCase(rubric)}
+                                  src={emptyStar}
+                                />
+                              }
+                              fullSymbol={
+                                <img
+                                  alt={toTittleCase(rubric)}
+                                  src={fullStar}
+                                />
+                              }
+                              initialRating={averages[rubric]}
+                              readonly
+                            />
+                          </RubricRow>
+                        ) : null;
+                      })}
+                    </Rubrics>
+                    <Label htmlFor="feedback">Feedback</Label>
+                    {averages.comments?.length > 0 ? (
+                      averages.comments.map(comment => (
+                        <Paragraph key={comment}>{comment}</Paragraph>
+                      ))
+                    ) : (
+                      <Paragraph>No comments on this project</Paragraph>
+                    )}
+                  </JudgeView>
                 )}
               </SubmissionEntry>
               <ButtonGroup>
