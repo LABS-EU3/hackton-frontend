@@ -126,14 +126,6 @@ const Details = styled.div`
   }
 `;
 
-const ButtonsGroup = styled(Details)`
-  margin: 40px 0 0 0;
-
-  a {
-    margin: 0 10px 0 0;
-  }
-`;
-
 const ButtonsDashGroup = styled.div`
   a,
   button {
