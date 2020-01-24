@@ -332,7 +332,7 @@ const HackathonSingle = () => {
                     to={`/dashboard/event/${id}/team`}
                     color="green"
                   >
-                    Add Members
+                    Add Teammates
                   </Button>
                 ) : (
                   <>
@@ -364,6 +364,15 @@ const HackathonSingle = () => {
                 >
                   View submissions
                 </Button>
+                {isRegistered && !isEnded && (
+                  <Button
+                    color="green"
+                    anchor
+                    to={`/dashboard/event/${id}/participant_submission`}
+                  >
+                    Submit Project
+                  </Button>
+                )}
               </ButtonsDashGroup>
             </TagsCardWide>
           </RowBody>
