@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -13,7 +13,7 @@ import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { Column } from "../atoms/Column";
-import { CardWide } from "../atoms/Card";
+import { CardForm } from "../atoms/Card";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import Checkbox from "../atoms/Checkbox";
@@ -91,6 +91,17 @@ const HackathonForm = ({ initialState }) => {
       .integer()
   });
 
+  const ButtonGroup = styled.div`
+    display: block;
+    width: 100%;
+
+    a,
+    button {
+      width: 100%;
+      margin: 0 0 10px 0;
+    }
+  `;
+
   return (
     <div>
       <UserHeader />
@@ -103,7 +114,7 @@ const HackathonForm = ({ initialState }) => {
           </RowHead>
 
           <Column>
-            <CardWide>
+            <CardForm>
               <Formik
                 onSubmit={handleSubmit}
                 initialValues={defaultState}
@@ -112,7 +123,7 @@ const HackathonForm = ({ initialState }) => {
               >
                 {({ errors, touched }) => (
                   <Form>
-                    <RowBody>
+                    <RowBody justify="start">
                       <Label htmlFor="event_title">Hackathon Title</Label>
                       <Input
                         id="event_title"
@@ -127,7 +138,7 @@ const HackathonForm = ({ initialState }) => {
                         <ErrorMessage name="event_title" />
                       </ErrorSpan>
                     </RowBody>
-                    <RowBody>
+                    <RowBody justify="start">
                       <Column>
                         <Label htmlFor="start_date">Event Starts</Label>
                         <Input
@@ -159,7 +170,7 @@ const HackathonForm = ({ initialState }) => {
                         </ErrorSpan>
                       </Column>
                     </RowBody>
-                    <RowBody>
+                    <RowBody justify="start">
                       <Label htmlFor="event_description">Description</Label>
                       <TextArea
                         wide
@@ -175,12 +186,12 @@ const HackathonForm = ({ initialState }) => {
                         <ErrorMessage name="event_description" />
                       </ErrorSpan>
                     </RowBody>
-                    <RowBody>
+                    <RowBody justify="start">
                       {" "}
                       <Label htmlFor="input_tags">Tags</Label>
                       <InputTag id="input_tags" />
                     </RowBody>
-                    <RowBody>
+                    <RowBody justify="start">
                       <Column>
                         <Label htmlFor="participation_type">
                           Participation Type
@@ -223,7 +234,7 @@ const HackathonForm = ({ initialState }) => {
                         </ErrorSpan>
                       </Column>
                     </RowBody>
-                    <RowBody>
+                    <RowBody justify="start">
                       <Label htmlFor="location">Location</Label>
                       <Input
                         display="wide"
@@ -239,7 +250,7 @@ const HackathonForm = ({ initialState }) => {
                       </ErrorSpan>
                     </RowBody>
 
-                    <RowBody id="grading_rubrics">
+                    <RowBody id="grading_rubrics" justify="start">
                       <Label htmlFor="grading_rubrics">Grading Rubrics</Label>
                       <Paragraph>
                         Judges will be expected to grade project submissions on
@@ -253,8 +264,8 @@ const HackathonForm = ({ initialState }) => {
                       />
                       <Checkbox
                         name="rubrics"
-                        value="market_fit"
-                        label="Market Fit"
+                        value="product_fit"
+                        label="Product Fit"
                       />
                       <Checkbox
                         name="rubrics"
@@ -272,7 +283,7 @@ const HackathonForm = ({ initialState }) => {
                         label="Extensibility"
                       />
                     </RowBody>
-                    <RowBody>
+                    <RowBody justify="start">
                       <Label htmlFor="guidelines">Guidelines</Label>
                       <TextArea
                         id="guidelines"
@@ -291,7 +302,7 @@ const HackathonForm = ({ initialState }) => {
                     <Label htmlFor="submission_requirements">
                       Project Submission Requirements
                     </Label>
-                    <RowBody id="submission_requirements">
+                    <RowBody id="submission_requirements" justify="start">
                       <Paragraph>
                         Participants will be expected to submit which one of the
                         following (tick on all that apply)
@@ -308,20 +319,20 @@ const HackathonForm = ({ initialState }) => {
                         label="GitHub URL"
                       />
                     </RowBody>
-                    <RowBody>
-                      <Link to="/dashboard">
-                        <Button color="grey" to="/dashboard">
+                    <RowBody justify="start">
+                      <ButtonGroup>
+                        <Button anchor color="grey" to="/dashboard">
                           Cancel
                         </Button>
-                      </Link>
-                      <Button color="green" type="submit">
-                        Submit
-                      </Button>
+                        <Button size="wide" color="green" type="submit">
+                          Submit
+                        </Button>
+                      </ButtonGroup>
                     </RowBody>
                   </Form>
                 )}
               </Formik>
-            </CardWide>
+            </CardForm>
           </Column>
         </BodyContainerColumn>
       </WideBody>

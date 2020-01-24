@@ -24,14 +24,13 @@ const EventCard = ({ event }) => {
 
   // Date formatting
   const formattedDate = new Date(start_date).toLocaleDateString();
-
   return (
     <StyledCardLink to={`/dashboard/event/${id}`}>
       <Card>
         <LetterIcon>{letter}</LetterIcon>
         <H4>{event_title}</H4>
         <Paragraph>{excerpt}</Paragraph>
-        <CardFooter start_date={formattedDate} />
+        <CardFooter date={formattedDate} />
       </Card>
     </StyledCardLink>
   );

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { type, Solid, Gradient, media } from "../index";
 
 export const ProfileImg = styled.div`
+  position: relative;
   font-family: ${type.ROBOTO_MONO};
   font-weight: 500;
   font-size: 20px;
@@ -20,6 +21,7 @@ export const ProfileImg = styled.div`
       }
   }
   &:hover {
+    cursor: pointer;
     ul {
       display: flex;
       flex-direction: column;

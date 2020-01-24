@@ -6,15 +6,20 @@ export const RowBody = styled.div`
   display: flex;
   ${({ direction }) =>
     direction ? `flex-direction: ${direction};` : `flex-direction: row;`}
-  justify-content: space-between;
+  ${({ spacing }) => 
+    spacing ? `justify-content: ${spacing};` : `justify-content: space-between;`}
   flex-wrap: wrap;
   margin: 30px 0;
 
   @media ${media.tablet} {
-    flex-direction: column;
+    flex-direction: row;
+    ${({ justify }) => 
+      justify ? `justify-content: ${justify}l` : `justify-content: center;`}
   }
 
   @media ${media.mobile} {
-    flex-direction: column;
+    flex-direction: row;
+    ${({ justify }) => 
+      justify ? `justify-content: ${justify}l` : `justify-content: center;`}
   }
 `;

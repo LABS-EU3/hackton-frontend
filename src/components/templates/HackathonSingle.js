@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
+import { media } from "../index";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
@@ -30,6 +30,7 @@ const BodyContainerColumn = styled(BodyContainer)`
 
 export const NormalSpan = styled(BoldSpan)`
   font-weight: normal;
+  text-transform: capitalize;
 `;
 
 export const Image = styled.img`
@@ -40,72 +41,60 @@ export const Image = styled.img`
 `;
 
 export const PTags = styled(Paragraph)`
-  background-color: #fbe192;
-  margin: 10px;
-  padding-left: 8px;
-  padding-right: 8px;
+  display: inline-block;
+  text-align: center;
+  border: 1px solid #e9b75f;
+  border-radius: 6px;
+  color: #212121;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin: 5px 5px 5px 0;
+  padding: 10px 15px;
 `;
 
 export const PHosted = styled(Paragraph)`
-  font-size: 12px;
+  font-size: 14px;
   color: darkgray;
+  margin: 3px 0 20px 0;
 `;
 
 export const EventCardWide = styled(CardWide)`
-  width: 60%;
-`;
+  max-width: 60%;
+  min-width: 55%;
 
-export const RegisterCardWide = styled(CardWide)`
-  width: 30%;
-  padding: 0px;
-  height: 50%;
-  border: none;
-  box-shadow: none;
-  background-color: #f2f2f2;
-  opacity: 1;
-  button {
-    margin-left: 10px;
-    margin-top: 10px;
-    width: 100%;
+  @media ${media.tablet} {
+    max-width: 100%;
   }
 `;
 
 export const TagsCardWide = styled(CardWide)`
-  width: 100%;
-  padding: 20px;
-  height: 80%;
-  line-height: 30px;
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+  max-width: 35%;
+  height: 100%;
+  justify-content: flex-start;
   .tags-header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    padding: 10px;
+    justify-content: flex-start;
     border-bottom: 1px solid lightgray;
   }
   .status {
+    padding: 30px 0;
+    margin: 0 0 30px 0;
     display: flex;
     flex-direction: column;
     padding: 10px;
     border-bottom: 1px solid lightgray;
   }
-  .date {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    border-bottom: 1px solid lightgray;
-  }
-  .tags {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    border-bottom: none;
-    text-align: center;
     div {
       display: flex;
       flex-direction: column;
     }
+  }
+
+  @media ${media.tablet} {
+    max-width: 100%;
   }
 `;
 
@@ -113,23 +102,6 @@ const TitleContainer = styled.div`
   margin: 0 0 20px 0;
   display: flex;
   align-items: baseline;
-`;
-
-const JudgesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  .judge-header {
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-  }
-  .judge-name {
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
 `;
 
 const StyledLetterIcon = styled(LetterIcon)`
@@ -142,19 +114,27 @@ const Details = styled.div`
   & div {
     margin: 0 20px 0 0;
   }
+
+  @media ${media.mobile} {
+    flex-direction: column;
+  }
 `;
 
-const ButtonsGroup = styled(Details)`
-  margin: 40px 0 0 0;
-
-  a {
-    margin: 0 10px 0 0;
+const ButtonsDashGroup = styled.div`
+  a,
+  button {
+    display: block;
+    margin: 0 0 10px 0;
   }
 `;
 
 const Separator = styled.hr`
   border-top: 0;
   border-bottom: 1px solid #c3cfd9;
+  margin: 0 0 20px 0;
+`;
+
+const TagsGroup = styled.div`
   margin: 0 0 20px 0;
 `;
 
@@ -292,28 +272,18 @@ const HackathonSingle = () => {
                 {guidelines}
               </Paragraph>
               <Separator />
-              <JudgesContainer>
-                <div className="judge-header">
-                  <BoldSpan>Judges:</BoldSpan>
-                </div>
-                <div className="judge-name">
-                  <Image src={user_icon} alt="user_icon" />
-                  <Paragraph>Mildred Pascal</Paragraph>
-                  <Image src={user_icon} alt="user_icon" />
-                  <Paragraph>Mildred Pascal</Paragraph>
-                  <Image src={user_icon} alt="user_icon" />
-                  <Paragraph>Mildred Pascal</Paragraph>
-                </div>
-              </JudgesContainer>
+              <TagsGroup>
+                <BoldSpan>Event Tags:</BoldSpan>
+                {tag_name && tag_name.length !== 0 ? (
+                  tag_name.map((tagged, index) => {
+                    return <PTags key={index}>{tagged}</PTags>;
+                  })
+                ) : (
+                  <Paragraph>No tags provided for this event</Paragraph>
+                )}
+              </TagsGroup>
               <Separator />
-              <JudgesContainer>
-                <div className="judge-header">
-                  <BoldSpan>
-                    Registered Participants: {registeredPartcipants}
-                  </BoldSpan>
-                </div>
-              </JudgesContainer>
-              <ButtonsGroup>
+              <ButtonsDashGroup>
                 <div>
                   <Button anchor to={"/dashboard"} color="grey">
                     Back to Dashboard
@@ -328,95 +298,74 @@ const HackathonSingle = () => {
                     </Button>
                   )}
                 </div>
-              </ButtonsGroup>
+              </ButtonsDashGroup>
             </EventCardWide>
-            <RegisterCardWide>
-              <TagsCardWide>
-                <div className="tags-header">
-                  <Image src={user_icon} alt="user_icon" />
-                  <div>
-                    <BoldSpan>Hosted by:</BoldSpan>
-                    {organizer_name !== null ? (
-                      <PHosted>{organizer_name}</PHosted>
-                    ) : (
-                      <PHosted>{emailUser}</PHosted>
-                    )}
-                  </div>
-                </div>
-                <div className="status">
-                  <BoldSpan>
-                    Status:
-                    <NormalSpan>{isOpen ? " Open" : " Closed"}</NormalSpan>
-                  </BoldSpan>
-                  <BoldSpan>
-                    Participation type:{" "}
-                    <NormalSpan>{participation_type}</NormalSpan>
-                  </BoldSpan>
-                </div>
-                <div className="date">
-                  <BoldSpan>
-                    From: <NormalSpan>{formattedStartDate}</NormalSpan>
-                  </BoldSpan>
-                  <BoldSpan>
-                    To: <NormalSpan>{formattedEndDate}</NormalSpan>
-                  </BoldSpan>
-                </div>
-                <div className="tags">
-                  <BoldSpan>Event Tags</BoldSpan>
-                  <div>
-                    {tag_name && tag_name.length !== 0 ? (
-                      tag_name.map((tagged, index) => {
-                        return <PTags key={index}>{tagged}</PTags>;
-                      })
-                    ) : (
-                      <Paragraph>No tags provided for this event</Paragraph>
-                    )}
-                  </div>
-                </div>
-              </TagsCardWide>
-              {creator_id === userId && !isEnded ? (
+            <TagsCardWide>
+              <div className="tags-header">
+                <Image src={user_icon} alt="user_icon" />
                 <div>
+                  <BoldSpan>Hosted by:</BoldSpan>
+                  {organizer_name !== null ? (
+                    <PHosted>{organizer_name}</PHosted>
+                  ) : (
+                    <PHosted>{emailUser}</PHosted>
+                  )}
+                </div>
+              </div>
+              <div className="status">
+                <BoldSpan>
+                  Status:
+                  <NormalSpan>{isOpen ? " Open" : " Closed"}</NormalSpan>
+                </BoldSpan>
+                <BoldSpan>
+                  Participation type:{" "}
+                  <NormalSpan>{participation_type}</NormalSpan>
+                </BoldSpan>
+                <BoldSpan>
+                  Participants: <NormalSpan>{registeredPartcipants}</NormalSpan>
+                </BoldSpan>
+              </div>
+              <ButtonsDashGroup>
+                {creator_id === userId && !isEnded ? (
                   <Button
                     anchor
                     to={`/dashboard/event/${id}/team`}
                     color="green"
                   >
-                    Add Co-organizer or Judges
+                    Add Members
                   </Button>
-                </div>
-              ) : (
-                <div>
-                  {!isOpen ? (
-                    <Button
-                      style={{
-                        border: "2px solid lightgray",
-                        color: "lightgray"
-                      }}
-                      color="grey"
-                      disabled
-                    >
-                      Registration Closed
-                    </Button>
-                  ) : (
-                    <Button
-                      color={isRegistered ? "grey" : "green"}
-                      onClick={handleRegistration}
-                    >
-                      {isRegistered ? `Unregister` : `Register`}
-                    </Button>
-                  )}
-                </div>
-              )}
-              <div>
-                  <Button
-                    anchor
-                    to={`/dashboard/event/${id}/projects`}
-                    color="blue"
-                  >
-                    View submissions
-                  </Button>
-              </div>
-            </RegisterCardWide>
+                ) : (
+                  <>
+                    {!isOpen ? (
+                      <Button
+                        style={{
+                          border: "2px solid lightgray",
+                          color: "lightgray"
+                        }}
+                        color="grey"
+                        disabled
+                      >
+                        Registration Closed
+                      </Button>
+                    ) : (
+                      <Button
+                        color={isRegistered ? "grey" : "green"}
+                        onClick={handleRegistration}
+                      >
+                        {isRegistered ? `Unregister` : `Register`}
+                      </Button>
+                    )}
+                  </>
+                )}
+                <Button
+                  anchor
+                  to={`/dashboard/event/${id}/projects`}
+                  color="blue"
+                >
+                  View submissions
+                </Button>
+              </ButtonsDashGroup>
+            </TagsCardWide>
           </RowBody>
         </BodyContainerColumn>
       </WideBody>
