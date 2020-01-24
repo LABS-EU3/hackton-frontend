@@ -29,6 +29,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --update-snapshot",
+    "clear_jest": "jest --clearCache",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test --update-snapshot --env=jsdom --watchAll=false --coverage",
     "coveralls": "npm run coverage && cat coverage/lcov.info | coveralls"
