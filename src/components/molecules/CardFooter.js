@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { DateIcon } from '../atoms/Icon';
-import { Span } from '../atoms/Span';
+import { DateIcon } from "../atoms/Icon";
+import { Span } from "../atoms/Span";
 
 const StyledCardFooter = styled.div`
   display: flex;
@@ -13,11 +13,11 @@ const StyledSpan = styled(Span)`
   margin: 0 0 0 5px;
 `;
 
-const CardFooter = ({ startDate }) => (
+const CardFooter = ({ date }) => (
   <StyledCardFooter>
     <DateIcon />
-    <StyledSpan>{startDate}</StyledSpan>
+    <StyledSpan>{date}</StyledSpan>
   </StyledCardFooter>
-)
+);
 
 export default CardFooter;
