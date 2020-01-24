@@ -123,12 +123,26 @@ const Description = styled(Paragraph)`
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media ${media.tablet} {
+    max-width: 100%;
+    margin: 0 0 20px 0;
+    padding: 0 20px;
+  }
+
+  @media ${media.mobile} {
+    padding: 0;
+  }
 `;
 
 const RatingGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media ${media.tablet} {
+    margin: 0 0 20px 0;
+  }
 `;
 
 const JudgeCount = styled.span`
