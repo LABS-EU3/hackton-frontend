@@ -288,15 +288,16 @@ const HackathonSingle = () => {
                   <Button anchor to={"/dashboard"} color="grey">
                     Back to Dashboard
                   </Button>
-                  {creator_id === userId && (
-                    <Button
-                      anchor
-                      to={`/dashboard/event/${id}/edit`}
-                      color="blue"
-                    >
-                      Edit event
-                    </Button>
-                  )}
+                  {creator_id === userId &&
+                    !isEnded && (
+                      <Button
+                        anchor
+                        to={`/dashboard/event/${id}/edit`}
+                        color="blue"
+                      >
+                        Edit event
+                      </Button>
+                    )}
                 </div>
               </ButtonsDashGroup>
             </EventCardWide>
