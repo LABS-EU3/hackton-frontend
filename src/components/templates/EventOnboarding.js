@@ -35,7 +35,7 @@ const EventOnboarding = () => {
             </Link>
           </RowHead>
 
-          <RowBody>
+          <RowBody spacing="start">
             {userEvents.length !== 0 ? (
               userEvents.map(event => (
                 <EventCard key={event.event_title} event={event} />
@@ -49,7 +49,7 @@ const EventOnboarding = () => {
             <H3>Global hackathons</H3>
           </RowHead>
 
-          <RowBody>
+          <RowBody spacing="start">
             {globalEvents.map(event => (
               <EventCard key={event.id} event={event} />
             ))}
