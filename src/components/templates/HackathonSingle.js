@@ -72,6 +72,16 @@ export const TagsCardWide = styled(CardWide)`
   max-width: 35%;
   height: 100%;
   justify-content: flex-start;
+
+  @media ${media.tablet} {
+    max-width: 100%;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
   .tags-header {
     display: flex;
     flex-direction: row;
@@ -79,6 +89,7 @@ export const TagsCardWide = styled(CardWide)`
     justify-content: flex-start;
     border-bottom: 1px solid lightgray;
   }
+
   .status {
     padding: 30px 0;
     margin: 0 0 30px 0;
@@ -86,15 +97,6 @@ export const TagsCardWide = styled(CardWide)`
     flex-direction: column;
     padding: 10px;
     border-bottom: 1px solid lightgray;
-  }
-    div {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  @media ${media.tablet} {
-    max-width: 100%;
   }
 `;
 
@@ -288,7 +290,7 @@ const HackathonSingle = () => {
                   <Button anchor to={"/dashboard"} color="grey">
                     Back to Dashboard
                   </Button>
-                  {creator_id === userId && (
+                  {creator_id === userId && !isEnded && (
                     <Button
                       anchor
                       to={`/dashboard/event/${id}/edit`}
@@ -332,7 +334,7 @@ const HackathonSingle = () => {
                     to={`/dashboard/event/${id}/team`}
                     color="green"
                   >
-                    Add Members
+                    Add Teammates
                   </Button>
                 ) : (
                   <>
@@ -364,6 +366,15 @@ const HackathonSingle = () => {
                 >
                   View submissions
                 </Button>
+                {isRegistered && !isEnded && (
+                  <Button
+                    color="green"
+                    anchor
+                    to={`/dashboard/event/${id}/participant_submission`}
+                  >
+                    Submit Project
+                  </Button>
+                )}
               </ButtonsDashGroup>
             </TagsCardWide>
           </RowBody>
