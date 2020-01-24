@@ -12,6 +12,7 @@ import {
 } from "./actions";
 
 function* submitProjectAsync({ payload, history }) {
+  console.log("---PAYLOAD---", payload);
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
@@ -67,11 +68,11 @@ function* gradeSubmissionAsync({ id, payload, history }) {
       `/api/events/projects/${id}/grading`,
       payload
     );
-    if (data){
-      history.push(` /dashboard/event/${payload.project_event_id}/projects`);
-    }  
-  } catch ({response}) {
-    const {message} = response.data;
+    if (data) {
+      history.push(` /dashboard/event/${id}/projects`);
+    }
+  } catch ({ response }) {
+    const { message } = response.data;
     yield showError(`⚠️ ${message}`);
   }
 }
