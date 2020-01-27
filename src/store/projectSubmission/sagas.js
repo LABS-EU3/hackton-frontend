@@ -2,14 +2,22 @@ import { put, takeLatest, call, all, select } from "redux-saga/effects";
 import {
   axiosWithAuth,
   selectToken,
-  showError,
-  showSuccess
+  showSuccess,
+  handleError
 } from "../../utils/api";
 import {
   ProjectSubmissionTypes,
   fetchAllSubmissions,
   setSubmissions
 } from "./actions";
+
+export function* projectSubmissionsSagas() {
+  yield all([
+    call(watchSubmitProject),
+    call(watchFetchAllSubmissionsAsync),
+    call(watchGradeSubmission)
+  ]);
+}
 
 function* submitProjectAsync({ payload, history }) {
   try {
@@ -24,12 +32,8 @@ function* submitProjectAsync({ payload, history }) {
       yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -47,9 +51,8 @@ function* fetchAllSubmissionsAsync({ payload }) {
       payload
     );
     yield put(setSubmissions(body));
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -70,9 +73,8 @@ function* gradeSubmissionAsync({ id, payload, history }) {
     if (data) {
       history.push(` /dashboard/event/${id}/projects`);
     }
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -81,12 +83,4 @@ function* watchGradeSubmission() {
     ProjectSubmissionTypes.GRADE_SUBMISSION,
     gradeSubmissionAsync
   );
-}
-
-export function* projectSubmissionsSagas() {
-  yield all([
-    call(watchSubmitProject),
-    call(watchFetchAllSubmissionsAsync),
-    call(watchGradeSubmission)
-  ]);
 }
