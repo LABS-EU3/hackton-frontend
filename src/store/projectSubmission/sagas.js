@@ -11,6 +11,14 @@ import {
   setSubmissions
 } from "./actions";
 
+export function* projectSubmissionsSagas() {
+  yield all([
+    call(watchSubmitProject),
+    call(watchFetchAllSubmissionsAsync),
+    call(watchGradeSubmission)
+  ]);
+}
+
 function* submitProjectAsync({ payload, history }) {
   try {
     const token = yield select(selectToken);
@@ -75,12 +83,4 @@ function* watchGradeSubmission() {
     ProjectSubmissionTypes.GRADE_SUBMISSION,
     gradeSubmissionAsync
   );
-}
-
-export function* projectSubmissionsSagas() {
-  yield all([
-    call(watchSubmitProject),
-    call(watchFetchAllSubmissionsAsync),
-    call(watchGradeSubmission)
-  ]);
 }
