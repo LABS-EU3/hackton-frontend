@@ -10,7 +10,7 @@ import {
   axiosWithAuth,
   selectToken,
   showSuccess,
-  showError
+  handleError
 } from "../../utils/api";
 import {
   EventsTypes,
@@ -18,7 +18,18 @@ import {
   setEvents,
   setEventCategories
 } from "./actions";
-import { resetUser } from "../user/actions";
+
+export function* eventsSagas() {
+  yield all([
+    call(watchFetchAllEvents),
+    call(watchCreateEvent),
+    call(watchDeleteEvent),
+    call(watchUpdateEvent),
+    call(watchFetchEventCategories),
+    call(watchAddTeamMember),
+    call(watchFetchEventSubmissions)
+  ]);
+}
 
 function* fetchAllEventsAsync() {
   try {
@@ -27,11 +38,8 @@ function* fetchAllEventsAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/events");
     yield put(setEvents(body));
-  } catch ({ response }) {
-    const { message } = response.data;
-    if (message === "jwt expired") {
-      yield put(resetUser());
-    } else showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -48,14 +56,8 @@ function* createEventAsync({ payload, history }) {
       yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    if (message === "jwt expired") {
-      yield put(resetUser());
-    } else showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -69,11 +71,8 @@ function* deleteEventAsync({ payload }) {
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
     yield put(fetchAllEvents());
     yield showSuccess(`😲 ${data.message}`);
-  } catch ({ response }) {
-    const { message } = response.data;
-    if (message === "jwt expired") {
-      yield put(resetUser());
-    } else showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -94,12 +93,8 @@ function* updateEventAsync({ payload, history }) {
       yield showSuccess(`🎉 ${data.message}`);
       yield history.push("/dashboard");
     }
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -114,9 +109,8 @@ function* fetchEventCategoriesAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/event-category");
     yield put(setEventCategories(body));
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(message);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -142,9 +136,8 @@ function* addTeamMemberAsync({ payload, history }) {
       yield showSuccess(`Added successfully`);
     }
     history.push(`/dashboard/event/${eventId}`);
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -161,9 +154,8 @@ function* fetchEventSubmissionsAsync({ payload, history }) {
     if (data) {
       history.push(`/dashboard/events/${payload}`);
     }
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(message);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -172,16 +164,4 @@ function* watchFetchEventSubmissions() {
     EventsTypes.FETCH_EVENT_SUBMISSIONS,
     fetchEventSubmissionsAsync
   );
-}
-
-export function* eventsSagas() {
-  yield all([
-    call(watchFetchAllEvents),
-    call(watchCreateEvent),
-    call(watchDeleteEvent),
-    call(watchUpdateEvent),
-    call(watchFetchEventCategories),
-    call(watchAddTeamMember),
-    call(watchFetchEventSubmissions)
-  ]);
 }
