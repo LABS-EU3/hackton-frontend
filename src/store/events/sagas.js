@@ -18,6 +18,7 @@ import {
   setEvents,
   setEventCategories
 } from "./actions";
+import { resetUser } from "../user/actions";
 
 function* fetchAllEventsAsync() {
   try {
@@ -28,7 +29,9 @@ function* fetchAllEventsAsync() {
     yield put(setEvents(body));
   } catch ({ response }) {
     const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+    if (message === "jwt expired") {
+      yield put(resetUser());
+    } else showError(`⚠️ ${message}`);
   }
 }
 
@@ -50,7 +53,9 @@ function* createEventAsync({ payload, history }) {
     if (statusCode === 404) {
       history.push("/not-found");
     }
-    yield showError(`⚠️ ${message}`);
+    if (message === "jwt expired") {
+      yield put(resetUser());
+    } else showError(`⚠️ ${message}`);
   }
 }
 
@@ -64,9 +69,11 @@ function* deleteEventAsync({ payload }) {
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
     yield put(fetchAllEvents());
     yield showSuccess(`😲 ${data.message}`);
-  } catch ({response}) {
-    const {message} = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch ({ response }) {
+    const { message } = response.data;
+    if (message === "jwt expired") {
+      yield put(resetUser());
+    } else showError(`⚠️ ${message}`);
   }
 }
 

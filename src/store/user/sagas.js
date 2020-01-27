@@ -7,8 +7,20 @@ import {
   axiosWithAuth,
   selectToken,
   showSuccess,
-  showError
+  showError,
+  handleError
 } from "../../utils/api";
+
+export function* userSagas() {
+  yield all([
+    call(watchLogin),
+    call(watchRegister),
+    call(watchSocialAuth),
+    call(watchLogout),
+    call(watchFetchUserProfile),
+    call(watchUpdateUserProfile)
+  ]);
+}
 
 function* loginAsync({ payload, history }) {
   try {
@@ -18,12 +30,8 @@ function* loginAsync({ payload, history }) {
     yield put(setUser(body.token));
     yield history.push("/dashboard");
     yield showSuccess(`😎 Welcome`);
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -39,12 +47,8 @@ function* registerAsync({ payload, history }) {
     yield put(setUser(body.token));
     showSuccess(`😎 Welcome`);
     yield history.push("/dashboard");
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -58,9 +62,8 @@ function* socialAuthAsync() {
       data: { body }
     } = yield axios.get("/api/auth/token");
     yield put(setUser(body.token));
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(message);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -89,9 +92,8 @@ function* fetchUserProfileAsync({ payload }) {
       }
     } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
     yield put(setUserProfile(user));
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -111,23 +113,11 @@ function* updateUserProfileAsync({ payload, history }) {
     yield put(setUserProfile(userUpdates));
     yield showSuccess(`🎉 ${message}`);
     yield history.push("/dashboard");
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
 function* watchUpdateUserProfile() {
   yield takeLatest(UserTypes.UPDATE_USER_PROFILE, updateUserProfileAsync);
-}
-
-export function* userSagas() {
-  yield all([
-    call(watchLogin),
-    call(watchRegister),
-    call(watchSocialAuth),
-    call(watchLogout),
-    call(watchFetchUserProfile),
-    call(watchUpdateUserProfile)
-  ]);
 }
