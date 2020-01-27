@@ -1,16 +1,35 @@
-import { put, takeLatest, call, all, select } from "redux-saga/effects";
-import { toast } from "react-toastify";
-
-import { axiosWithAuth } from "../../utils/api";
+import {
+  put,
+  takeLatest,
+  takeLeading,
+  call,
+  all,
+  select
+} from "redux-saga/effects";
+import {
+  axiosWithAuth,
+  selectToken,
+  showSuccess,
+  handleError
+} from "../../utils/api";
 import {
   EventsTypes,
-  eventsError,
   fetchAllEvents,
   setEvents,
   setEventCategories
 } from "./actions";
 
-const selectToken = state => state.currentUser.token;
+export function* eventsSagas() {
+  yield all([
+    call(watchFetchAllEvents),
+    call(watchCreateEvent),
+    call(watchDeleteEvent),
+    call(watchUpdateEvent),
+    call(watchFetchEventCategories),
+    call(watchAddTeamMember),
+    call(watchFetchEventSubmissions)
+  ]);
+}
 
 function* fetchAllEventsAsync() {
   try {
@@ -20,13 +39,12 @@ function* fetchAllEventsAsync() {
     } = yield axiosWithAuth(token).get("/api/events");
     yield put(setEvents(body));
   } catch (error) {
-    yield put(eventsError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+    handleError(error, put);
   }
 }
 
 function* watchFetchAllEvents() {
-  yield takeLatest(EventsTypes.FETCH_ALL_EVENTS, fetchAllEventsAsync);
+  yield takeLeading(EventsTypes.FETCH_ALL_EVENTS, fetchAllEventsAsync);
 }
 
 function* createEventAsync({ payload, history }) {
@@ -35,12 +53,11 @@ function* createEventAsync({ payload, history }) {
     const { data } = yield axiosWithAuth(token).post("/api/events", payload);
     if (data) {
       yield put(fetchAllEvents());
-      toast.success(`😀 ${data.message}`);
+      yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
   } catch (error) {
-    yield put(eventsError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+    handleError(error, put, history);
   }
 }
 
@@ -53,10 +70,9 @@ function* deleteEventAsync({ payload }) {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
     yield put(fetchAllEvents());
-    toast.success(`😲 ${data.message}`);
+    yield showSuccess(`😲 ${data.message}`);
   } catch (error) {
-    yield put(eventsError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+    handleError(error, put);
   }
 }
 
@@ -74,12 +90,11 @@ function* updateEventAsync({ payload, history }) {
     );
     if (data) {
       yield put(fetchAllEvents());
-      toast.success(`🎉 ${data.message}`);
+      yield showSuccess(`🎉 ${data.message}`);
       yield history.push("/dashboard");
     }
   } catch (error) {
-    yield put(eventsError(error.message));
-    toast.error(`⚠️ ${error.message}`);
+    handleError(error, put, history);
   }
 }
 
@@ -95,7 +110,7 @@ function* fetchEventCategoriesAsync() {
     } = yield axiosWithAuth(token).get("/api/event-category");
     yield put(setEventCategories(body));
   } catch (error) {
-    yield put(eventsError(error.message));
+    handleError(error, put);
   }
 }
 
@@ -106,12 +121,47 @@ function* watchFetchEventCategories() {
   );
 }
 
-export function* eventsSagas() {
-  yield all([
-    call(watchFetchAllEvents),
-    call(watchCreateEvent),
-    call(watchDeleteEvent),
-    call(watchUpdateEvent),
-    call(watchFetchEventCategories)
-  ]);
+function* addTeamMemberAsync({ payload, history }) {
+  try {
+    const { eventId, email, role } = payload;
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).post(
+      `/api/events/${eventId}/team`,
+      {
+        email,
+        role_type: role
+      }
+    );
+    if (data) {
+      yield showSuccess(`Added successfully`);
+    }
+    history.push(`/dashboard/event/${eventId}`);
+  } catch (error) {
+    handleError(error, put, history);
+  }
+}
+
+function* watchAddTeamMember() {
+  yield takeLatest(EventsTypes.ADD_TEAM_MEMBER, addTeamMemberAsync);
+}
+
+function* fetchEventSubmissionsAsync({ payload, history }) {
+  try {
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).get(
+      `/api/events/${payload}/projects`
+    );
+    if (data) {
+      history.push(`/dashboard/events/${payload}`);
+    }
+  } catch (error) {
+    handleError(error, put, history);
+  }
+}
+
+function* watchFetchEventSubmissions() {
+  yield takeLatest(
+    EventsTypes.FETCH_EVENT_SUBMISSIONS,
+    fetchEventSubmissionsAsync
+  );
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import jwtDecode from "jwt-decode";
 import { Link } from "react-router-dom";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -18,13 +17,11 @@ const BodyContainerColumn = styled(BodyContainer)`
   align-items: start;
 `;
 
-// @TODO styling events card
 const EventOnboarding = () => {
   const events = useSelector(state => state.events.data);
-  const { token } = useSelector(state => state.currentUser);
-  const { userId } = jwtDecode(token);
+  const { userId } = useSelector(state => state.currentUser);
   const userEvents = events.filter(event => event.creator_id === userId);
-  const globalEvents = events.filter(event => event.creator_userId !== userId);
+  const globalEvents = events.filter(event => event.creator_id !== userId);
 
   return (
     <div>
@@ -38,7 +35,7 @@ const EventOnboarding = () => {
             </Link>
           </RowHead>
 
-          <RowBody>
+          <RowBody spacing="start">
             {userEvents.length !== 0 ? (
               userEvents.map(event => (
                 <EventCard key={event.event_title} event={event} />
@@ -52,7 +49,7 @@ const EventOnboarding = () => {
             <H3>Global hackathons</H3>
           </RowHead>
 
-          <RowBody>
+          <RowBody spacing="start">
             {globalEvents.map(event => (
               <EventCard key={event.id} event={event} />
             ))}

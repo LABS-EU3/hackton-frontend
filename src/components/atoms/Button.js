@@ -5,8 +5,17 @@ import { type, smallFontSize, Gradient, Solid, media } from "../index";
 
 export default function Button({ children, anchor, color, ...props }) {
   if (anchor) {
-    return <StyledLink color={color} {...props}>{children}</StyledLink>
-  } else return <StyledButton color={color} {...props}>{children}</StyledButton>;
+    return (
+      <StyledLink color={color} {...props}>
+        {children}
+      </StyledLink>
+    );
+  } else
+    return (
+      <StyledButton color={color} {...props}>
+        {children}
+      </StyledButton>
+    );
 }
 
 const StyledButton = styled.button`
@@ -26,7 +35,7 @@ const StyledButton = styled.button`
   white-space: nowrap;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? `disabled` : `pointer`)};
   }
 
   @media ${media.tablet} {
@@ -89,11 +98,12 @@ const StyledLink = styled(Link)`
   border: 2px solid ${Solid.BLACK};
   background: ${Solid.WHITE};
   outline: none;
+  text-align: center;
   text-decoration: none;
   white-space: nowrap;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? `disabled` : `pointer`)};
   }
 
   @media ${media.tablet} {
@@ -113,5 +123,24 @@ const StyledLink = styled(Link)`
         border: 0;
     `;
     }
+    if (color === "green")
+      return `
+        background: ${Gradient.GREEN};
+        border: 0;
+        padding: 14px 22px;
+        color: ${Solid.WHITE};
+    `;
+    if (color === "grey")
+      return `
+        background: ${Gradient.GREY};
+        border: 0;
+        padding: 14px 22px;
+        color: ${Solid.WHITE};
+
+        @media ${media.tablet} {
+          width: 100%;
+          order: 1;
+        }
+      `;
   }};
 `;

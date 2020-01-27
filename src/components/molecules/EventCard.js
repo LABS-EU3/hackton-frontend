@@ -23,17 +23,14 @@ const EventCard = ({ event }) => {
   const excerpt = event_description.substr(0, 100) + "...";
 
   // Date formatting
-  const date = start_date.split("T")[0];
-  const dateArr = date.split("-");
-  const formattedDate = dateArr[2] + "-" + dateArr[1] + "-" + dateArr[0];
-
+  const formattedDate = new Date(start_date).toLocaleDateString();
   return (
     <StyledCardLink to={`/dashboard/event/${id}`}>
       <Card>
         <LetterIcon>{letter}</LetterIcon>
         <H4>{event_title}</H4>
         <Paragraph>{excerpt}</Paragraph>
-        <CardFooter start_date={formattedDate} />
+        <CardFooter date={formattedDate} />
       </Card>
     </StyledCardLink>
   );

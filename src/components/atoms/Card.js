@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Solid, media } from '../index';
+import { Solid, media } from "../index";
 
 export const Card = styled.div`
   background-color: ${Solid.WHITE};
@@ -7,7 +7,7 @@ export const Card = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 302px;
-  height: 220px;
+  min-height: 220px;
   border: 1px solid ${Solid.BORDER_GREY};
   border-radius: 6px;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
@@ -16,16 +16,33 @@ export const Card = styled.div`
 `;
 
 export const CardWide = styled(Card)`
+  max-width: 650px;
   width: 100%;
+  padding: 40px;
+
+  @media ${media.tablet} {
+    width: 100%;
+  }
+
+  @media ${media.mobile} {
+    width: 100%;
+  }
+`;
+
+export const CardForm = styled(Card)`
+  width: 650px;
   padding: 40px;
   height: auto;
 
   @media ${media.tablet} {
-    width: 350px;
+    width: 400px;
     padding: 20px;
+    justify-content: start;
   }
 
   @media ${media.mobile} {
-    width: 250px;
+    min-width: 300px;
+    padding: 15px;
+    justify-content: start;
   }
 `;

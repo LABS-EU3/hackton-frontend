@@ -13,14 +13,14 @@ const BodyContainer = styled.div`
   @media ${media.tablet} {
     flex-direction: column;
     padding: 60px 20px;
-    img {
+    & > img {
       display: none;
     }
   }
 
   @media ${media.mobile} {
     flex-direction: column;
-    img {
+    & > img {
       display: none;
     }
   }

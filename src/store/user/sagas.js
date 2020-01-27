@@ -1,8 +1,26 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
-import { UserTypes, setUser, userError, resetUser } from "./actions";
+import { all, call, takeLatest, put, select } from "redux-saga/effects";
+import { persistor } from "../../store";
+import { UserTypes, setUser, setUserProfile } from "./actions";
 
-import { axios } from "../../utils/api";
-import { toast } from "react-toastify";
+import {
+  axios,
+  axiosWithAuth,
+  selectToken,
+  showSuccess,
+  showError,
+  handleError
+} from "../../utils/api";
+
+export function* userSagas() {
+  yield all([
+    call(watchLogin),
+    call(watchRegister),
+    call(watchSocialAuth),
+    call(watchLogout),
+    call(watchFetchUserProfile),
+    call(watchUpdateUserProfile)
+  ]);
+}
 
 function* loginAsync({ payload, history }) {
   try {
@@ -11,10 +29,9 @@ function* loginAsync({ payload, history }) {
     } = yield axios.post("/api/auth/login", payload);
     yield put(setUser(body.token));
     yield history.push("/dashboard");
-    yield toast.success(`😎 Welcome`);
+    yield showSuccess(`😎 Welcome`);
   } catch (error) {
-    yield put(userError(error));
-    toast.error(`⚠️ ${error.message}`);
+    handleError(error, put, history);
   }
 }
 
@@ -28,11 +45,10 @@ function* registerAsync({ payload, history }) {
       data: { body }
     } = yield axios.post("/api/auth/register", payload);
     yield put(setUser(body.token));
-    toast.success(`😎 Welcome`);
+    showSuccess(`😎 Welcome`);
     yield history.push("/dashboard");
   } catch (error) {
-    yield put(userError(error));
-    toast.error(`⚠️ ${error.message}`);
+    handleError(error, put, history);
   }
 }
 
@@ -47,7 +63,7 @@ function* socialAuthAsync() {
     } = yield axios.get("/api/auth/token");
     yield put(setUser(body.token));
   } catch (error) {
-    yield put(userError(error));
+    handleError(error, put);
   }
 }
 
@@ -56,18 +72,52 @@ function* watchSocialAuth() {
 }
 
 function* logout() {
-  yield put(resetUser());
+  try {
+    yield persistor.purge();
+  } catch ({ message }) {
+    yield showError(message);
+  }
 }
 
 function* watchLogout() {
-  yield takeLatest(UserTypes.RESET_USER, logout);
+  yield takeLatest(UserTypes.PURGE, logout);
 }
 
-export function* userSagas() {
-  yield all([
-    call(watchLogin),
-    call(watchRegister),
-    call(watchSocialAuth),
-    call(watchLogout)
-  ]);
+function* fetchUserProfileAsync({ payload }) {
+  try {
+    const token = yield select(selectToken);
+    const {
+      data: {
+        body: { user }
+      }
+    } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
+    yield put(setUserProfile(user));
+  } catch (error) {
+    handleError(error, put);
+  }
+}
+
+function* watchFetchUserProfile() {
+  yield takeLatest(UserTypes.FETCH_USER_PROFILE, fetchUserProfileAsync);
+}
+
+function* updateUserProfileAsync({ payload, history }) {
+  try {
+    const token = yield select(selectToken);
+    const {
+      data: {
+        message,
+        body: { userUpdates }
+      }
+    } = yield axiosWithAuth(token).put("/api/users/profile", payload);
+    yield put(setUserProfile(userUpdates));
+    yield showSuccess(`🎉 ${message}`);
+    yield history.push("/dashboard");
+  } catch (error) {
+    handleError(error, put, history);
+  }
+}
+
+function* watchUpdateUserProfile() {
+  yield takeLatest(UserTypes.UPDATE_USER_PROFILE, updateUserProfileAsync);
 }

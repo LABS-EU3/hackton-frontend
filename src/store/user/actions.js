@@ -5,8 +5,10 @@ export const UserTypes = {
   REGISTER: "REGISTER",
   SOCIAL_AUTH: "SOCIAL_AUTH",
   SET_USER: "SET_USER",
-  RESET_USER: "RESET_USER",
-  USER_ERROR: "USER_ERROR"
+  SET_USER_PROFILE: "SET_USER_PROFILE",
+  PURGE: "PURGE",
+  FETCH_USER_PROFILE: "FETCH_USER_PROFILE",
+  UPDATE_USER_PROFILE: "UPDATE_USER_PROFILE"
 };
 
 export const login = (email, password, history) => {
@@ -40,13 +42,28 @@ export const setUser = token => {
   };
 };
 
-export const resetUser = () => {
-  return { type: UserTypes.RESET_USER };
+export const setUserProfile = details => {
+  return {
+    type: UserTypes.SET_USER_PROFILE,
+    payload: details
+  };
 };
 
-export const userError = error => {
-  console.error("ERROR: ", error.message);
+export const resetUser = () => {
+  return { type: UserTypes.PURGE };
+};
+
+export const fetchUserProfile = userId => {
   return {
-    type: UserTypes.USER_ERROR
+    type: UserTypes.FETCH_USER_PROFILE,
+    payload: userId
+  };
+};
+
+export const updateUserProfile = (updatedProfile, history) => {
+  return {
+    type: UserTypes.UPDATE_USER_PROFILE,
+    payload: updatedProfile,
+    history
   };
 };

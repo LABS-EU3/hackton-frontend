@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/LABS-EU3/hackton-frontend.svg?branch=develop)](https://travis-ci.org/LABS-EU3/hackton-frontend)
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/0b0d93d0-04af-4a75-9a62-773eed6eac75/deploy-status)](https://app.netlify.com/sites/sharp-panini-3ec54b/deploys)
+[![Build Status](https://travis-ci.org/LABS-EU3/hackton-frontend.svg?branch=develop)](https://travis-ci.org/LABS-EU3/hackton-frontend) [![Coverage Status](https://coveralls.io/repos/github/LABS-EU3/hackton-frontend/badge.svg?branch=develop)](https://coveralls.io/github/LABS-EU3/hackton-frontend?branch=develop) [![Netlify Status](https://api.netlify.com/api/v1/badges/0b0d93d0-04af-4a75-9a62-773eed6eac75/deploy-status)](https://app.netlify.com/sites/sharp-panini-3ec54b/deploys)
 
 # Hackton
 
@@ -20,11 +18,17 @@ Run `npm test` or `yarn test` in the console.
 
 ### Break down into end to end tests
 
-Explain what these tests test and why
+* **EditHackathon test** - renders the User EditHackathon template correctly
+* **EventOnboarding test** - renders the User EventOnboarding template correctly.
+* **HackathonForm test** - renders the User HackathonForm template correctly.
+* **HackathonSingle test** - renders the User HackathonSingle template correctly.
+* **UserOnboarding test** - renders the User UserOnboarding template correctly.
+* **UserProfileForm test** - renders the User UserProfileForm template correctly.
 
 ## Deployment
 
-This project was deployed with [Zeit](https://hackton-frontend-g3tpfw81r.now.sh/register).
+* The landing page was deployed with [Zeit](https://hackton.co/)
+* The Actual site was deployed with [Netlify](https://staging.hackton.co/register)
 
 ## Built With
 
@@ -34,11 +38,11 @@ This project was deployed with [Zeit](https://hackton-frontend-g3tpfw81r.now.sh/
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/LABS-EU3/hackton-frontend/wiki/Pull-Request-Convention) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-This is version 0.0.1 (Release canvas 1)
+This is version 0.0.2 (Release canvas 2)
 
 ## Authors
 

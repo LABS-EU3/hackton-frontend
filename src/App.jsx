@@ -8,15 +8,22 @@ import LoginPage from "./components/views/LoginPage";
 import Dashboard from "./components/views/Dashboard";
 import HackathonFormPage from "./components/views/HackathonFormPage";
 import HackathonSinglePage from "./components/views/HackathonSinglePage";
+import HackathonProjectsPage from "./components/views/HackathonProjectsPage";
+import HackathonProjectPage from "./components/views/HackathonProjectPage";
 import PrivateRoute from "./components/organisms/PrivateRoute";
 import EditHackathon from "./components/templates/EditHackathon";
+import AddTeammates from "./components/templates/AddTeammates";
+import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionPage";
 import "react-toastify/dist/ReactToastify.css";
+import PageNotFound from "./components/views/PageNotFound";
+import UserProfileFormPage from "./components/views/UserProfileFormPage";
 
 function App() {
   return (
     <>
       <GlobalStyles />
       <Switch>
+        <Route exact path="/not-found" component={PageNotFound} />
         <Route exact path="/register" component={SignupPage} />
         <Route exact path="/login" component={LoginPage} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
@@ -27,6 +34,11 @@ function App() {
         />
         <PrivateRoute
           exact
+          path="/dashboard/event/:id/participant_submission"
+          component={ParticipantSubmissionPage}
+        />
+        <PrivateRoute
+          exact
           path="/dashboard/event/:id"
           component={HackathonSinglePage}
         />
@@ -34,6 +46,25 @@ function App() {
           exact
           path="/dashboard/event/:id/edit"
           component={EditHackathon}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/team"
+          component={AddTeammates}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/profile/edit"
+          component={UserProfileFormPage}
+        />
+        <PrivateRoute
+          path="/dashboard/event/:id/projects"
+          component={HackathonProjectsPage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/project/:projectId"
+          component={HackathonProjectPage}
         />
         <Redirect to="/register" />
       </Switch>
