@@ -344,7 +344,6 @@ const HackathonSingle = () => {
                           border: "2px solid lightgray",
                           color: "lightgray"
                         }}
-                        color="grey"
                         disabled
                       >
                         Registration Closed
@@ -354,7 +353,12 @@ const HackathonSingle = () => {
                         color={isRegistered ? "grey" : "green"}
                         onClick={handleRegistration}
                       >
-                        {isRegistered ? `Unregister` : `Register`}
+                        {participation_type === "both" ||
+                        participation_type === "team"
+                          ? `Register a Team`
+                          : isRegistered
+                          ? `Unregister`
+                          : `Register`}
                       </Button>
                     )}
                   </>
