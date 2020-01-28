@@ -58,16 +58,12 @@ const HackathonForm = ({ initialState }) => {
     category_id: initialState?.category_id || 1
   };
 
-  const handleParticpantType = e => {
-    alert(e.value);
-  };
 
   const handleSubmit = values => {
     const participationTypeValue = document.getElementById("participation_type").value;
     const categoryIdValue = document.getElementById("event_category").value;
     values.participation_type = participationTypeValue;
     values.category_id = categoryIdValue;
-    console.log("values from form", values, "select value",participationTypeValue,categoryIdValue);
     let tagss = JSON.parse(window.localStorage.getItem("tags"));
     if (values.title !== "" && !values.id) {
       values.tag_name = tagss;
@@ -207,7 +203,6 @@ const HackathonForm = ({ initialState }) => {
                         </Label>
                         <Select
                           id="participation_type"
-                          onchange={handleParticpantType}
                           name="participation_type"
                         >
                           <option value="" disabled hidden>
