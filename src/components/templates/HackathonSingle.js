@@ -204,11 +204,19 @@ const HackathonSingle = () => {
   // Grab the first letter of title
   const initial = event_title[0];
 
+  const handleTeamRegistration = e => {
+    e.preventDefault();
+    if (participation_type === "team") {
+      alert("button works");
+        history.push("/participant-teams");
+    }
+
+  }
+
   const handleRegistration = e => {
     e.preventDefault();
-    if (participation_type === "Both" || participation_type === "Team") {
-      history.push("/participant-teams");
-    } else if (isRegistered) {
+
+    if (isRegistered) {
       return dispatch(unregisterEvent(id, history));
     }
     return dispatch(registerEvent(id, history));
@@ -350,17 +358,19 @@ const HackathonSingle = () => {
                       >
                         Registration Closed
                       </Button>
+                    ) : participation_type === "team" ||
+                      participation_type === "both" ? (
+                      <Button color="green" onClick={handleTeamRegistration}>
+                        {participation_type === "team"
+                          ? `Register a Team`
+                          : `Pick registration Type`}
+                      </Button>
                     ) : (
                       <Button
                         color={isRegistered ? "grey" : "green"}
                         onClick={handleRegistration}
                       >
-                        {participation_type === "Both" ||
-                        participation_type === "Team"
-                          ? `Register a Team`
-                          : isRegistered
-                          ? `Unregister`
-                          : `Register`}
+                        {isRegistered ? `Unregister` : `Register`}
                       </Button>
                     )}
                   </>

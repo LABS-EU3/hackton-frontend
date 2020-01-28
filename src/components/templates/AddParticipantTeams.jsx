@@ -265,4 +265,3 @@ const AddParticipantTeam = () => {
 };
 
 export default AddParticipantTeam;
-
