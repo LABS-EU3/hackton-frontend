@@ -206,7 +206,9 @@ const HackathonSingle = () => {
 
   const handleRegistration = e => {
     e.preventDefault();
-    if (isRegistered) {
+    if (participation_type === "Both" || participation_type === "Team") {
+      history.push("/participant-teams");
+    } else if (isRegistered) {
       return dispatch(unregisterEvent(id, history));
     }
     return dispatch(registerEvent(id, history));
@@ -353,8 +355,8 @@ const HackathonSingle = () => {
                         color={isRegistered ? "grey" : "green"}
                         onClick={handleRegistration}
                       >
-                        {participation_type === "both" ||
-                        participation_type === "team"
+                        {participation_type === "Both" ||
+                        participation_type === "Team"
                           ? `Register a Team`
                           : isRegistered
                           ? `Unregister`

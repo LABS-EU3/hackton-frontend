@@ -17,7 +17,7 @@ import Button from "../atoms/Button";
 import { type, Solid, media } from "../index";
 import { addTeamMember } from "../../store/events/actions";
 
-const AddTeammates = () => {
+const AddParticipantTeam = () => {
   const [users, setUsers] = useState([]);
   const [matches, setMatches] = useState([]);
   const [searchString, setSearchString] = useState("");
@@ -264,5 +264,5 @@ const AddTeammates = () => {
   );
 };
 
-export default AddTeammates;
+export default AddParticipantTeam;
 

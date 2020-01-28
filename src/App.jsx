@@ -17,6 +17,7 @@ import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionP
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./components/views/PageNotFound";
 import UserProfileFormPage from "./components/views/UserProfileFormPage";
+import AddParticipantTeam from "./components/templates/AddParticipantTeams";
 
 function App() {
   return (
@@ -65,6 +66,11 @@ function App() {
           exact
           path="/dashboard/event/:id/project/:projectId"
           component={HackathonProjectPage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/participant-teams"
+          component={AddParticipantTeam}
         />
         <Redirect to="/register" />
       </Switch>
