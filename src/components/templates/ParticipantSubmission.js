@@ -51,6 +51,9 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
     dispatch(submitProject({ ...values, event_id }, history));
   };
 
+  const requireGithubUrl = currentEvent.requirements.includes('github_url');
+  const requireVideoUrl = currentEvent.requirements.includes('video_url');
+
   const schema = Yup.object().shape({
     project_title: Yup.string()
       .min(3, "Project title must be atleast 3 characters")
@@ -58,12 +61,14 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
     participant_or_team_name: Yup.string()
       .min(2, "Team/participants name must be atleast 2 characters")
       .required("Team/participants name is required"),
-    git_url: Yup.string()
-      .min(8, "GIt url name must be atleast 8 characters")
-      .required("Git url is required"),
-    video_url: Yup.string()
+    git_url: requireGithubUrl
+      ? Yup.string()
+          .min(8, "GIt url name must be atleast 8 characters")
+          .required("github url is required")
+      : Yup.string(),
+    video_url: requireVideoUrl ? Yup.string()
       .min(8, "Video url must be atleast 8 characters")
-      .required("Video url is required"),
+      .required("Video url is required"): Yup.string(),
     project_writeups: Yup.string()
       .min(8, "Project writeup must be atleast 8 characters")
       .required("Project writeup is required")
@@ -116,7 +121,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       </ErrorSpan>
                     </RowBody>
 
-                    {currentEvent.requirements.includes("github_url") ? (
+                    {requireGithubUrl && (
                       <RowBody>
                         <Input
                           type="text"
@@ -125,12 +130,12 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                           style={{ width: "100%" }}
                         />
                         <ErrorSpan>
-                          <ErrorMessage name="git_ur" component="div" />
+                          <ErrorMessage name="git_url" component="div" />
                         </ErrorSpan>
                       </RowBody>
-                    ) : null}
+                    )}
 
-                    {currentEvent.requirements.includes("video_url") ? (
+                    {requireVideoUrl && (
                       <RowBody>
                         <Input
                           type="text"
@@ -139,10 +144,10 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                           style={{ width: "100%" }}
                         />
                         <ErrorSpan>
-                          <ErrorMessage name="video_ur" component="div" />
+                          <ErrorMessage name="video_url" component="div" />
                         </ErrorSpan>
                       </RowBody>
-                    ) : null}
+                    ) }
                     <RowBody>
                       <TextArea
                         wide

@@ -2,14 +2,22 @@ import { put, takeLatest, call, all, select } from "redux-saga/effects";
 import {
   axiosWithAuth,
   selectToken,
-  showError,
-  showSuccess
+  showSuccess,
+  handleError
 } from "../../utils/api";
 import {
   EventParticipantTypes,
   fetchAllParticipants,
   setEventParticipants
 } from "./actions";
+
+export function* eventParticipantsSagas() {
+  yield all([
+    call(watchFetchAllEventParticipants),
+    call(WatchRegisterEvent),
+    call(watchUnregisterEvent)
+  ]);
+}
 
 function* fetchAllParticipantsAsync({ payload }) {
   try {
@@ -18,9 +26,8 @@ function* fetchAllParticipantsAsync({ payload }) {
       data: { body }
     } = yield axiosWithAuth(token).get(`/api/events/${payload}/participants`);
     yield put(setEventParticipants(body));
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -42,12 +49,8 @@ function* registerEventAsync({ payload, history }) {
       yield put(fetchAllParticipants(payload));
       yield showSuccess(`😀 ${data.message}`);
     }
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -63,12 +66,8 @@ function* unregisterEventAsync({ payload, history }) {
     );
     yield put(fetchAllParticipants(payload));
     yield showSuccess(`😲 ${data.message}`);
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -77,12 +76,4 @@ function* watchUnregisterEvent() {
     EventParticipantTypes.UNREGISTER_EVENT,
     unregisterEventAsync
   );
-}
-
-export function* eventParticipantsSagas() {
-  yield all([
-    call(watchFetchAllEventParticipants),
-    call(WatchRegisterEvent),
-    call(watchUnregisterEvent)
-  ]);
 }
