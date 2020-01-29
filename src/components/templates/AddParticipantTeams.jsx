@@ -61,7 +61,6 @@ const AddParticipantTeam = () => {
       team_member: selectedUser.id,
       eventId: createdTeam.event_id
     };
-    console.log("selectedUser", data);
     dispatch(addParticipantTeamMember(data, history));
   };
 
