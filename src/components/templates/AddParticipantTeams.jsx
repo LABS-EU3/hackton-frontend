@@ -8,7 +8,7 @@ import { Footer } from "../organisms/index";
 import UserHeader from "../organisms/UserHeader";
 import WideBody from "../atoms/WideBody";
 import BodyContainer from "../atoms/BodyContainer";
-import { H3, H6 } from "../atoms/Heading";
+import { H3} from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { Column } from "../atoms/Column";
@@ -22,7 +22,6 @@ const AddParticipantTeam = () => {
   const [matches, setMatches] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
-  //   const [role, setRole] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -50,7 +49,7 @@ const AddParticipantTeam = () => {
       : [];
     setMatches(match);
   }, [searchString, users]);
-  
+
   const { userId } = useSelector(state => state.currentUser);
   const createdTeam = useSelector(state =>
     state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
@@ -144,81 +143,6 @@ const AddParticipantTeam = () => {
     );
   };
 
-  const Radio = ({ label, value, type = "radio", ...radioProps }) => {
-    const Container = styled.label`
-      /* Customize the label (the container) */
-      display: block;
-      position: relative;
-      padding-left: 35px;
-      margin-bottom: 12px;
-      cursor: pointer;
-      font-size: 22px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-
-      /* Hide the browser's default radio button */
-      input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-
-        /* When the radio button is checked, add a blue background */
-        &:checked ~ span {
-          background-color: #2196f3;
-        }
-
-        /* Show the indicator (dot/circle) when checked */
-        &:checked ~ span:after {
-          display: block;
-        }
-      }
-
-      /* Create a custom radio button */
-      span {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 25px;
-        width: 25px;
-        background-color: #eee;
-        border-radius: 50%;
-
-        /* Create the indicator (the dot/circle - hidden when not checked) */
-        &:after {
-          content: "";
-          position: absolute;
-          display: none;
-
-          /* Style the indicator (dot/circle) */
-          top: 9px;
-          left: 9px;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: white;
-        }
-      }
-
-      /* On mouse-over, add a grey background color */
-      &:hover {
-        input ~ span {
-          background-color: #ccc;
-        }
-      }
-    `;
-
-    return (
-      <Container>
-        {label || value}
-        <input type={type} {...radioProps} />
-        <span></span>
-      </Container>
-    );
-  };
 
   const RoleWidget = () => {
     return (
@@ -231,18 +155,6 @@ const AddParticipantTeam = () => {
             </span>{" "}
             to your team
           </h6>
-          {/* <Radio
-            label="organizer"
-            name="role"
-            onChange={() => setRole("organizer")}
-            checked={role === "organizer"}
-          />
-          <Radio
-            name="role"
-            label="judge"
-            onChange={() => setRole("judge")}
-            checked={role === "judge"}
-          /> */}
         </RowBody>
         <RowBody>
           <Button color="grey" onClick={() => redirect()}>

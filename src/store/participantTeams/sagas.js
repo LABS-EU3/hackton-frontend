@@ -1,7 +1,6 @@
 import {
   put,
   takeLatest,
-  takeLeading,
   call,
   all,
   select
@@ -23,22 +22,6 @@ export function* participantTeamSagas() {
     call(watchFetchTeamMateAsync)
   ]);
 }
-
-//   function* fetchAllEventsAsync() {
-//     try {
-//       const token = yield select(selectToken);
-//       const {
-//         data: { body }
-//       } = yield axiosWithAuth(token).get("/api/events");
-//       yield put(setEvents(body));
-//     } catch (error) {
-//       handleError(error, put);
-//     }
-//   }
-
-//   function* watchFetchAllEvents() {
-//     yield takeLeading(EventsTypes.FETCH_ALL_EVENTS, fetchAllEventsAsync);
-//   }
 
 function* createTeamAsync({ payload, history }) {
   try {
@@ -80,43 +63,6 @@ function* createTeamNameAsync({ payload, history }) {
 function* watchCreateTeamName() {
   yield takeLatest(ParticiPantTeamTypes.CREATE_TEAM_NAME, createTeamNameAsync);
 }
-
-// function* deleteEventAsync({ payload }) {
-//   try {
-//     const token = yield select(selectToken);
-//     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
-//     yield put(fetchAllEvents());
-//     yield showSuccess(`😲 ${data.message}`);
-//   } catch (error) {
-//     handleError(error, put);
-//   }
-// }
-
-// function* watchDeleteEvent() {
-//   yield takeLatest(EventsTypes.DELETE_EVENT, deleteEventAsync);
-// }
-
-// function* updateEventAsync({ payload, history }) {
-//   try {
-//     const { id, ...eventInfo } = payload;
-//     const token = yield select(selectToken);
-//     const { data } = yield axiosWithAuth(token).put(
-//       "/api/events/" + id,
-//       eventInfo
-//     );
-//     if (data) {
-//       yield put(fetchAllEvents());
-//       yield showSuccess(`🎉 ${data.message}`);
-//       yield history.push("/dashboard");
-//     }
-//   } catch (error) {
-//     handleError(error, put, history);
-//   }
-// }
-
-// function* watchUpdateEvent() {
-//   yield takeLatest(EventsTypes.UPDATE_EVENT, updateEventAsync);
-// }
 
 function* fetchTeamAsync({ payload }) {
   try {
@@ -179,24 +125,3 @@ function* watchAddParticipantTeamMember() {
     addParticipantTeamMemberAsync
   );
 }
-
-// function* fetchEventSubmissionsAsync({ payload, history }) {
-//   try {
-//     const token = yield select(selectToken);
-//     const { data } = yield axiosWithAuth(token).get(
-//       `/api/events/${payload}/projects`
-//     );
-//     if (data) {
-//       history.push(`/dashboard/events/${payload}`);
-//     }
-//   } catch (error) {
-//     handleError(error, put, history);
-//   }
-// }
-
-// function* watchFetchEventSubmissions() {
-//   yield takeLatest(
-//     EventsTypes.FETCH_EVENT_SUBMISSIONS,
-//     fetchEventSubmissionsAsync
-//   );
-// }

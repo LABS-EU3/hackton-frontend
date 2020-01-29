@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Header, Footer } from "../organisms/index";
+import React, {useEffect } from "react";
+import {Footer } from "../organisms/index";
 import UserHeader from "../organisms/UserHeader";
 import BodyContainer from "../atoms/BodyContainer";
 import styled from "styled-components";
 import { RowHead } from "../atoms/RowHead";
-import { H2, H3 } from "../atoms/Heading";
+import {H3 } from "../atoms/Heading";
 import { Paragraph } from "../atoms/Paragraph";
 import { BoldSpan } from "../atoms/Span";
 import Button from "../atoms/Button";
@@ -21,7 +21,6 @@ import { LetterIcon } from "../atoms/Icon";
 const CreateTeam = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  //   const [inputValues, setInputValues] = useState({ team_name: "" });
   const { id } = useParams();
   useEffect(() => {
     dispatch(fetchTeams(id));
@@ -141,7 +140,7 @@ const CreateTeam = () => {
     state => state.participantTeams.fetchTeamMateData
   );
   const initial = createdTeam.team_name[0];
-  console.log("created Team", createdTeam);
+
 
   return (
     <div>

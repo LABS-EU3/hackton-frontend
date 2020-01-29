@@ -209,7 +209,6 @@ const HackathonSingle = () => {
   const handleTeamRegistration = e => {
     e.preventDefault();
     if (participation_type === "team") {
-      console.log("event id",id);
       return dispatch(createTeam(id, history));
     }
   };
