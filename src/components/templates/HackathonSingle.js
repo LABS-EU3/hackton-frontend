@@ -6,6 +6,7 @@ import { media } from "../index";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
+import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
 import { H2, H3 } from "../atoms/Heading";
 import { BoldSpan } from "../atoms/Span";
@@ -216,6 +217,7 @@ const HackathonSingle = () => {
     <div>
       <UserHeader />
       <WideBody>
+        <Nav />
         <BodyContainerColumn>
           <RowHead>
             <H3>{event_title}</H3>
