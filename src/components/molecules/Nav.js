@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { Solid, media, type, Gradient } from "../index";
 import { ReactComponent as DashboardIcon } from "./../../assets/link-dashboard-icon.svg";
-import { ReactComponent as EventsIcon } from "./../../assets/link-events-icon.svg";
 import { ReactComponent as ProfileIcon } from "./../../assets/link-profile-icon.svg";
 import { ReactComponent as BurgerIcon } from "../../assets/link-burger-icon.svg";
 
@@ -12,11 +11,6 @@ const items = [
     title: "Dashboard",
     url: "/dashboard",
     svg: DashboardIcon
-  },
-  {
-    title: "My hackathons",
-    url: "/dashboard/myhackathons",
-    svg: EventsIcon
   },
   {
     title: "Profile",
