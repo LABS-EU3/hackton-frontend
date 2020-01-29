@@ -23,6 +23,8 @@ import {
   unregisterEvent
 } from "../../store/eventParticipants/actions";
 
+import { createTeam } from "../../store/participantTeams/actions";
+
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
   justify-content: start;
@@ -207,11 +209,10 @@ const HackathonSingle = () => {
   const handleTeamRegistration = e => {
     e.preventDefault();
     if (participation_type === "team") {
-      alert("button works");
-        history.push("/participant-teams");
+      console.log("event id",id);
+      return dispatch(createTeam(id, history));
     }
-
-  }
+  };
 
   const handleRegistration = e => {
     e.preventDefault();

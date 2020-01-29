@@ -17,6 +17,7 @@ import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionP
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./components/views/PageNotFound";
 import UserProfileFormPage from "./components/views/UserProfileFormPage";
+import CreateTeam from "./components/templates/CreateTeam";
 import AddParticipantTeam from "./components/templates/AddParticipantTeams";
 
 function App() {
@@ -70,6 +71,11 @@ function App() {
         <PrivateRoute
           exact
           path="/dashboard/event/:id/participant-teams"
+          component={CreateTeam}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/participant-teams/:id/add-members"
           component={AddParticipantTeam}
         />
         <Redirect to="/register" />
