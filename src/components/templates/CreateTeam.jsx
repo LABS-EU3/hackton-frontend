@@ -8,6 +8,7 @@ import { H2, H3 } from "../atoms/Heading";
 import { Paragraph } from "../atoms/Paragraph";
 import { BoldSpan } from "../atoms/Span";
 import Button from "../atoms/Button";
+import { NavLink } from "react-router-dom";
 import {
   createTeamName,
   fetchTeams,
@@ -15,6 +16,7 @@ import {
 } from "../../store/participantTeams/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
+import { LetterIcon } from "../atoms/Icon";
 
 const CreateTeam = () => {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ const CreateTeam = () => {
   const { id } = useParams();
   useEffect(() => {
     dispatch(fetchTeams(id));
-  }, [id]);
+  }, [id, dispatch]);
 
   const BodyRow = styled(BodyContainer)`
     flex-direction: column;
@@ -43,18 +45,24 @@ const CreateTeam = () => {
 
   const TeamsCont = styled(BodyContainer)`
     background-color: white;
-    width: 45%;
-    height: 35vh;
+    width: 50%;
+    height: 40%;
+    overflow-y: auto;
     border: 1px solid lightgray;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-left: 5%;
+    align-items: center;
+    margin-left: 25%;
     border-radius: 6px;
     padding: 20px;
 
-    span {
-      padding-top: 10px;
+    p {
+      margin: 0;
+      padding: 3px;
+    }
+
+    button {
+      margin: 20px;
     }
   `;
 
@@ -65,15 +73,19 @@ const CreateTeam = () => {
     width: 100%;
   `;
 
+  const StyledLetterIcon = styled(LetterIcon)`
+    margin: 0 20px 0 0 !important;
+  `;
+
   const Form = styled.form`
     background-color: white;
-    width: 45%;
+    width: 50%;
     height: 35vh;
     border: 1px solid lightgray;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 5%;
+    margin-left: 25%;
     border-radius: 6px;
     h4 {
       margin: 10px;
@@ -121,13 +133,15 @@ const CreateTeam = () => {
     state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
   );
   useEffect(() => {
-    dispatch(fetchTeamMates(createdTeam.id));
-  }, [createdTeam.id]);
+    if (createdTeam !== undefined) {
+      dispatch(fetchTeamMates(createdTeam.id));
+    }
+  }, [createdTeam, dispatch]);
   const fetchedTeamMembers = useSelector(
     state => state.participantTeams.fetchTeamMateData
   );
-
-  console.log("fetched Team members", fetchedTeamMembers);
+  const initial = createdTeam.team_name[0];
+  console.log("created Team", createdTeam);
 
   return (
     <div>
@@ -137,48 +151,74 @@ const CreateTeam = () => {
           <H3>Participant Teams</H3>
         </RowHead>
         <BodyColumn>
-          <Form>
-            <h4>
-              You are creating a team for{" "}
-              <span style={{ color: "#273F92", backgroundColor: "aliceblue" }}>
-                {event_title}
-              </span>
-            </h4>
-            <label>Team Name</label>
-            <input
-              type="text"
-              onChange={e => handleChange(e)}
-              name="team_name"
-            />
-            <Button onClick={handleTeamSubmit} color="green">
-              Submit
-            </Button>
-          </Form>
-          <TeamsCont>
-            <FancyBoldSpan>Your Team</FancyBoldSpan>
-            <FancyBoldSpan>
-              Team Name:
-              <NormalSpan>{createdTeam.team_name}</NormalSpan>
-            </FancyBoldSpan>
-            <FancyBoldSpan style={{borderBottom:"none"}}>Team Members:</FancyBoldSpan>
-            {fetchedTeamMembers.length !== 0 ? (
-              <div style={{borderBottom:"1px solid lightgray", width:"100%"}}>
-                {fetchedTeamMembers.map(member => {
-                  return member.team_member_fullname === null ? (
-                    <Paragraph key={member.id}>
-                      {member.team_member_email}
-                    </Paragraph>
-                  ) : (
-                    <Paragraph key={member.id}>
-                      {member.team_member_fullname}
-                    </Paragraph>
-                  );
-                })}
-              </div>
-            ) : (
-              <NormalSpan>This team has no members</NormalSpan>
-            )}
-          </TeamsCont>
+          {createdTeam === undefined ? (
+            <Form>
+              <h4>
+                You are creating a team for{" "}
+                <span
+                  style={{ color: "#273F92", backgroundColor: "aliceblue" }}
+                >
+                  {event_title}
+                </span>
+              </h4>
+              <label>Team Name</label>
+              <input
+                type="text"
+                onChange={e => handleChange(e)}
+                name="team_name"
+              />
+              <Button onClick={handleTeamSubmit} color="green">
+                Submit
+              </Button>
+            </Form>
+          ) : (
+            <TeamsCont>
+              <StyledLetterIcon>{initial}</StyledLetterIcon>
+              <FancyBoldSpan>Your Team</FancyBoldSpan>
+              <FancyBoldSpan>
+                Team Name:
+                <NormalSpan>{createdTeam.team_name}</NormalSpan>
+              </FancyBoldSpan>
+              <FancyBoldSpan style={{ borderBottom: "none" }}>
+                Team Members:
+              </FancyBoldSpan>
+              {fetchedTeamMembers.length !== 0 ? (
+                <div
+                  style={{
+                    borderBottom: "1px solid lightgray",
+                    width: "100%",
+                    paddingBottom: "10px"
+                  }}
+                >
+                  {fetchedTeamMembers.map(member => {
+                    return member.team_member_fullname === null ? (
+                      <Paragraph key={member.id}>
+                        {member.team_member_email}
+                      </Paragraph>
+                    ) : (
+                      <Paragraph key={member.id}>
+                        {member.team_member_fullname}
+                      </Paragraph>
+                    );
+                  })}
+                </div>
+              ) : (
+                <FancyBoldSpan>This team has no members</FancyBoldSpan>
+              )}
+              <FancyBoldSpan>
+                Hackathon Name:
+                <NormalSpan>{event_title}</NormalSpan>
+              </FancyBoldSpan>
+              <Button color="green">
+                <NavLink
+                  style={{ textDecoration: "none", color: "white" }}
+                  to={`/dashboard/event/participant-teams/${createdTeam.id}/add-members`}
+                >
+                  Add Teammate
+                </NavLink>{" "}
+              </Button>
+            </TeamsCont>
+          )}
         </BodyColumn>
       </BodyRow>
       <Footer></Footer>

@@ -42,7 +42,7 @@ export function* participantTeamSagas() {
 
 function* createTeamAsync({ payload, history }) {
   try {
-    history.push(`/dashboard/event/${payload}/participant-teams`);
+    yield history.push(`/dashboard/event/${payload}/participant-teams`);
   } catch (error) {
     handleError(error, put, history);
   }
