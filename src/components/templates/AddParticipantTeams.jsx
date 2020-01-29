@@ -220,7 +220,7 @@ const AddParticipantTeam = () => {
         <RowBody direction="column-reverse">
           <h6>
             You are adding{" "}
-            <span style={{ fontWeight: "bold" }}>{selectedUser.email}</span> to
+            <span style={{color:"#273F92",backgroundColor:"aliceblue"}}>{selectedUser.email}</span> to
             your team
           </h6>
           {/* <Radio

@@ -26,14 +26,18 @@ const CreateTeam = () => {
 
   const Form = styled.form`
     background-color: white;
-    width: 40%;
+    width: 50%;
     height: 35vh;
     border: 1px solid lightgray;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 30%;
+    margin-left: 25%;
     border-radius: 6px;
+    h4 {
+      margin: 10px;
+      padding: 5px;
+    }
     label {
       margin: 10px;
     }
@@ -57,20 +61,25 @@ const CreateTeam = () => {
   const handleTeamSubmit = e => {
     e.preventDefault();
     const teamData = {
-        team_name: formValue,
-        eventId: id
-    }
+      team_name: formValue,
+      eventId: id
+    };
     dispatch(createTeamName(teamData, history));
   };
+
+  const { event_title } = useSelector(state =>
+    state.events.data.find(event => event.id === Number(id))
+  );
 
   return (
     <div>
       <UserHeader></UserHeader>
       <BodyRow>
         <RowHead>
-          <H3>Create Team</H3>
+          <H3>Participant Teams</H3>
         </RowHead>
         <Form>
+          <h4>You are creating a team for <span style={{color:"#273F92",backgroundColor:"aliceblue"}}>{event_title}</span></h4>
           <label>Team Name</label>
           <input type="text" onChange={e => handleChange(e)} name="team_name" />
           <Button onClick={handleTeamSubmit} color="green">
