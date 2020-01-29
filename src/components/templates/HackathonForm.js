@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
+import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
 import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
@@ -111,6 +112,7 @@ const HackathonForm = ({ initialState }) => {
     <div>
       <UserHeader />
       <WideBody>
+        <Nav />
         <BodyContainerColumn>
           <RowHead>
             <H3>

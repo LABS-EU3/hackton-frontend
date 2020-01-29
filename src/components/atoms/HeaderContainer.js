@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { media } from '../index';
 
 const HeaderContainer = styled.div`
-  width: 1152px;
-  max-width: 1152px;
+  width: 100%;
   height: 90px;
   padding: 0 45px;
   display: flex;
@@ -13,13 +12,11 @@ const HeaderContainer = styled.div`
   @media ${media.tablet} {
     padding: 0 20px;
     height: 80px;
-    max-width: 768px;
   }
 
   @media ${media.mobile} {
     padding: 0 15px;
     height: 60px;
-    width: 335px;
   }
 `;
 
