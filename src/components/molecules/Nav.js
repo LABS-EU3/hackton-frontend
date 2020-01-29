@@ -43,7 +43,7 @@ const Nav = ({ type }) => {
       <StyledNav>
         {items.map(({ title, url, svg: SvgIcon }) => {
           return (
-            <StyledNavLink to={url} key={title} activeClassName="current">
+            <StyledNavLink exact to={url} key={title} activeClassName="current">
               <SvgIcon />
               {title}
             </StyledNavLink>
