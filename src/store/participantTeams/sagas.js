@@ -118,7 +118,7 @@ function* watchCreateTeamName() {
 //   yield takeLatest(EventsTypes.UPDATE_EVENT, updateEventAsync);
 // }
 
-function* fetchTeamAsync({ payload}) {
+function* fetchTeamAsync({ payload }) {
   try {
     const token = yield select(selectToken);
     const {
@@ -156,7 +156,7 @@ function* watchFetchTeamMateAsync() {
 
 function* addParticipantTeamMemberAsync({ payload, history }) {
   try {
-    const { team_id, team_member } = payload;
+    const { team_id, team_member, eventId } = payload;
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
       `/api/events/participant-teams/${team_id}`,
@@ -167,7 +167,7 @@ function* addParticipantTeamMemberAsync({ payload, history }) {
     if (data) {
       yield showSuccess(`Added successfully`);
     }
-    history.push(`/dashboard`);
+    history.push(`/dashboard/event/${eventId}/participant-teams`);
   } catch (error) {
     handleError(error, put, history);
   }

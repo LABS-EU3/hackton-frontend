@@ -50,13 +50,19 @@ const AddParticipantTeam = () => {
       : [];
     setMatches(match);
   }, [searchString, users]);
+  
+  const { userId } = useSelector(state => state.currentUser);
+  const createdTeam = useSelector(state =>
+    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
+  );
 
   const handleSubmit = () => {
-      const data = {
-          team_id: Number(id),
-          team_member: selectedUser.id
-        };
-        console.log("selectedUser", data);
+    const data = {
+      team_id: Number(id),
+      team_member: selectedUser.id,
+      eventId: createdTeam.event_id
+    };
+    console.log("selectedUser", data);
     dispatch(addParticipantTeamMember(data, history));
   };
 
@@ -220,8 +226,10 @@ const AddParticipantTeam = () => {
         <RowBody direction="column-reverse">
           <h6>
             You are adding{" "}
-            <span style={{color:"#273F92",backgroundColor:"aliceblue"}}>{selectedUser.email}</span> to
-            your team
+            <span style={{ color: "#273F92", backgroundColor: "aliceblue" }}>
+              {selectedUser.email}
+            </span>{" "}
+            to your team
           </h6>
           {/* <Radio
             label="organizer"
