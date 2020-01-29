@@ -137,10 +137,10 @@ function* watchCreateTeamName() {
 
 function* addParticipantTeamMemberAsync({ payload, history }) {
   try {
-    const { teamId, team_member, eventId } = payload;
+    const { team_id, team_member} = payload;
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
-      `/api/events/participant-teams/${teamId}`,
+      `/api/events/participant-teams/${team_id}`,
       {
         team_member
       }
@@ -148,7 +148,7 @@ function* addParticipantTeamMemberAsync({ payload, history }) {
     if (data) {
       yield showSuccess(`Added successfully`);
     }
-    history.push(`/dashboard/event/${eventId}`);
+    history.push(`/dashboard`);
   } catch (error) {
     handleError(error, put, history);
   }

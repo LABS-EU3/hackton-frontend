@@ -8,21 +8,21 @@ import { Footer } from "../organisms/index";
 import UserHeader from "../organisms/UserHeader";
 import WideBody from "../atoms/WideBody";
 import BodyContainer from "../atoms/BodyContainer";
-import { H3 } from "../atoms/Heading";
+import { H3, H6 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import Button from "../atoms/Button";
 import { type, Solid, media } from "../index";
-import { addTeamMember } from "../../store/events/actions";
+import { addParticipantTeamMember } from "../../store/participantTeams/actions";
 
 const AddParticipantTeam = () => {
   const [users, setUsers] = useState([]);
   const [matches, setMatches] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
-  const [role, setRole] = useState("");
+  //   const [role, setRole] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -52,13 +52,12 @@ const AddParticipantTeam = () => {
   }, [searchString, users]);
 
   const handleSubmit = () => {
-    const { email } = selectedUser;
-    const data = {
-      eventId: Number(id),
-      email,
-      role
-    };
-    dispatch(addTeamMember(data, history));
+      const data = {
+          team_id: Number(id),
+          team_member: selectedUser.id
+        };
+        console.log("selectedUser", data);
+    dispatch(addParticipantTeamMember(data, history));
   };
 
   const redirect = (location = "/dashboard") => {
@@ -219,7 +218,12 @@ const AddParticipantTeam = () => {
     return (
       <StyledContainer>
         <RowBody direction="column-reverse">
-          <Radio
+          <h6>
+            You are adding{" "}
+            <span style={{ fontWeight: "bold" }}>{selectedUser.email}</span> to
+            your team
+          </h6>
+          {/* <Radio
             label="organizer"
             name="role"
             onChange={() => setRole("organizer")}
@@ -230,7 +234,7 @@ const AddParticipantTeam = () => {
             label="judge"
             onChange={() => setRole("judge")}
             checked={role === "judge"}
-          />
+          /> */}
         </RowBody>
         <RowBody>
           <Button color="grey" onClick={() => redirect()}>
