@@ -21,6 +21,7 @@ import CreateTeam from "./components/templates/CreateTeam";
 import AddParticipantTeam from "./components/templates/AddParticipantTeams";
 import ResetPassword from './components/views/resetPassword/ResetPassword';
 import ResetPasswordConfirmation from './components/views/resetPassword/ResetPasswordConfirmation';
+import NewPassword from './components/views/resetPassword/NewPassword';
 
 function App() {
   const location = useLocation();
@@ -31,8 +32,9 @@ function App() {
           <Route exact path="/not-found" component={PageNotFound} />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/resetpassword" component={ResetPassword} />
+          <Route exact path="/forgotpassword" component={ResetPassword} />
           <Route exact path="/resetPasswordConfirmation" component={ResetPasswordConfirmation} />
+          <Route exact path="/resetpassword" component={NewPassword} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute
             exact

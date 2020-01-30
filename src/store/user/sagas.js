@@ -126,7 +126,7 @@ function* forgotPasswordAsync({ payload: email, history }) {
   try {
     const { data } = yield axios.post('/api/auth/forgotpassword', { email });
     if (data) {
-      history.push('/')
+      history.push('/resetPasswordConfirmation')
     }
   } catch (error) {
     handleError(error, put);
@@ -139,7 +139,10 @@ function* watchForgotPassword() {
 
 function* resetPasswordAsync({ payload: password }) {
   try {
-    const { data } = yield axios.post('/api/auth/resetpassword', { password });
+    const { data } = yield axios.patch('/api/auth/resetpassword', { password });
+    if (data) {
+      history.push('/')
+    }
   } catch (error) {
     handleError(error, put);
   }

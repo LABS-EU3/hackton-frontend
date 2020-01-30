@@ -14,7 +14,7 @@ import { Column } from "../../atoms/Column";
 import { Header, Footer } from "../../organisms/index";
 import Button from "../../atoms/Button";
 import { ErrorSpan } from "../../atoms/Span";
-import { forgotPassword } from '../../../store/user/actions';
+import { resetPassword } from '../../../store/user/actions';
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -22,18 +22,23 @@ const BodyContainerColumn = styled(BodyContainer)`
 `;
 
 const ResetPassword = () => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
   const handleSubmit = values => {
-    const { email } = values;
-    dispatch(forgotPassword(email));
+    const { newPassword, newPasswordConfirm } = values;
+    if (newPassword === newPasswordConfirm) {
+        dispatch(resetPassword(newPassword));
+    } 
   };
 
-  const schema = Yup.object().shape({
-    email: Yup.string()
-      .email("Please use a valid email address.")
-      .required("Email address is required.")
-  });
+    const schema = Yup.object().shape({
+        newPassword: Yup.string()
+          .required("Password is required.")
+          .min(8, "Password must be at least 8 characters long."),
+        newPasswordConfirm: Yup.string()
+        .oneOf([Yup.ref('newPassword'), null], "Passwords must match")
+        .required('Password confirm is required')
+      });
 
   return (
     <div>
@@ -41,32 +46,44 @@ const ResetPassword = () => {
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
-            <H3>Forgot Password</H3>
+            <H3>Reset Password</H3>
           </RowHead>
 
           <Column>
             <CardForm>
               <Formik
-                initialValues={{ email: "" }}
+               initialValues={{ newPassword: "", newPasswordConfirm: "" }}
                 onSubmit={handleSubmit}
                 validationSchema={schema}
-              >
+                >
                 {({ errors, touched }) => (
                   <Form>
                     <Input
                       display="wide"
-                      id="email"
-                      type="email"
-                      name="email"
+                      id="newPassword"
+                      type="password"
+                      name="newPassword"
                     />
                     {errors.name && touched.name ? (
                       <div>{errors.name}</div>
                     ) : null}
                     <ErrorSpan>
-                      <ErrorMessage name="email" />
+                      <ErrorMessage name="newPassword" />
+                    </ErrorSpan>
+                    <Input
+                      display="wide"
+                      id="newPasswordConfirm"
+                      type="password"
+                      name="newPasswordConfirm"
+                    />
+                    {errors.name && touched.name ? (
+                      <div>{errors.name}</div>
+                    ) : null}
+                    <ErrorSpan>
+                      <ErrorMessage name="newPasswordConfirm" />
                     </ErrorSpan>
                     <RowBody>
-                      <Button color="green">Submit</Button>
+                      <Button color="green">Reset Password</Button>
                     </RowBody>
                   </Form>
                 )}
