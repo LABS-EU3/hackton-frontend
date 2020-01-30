@@ -59,7 +59,12 @@ const HackathonForm = ({ initialState }) => {
     category_id: initialState?.category_id || 1
   };
 
+
   const handleSubmit = values => {
+    const participationTypeValue = document.getElementById("participation_type").value;
+    const categoryIdValue = document.getElementById("event_category").value;
+    values.participation_type = participationTypeValue;
+    values.category_id = categoryIdValue;
     let tagss = JSON.parse(window.localStorage.getItem("tags"));
     if (values.title !== "" && !values.id) {
       values.tag_name = tagss;

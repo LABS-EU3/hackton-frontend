@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect } from "react";
 import styled from "styled-components";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,6 +23,8 @@ import {
   registerEvent,
   unregisterEvent
 } from "../../store/eventParticipants/actions";
+
+import { createTeam } from "../../store/participantTeams/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -147,6 +149,7 @@ const HackathonSingle = () => {
   const dispatch = useDispatch();
   const { participants } = useSelector(state => state);
   const { userId } = useSelector(state => state.currentUser);
+  
 
   // Filter out event by URL param & grab user ID
   const {
@@ -205,13 +208,23 @@ const HackathonSingle = () => {
   // Grab the first letter of title
   const initial = event_title[0];
 
+  const handleTeamRegistration = e => {
+    e.preventDefault();
+    return dispatch(createTeam(id, history));
+  };
+
   const handleRegistration = e => {
     e.preventDefault();
+
     if (isRegistered) {
       return dispatch(unregisterEvent(id, history));
     }
     return dispatch(registerEvent(id, history));
   };
+
+  const createdTeam = useSelector(state =>
+    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
+  );
 
   return (
     <div>
@@ -346,10 +359,20 @@ const HackathonSingle = () => {
                           border: "2px solid lightgray",
                           color: "lightgray"
                         }}
-                        color="grey"
                         disabled
                       >
                         Registration Closed
+                      </Button>
+                    ) : participation_type === "team" ? (
+                      <Button color="green" onClick={handleTeamRegistration}>
+                        {participation_type === "team" &&
+                        createdTeam === undefined
+                          ? `Register a Team`
+                          : `Add teamate`}
+                      </Button>
+                    ) : participation_type === "both" ? (
+                      <Button color="green" onClick={handleTeamRegistration}>
+                        Pick registration Type
                       </Button>
                     ) : (
                       <Button

@@ -17,58 +17,71 @@ import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionP
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./components/views/PageNotFound";
 import UserProfileFormPage from "./components/views/UserProfileFormPage";
+import CreateTeam from "./components/templates/CreateTeam";
+import AddParticipantTeam from "./components/templates/AddParticipantTeams";
 
 function App() {
   return (
     <>
-      <GlobalStyles />
-      <Switch>
-        <Route exact path="/not-found" component={PageNotFound} />
-        <Route exact path="/register" component={SignupPage} />
-        <Route exact path="/login" component={LoginPage} />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
-        <PrivateRoute
-          exact
-          path="/dashboard/new"
-          component={HackathonFormPage}
-        />
-        <PrivateRoute
-          exact
-          path="/dashboard/event/:id/participant_submission"
-          component={ParticipantSubmissionPage}
-        />
-        <PrivateRoute
-          exact
-          path="/dashboard/event/:id"
-          component={HackathonSinglePage}
-        />
-        <PrivateRoute
-          exact
-          path="/dashboard/event/:id/edit"
-          component={EditHackathon}
-        />
-        <PrivateRoute
-          exact
-          path="/dashboard/event/:id/team"
-          component={AddTeammates}
-        />
-        <PrivateRoute
-          exact
-          path="/dashboard/profile/edit"
-          component={UserProfileFormPage}
-        />
-        <PrivateRoute
-          path="/dashboard/event/:id/projects"
-          component={HackathonProjectsPage}
-        />
-        <PrivateRoute
-          exact
-          path="/dashboard/event/:id/project/:projectId"
-          component={HackathonProjectPage}
-        />
-        <Redirect to="/register" />
-      </Switch>
-      <ToastContainer />
+        <GlobalStyles />
+        <Switch>
+          <Route exact path="/not-found" component={PageNotFound} />
+          <Route exact path="/register" component={SignupPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute
+            exact
+            path="/dashboard/new"
+            component={HackathonFormPage}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/event/:id/participant_submission"
+            component={ParticipantSubmissionPage}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/event/:id"
+            component={HackathonSinglePage}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/event/:id/edit"
+            component={EditHackathon}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/event/:id/team"
+            component={AddTeammates}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/profile/edit"
+            component={UserProfileFormPage}
+          />
+          <PrivateRoute
+            path="/dashboard/event/:id/projects"
+            component={HackathonProjectsPage}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/event/:id/project/:projectId"
+            component={HackathonProjectPage}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/event/participant-teams/:id/add-members"
+            component={AddParticipantTeam}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/event/:id/participant-teams"
+            component={CreateTeam}
+          />
+
+          <Redirect to="/register" />
+        </Switch>
+        <ToastContainer />
     </>
   );
 }
