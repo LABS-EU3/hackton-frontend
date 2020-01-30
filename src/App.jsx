@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect, useLocation } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { GlobalStyles } from "./components/index";
@@ -21,7 +21,6 @@ import CreateTeam from "./components/templates/CreateTeam";
 import AddParticipantTeam from "./components/templates/AddParticipantTeams";
 
 function App() {
-  const location = useLocation();
   return (
     <>
       <GlobalStyles />
@@ -79,8 +78,8 @@ function App() {
           path="/dashboard/event/:id/participant-teams"
           component={CreateTeam}
         />
-
-        <Redirect to={{ pathname: "/register", state: { from: location.pathname } }} />
+        <Route path='not-found' component={PageNotFound} />
+        <Redirect to="/not-found" />
       </Switch>
       <ToastContainer />
     </>
