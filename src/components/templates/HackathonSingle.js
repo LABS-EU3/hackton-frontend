@@ -223,6 +223,10 @@ const HackathonSingle = () => {
     return dispatch(registerEvent(id, history));
   };
 
+  const createdTeam = useSelector(state =>
+    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
+  );
+
   return (
     <div>
       <UserHeader />
@@ -363,9 +367,9 @@ const HackathonSingle = () => {
                     ) : participation_type === "team" ||
                       participation_type === "both" ? (
                       <Button color="green" onClick={handleTeamRegistration}>
-                        {participation_type === "team"
+                        {participation_type === "team" && createTeam === undefined
                           ? `Register a Team`
-                          : `Pick registration Type`}
+                          : `Add teamate`}
                       </Button>
                     ) : (
                       <Button
