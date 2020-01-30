@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect } from "react";
 import styled from "styled-components";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -149,6 +149,7 @@ const HackathonSingle = () => {
   const dispatch = useDispatch();
   const { participants } = useSelector(state => state);
   const { userId } = useSelector(state => state.currentUser);
+  
 
   // Filter out event by URL param & grab user ID
   const {
