@@ -18,20 +18,21 @@ export function* userSagas() {
     call(watchSocialAuth),
     call(watchLogout),
     call(watchFetchUserProfile),
-    call(watchUpdateUserProfile)
+    call(watchUpdateUserProfile),
+    call(watchForgotPassword),
+    call(watchResetPassword)
   ]);
 }
 
-function* loginAsync({ payload, history }) {
+function* loginAsync({ payload }) {
   try {
     const {
       data: { body }
     } = yield axios.post("/api/auth/login", payload);
     yield put(setUser(body.token));
-    yield history.push("/dashboard");
     yield showSuccess(`😎 Welcome`);
   } catch (error) {
-    handleError(error, put, history);
+    handleError(error, put);
   }
 }
 
@@ -39,16 +40,15 @@ function* watchLogin() {
   yield takeLatest(UserTypes.LOGIN, loginAsync);
 }
 
-function* registerAsync({ payload, history }) {
+function* registerAsync({ payload }) {
   try {
     const {
       data: { body }
     } = yield axios.post("/api/auth/register", payload);
     yield put(setUser(body.token));
     showSuccess(`😎 Welcome`);
-    yield history.push("/dashboard");
   } catch (error) {
-    handleError(error, put, history);
+    handleError(error, put);
   }
 }
 
@@ -114,10 +114,37 @@ function* updateUserProfileAsync({ payload, history }) {
     yield showSuccess(`🎉 ${message}`);
     yield history.push("/dashboard");
   } catch (error) {
-    handleError(error, put, history);
+    handleError(error, put);
   }
 }
 
 function* watchUpdateUserProfile() {
   yield takeLatest(UserTypes.UPDATE_USER_PROFILE, updateUserProfileAsync);
+}
+
+function* forgotPasswordAsync({ payload: email, history }) {
+  try {
+    const { data } = yield axios.post('/api/auth/forgotpassword', { email });
+    if (data) {
+      history.push('/')
+    }
+  } catch (error) {
+    handleError(error, put);
+  }
+}
+
+function* watchForgotPassword() {
+  yield takeLatest(UserTypes.FORGOT_PASSWORD, forgotPasswordAsync);
+}
+
+function* resetPasswordAsync({ payload: password }) {
+  try {
+    const { data } = yield axios.post('/api/auth/resetpassword', { password });
+  } catch (error) {
+    handleError(error, put);
+  }
+}
+
+function* watchResetPassword() {
+  yield takeLatest(UserTypes.RESET_PASSWORD, resetPasswordAsync);
 }

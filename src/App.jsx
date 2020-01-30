@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { GlobalStyles } from "./components/index";
@@ -23,6 +23,7 @@ import ResetPassword from './components/views/resetPassword/ResetPassword';
 import ResetPasswordConfirmation from './components/views/resetPassword/ResetPasswordConfirmation';
 
 function App() {
+  const location = useLocation();
   return (
     <>
         <GlobalStyles />
@@ -83,9 +84,9 @@ function App() {
             component={CreateTeam}
           />
 
-          <Redirect to="/register" />
-        </Switch>
-        <ToastContainer />
+        <Redirect to={{ pathname: "/register", state: { from: location.pathname } }} />
+      </Switch>
+      <ToastContainer />
     </>
   );
 }
