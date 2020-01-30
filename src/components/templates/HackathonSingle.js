@@ -209,9 +209,7 @@ const HackathonSingle = () => {
 
   const handleTeamRegistration = e => {
     e.preventDefault();
-    if (participation_type === "team") {
-      return dispatch(createTeam(id, history));
-    }
+    return dispatch(createTeam(id, history));
   };
 
   const handleRegistration = e => {
@@ -372,20 +370,9 @@ const HackathonSingle = () => {
                           : `Add teamate`}
                       </Button>
                     ) : participation_type === "both" ? (
-                      <>
-                        <Button color="green" onClick={handleTeamRegistration}>
-                          {participation_type === "team" &&
-                          createdTeam === undefined
-                            ? `Register a Team`
-                            : `Add teamate`}
-                        </Button>
-                        <Button
-                          color={isRegistered ? "grey" : "green"}
-                          onClick={handleRegistration}
-                        >
-                          {isRegistered ? `Unregister` : `Register`}
-                        </Button>
-                      </>
+                      <Button color="green" onClick={handleTeamRegistration}>
+                        Pick registration Type
+                      </Button>
                     ) : (
                       <Button
                         color={isRegistered ? "grey" : "green"}
