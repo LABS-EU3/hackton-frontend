@@ -364,13 +364,28 @@ const HackathonSingle = () => {
                       >
                         Registration Closed
                       </Button>
-                    ) : participation_type === "team" ||
-                      participation_type === "both" ? (
+                    ) : participation_type === "team" ? (
                       <Button color="green" onClick={handleTeamRegistration}>
-                        {participation_type === "team" && createTeam === undefined
+                        {participation_type === "team" &&
+                        createdTeam === undefined
                           ? `Register a Team`
                           : `Add teamate`}
                       </Button>
+                    ) : participation_type === "both" ? (
+                      <>
+                        <Button color="green" onClick={handleTeamRegistration}>
+                          {participation_type === "team" &&
+                          createdTeam === undefined
+                            ? `Register a Team`
+                            : `Add teamate`}
+                        </Button>
+                        <Button
+                          color={isRegistered ? "grey" : "green"}
+                          onClick={handleRegistration}
+                        >
+                          {isRegistered ? `Unregister` : `Register`}
+                        </Button>
+                      </>
                     ) : (
                       <Button
                         color={isRegistered ? "grey" : "green"}
