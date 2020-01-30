@@ -18,7 +18,9 @@ export function* userSagas() {
     call(watchSocialAuth),
     call(watchLogout),
     call(watchFetchUserProfile),
-    call(watchUpdateUserProfile)
+    call(watchUpdateUserProfile),
+    call(watchForgotPassword),
+    call(watchResetPassword)
   ]);
 }
 
@@ -118,4 +120,31 @@ function* updateUserProfileAsync({ payload, history }) {
 
 function* watchUpdateUserProfile() {
   yield takeLatest(UserTypes.UPDATE_USER_PROFILE, updateUserProfileAsync);
+}
+
+function* forgotPasswordAsync({ payload: email, history }) {
+  try {
+    const { data } = yield axios.post('/api/auth/forgotpassword', { email });
+    if (data) {
+      history.push('/')
+    }
+  } catch (error) {
+    handleError(error, put);
+  }
+}
+
+function* watchForgotPassword() {
+  yield takeLatest(UserTypes.FORGOT_PASSWORD, forgotPasswordAsync);
+}
+
+function* resetPasswordAsync({ payload: password }) {
+  try {
+    const { data } = yield axios.post('/api/auth/resetpassword', { password });
+  } catch (error) {
+    handleError(error, put);
+  }
+}
+
+function* watchResetPassword() {
+  yield takeLatest(UserTypes.RESET_PASSWORD, resetPasswordAsync);
 }
