@@ -63,7 +63,6 @@ const HackathonForm = ({ initialState }) => {
 
 
   const handleSubmit = values => {
-    console.log('VALUES', values);
     const participationTypeValue = document.getElementById("participation_type").value;
     const categoryIdValue = document.getElementById("event_category").value;
     values.participation_type = participationTypeValue;

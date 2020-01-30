@@ -22,16 +22,15 @@ export function* userSagas() {
   ]);
 }
 
-function* loginAsync({ payload, history }) {
+function* loginAsync({ payload }) {
   try {
     const {
       data: { body }
     } = yield axios.post("/api/auth/login", payload);
     yield put(setUser(body.token));
-    yield history.push("/dashboard");
     yield showSuccess(`😎 Welcome`);
   } catch (error) {
-    handleError(error, put, history);
+    handleError(error, put);
   }
 }
 
@@ -39,16 +38,15 @@ function* watchLogin() {
   yield takeLatest(UserTypes.LOGIN, loginAsync);
 }
 
-function* registerAsync({ payload, history }) {
+function* registerAsync({ payload }) {
   try {
     const {
       data: { body }
     } = yield axios.post("/api/auth/register", payload);
     yield put(setUser(body.token));
     showSuccess(`😎 Welcome`);
-    yield history.push("/dashboard");
   } catch (error) {
-    handleError(error, put, history);
+    handleError(error, put);
   }
 }
 
@@ -114,7 +112,7 @@ function* updateUserProfileAsync({ payload, history }) {
     yield showSuccess(`🎉 ${message}`);
     yield history.push("/dashboard");
   } catch (error) {
-    handleError(error, put, history);
+    handleError(error, put);
   }
 }
 
