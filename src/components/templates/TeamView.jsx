@@ -1,0 +1,123 @@
+import React, { useEffect } from "react";
+import BodyContainer from "../atoms/BodyContainer";
+import styled from "styled-components";
+import { Paragraph } from "../atoms/Paragraph";
+import { BoldSpan } from "../atoms/Span";
+import Button from "../atoms/Button";
+import { NavLink } from "react-router-dom";
+import { fetchTeamMates } from "../../store/participantTeams/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { LetterIcon } from "../atoms/Icon";
+
+const TeamView = () => {
+  const dispatch = useDispatch();
+  const { eventId, team_name } = useSelector(
+    state => state.participantTeams.team
+  );
+  const { event_title } = useSelector(state =>
+    state.events.data.find(event => event.id === Number(eventId))
+  );
+  const { userId } = useSelector(state => state.currentUser);
+  const createdTeam = useSelector(state =>
+    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
+  );
+
+  const fetchedTeamMembers = useSelector(
+    state => state.participantTeams.fetchTeamMateData
+  );
+  const initial = team_name[0];
+
+  useEffect(() => {
+
+    dispatch(fetchTeamMates(createdTeam.id));
+  }, [createdTeam, dispatch]);
+
+
+  const TeamsCont = styled(BodyContainer)`
+    background-color: white;
+    width: 50%;
+    height: 40%;
+    overflow-y: auto;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 25%;
+    border-radius: 6px;
+    padding: 20px;
+
+    p {
+      margin: 0;
+      padding: 3px;
+    }
+
+    button {
+      margin: 20px;
+    }
+  `;
+
+  const FancyBoldSpan = styled(BoldSpan)`
+    border-bottom: 1px solid lightgray;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+  `;
+
+  const StyledLetterIcon = styled(LetterIcon)`
+    margin: 0 20px 0 0 !important;
+  `;
+
+  const NormalSpan = styled(BoldSpan)`
+    font-weight: normal;
+    padding: 5px;
+  `;
+
+  return (
+    <TeamsCont>
+      <StyledLetterIcon>{initial}</StyledLetterIcon>
+      <FancyBoldSpan>Your Team</FancyBoldSpan>
+      <FancyBoldSpan>
+        Team Name:
+        <NormalSpan>{team_name}</NormalSpan>
+      </FancyBoldSpan>
+      <FancyBoldSpan style={{ borderBottom: "none" }}>
+        Team Members:
+      </FancyBoldSpan>
+      {fetchedTeamMembers.length !== 0 ? (
+        <div
+          style={{
+            borderBottom: "1px solid lightgray",
+            width: "100%",
+            paddingBottom: "10px"
+          }}
+        >
+          {fetchedTeamMembers.map(member => {
+            return member.team_member_fullname === null ? (
+              <Paragraph key={member.id}>{member.team_member_email}</Paragraph>
+            ) : (
+              <Paragraph key={member.id}>
+                {member.team_member_fullname}
+              </Paragraph>
+            );
+          })}
+        </div>
+      ) : (
+        <FancyBoldSpan>This team has no members</FancyBoldSpan>
+      )}
+      <FancyBoldSpan>
+        Hackathon Name:
+        <NormalSpan>{event_title}</NormalSpan>
+      </FancyBoldSpan>
+      <Button color="green">
+        <NavLink
+          style={{ textDecoration: "none", color: "white" }}
+          to={`/dashboard/event/participant-teams/${createdTeam.id}/add-members`}
+        >
+          Add Teammate
+        </NavLink>{" "}
+      </Button>
+    </TeamsCont>
+  );
+};
+
+export default TeamView;

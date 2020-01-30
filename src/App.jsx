@@ -70,14 +70,16 @@ function App() {
         />
         <PrivateRoute
           exact
-          path="/dashboard/event/:id/participant-teams"
-          component={CreateTeam}
-        />
-        <PrivateRoute
-          exact
           path="/dashboard/event/participant-teams/:id/add-members"
           component={AddParticipantTeam}
         />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/participant-teams"
+          component={CreateTeam}
+        />
+
+
         <Redirect to="/register" />
       </Switch>
       <ToastContainer />

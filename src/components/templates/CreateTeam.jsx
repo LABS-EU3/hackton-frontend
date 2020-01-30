@@ -1,4 +1,12 @@
 import React, { useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  createTeamName,
+  fetchTeams
+} from "../../store/participantTeams/actions";
+import { Formik } from "formik";
+
 import { Footer } from "../organisms/index";
 import UserHeader from "../organisms/UserHeader";
 import BodyContainer from "../atoms/BodyContainer";
@@ -6,21 +14,34 @@ import styled from "styled-components";
 import { RowHead } from "../atoms/RowHead";
 import { H3 } from "../atoms/Heading";
 import Button from "../atoms/Button";
-import {
-  createTeamName,
-  fetchTeams
-} from "../../store/participantTeams/actions";
-import { useSelector, useDispatch } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
-import { Formik } from "formik";
+import TeamView from "./TeamView";
 
 const CreateTeam = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+
   useEffect(() => {
     dispatch(fetchTeams(id));
   }, [id, dispatch]);
+
+  // let formValue;
+  // const handleChange = e => {
+  //   formValue = e.target.value;
+  // };
+
+  // const handleTeamSubmit = e => {
+  //   e.preventDefault();
+  //   const teamData = {
+  //     team_name: formValue,
+  //     eventId: id
+  //   };
+  //   dispatch(createTeamName(teamData, history));
+  // };
+
+  // const { event_title } = useSelector(state =>
+  //   state.events.data.find(event => event.id === Number(id))
+  // );
 
   const BodyRow = styled(BodyContainer)`
     flex-direction: column;
@@ -80,6 +101,10 @@ const CreateTeam = () => {
     state.events.data.find(event => event.id === Number(id))
   );
 
+  const { userId } = useSelector(state => state.currentUser);
+  const createdTeam = useSelector(state =>
+    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
+  );
 
   return (
     <div>
@@ -89,31 +114,38 @@ const CreateTeam = () => {
           <H3>Participant Teams</H3>
         </RowHead>
         <BodyColumn>
-          <Formik initialValues={{ team_name: '' }} onSubmit={handleTeamSubmit}>
-            {props => (
-              <Form onSubmit={props.handleSubmit}>
-                <h4>
-                  You are creating a team for{" "}
-                  <span
-                    style={{ color: "#273F92", backgroundColor: "aliceblue" }}
-                  >
-                    {event_title}
-                  </span>
-                </h4>
-                <label>Team Name</label>
-                <input
-                  type="text"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.name}
-                  name="team_name"
-                />
-                <Button type='submit' color="green">
-                  Submit
-              </Button>
-              </Form>
-            )}
-          </Formik>
+          {createdTeam === undefined ? (
+            <Formik
+              initialValues={{ team_name: "" }}
+              onSubmit={handleTeamSubmit}
+            >
+              {props => (
+                <Form onSubmit={props.handleSubmit}>
+                  <h4>
+                    You are creating a team for{" "}
+                    <span
+                      style={{ color: "#273F92", backgroundColor: "aliceblue" }}
+                    >
+                      {event_title}
+                    </span>
+                  </h4>
+                  <label>Team Name</label>
+                  <input
+                    type="text"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.name}
+                    name="team_name"
+                  />
+                  <Button type="submit" color="green">
+                    Submit
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          ) : (
+            <TeamView />
+          )}
         </BodyColumn>
       </BodyRow>
       <Footer></Footer>

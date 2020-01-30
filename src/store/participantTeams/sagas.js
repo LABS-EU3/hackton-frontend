@@ -1,17 +1,16 @@
-import {
-  put,
-  takeLatest,
-  call,
-  all,
-  select
-} from "redux-saga/effects";
+import { put, takeLatest, call, all, select } from "redux-saga/effects";
 import {
   axiosWithAuth,
   selectToken,
   showSuccess,
   handleError
 } from "../../utils/api";
-import { ParticiPantTeamTypes, setTeams, setTeamMates } from "./actions";
+import {
+  ParticiPantTeamTypes,
+  setTeams,
+  setTeamMates,
+  fetchTeams
+} from "./actions";
 
 export function* participantTeamSagas() {
   yield all([
@@ -45,6 +44,7 @@ function* createTeamNameAsync({ payload, history }) {
     );
     if (data) {
       yield showSuccess(`😀 ${data.message}`);
+      yield put(fetchTeams(eventId));
     }
     const teamBody = data.body;
     let teamId;

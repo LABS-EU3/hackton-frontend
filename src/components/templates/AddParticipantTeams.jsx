@@ -25,16 +25,15 @@ const AddParticipantTeam = () => {
   const [matches, searchString, setSearchString] = useSearchUserByEmail();
 
 
-  const { userId } = useSelector(state => state.currentUser);
-  const createdTeam = useSelector(state =>
-    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
+  const { eventId} = useSelector(
+    state => state.participantTeams.team
   );
 
   const handleSubmit = () => {
     const data = {
       team_id: Number(id),
       team_member: selectedUser.id,
-      eventId: createdTeam.event_id
+      eventId: eventId
     };
     dispatch(addParticipantTeamMember(data, history));
   };
@@ -116,7 +115,6 @@ const AddParticipantTeam = () => {
       </Container>
     );
   };
-
 
   const RoleWidget = () => {
     return (
