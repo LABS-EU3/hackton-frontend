@@ -92,7 +92,7 @@ function* fetchTeamMatesAsync({ payload, history }) {
     );
     yield put(setTeamMates(body));
   } catch (error) {
-    handleError(error, put);
+    handleError(error, put, history);
   }
 }
 

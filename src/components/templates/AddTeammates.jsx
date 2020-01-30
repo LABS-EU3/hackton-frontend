@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-
-import { axiosWithAuth } from "../../utils/api";
 import { Footer } from "../organisms/index";
 import UserHeader from "../organisms/UserHeader";
 import WideBody from "../atoms/WideBody";
@@ -16,40 +14,16 @@ import { CardWide } from "../atoms/Card";
 import Button from "../atoms/Button";
 import { type, Solid, media } from "../index";
 import { addTeamMember } from "../../store/events/actions";
+import { useSearchUserByEmail } from '../../hooks';
 
 const AddTeammates = () => {
-  const [users, setUsers] = useState([]);
-  const [matches, setMatches] = useState([]);
-  const [searchString, setSearchString] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [role, setRole] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
-  const { token } = useSelector(state => state.currentUser);
+  const [matches, searchString, setSearchString] = useSearchUserByEmail();
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const {
-        data: {
-          body: { users }
-        }
-      } = await axiosWithAuth(token).get("/api/users");
-      setUsers(users);
-    };
-    getUsers();
-  }, [token]);
-
-  useEffect(() => {
-    const match = searchString
-      ? users
-          .filter(user =>
-            user?.email.toUpperCase().includes(searchString.toUpperCase())
-          )
-          .filter((_, i) => i < 5)
-      : [];
-    setMatches(match);
-  }, [searchString, users]);
 
   const handleSubmit = () => {
     const { email } = selectedUser;
@@ -104,7 +78,7 @@ const AddTeammates = () => {
         padding: 10px;
         margin: 0 20px 10px 0;
         ${({ display }) =>
-          display === "wide" ? `width: 100%;` : `width: 180px;`}
+        display === "wide" ? `width: 100%;` : `width: 180px;`}
 
         &:focus {
           transition: all 0.5s;

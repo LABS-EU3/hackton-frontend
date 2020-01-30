@@ -1,22 +1,18 @@
-import React, {useEffect } from "react";
-import {Footer } from "../organisms/index";
+import React, { useEffect } from "react";
+import { Footer } from "../organisms/index";
 import UserHeader from "../organisms/UserHeader";
 import BodyContainer from "../atoms/BodyContainer";
 import styled from "styled-components";
 import { RowHead } from "../atoms/RowHead";
-import {H3 } from "../atoms/Heading";
-import { Paragraph } from "../atoms/Paragraph";
-import { BoldSpan } from "../atoms/Span";
+import { H3 } from "../atoms/Heading";
 import Button from "../atoms/Button";
-import { NavLink } from "react-router-dom";
 import {
   createTeamName,
-  fetchTeams,
-  fetchTeamMates
+  fetchTeams
 } from "../../store/participantTeams/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { LetterIcon } from "../atoms/Icon";
+import { Formik } from "formik";
 
 const CreateTeam = () => {
   const dispatch = useDispatch();
@@ -40,40 +36,6 @@ const CreateTeam = () => {
     height: 100%;
     width: 100%;
     max-width: 100vw;
-  `;
-
-  const TeamsCont = styled(BodyContainer)`
-    background-color: white;
-    width: 50%;
-    height: 40%;
-    overflow-y: auto;
-    border: 1px solid lightgray;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 25%;
-    border-radius: 6px;
-    padding: 20px;
-
-    p {
-      margin: 0;
-      padding: 3px;
-    }
-
-    button {
-      margin: 20px;
-    }
-  `;
-
-  const FancyBoldSpan = styled(BoldSpan)`
-    border-bottom: 1px solid lightgray;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 100%;
-  `;
-
-  const StyledLetterIcon = styled(LetterIcon)`
-    margin: 0 20px 0 0 !important;
   `;
 
   const Form = styled.form`
@@ -105,20 +67,10 @@ const CreateTeam = () => {
       margin: 10px;
     }
   `;
-  const NormalSpan = styled(BoldSpan)`
-    font-weight: normal;
-    padding: 5px;
-  `;
 
-  let formValue;
-  const handleChange = e => {
-    formValue = e.target.value;
-  };
-
-  const handleTeamSubmit = e => {
-    e.preventDefault();
+  const handleTeamSubmit = values => {
     const teamData = {
-      team_name: formValue,
+      team_name: values.team_name,
       eventId: id
     };
     dispatch(createTeamName(teamData, history));
@@ -127,19 +79,6 @@ const CreateTeam = () => {
   const { event_title } = useSelector(state =>
     state.events.data.find(event => event.id === Number(id))
   );
-  const { userId } = useSelector(state => state.currentUser);
-  const createdTeam = useSelector(state =>
-    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
-  );
-  useEffect(() => {
-    if (createdTeam !== undefined) {
-      dispatch(fetchTeamMates(createdTeam.id));
-    }
-  }, [createdTeam, dispatch]);
-  const fetchedTeamMembers = useSelector(
-    state => state.participantTeams.fetchTeamMateData
-  );
-  const initial = createdTeam.team_name[0];
 
 
   return (
@@ -150,74 +89,31 @@ const CreateTeam = () => {
           <H3>Participant Teams</H3>
         </RowHead>
         <BodyColumn>
-          {createdTeam === undefined ? (
-            <Form>
-              <h4>
-                You are creating a team for{" "}
-                <span
-                  style={{ color: "#273F92", backgroundColor: "aliceblue" }}
-                >
-                  {event_title}
-                </span>
-              </h4>
-              <label>Team Name</label>
-              <input
-                type="text"
-                onChange={e => handleChange(e)}
-                name="team_name"
-              />
-              <Button onClick={handleTeamSubmit} color="green">
-                Submit
+          <Formik initialValues={{ team_name: '' }} onSubmit={handleTeamSubmit}>
+            {props => (
+              <Form onSubmit={props.handleSubmit}>
+                <h4>
+                  You are creating a team for{" "}
+                  <span
+                    style={{ color: "#273F92", backgroundColor: "aliceblue" }}
+                  >
+                    {event_title}
+                  </span>
+                </h4>
+                <label>Team Name</label>
+                <input
+                  type="text"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.name}
+                  name="team_name"
+                />
+                <Button type='submit' color="green">
+                  Submit
               </Button>
-            </Form>
-          ) : (
-            <TeamsCont>
-              <StyledLetterIcon>{initial}</StyledLetterIcon>
-              <FancyBoldSpan>Your Team</FancyBoldSpan>
-              <FancyBoldSpan>
-                Team Name:
-                <NormalSpan>{createdTeam.team_name}</NormalSpan>
-              </FancyBoldSpan>
-              <FancyBoldSpan style={{ borderBottom: "none" }}>
-                Team Members:
-              </FancyBoldSpan>
-              {fetchedTeamMembers.length !== 0 ? (
-                <div
-                  style={{
-                    borderBottom: "1px solid lightgray",
-                    width: "100%",
-                    paddingBottom: "10px"
-                  }}
-                >
-                  {fetchedTeamMembers.map(member => {
-                    return member.team_member_fullname === null ? (
-                      <Paragraph key={member.id}>
-                        {member.team_member_email}
-                      </Paragraph>
-                    ) : (
-                      <Paragraph key={member.id}>
-                        {member.team_member_fullname}
-                      </Paragraph>
-                    );
-                  })}
-                </div>
-              ) : (
-                <FancyBoldSpan>This team has no members</FancyBoldSpan>
-              )}
-              <FancyBoldSpan>
-                Hackathon Name:
-                <NormalSpan>{event_title}</NormalSpan>
-              </FancyBoldSpan>
-              <Button color="green">
-                <NavLink
-                  style={{ textDecoration: "none", color: "white" }}
-                  to={`/dashboard/event/participant-teams/${createdTeam.id}/add-members`}
-                >
-                  Add Teammate
-                </NavLink>{" "}
-              </Button>
-            </TeamsCont>
-          )}
+              </Form>
+            )}
+          </Formik>
         </BodyColumn>
       </BodyRow>
       <Footer></Footer>
