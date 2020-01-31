@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -14,13 +14,13 @@ import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { Column } from "../atoms/Column";
-// import { Row } from "../atoms/Row";
+import { Row } from "../atoms/Row";
 import { CardWide } from "../atoms/Card";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
-// import profileImg from "../../assets/profile-image.png";
+import profileImg from "../../assets/profile-image.png";
 
 import {
   updateUserProfile
@@ -29,37 +29,52 @@ import {
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
 `;
-// const NewLabel = styled(Label)`
-//   padding-left: 3px;
-// `;
+const NewLabel = styled(Label)`
+  padding-left: 3px;
+`;
 const CardWider = styled(CardWide)`
   margin-left: 150px;
 `;
-// const ProfileRow = styled(Row)`
-//   justify-content: space-around;
-// `;
+const ProfileRow = styled(Row)`
+  justify-content: space-around;
+`;
 
-// var border = {
-//   borderRadius: "50%",
-//   width: "20%"
-// };
-// var pad = {
-//   marginRight: "5px"
-// };
+var border = {
+  borderRadius: "50%",
+  width: "20%"
+};
+var pad = {
+  marginRight: "5px"
+};
 
 const UserProfileForm = ({initialState}) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const handleSubmit = values => {
-      dispatch(updateUserProfile(values, history));
+  const [selectedImage, setSelectedImage] = useState(null)
+  // let file = null
+  const handleSubmit = (values, a) => {
+    const data = {
+      ...values,
+      image_url: selectedImage,
+    }
+    // values.append('image_url', selectedImage, selectedImage.name)
+    // console.log(data)
+      dispatch(updateUserProfile(data, history));
+      console.log('file data', data)
   };
 
   const defaultState = {
     bio: initialState?.bio || "",
     fullname: initialState?.fullname || "",
     email: initialState?.email || "",
-    username: initialState?.username || ""
+    username: initialState?.username || "",
+    image: initialState?.image || ""
   }
+
+  console.log('default state',defaultState);
+  
+  // console.log(JSON.parse(initialState.image_url[0]).avatar);
+  
 
   const schema = Yup.object().shape({
     fullname: Yup.string().required("fullname is required"),
@@ -88,26 +103,27 @@ const UserProfileForm = ({initialState}) => {
               >
                 {({ errors, touched }) => (
                   <Form>
-                    {/* <Column>
+                    <Column>
                       <NewLabel htmlFor="image">Profile picture</NewLabel>
                       <ProfileRow>
                         <img
                           alt="profile thumbnail"
-                          src={profileImg}
+                          src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg}
                           style={border}
                         />
+
                         <Row>
-                          <div>
+                          {/* <div>
                             <Button to="/dashboard" color="blue" style={pad}>
                               Upload New Picture
                             </Button>
                             <Button to="/dashboard" color="grey" anchor>
                               Remove
                             </Button>
-                          </div>
+                          </div> */}
                         </Row>
                       </ProfileRow>
-                    </Column> */}
+                    </Column>
 
                     <RowBody>
                       <Label htmlFor="fullname">Full Name</Label>
@@ -116,6 +132,17 @@ const UserProfileForm = ({initialState}) => {
                         name="fullname"
                         display="wide"
                         placeholder="Full Name"
+                      />
+                    </RowBody>
+
+                    <RowBody>
+                      <Label htmlFor="image">Profile Image</Label>
+                      <Input
+                        type="file"
+                        name="image"
+                        display="wide"
+                        placeholder="Profile picture"
+                        onChange={(e) => setSelectedImage(e.target.files[0])}
                       />
                     </RowBody>
                     <RowBody>

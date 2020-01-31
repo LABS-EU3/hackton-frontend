@@ -108,6 +108,7 @@ function* watchFetchUserProfile() {
 
 function* updateUserProfileAsync({ payload, history }) {
   try {
+    // console.log("in saga", payload)
     const token = yield select(selectToken);
     const {
       data: {
@@ -117,7 +118,7 @@ function* updateUserProfileAsync({ payload, history }) {
     } = yield axiosWithAuth(token).put("/api/users/profile", payload);
     yield put(setUserProfile(userUpdates));
     yield showSuccess(`🎉 ${message}`);
-    yield history.push("/dashboard");
+    // yield history.push("/dashboard");
   } catch (error) {
     handleError(error, put);
   }
