@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { axiosWithAuth, selectToken } from '../utils/api';
 
@@ -43,12 +43,15 @@ export const useSearchUserByEmail = () => {
 export const useParticipants = id => {
   const [participants, setParticipants] = useState([]);
   const token = useSelector(selectToken);
-  const fetchParticipants = async () => {
-    const {
-      data: { body }
-    } = await axiosWithAuth(token).get(`/api/events/${id}/participants`);
-    setParticipants(body);
-  };
+  const fetchParticipants = useCallback(() => {
+    const fetchData = async () => {
+      const {
+        data: { body }
+      } = await axiosWithAuth(token).get(`/api/events/${id}/participants`);
+      setParticipants(body);
+    };
+    fetchData();
+  }, [id, token])
 
   useEffect(() => {
     fetchParticipants();
@@ -60,12 +63,15 @@ export const useParticipants = id => {
 export const useEventTeam = id => {
   const [team, setTeam] = useState([]);
   const token = useSelector(selectToken);
-  const fetchEventTeam = async () => {
-    const {
-      data: { body: { members } }
-    } = await axiosWithAuth(token).get(`/api/events/${id}/team`);
-    setTeam(members);
-  };
+  const fetchEventTeam = useCallback(() => {
+    const fetchData = async () => {
+      const {
+        data: { body: { members } }
+      } = await axiosWithAuth(token).get(`/api/events/${id}/team`);
+      setTeam(members);
+    };
+    fetchData();
+  }, [id, token]);
 
   useEffect(() => {
     fetchEventTeam();
@@ -78,4 +84,26 @@ export const useJudges = id => {
   const team = useEventTeam(id);
   const judges = team.filter(t => t.role_type === 'judge');
   return judges;
+}
+
+export const useTeams = id => {
+  const [teams, setTeams] = useState([]);
+  const token = useSelector(selectToken);
+
+  const fetchTeams = useCallback(() => {
+    const fetchData = async () => {
+      const { data: { body }
+      } = await axiosWithAuth(token).get(
+        `/api/events/${id}/participant-teams`
+      );
+      setTeams(body);
+    }
+    fetchData();
+  }, [id, token]);
+
+  useEffect(() => {
+    fetchTeams();
+  }, [fetchTeams]);
+
+  return [teams, fetchTeams];
 }
