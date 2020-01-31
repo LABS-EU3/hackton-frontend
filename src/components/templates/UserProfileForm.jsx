@@ -39,11 +39,9 @@ const CardWider = styled(CardWide)`
 const UserProfileForm = ({initialState}) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [selectedImage, setSelectedImage] = useState(initialState?.image_url)
-  // let file = null
+  const [selectedImage, setSelectedImage] = useState(initialState?.image_url);
+
   const handleSubmit = (values, a) => {
-    // values.append('image_url', selectedImage, selectedImage.name)
-    // console.log(data)
     const formData = new FormData();
     formData.append('image_url', selectedImage);
     formData.append('bio', values.bio);
@@ -59,12 +57,7 @@ const UserProfileForm = ({initialState}) => {
     fullname: initialState?.fullname || "",
     email: initialState?.email || "",
     username: initialState?.username || ""
-    // image_url: initialState?.image_url
   }
-
-  
-  // console.log(JSON.parse(initialState.image_url[0]).avatar);
-  
 
   const schema = Yup.object().shape({
     fullname: Yup.string().required("fullname is required"),
