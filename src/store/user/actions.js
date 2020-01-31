@@ -9,7 +9,9 @@ export const UserTypes = {
   PURGE: "PURGE",
   FETCH_USER_PROFILE: "FETCH_USER_PROFILE",
   UPDATE_USER_PROFILE: "UPDATE_USER_PROFILE",
-  RESET_PASSWORD: 'RESET_PASSWORD', FORGOT_PASSWORD: 'FORGOT_PASSWORD',
+  RESET_PASSWORD: 'RESET_PASSWORD',
+  FORGOT_PASSWORD: 'FORGOT_PASSWORD',
+  REGISTER_TEAM_MEMBER: 'REGISTER_TEAM_MEMBER'
 
 };
 
@@ -82,5 +84,12 @@ export const forgotPassword = (email, history) => {
     type: UserTypes.FORGOT_PASSWORD,
     payload: email,
     history
+  }
+}
+
+export const registerTeamMember = (team, role) => {
+  return {
+    type: UserTypes.REGISTER_TEAM_MEMBER,
+    payload: { team, role }
   }
 }
