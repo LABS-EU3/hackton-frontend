@@ -107,3 +107,24 @@ export const useTeams = id => {
 
   return [teams, fetchTeams];
 }
+
+export const useSubmissions = id => {
+  const [submissions, setSubmissions] = useState([]);
+  const token = useSelector(selectToken);
+  const fetchSubmissions = useCallback(() => {
+    const fetchData = async () => {
+      const { data: { body }
+      } = await axiosWithAuth(token).get(
+        `/api/events/${id}/projects`
+      );
+      setSubmissions(body);
+    }
+    fetchData();
+  }, [id, token]);
+
+  useEffect(() => {
+    fetchSubmissions();
+  }, [fetchSubmissions]);
+
+  return [submissions, fetchSubmissions];
+}
