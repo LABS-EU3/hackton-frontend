@@ -140,9 +140,6 @@ function* watchForgotPassword() {
 function* resetPasswordAsync({ payload: password }) {
   try {
     const { data } = yield axios.patch('/api/auth/resetpassword', { password });
-    if (data) {
-      history.push('/login')
-    }
   } catch (error) {
     handleError(error, put);
   }
