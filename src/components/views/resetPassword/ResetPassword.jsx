@@ -11,10 +11,12 @@ import { CardForm } from "../../atoms/Card";
 import { RowHead } from "../../atoms/RowHead";
 import { RowBody } from "../../atoms/RowBody";
 import { Column } from "../../atoms/Column";
-import { Header, Footer } from "../../organisms/index";
+import { Footer } from "../../organisms/index";
 import Button from "../../atoms/Button";
 import { ErrorSpan } from "../../atoms/Span";
 import { forgotPassword } from '../../../store/user/actions';
+import UserHeader from "../../organisms/UserHeader";
+import { useHistory } from "react-router-dom";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -23,10 +25,11 @@ const BodyContainerColumn = styled(BodyContainer)`
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSubmit = values => {
     const { email } = values;
-    dispatch(forgotPassword(email));
+    dispatch(forgotPassword(email, history));
   };
 
   const schema = Yup.object().shape({
@@ -37,7 +40,7 @@ const ResetPassword = () => {
 
   return (
     <div>
-      <Header />
+      <UserHeader />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
