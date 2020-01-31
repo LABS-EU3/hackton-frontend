@@ -14,13 +14,13 @@ import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { Column } from "../atoms/Column";
-import { Row } from "../atoms/Row";
 import { CardWide } from "../atoms/Card";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import profileImg from "../../assets/profile-image.png";
+import ProfileImage from '../molecules/ProfileImage';
 
 import {
   updateUserProfile
@@ -35,43 +35,33 @@ const NewLabel = styled(Label)`
 const CardWider = styled(CardWide)`
   margin-left: 150px;
 `;
-const ProfileRow = styled(Row)`
-  justify-content: space-around;
-`;
-
-var border = {
-  borderRadius: "50%",
-  width: "20%"
-};
-var pad = {
-  marginRight: "5px"
-};
 
 const UserProfileForm = ({initialState}) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedImage, setSelectedImage] = useState(initialState?.image_url)
   // let file = null
   const handleSubmit = (values, a) => {
-    const data = {
-      ...values,
-      image_url: selectedImage,
-    }
     // values.append('image_url', selectedImage, selectedImage.name)
     // console.log(data)
-      dispatch(updateUserProfile(data, history));
-      console.log('file data', data)
+    const formData = new FormData();
+    formData.append('image_url', selectedImage);
+    formData.append('bio', values.bio);
+    formData.append('fullname', values.fullname);
+    formData.append('email', values.email);
+    formData.append('username', values.username);
+      dispatch(updateUserProfile(formData, history));
+      console.log('===file data===', formData)
   };
 
   const defaultState = {
     bio: initialState?.bio || "",
     fullname: initialState?.fullname || "",
     email: initialState?.email || "",
-    username: initialState?.username || "",
-    image: initialState?.image
+    username: initialState?.username || ""
+    // image_url: initialState?.image_url
   }
 
-  console.log('default state',defaultState);
   
   // console.log(JSON.parse(initialState.image_url[0]).avatar);
   
@@ -103,27 +93,11 @@ const UserProfileForm = ({initialState}) => {
               >
                 {({ errors, touched }) => (
                   <Form>
-                    <Column>
                       <NewLabel htmlFor="image">Profile picture</NewLabel>
-                      <ProfileRow>
-                        <img
-                          alt="profile thumbnail"
-                          src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg}
-                          style={border}
-                        />
-
-                        {/* <Row>
-                          <div>
-                            <Button to="/dashboard" color="blue" style={pad}>
-                              Upload New Picture
-                            </Button>
-                            <Button to="/dashboard" color="grey" anchor>
-                              Remove
-                            </Button>
-                          </div>
-                        </Row> */}
-                      </ProfileRow>
-                    </Column>
+                      <ProfileImage
+                      image={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg}
+                      name={initialState?.username}
+                      />
 
                     <RowBody>
                       <Label htmlFor="fullname">Full Name</Label>
@@ -139,9 +113,10 @@ const UserProfileForm = ({initialState}) => {
                       <Label htmlFor="image">Profile Image</Label>
                       <Input
                         type="file"
-                        name="image"
+                        name="image_url"
                         display="wide"
                         placeholder="Profile picture"
+                        accept="image/*"
                         onChange={(e) => setSelectedImage(e.target.files[0])}
                       />
                     </RowBody>
