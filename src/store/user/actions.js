@@ -77,9 +77,10 @@ export const resetPassword = (password) => {
   }
 }
 
-export const forgotPassword = email => {
+export const forgotPassword = (email, history) => {
   return {
     type: UserTypes.FORGOT_PASSWORD,
-    payload: email
+    payload: email,
+    history
   }
 }

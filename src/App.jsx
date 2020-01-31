@@ -19,6 +19,9 @@ import PageNotFound from "./components/views/PageNotFound";
 import UserProfileFormPage from "./components/views/UserProfileFormPage";
 import CreateTeam from "./components/templates/CreateTeam";
 import AddParticipantTeam from "./components/templates/AddParticipantTeams";
+import ResetPassword from './components/views/resetPassword/ResetPassword';
+import ResetPasswordConfirmation from './components/views/resetPassword/ResetPasswordConfirmation';
+import NewPassword from './components/views/resetPassword/NewPassword';
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
         <Route exact path="/not-found" component={PageNotFound} />
         <Route exact path="/register" component={SignupPage} />
         <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/forgotpassword" component={ResetPassword} />
+        <Route exact path="/resetPasswordConfirmation" component={ResetPasswordConfirmation} />
+        <Route exact path="/resetpassword" component={NewPassword} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute
           exact
@@ -78,7 +84,6 @@ function App() {
           path="/dashboard/event/:id/participant-teams"
           component={CreateTeam}
         />
-        <Route path='not-found' component={PageNotFound} />
         <Redirect to="/not-found" />
       </Switch>
       <ToastContainer />
