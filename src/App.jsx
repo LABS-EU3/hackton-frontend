@@ -19,69 +19,74 @@ import PageNotFound from "./components/views/PageNotFound";
 import UserProfileFormPage from "./components/views/UserProfileFormPage";
 import CreateTeam from "./components/templates/CreateTeam";
 import AddParticipantTeam from "./components/templates/AddParticipantTeams";
+import ResetPassword from './components/views/resetPassword/ResetPassword';
+import ResetPasswordConfirmation from './components/views/resetPassword/ResetPasswordConfirmation';
+import NewPassword from './components/views/resetPassword/NewPassword';
 
 function App() {
   return (
     <>
-        <GlobalStyles />
-        <Switch>
-          <Route exact path="/not-found" component={PageNotFound} />
-          <Route exact path="/register" component={SignupPage} />
-          <Route exact path="/login" component={LoginPage} />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <PrivateRoute
-            exact
-            path="/dashboard/new"
-            component={HackathonFormPage}
-          />
-          <PrivateRoute
-            exact
-            path="/dashboard/event/:id/participant_submission"
-            component={ParticipantSubmissionPage}
-          />
-          <PrivateRoute
-            exact
-            path="/dashboard/event/:id"
-            component={HackathonSinglePage}
-          />
-          <PrivateRoute
-            exact
-            path="/dashboard/event/:id/edit"
-            component={EditHackathon}
-          />
-          <PrivateRoute
-            exact
-            path="/dashboard/event/:id/team"
-            component={AddTeammates}
-          />
-          <PrivateRoute
-            exact
-            path="/dashboard/profile/edit"
-            component={UserProfileFormPage}
-          />
-          <PrivateRoute
-            path="/dashboard/event/:id/projects"
-            component={HackathonProjectsPage}
-          />
-          <PrivateRoute
-            exact
-            path="/dashboard/event/:id/project/:projectId"
-            component={HackathonProjectPage}
-          />
-          <PrivateRoute
-            exact
-            path="/dashboard/event/participant-teams/:id/add-members"
-            component={AddParticipantTeam}
-          />
-          <PrivateRoute
-            exact
-            path="/dashboard/event/:id/participant-teams"
-            component={CreateTeam}
-          />
-
-          <Redirect to="/register" />
-        </Switch>
-        <ToastContainer />
+      <GlobalStyles />
+      <Switch>
+        <Route exact path="/not-found" component={PageNotFound} />
+        <Route exact path="/register" component={SignupPage} />
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/forgotpassword" component={ResetPassword} />
+        <Route exact path="/resetPasswordConfirmation" component={ResetPasswordConfirmation} />
+        <Route exact path="/resetpassword" component={NewPassword} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute
+          exact
+          path="/dashboard/new"
+          component={HackathonFormPage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/participant_submission"
+          component={ParticipantSubmissionPage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id"
+          component={HackathonSinglePage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/edit"
+          component={EditHackathon}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/team"
+          component={AddTeammates}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/profile/edit"
+          component={UserProfileFormPage}
+        />
+        <PrivateRoute
+          path="/dashboard/event/:id/projects"
+          component={HackathonProjectsPage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/project/:projectId"
+          component={HackathonProjectPage}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/participant-teams/:id/add-members"
+          component={AddParticipantTeam}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/participant-teams"
+          component={CreateTeam}
+        />
+        <Redirect to={'/not-found'} />
+      </Switch>
+      <ToastContainer />
     </>
   );
 }

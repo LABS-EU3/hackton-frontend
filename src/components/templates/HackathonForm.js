@@ -31,6 +31,8 @@ import {
   updateEvent
 } from "../../store/events/actions";
 
+import { format } from '../../utils/date';
+
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
   justify-content: start;
@@ -108,6 +110,8 @@ const HackathonForm = ({ initialState }) => {
     }
   `;
 
+  const today = format(new Date());
+
   return (
     <div>
       <UserHeader />
@@ -128,7 +132,7 @@ const HackathonForm = ({ initialState }) => {
                 validationSchema={schema}
                 enableReinitialize
               >
-                {({ errors, touched }) => (
+                {({ errors, touched, values: { start_date, end_date } }) => (
                   <Form>
                     <RowBody justify="start">
                       <Label htmlFor="event_title">Hackathon Title</Label>
@@ -153,6 +157,8 @@ const HackathonForm = ({ initialState }) => {
                           type="date"
                           name="start_date"
                           placeholder="Event starts"
+                          value={start_date || today}
+                          min={today}
                         />
                         {errors.name && touched.name ? (
                           <div>{errors.name}</div>
@@ -168,6 +174,8 @@ const HackathonForm = ({ initialState }) => {
                           type="date"
                           name="end_date"
                           placeholder="Event ends"
+                          value={end_date || start_date || today}
+                          min={start_date}
                         />
                         {errors.name && touched.name ? (
                           <div>{errors.name}</div>

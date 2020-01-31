@@ -11,6 +11,7 @@ const SignupPage = () => {
   let { search } = useLocation();
   const dispatch = useDispatch();
   const { token } = useSelector(state => state.currentUser);
+  const { state } = useLocation();
 
   useEffect(() => {
     const parsed = queryString.parse(search);
@@ -20,7 +21,7 @@ const SignupPage = () => {
   }, [search, dispatch]);
 
   if (token) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to={state?.from || '/dashboard'} />;
   }
 
   return (

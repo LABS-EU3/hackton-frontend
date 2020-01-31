@@ -1,5 +1,6 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -13,20 +14,34 @@ import { ErrorSpan } from "../atoms/Span";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
+import { type, smallFontSize, Solid } from "../index";
+import { SocialMediaContainer } from "../atoms/SocialIcon";
+
+const StyledAnchor = styled(Link)`
+  font-family: ${type.ROBOTO_MONO};
+  font-size: ${smallFontSize};
+  font-weight: 300;
+  color: ${Solid.BLACK};
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    color:${Solid.BLUE};
+  }
+`;
 
 const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const handleSubmit = values => {
     const { email, password } = values;
     if (ctaText.toLowerCase() === "log in") {
-      dispatch(login(email, password, history));
+      dispatch(login(email, password));
       toast.success("🦄 Logging you in!", {
         position: toast.POSITION.BOTTOM_RIGHT
       });
     } else {
-      dispatch(register(email, password, history));
+      dispatch(register(email, password));
       toast.success(" 🚀 A moment while we record your details!", {
         position: toast.POSITION.BOTTOM_RIGHT
       });
@@ -83,6 +98,9 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
       </Formik>
 
       <SocialMedia></SocialMedia>
+      <SocialMediaContainer>
+      {ctaText.toLowerCase() === "log in" && <StyledAnchor to='/forgotpassword'>Forgot Password</StyledAnchor>}
+      </SocialMediaContainer>
     </Container>
   );
 };
