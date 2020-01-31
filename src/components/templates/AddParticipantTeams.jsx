@@ -24,8 +24,7 @@ const AddParticipantTeam = () => {
   const { id } = useParams();
   const [matches, searchString, setSearchString] = useSearchUserByEmail();
 
-
-  const { eventId} = useSelector(
+  const { eventId } = useSelector(
     state => state.participantTeams.team
   );
 

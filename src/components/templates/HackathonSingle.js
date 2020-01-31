@@ -23,8 +23,7 @@ import {
   unregisterEvent
 } from "../../store/eventParticipants/actions";
 
-import { createTeam } from "../../store/participantTeams/actions";
-import { useParticipants, useEventTeam, useTeams } from "../../hooks";
+import { useParticipants, useEventTeam } from "../../hooks";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -150,7 +149,6 @@ const HackathonSingle = () => {
   const { userId } = useSelector(state => state.currentUser);
   const [participants, fetchParticipants] = useParticipants(id);
   const [team] = useEventTeam(id);
-  const [teams] = useTeams(id);
 
   // Filter out event by URL param & grab user ID
   const {
@@ -219,8 +217,6 @@ const HackathonSingle = () => {
     }
     return fetchParticipants();
   };
-
-  const createdTeam = teams.find(team => team.team_lead === userId);
 
   return (
     <div>

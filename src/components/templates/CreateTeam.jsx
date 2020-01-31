@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  createTeamName,
-  fetchTeams
+  createTeamName
 } from "../../store/participantTeams/actions";
 import { Formik } from "formik";
 
@@ -15,15 +14,19 @@ import { RowHead } from "../atoms/RowHead";
 import { H3 } from "../atoms/Heading";
 import Button from "../atoms/Button";
 import TeamView from "./TeamView";
+import { useTeams } from "../../hooks";
 
 const CreateTeam = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+  const { userId } = useSelector(state => state.currentUser);
+  const [teams, fetchTeams] = useTeams(id);
+  const team = teams.find(t => t.team_lead === userId);
 
   useEffect(() => {
-    dispatch(fetchTeams(id));
-  }, [id, dispatch]);
+    fetchTeams();
+  }, [fetchTeams]);
 
   // let formValue;
   // const handleChange = e => {
@@ -101,20 +104,15 @@ const CreateTeam = () => {
     state.events.data.find(event => event.id === Number(id))
   );
 
-  const { userId } = useSelector(state => state.currentUser);
-  const createdTeam = useSelector(state =>
-    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
-  );
-
   return (
     <div>
-      <UserHeader></UserHeader>
+      <UserHeader />
       <BodyRow>
         <RowHead>
           <H3>Participant Teams</H3>
         </RowHead>
         <BodyColumn>
-          {createdTeam === undefined ? (
+          {team ? (
             <Formik
               initialValues={{ team_name: "" }}
               onSubmit={handleTeamSubmit}
@@ -144,11 +142,11 @@ const CreateTeam = () => {
               )}
             </Formik>
           ) : (
-            <TeamView />
-          )}
+              <TeamView />
+            )}
         </BodyColumn>
       </BodyRow>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 };
