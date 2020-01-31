@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import queryString from 'query-string';
 
 import Container from "../atoms/Container";
 import { H1 } from "../atoms/Heading";
@@ -32,6 +33,8 @@ const StyledAnchor = styled(Link)`
 
 const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
   const dispatch = useDispatch();
+  const { search } = useLocation();
+  const { team, role } = queryString.parse(search);
 
   const handleSubmit = values => {
     const { email, password } = values;
@@ -41,7 +44,7 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
         position: toast.POSITION.BOTTOM_RIGHT
       });
     } else {
-      dispatch(register(email, password));
+      dispatch(register(email, password, role, team));
       toast.success(" 🚀 A moment while we record your details!", {
         position: toast.POSITION.BOTTOM_RIGHT
       });
@@ -99,7 +102,7 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
 
       <SocialMedia></SocialMedia>
       <SocialMediaContainer>
-      {ctaText.toLowerCase() === "log in" && <StyledAnchor to='/forgotpassword'>Forgot Password</StyledAnchor>}
+        {ctaText.toLowerCase() === "log in" && <StyledAnchor to='/forgotpassword'>Forgot Password</StyledAnchor>}
       </SocialMediaContainer>
     </Container>
   );

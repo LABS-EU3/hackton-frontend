@@ -29,12 +29,13 @@ function App() {
       <GlobalStyles />
       <Switch>
         <Route exact path="/not-found" component={PageNotFound} />
-        <Route exact path="/register" component={SignupPage} />
+        <Route path="/register" component={SignupPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/forgotpassword" component={ResetPassword} />
         <Route exact path="/resetPasswordConfirmation" component={ResetPasswordConfirmation} />
         <Route exact path="/resetpassword" component={NewPassword} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute exact path="/" component={Dashboard} />
         <PrivateRoute
           exact
           path="/dashboard/new"
@@ -84,7 +85,7 @@ function App() {
           path="/dashboard/event/:id/participant-teams"
           component={CreateTeam}
         />
-        <Redirect to={'/not-found'} />
+        <Redirect to="/not-found" />
       </Switch>
       <ToastContainer />
     </>

@@ -71,7 +71,7 @@ function* gradeSubmissionAsync({ id, payload, history }) {
       payload
     );
     if (data) {
-      history.push(` /dashboard/event/${id}/projects`);
+      history.push(`/dashboard/event/${payload.project_event_id}/projects`);
     }
   } catch (error) {
     handleError(error, put, history);

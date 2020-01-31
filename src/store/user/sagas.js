@@ -40,11 +40,16 @@ function* watchLogin() {
   yield takeLatest(UserTypes.LOGIN, loginAsync);
 }
 
-function* registerAsync({ payload }) {
+function* registerAsync({ payload: { team, role, email, password } }) {
+  const teamRegistration = () => axios.post(`/api/auth/register/${team}?role=${role}
+`, { email, password });
+  const participantRegistration = () => axios.post(`/api/auth/register/${team}`, { email, password });
+  const regularRegistration = () => axios.post("/api/auth/register", { email, password });
   try {
     const {
       data: { body }
-    } = yield axios.post("/api/auth/register", payload);
+    } = yield (team && role ? teamRegistration() : team ? participantRegistration() : regularRegistration());
+
     yield put(setUser(body.token));
     showSuccess(`😎 Welcome`);
   } catch (error) {
@@ -137,9 +142,12 @@ function* watchForgotPassword() {
   yield takeLatest(UserTypes.FORGOT_PASSWORD, forgotPasswordAsync);
 }
 
-function* resetPasswordAsync({ payload: password }) {
+function* resetPasswordAsync({ payload: password, history }) {
   try {
     const { data } = yield axios.patch('/api/auth/resetpassword', { password });
+    if (data) {
+      return history.push('/login');
+    }
   } catch (error) {
     handleError(error, put);
   }

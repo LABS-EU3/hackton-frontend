@@ -15,6 +15,7 @@ import { Header, Footer } from "../../organisms/index";
 import Button from "../../atoms/Button";
 import { ErrorSpan } from "../../atoms/Span";
 import { resetPassword } from '../../../store/user/actions';
+import { useHistory } from "react-router-dom";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -22,23 +23,24 @@ const BodyContainerColumn = styled(BodyContainer)`
 `;
 
 const ResetPassword = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSubmit = values => {
     const { newPassword, newPasswordConfirm } = values;
     if (newPassword === newPasswordConfirm) {
-        dispatch(resetPassword(newPassword));
-    } 
+      dispatch(resetPassword(newPassword, history));
+    }
   };
 
-    const schema = Yup.object().shape({
-        newPassword: Yup.string()
-          .required("Password is required.")
-          .min(8, "Password must be at least 8 characters long."),
-        newPasswordConfirm: Yup.string()
-        .oneOf([Yup.ref('newPassword'), null], "Passwords must match")
-        .required('Password confirm is required')
-      });
+  const schema = Yup.object().shape({
+    newPassword: Yup.string()
+      .required("Password is required.")
+      .min(8, "Password must be at least 8 characters long."),
+    newPasswordConfirm: Yup.string()
+      .oneOf([Yup.ref('newPassword'), null], "Passwords must match")
+      .required('Password confirm is required')
+  });
 
   return (
     <div>
@@ -52,10 +54,10 @@ const ResetPassword = () => {
           <Column>
             <CardForm>
               <Formik
-               initialValues={{ newPassword: "", newPasswordConfirm: "" }}
+                initialValues={{ newPassword: "", newPasswordConfirm: "" }}
                 onSubmit={handleSubmit}
                 validationSchema={schema}
-                >
+              >
                 {({ errors, touched }) => (
                   <Form>
                     <Input
