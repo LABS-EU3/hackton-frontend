@@ -68,7 +68,7 @@ const UserProfileForm = ({initialState}) => {
     fullname: initialState?.fullname || "",
     email: initialState?.email || "",
     username: initialState?.username || "",
-    image: initialState?.image || ""
+    image: initialState?.image
   }
 
   console.log('default state',defaultState);
