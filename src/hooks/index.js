@@ -52,7 +52,7 @@ export const useParticipants = id => {
 
   useEffect(() => {
     fetchParticipants();
-  });
+  }, [fetchParticipants]);
 
   return [participants, fetchParticipants];
 }
@@ -69,7 +69,7 @@ export const useEventTeam = id => {
 
   useEffect(() => {
     fetchEventTeam();
-  })
+  }, [fetchEventTeam])
 
   return [team, fetchEventTeam];
 }

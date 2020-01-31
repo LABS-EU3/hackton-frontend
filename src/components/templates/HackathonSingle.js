@@ -183,6 +183,7 @@ const HackathonSingle = () => {
   const isEventCreator = creator_id === userId;
   const isTeamMember = team.find(userCallback) || isEventCreator;
   const isEnded = today > endTime;
+  const individualParticipation = participation_type === 'individual';
 
   // Number of participants registered
   const registeredPartcipants = participants.length;
@@ -213,9 +214,9 @@ const HackathonSingle = () => {
 
     if (isRegistered) {
       dispatch(unregisterEvent(id, history));
-    } else if (participation_type === 'team') {
-      dispatch(createTeam(id, history));
-    } else dispatch(registerEvent(id, history));
+    } else {
+      dispatch(registerEvent(id, history));
+    }
     return fetchParticipants();
   };
 
@@ -400,7 +401,30 @@ const HackathonSingle = () => {
                     color="green"
                   >
                     Add Teammates
-                  </Button>)}
+                  </Button>
+                )}
+                {!isTeamMember && isOpen ? (
+                  <Button
+                    color={isRegistered ? "grey" : "green"}
+                    {...{
+                      anchor: !individualParticipation,
+                      onClick: individualParticipation ? handleRegistration : null,
+                      to: !individualParticipation ? `/dashboard/event/${id}/participant-teams` : null
+                    }}
+                  >
+                    {isRegistered ? `Unregister` : `Register`}
+                  </Button>
+                ) : !isOpen && (
+                  <Button
+                    style={{
+                      border: "2px solid lightgray",
+                      color: "lightgray"
+                    }}
+                    disabled
+                  >
+                    Registration Closed
+                  </Button>
+                )}
                 {isRegistered && !isEnded && (
                   <Button
                     color="green"
@@ -417,24 +441,6 @@ const HackathonSingle = () => {
                 >
                   View submissions
                 </Button>
-                {!isTeamMember && isOpen ? (
-                  <Button
-                    color={isRegistered ? "grey" : "green"}
-                    onClick={handleRegistration}
-                  >
-                    {isRegistered ? `Unregister` : `Register`}
-                  </Button>
-                ) : !isOpen && (
-                  <Button
-                    style={{
-                      border: "2px solid lightgray",
-                      color: "lightgray"
-                    }}
-                    disabled
-                  >
-                    Registration Closed
-                  </Button>
-                )}
               </ButtonsDashGroup>
             </TagsCardWide>
           </RowBody>
