@@ -12,14 +12,13 @@ const SignupPage = () => {
   const dispatch = useDispatch();
   const { token } = useSelector(state => state.currentUser);
   const { state } = useLocation();
-  const { google, github, team, role } = queryString.parse(search);
 
   useEffect(() => {
-    if (google || github) {
-      return dispatch(socialAuthLoad());
+    const parsed = queryString.parse(search);
+    if (parsed.google || parsed.github) {
+      dispatch(socialAuthLoad());
     }
-
-  }, [google, github, dispatch]);
+  }, [search, dispatch]);
 
   if (token) {
     return <Redirect to={state?.from || '/dashboard'} />;
