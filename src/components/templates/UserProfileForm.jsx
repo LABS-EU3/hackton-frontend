@@ -112,16 +112,16 @@ const UserProfileForm = ({initialState}) => {
                           style={border}
                         />
 
-                        <Row>
-                          {/* <div>
+                        {/* <Row>
+                          <div>
                             <Button to="/dashboard" color="blue" style={pad}>
                               Upload New Picture
                             </Button>
                             <Button to="/dashboard" color="grey" anchor>
                               Remove
                             </Button>
-                          </div> */}
-                        </Row>
+                          </div>
+                        </Row> */}
                       </ProfileRow>
                     </Column>
 
