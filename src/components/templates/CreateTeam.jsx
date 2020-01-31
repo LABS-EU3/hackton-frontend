@@ -28,24 +28,6 @@ const CreateTeam = () => {
     fetchTeams();
   }, [fetchTeams]);
 
-  // let formValue;
-  // const handleChange = e => {
-  //   formValue = e.target.value;
-  // };
-
-  // const handleTeamSubmit = e => {
-  //   e.preventDefault();
-  //   const teamData = {
-  //     team_name: formValue,
-  //     eventId: id
-  //   };
-  //   dispatch(createTeamName(teamData, history));
-  // };
-
-  // const { event_title } = useSelector(state =>
-  //   state.events.data.find(event => event.id === Number(id))
-  // );
-
   const BodyRow = styled(BodyContainer)`
     flex-direction: column;
     align-items: flex-start;
@@ -112,7 +94,7 @@ const CreateTeam = () => {
           <H3>Participant Teams</H3>
         </RowHead>
         <BodyColumn>
-          {team ? (
+          {!team ? (
             <Formik
               initialValues={{ team_name: "" }}
               onSubmit={handleTeamSubmit}
@@ -142,7 +124,7 @@ const CreateTeam = () => {
               )}
             </Formik>
           ) : (
-              <TeamView />
+              <TeamView {...{ team }} />
             )}
         </BodyColumn>
       </BodyRow>

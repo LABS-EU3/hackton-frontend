@@ -55,6 +55,7 @@ export const useParticipants = id => {
 
   useEffect(() => {
     fetchParticipants();
+
   }, [fetchParticipants]);
 
   return [participants, fetchParticipants];
@@ -75,6 +76,7 @@ export const useEventTeam = id => {
 
   useEffect(() => {
     fetchEventTeam();
+
   }, [fetchEventTeam])
 
   return [team, fetchEventTeam];
@@ -103,6 +105,7 @@ export const useTeams = id => {
 
   useEffect(() => {
     fetchTeams();
+
   }, [fetchTeams]);
 
   return [teams, fetchTeams];
@@ -124,7 +127,31 @@ export const useSubmissions = id => {
 
   useEffect(() => {
     fetchSubmissions();
+
   }, [fetchSubmissions]);
 
   return [submissions, fetchSubmissions];
+}
+
+export const useTeammates = id => {
+  const [teammates, setTeammates] = useState([]);
+  const token = useSelector(selectToken);
+  const fetchTeammates = useCallback(() => {
+    const fetchData = async () => {
+      const {
+        data: { body }
+      } = await axiosWithAuth(token).get(
+        `/api/events/participant-teams/${id}/members`
+      );
+      setTeammates(body);
+    }
+    fetchData();
+  }, [id, token]);
+
+  useEffect(() => {
+    fetchTeammates();
+
+  }, [fetchTeammates]);
+
+  return [teammates, fetchTeammates];
 }
