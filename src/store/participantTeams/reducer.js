@@ -5,7 +5,8 @@ const initialState = {
   teamMate: {},
   fetchTeamData: [],
   fetchTeamMateData: [],
-  isLoading: false
+  isLoading: false,
+  inviteSent: false
 };
 
 export const participantTeamsReducer = (teams = initialState, action) => {
@@ -49,6 +50,10 @@ export const participantTeamsReducer = (teams = initialState, action) => {
         fetchTeamData: action.payload,
         isLoading: false
       };
+    case ParticiPantTeamTypes.SEND_PARTICIPANT_INVITE:
+      return {
+        inviteSent: true
+      }
     default:
       return teams;
   }
