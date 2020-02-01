@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { media } from "../index";
@@ -26,7 +26,7 @@ const HackathonProjects = () => {
   const { event_title } = useSelector(state =>
     state.events.data.find(event => event.id === Number(id))
   );
-  const [submissions, fetchSubmissions] = useSubmissions();
+  const [submissions, fetchSubmissions] = useSubmissions(id);
 
   useEffect(() => {
     fetchSubmissions();
@@ -75,9 +75,11 @@ const HackathonProjects = () => {
                       ) : (
                           "Not rated."
                         )}
-                      <Link to={`/dashboard/event/${id}/project/${s.id}`}>
-                        <Button color="blue">View</Button>
-                      </Link>
+                      <Button
+                        anchor
+                        color="blue"
+                        to={`/dashboard/event/${id}/project/${s.id}`}
+                      >View</Button>
                     </SubmissionEntry>
                   );
                 })}

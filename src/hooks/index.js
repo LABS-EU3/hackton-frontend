@@ -155,3 +155,24 @@ export const useTeammates = id => {
 
   return [teammates, fetchTeammates];
 }
+
+export const useGrades = (projectId) => {
+  const [grades, setGrades] = useState([]);
+  const token = useSelector(selectToken);
+
+  const fetchGrades = useCallback(() => {
+    const getData = async () => {
+      const { data: { body } } = await axiosWithAuth(token).get(
+        `/api/events/projects/${projectId}/grading`
+      );
+      setGrades(body);
+    }
+    getData();
+  }, [projectId, token]);
+
+  useEffect(() => {
+    fetchGrades();
+  }, [fetchGrades]);
+
+  return [grades, fetchGrades];
+}
