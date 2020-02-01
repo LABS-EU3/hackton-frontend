@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
 import { Footer } from "../organisms/index";
@@ -21,16 +21,13 @@ const AddParticipantTeam = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { id } = useParams();
+  const { eventId, teamId } = useParams();
   const [matches, searchString, setSearchString] = useSearchUserByEmail();
 
-  const { eventId } = useSelector(
-    state => state.participantTeams.team
-  );
 
   const handleSubmit = () => {
     const data = {
-      team_id: Number(id),
+      team_id: teamId,
       team_member: selectedUser.id,
       eventId: eventId
     };

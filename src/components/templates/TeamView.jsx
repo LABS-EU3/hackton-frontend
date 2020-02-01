@@ -102,7 +102,7 @@ const TeamView = ({ team }) => {
       <Button color="green">
         <NavLink
           style={{ textDecoration: "none", color: "white" }}
-          to={`/dashboard/event/participant-teams/${team.id}/add-members`}
+          to={`/dashboard/event/${id}/participant-teams/${team.id}`}
         >
           Add Teammate
         </NavLink>{" "}

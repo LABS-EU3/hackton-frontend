@@ -176,3 +176,14 @@ export const useGrades = (projectId) => {
 
   return [grades, fetchGrades];
 }
+
+export const useCreatedTeam = (eventId, userId) => {
+  const [teams, fetchTeams] = useTeams(eventId);
+  const team = teams.find(team => team.team_lead === Number(userId));
+
+  useEffect(() => {
+    fetchTeams();
+  }, [fetchTeams]);
+
+  return team;
+} 
