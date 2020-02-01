@@ -19,13 +19,13 @@ import { useSearchUserByEmail } from "../../hooks";
 
 const AddParticipantTeam = () => {
   const [selectedUser, setSelectedUser] = useState(null);
-  const [noneUser, setNoneUser] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
   const { eventId, teamId } = useParams();
   const [matches, searchString, setSearchString] = useSearchUserByEmail();
+  const [noneUser, setNoneUser] = useState(null);
   const validateEmail = (email) => {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
  
@@ -118,7 +118,7 @@ const AddParticipantTeam = () => {
           <UserWidget key={user.id} user={user} select={setSelectedUser} />
         ))}
         {
-          !!matches && validateEmail(searchString) ? setNoneUser(searchString) : null
+          !!matches && validateEmail(searchString) ? setNoneUser(searchString) : setNoneUser(null)
         }
         <Button color="grey" onClick={() => redirect()}>
           Back to dashboard
@@ -152,7 +152,7 @@ const AddParticipantTeam = () => {
   };
 /**
  * Renders message and button to send invite email
- *
+ * To be refactored to a resuable component
  * @returns
  */
 const InviteWidget = () => {

@@ -27,7 +27,8 @@ export function* eventsSagas() {
     call(watchUpdateEvent),
     call(watchFetchEventCategories),
     call(watchAddTeamMember),
-    call(watchFetchEventSubmissions)
+    call(watchFetchEventSubmissions),
+    call(watchSendEventTeamInvite)
   ]);
 }
 
@@ -143,6 +144,25 @@ function* addTeamMemberAsync({ payload, history }) {
 
 function* watchAddTeamMember() {
   yield takeLatest(EventsTypes.ADD_TEAM_MEMBER, addTeamMemberAsync);
+}
+
+function* sendEventTeamInviteAsync({ payload, history }) {
+  try {
+    const { email, role, eventId } = payload;
+    const token = yield select(selectToken);
+    yield axiosWithAuth(token).post(`/api/events/event-teams/invite/${eventId}`, { email, role_type: role });
+    yield showSuccess(`invite sent successfully to ${email}`);
+    history.push(`/dashboard/event/${eventId}`);
+  } catch (error) {
+    handleError(error, put, history);
+  }
+}
+
+function* watchSendEventTeamInvite() {
+  yield takeLatest(
+    EventsTypes.SEND_EVENT_TEAM_INVITE,
+    sendEventTeamInviteAsync
+  );
 }
 
 function* fetchEventSubmissionsAsync({ payload, history }) {

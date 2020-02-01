@@ -13,7 +13,7 @@ import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import Button from "../atoms/Button";
 import { type, Solid, media } from "../index";
-import { addTeamMember } from "../../store/events/actions";
+import { addTeamMember, sendEventTeamInvite } from "../../store/events/actions";
 import { useSearchUserByEmail } from '../../hooks';
 
 const AddTeammates = () => {
@@ -23,6 +23,11 @@ const AddTeammates = () => {
   const history = useHistory();
   const { id } = useParams();
   const [matches, searchString, setSearchString] = useSearchUserByEmail();
+  const [noneUser, setNoneUser] = useState(null);
+  const validateEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
 
 
   const handleSubmit = () => {
@@ -34,6 +39,15 @@ const AddTeammates = () => {
     };
     dispatch(addTeamMember(data, history));
   };
+
+  const sendInvite = () => {
+    const data = {
+      eventId: Number(id),
+      email: noneUser,
+      role
+    };
+    dispatch(sendEventTeamInvite(data, history))
+  }
 
   const redirect = (location = "/dashboard") => {
     history.push(location);
@@ -106,6 +120,9 @@ const AddTeammates = () => {
         {matches.map(user => (
           <UserWidget key={user.id} user={user} select={setSelectedUser} />
         ))}
+        {
+          !!matches && validateEmail(searchString) ? setNoneUser(searchString) : setNoneUser(null)
+        }
         <Button color="grey" onClick={() => redirect()}>
           Back to dashboard
         </Button>
@@ -218,6 +235,47 @@ const AddTeammates = () => {
     );
   };
 
+  /**
+ * Renders message and button to send invite email
+ * To be refactored to a resuable component
+ * @returns
+ */
+const InviteWidget = () => {
+  return (
+    <StyledContainer>
+      <RowBody direction="column-reverse">
+        <h6>
+          This user is not on this platform. Please select a role for
+          click send to invite {" "}
+          <span style={{ color: "#273F92", backgroundColor: "aliceblue" }}>
+            {noneUser}
+          </span>{" "}
+          to join your team
+        </h6>
+      </RowBody>
+      <RowBody direction="column-reverse">
+          <Radio
+            label="organizer"
+            name="role"
+            onChange={() => setRole("organizer")}
+            checked={role === "organizer"}
+          />
+          <Radio
+            name="role"
+            label="judge"
+            onChange={() => setRole("judge")}
+            checked={role === "judge"}
+          />
+        </RowBody>
+      <RowBody>
+        <Button color="green" onClick={sendInvite}>
+          Send Invite
+        </Button>
+      </RowBody>
+    </StyledContainer>
+  );
+};
+
   return (
     <div>
       <UserHeader />
@@ -229,6 +287,7 @@ const AddTeammates = () => {
           <Column>
             <CardWide>
               {!selectedUser ? <SearchWidget /> : <RoleWidget />}
+              {noneUser ? <InviteWidget /> : null}
             </CardWide>
           </Column>
         </BodyContainerColumn>
