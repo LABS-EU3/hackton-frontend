@@ -77,7 +77,7 @@ function App() {
         />
         <PrivateRoute
           exact
-          path="/dashboard/event/participant-teams/:id/add-members"
+          path="/dashboard/event/:eventId/participant-teams/:teamId"
           component={AddParticipantTeam}
         />
         <PrivateRoute
