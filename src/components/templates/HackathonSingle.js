@@ -1,4 +1,4 @@
-import React, {useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,12 +19,11 @@ import Button from "../atoms/Button";
 import user_icon from "../../assets/user_icon.svg";
 
 import {
-  fetchAllParticipants,
   registerEvent,
   unregisterEvent
 } from "../../store/eventParticipants/actions";
 
-import { createTeam } from "../../store/participantTeams/actions";
+import { useParticipants, useEventTeam, useTeams } from "../../hooks";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -147,9 +146,11 @@ const HackathonSingle = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { participants } = useSelector(state => state);
   const { userId } = useSelector(state => state.currentUser);
-  
+  const [participants, fetchParticipants] = useParticipants(id);
+  const [team] = useEventTeam(id);
+  const [teams, fetchTeams] = useTeams(id);
+  const createdTeam = teams.find(t => t.team_lead === userId);
 
   // Filter out event by URL param & grab user ID
   const {
@@ -173,16 +174,17 @@ const HackathonSingle = () => {
   const formattedEndDate = new Date(end_date).toLocaleDateString();
 
   // Event is open or closed for registration
+  const userCallback = p => p.user_id === userId;
   const today = new Date().getTime();
   const startTime = new Date(start_date).getTime();
   const endTime = new Date(end_date).getTime();
   const isOpen = today <= startTime;
-  const isRegistered = participants.find(p => p.user_id === userId);
+  const isTeamLead = createdTeam;
+  const isRegistered = participants.find(userCallback) || isTeamLead;
+  const isEventCreator = creator_id === userId;
+  const isTeamMember = team.find(userCallback) || isEventCreator;
   const isEnded = today > endTime;
-
-  useEffect(() => {
-    dispatch(fetchAllParticipants(id));
-  }, [dispatch, id]);
+  const individualParticipation = participation_type === 'individual';
 
   // Number of participants registered
   const registeredPartcipants = participants.length;
@@ -206,25 +208,22 @@ const HackathonSingle = () => {
     .join("");
 
   // Grab the first letter of title
-  const initial = event_title[0];
-
-  const handleTeamRegistration = e => {
-    e.preventDefault();
-    return dispatch(createTeam(id, history));
-  };
+  const initial = event_title[0] || 'U';
 
   const handleRegistration = e => {
     e.preventDefault();
 
     if (isRegistered) {
-      return dispatch(unregisterEvent(id, history));
+      dispatch(unregisterEvent(id, history));
+    } else {
+      dispatch(registerEvent(id, history));
     }
-    return dispatch(registerEvent(id, history));
+    return fetchParticipants();
   };
 
-  const createdTeam = useSelector(state =>
-    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
-  );
+  useEffect(() => {
+    fetchTeams();
+  }, [fetchTeams]);
 
   return (
     <div>
@@ -296,8 +295,8 @@ const HackathonSingle = () => {
                     return <PTags key={index}>{tagged}</PTags>;
                   })
                 ) : (
-                  <Paragraph>No tags provided for this event</Paragraph>
-                )}
+                    <Paragraph>No tags provided for this event</Paragraph>
+                  )}
               </TagsGroup>
               <Separator />
               <ButtonsDashGroup>
@@ -305,7 +304,7 @@ const HackathonSingle = () => {
                   <Button anchor to={"/dashboard"} color="grey">
                     Back to Dashboard
                   </Button>
-                  {creator_id === userId && !isEnded && (
+                  {isEventCreator && !isEnded && (
                     <Button
                       anchor
                       to={`/dashboard/event/${id}/edit`}
@@ -322,11 +321,7 @@ const HackathonSingle = () => {
                 <Image src={user_icon} alt="user_icon" />
                 <div>
                   <BoldSpan>Hosted by:</BoldSpan>
-                  {organizer_name !== null ? (
-                    <PHosted>{organizer_name}</PHosted>
-                  ) : (
-                    <PHosted>{emailUser}</PHosted>
-                  )}
+                  <PHosted>{organizer_name || emailUser}</PHosted>
                 </div>
               </div>
               <div className="status">
@@ -343,7 +338,7 @@ const HackathonSingle = () => {
                 </BoldSpan>
               </div>
               <ButtonsDashGroup>
-                {creator_id === userId && !isEnded ? (
+                {isEventCreator && !isEnded && (
                   <Button
                     anchor
                     to={`/dashboard/event/${id}/team`}
@@ -351,46 +346,38 @@ const HackathonSingle = () => {
                   >
                     Add Teammates
                   </Button>
-                ) : (
-                  <>
-                    {!isOpen ? (
-                      <Button
-                        style={{
-                          border: "2px solid lightgray",
-                          color: "lightgray"
-                        }}
-                        disabled
-                      >
-                        Registration Closed
-                      </Button>
-                    ) : participation_type === "team" ? (
-                      <Button color="green" onClick={handleTeamRegistration}>
-                        {participation_type === "team" &&
-                        createdTeam === undefined
-                          ? `Register a Team`
-                          : `Add teamate`}
-                      </Button>
-                    ) : participation_type === "both" ? (
-                      <Button color="green" onClick={handleTeamRegistration}>
-                        Pick registration Type
-                      </Button>
-                    ) : (
-                      <Button
-                        color={isRegistered ? "grey" : "green"}
-                        onClick={handleRegistration}
-                      >
-                        {isRegistered ? `Unregister` : `Register`}
-                      </Button>
-                    )}
-                  </>
                 )}
-                <Button
-                  anchor
-                  to={`/dashboard/event/${id}/projects`}
-                  color="blue"
-                >
-                  View submissions
-                </Button>
+                {!isTeamMember && isOpen ? (
+                  <Button
+                    color={isRegistered ? "grey" : "green"}
+                    {...{
+                      anchor: !individualParticipation,
+                      onClick: individualParticipation ? handleRegistration : null,
+                      to: !individualParticipation ? `/dashboard/event/${id}/participant-teams` : null
+                    }}
+                  >
+                    {isRegistered ? `Unregister` : `Register`}
+                  </Button>
+                ) : !isOpen && (
+                  <Button
+                    style={{
+                      border: "2px solid lightgray",
+                      color: "lightgray"
+                    }}
+                    disabled
+                  >
+                    Registration Closed
+                  </Button>
+                )}
+                {isTeamLead && !isEnded && (
+                  <Button
+                    color="green"
+                    anchor
+                    to={`/dashboard/event/${id}/participant-teams`}
+                  >
+                    Add teamate
+                  </Button>
+                )}
                 {isRegistered && !isEnded && (
                   <Button
                     color="green"
@@ -400,6 +387,13 @@ const HackathonSingle = () => {
                     Submit Project
                   </Button>
                 )}
+                <Button
+                  anchor
+                  to={`/dashboard/event/${id}/projects`}
+                  color="blue"
+                >
+                  View submissions
+                </Button>
               </ButtonsDashGroup>
             </TagsCardWide>
           </RowBody>

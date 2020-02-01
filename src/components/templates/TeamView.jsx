@@ -4,33 +4,24 @@ import styled from "styled-components";
 import { Paragraph } from "../atoms/Paragraph";
 import { BoldSpan } from "../atoms/Span";
 import Button from "../atoms/Button";
-import { NavLink } from "react-router-dom";
-import { fetchTeamMates } from "../../store/participantTeams/actions";
-import { useSelector, useDispatch } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { LetterIcon } from "../atoms/Icon";
+import { useTeammates } from "../../hooks";
 
-const TeamView = () => {
-  const dispatch = useDispatch();
-  const { eventId, team_name } = useSelector(
-    state => state.participantTeams.team
-  );
+const TeamView = ({ team }) => {
+  const { id } = useParams();
+
   const { event_title } = useSelector(state =>
-    state.events.data.find(event => event.id === Number(eventId))
-  );
-  const { userId } = useSelector(state => state.currentUser);
-  const createdTeam = useSelector(state =>
-    state.participantTeams.fetchTeamData.find(team => team.team_lead === userId)
+    state.events.data.find(event => event.id === Number(id))
   );
 
-  const fetchedTeamMembers = useSelector(
-    state => state.participantTeams.fetchTeamMateData
-  );
-  const initial = team_name[0];
+  const [teammates, fetchTeammates] = useTeammates(team?.id);
+  const initial = team?.team_name[0] || 'U';
 
   useEffect(() => {
-
-    dispatch(fetchTeamMates(createdTeam.id));
-  }, [createdTeam, dispatch]);
+    fetchTeammates();
+  }, [fetchTeammates]);
 
 
   const TeamsCont = styled(BodyContainer)`
@@ -78,12 +69,12 @@ const TeamView = () => {
       <FancyBoldSpan>Your Team</FancyBoldSpan>
       <FancyBoldSpan>
         Team Name:
-        <NormalSpan>{team_name}</NormalSpan>
+        <NormalSpan>{team.team_name}</NormalSpan>
       </FancyBoldSpan>
       <FancyBoldSpan style={{ borderBottom: "none" }}>
         Team Members:
       </FancyBoldSpan>
-      {fetchedTeamMembers.length !== 0 ? (
+      {teammates.length !== 0 ? (
         <div
           style={{
             borderBottom: "1px solid lightgray",
@@ -91,19 +82,19 @@ const TeamView = () => {
             paddingBottom: "10px"
           }}
         >
-          {fetchedTeamMembers.map(member => {
+          {teammates.map(member => {
             return member.team_member_fullname === null ? (
               <Paragraph key={member.id}>{member.team_member_email}</Paragraph>
             ) : (
-              <Paragraph key={member.id}>
-                {member.team_member_fullname}
-              </Paragraph>
-            );
+                <Paragraph key={member.id}>
+                  {member.team_member_fullname}
+                </Paragraph>
+              );
           })}
         </div>
       ) : (
-        <FancyBoldSpan>This team has no members</FancyBoldSpan>
-      )}
+          <FancyBoldSpan>This team has no members</FancyBoldSpan>
+        )}
       <FancyBoldSpan>
         Hackathon Name:
         <NormalSpan>{event_title}</NormalSpan>
@@ -111,7 +102,7 @@ const TeamView = () => {
       <Button color="green">
         <NavLink
           style={{ textDecoration: "none", color: "white" }}
-          to={`/dashboard/event/participant-teams/${createdTeam.id}/add-members`}
+          to={`/dashboard/event/${id}/participant-teams/${team.id}`}
         >
           Add Teammate
         </NavLink>{" "}
