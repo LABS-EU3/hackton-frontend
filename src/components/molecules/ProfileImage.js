@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import StyledImage from '../atoms/StyledImage';
 
 const ProfileImage = ({ name, image }) => (
@@ -10,12 +9,5 @@ const ProfileImage = ({ name, image }) => (
     <p>{name}</p>
   </StyledImage>
 );
-ProfileImage.defaultProps = {
-  name: '',
-};
-ProfileImage.propTypes = {
-  name: PropTypes.string,
-  image: PropTypes.string.isRequired,
-};
 
 export default ProfileImage;
