@@ -27,6 +27,7 @@ export const eventsReducer = (events = initialState, action) => {
       };
     case EventsTypes.SEND_EVENT_TEAM_INVITE:
         return {
+          ...events,
           inviteSent: true
         }
     default:

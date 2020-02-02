@@ -52,6 +52,7 @@ export const participantTeamsReducer = (teams = initialState, action) => {
       };
     case ParticiPantTeamTypes.SEND_PARTICIPANT_INVITE:
       return {
+        ...teams,
         inviteSent: true
       }
     default:

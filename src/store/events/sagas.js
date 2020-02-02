@@ -150,9 +150,11 @@ function* sendEventTeamInviteAsync({ payload, history }) {
   try {
     const { email, role, eventId } = payload;
     const token = yield select(selectToken);
-    yield axiosWithAuth(token).post(`/api/events/event-teams/invite/${eventId}`, { email, role_type: role });
-    yield showSuccess(`invite sent successfully to ${email}`);
-    history.push(`/dashboard/event/${eventId}`);
+    const { data } = yield axiosWithAuth(token).post(`/api/events/event-teams/invite/${eventId}`, { email, role_type: role });
+    if (data) {
+      yield showSuccess(`invite sent successfully to ${email}`);
+      history.push(`/dashboard/event/${eventId}`);
+    }
   } catch (error) {
     handleError(error, put, history);
   }
