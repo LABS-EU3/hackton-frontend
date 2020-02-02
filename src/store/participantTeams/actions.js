@@ -5,7 +5,8 @@ export const ParticiPantTeamTypes = {
   FETCH_TEAMS: "FETCH_TEAMS",
   FETCH_TEAMMATES: "FETCH_TEAMMATES",
   SET_TEAMS: "SET_TEAMS",
-  SET_TEAMMATES: "SET_TEAMMATES"
+  SET_TEAMMATES: "SET_TEAMMATES",
+  SEND_PARTICIPANT_INVITE: "INVITE_PARTICIPANT"
 };
 
 export const setTeams = teams => {
@@ -60,3 +61,11 @@ export const createTeamName = (data, history) => {
     history
   };
 };
+
+export const sendParticipantInvite = (data, history) => {
+  return {
+    type: ParticiPantTeamTypes.SEND_PARTICIPANT_INVITE,
+    payload: data,
+    history
+  }
+}

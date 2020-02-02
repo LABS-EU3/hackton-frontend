@@ -14,7 +14,7 @@ import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import Button from "../atoms/Button";
 import { type, Solid, media } from "../index";
-import { addParticipantTeamMember } from "../../store/participantTeams/actions";
+import { addParticipantTeamMember, sendParticipantInvite } from "../../store/participantTeams/actions";
 import { useSearchUserByEmail } from "../../hooks";
 
 const AddParticipantTeam = () => {
@@ -23,8 +23,12 @@ const AddParticipantTeam = () => {
   const history = useHistory();
   const { eventId, teamId } = useParams();
   const [matches, searchString, setSearchString] = useSearchUserByEmail();
-
-
+  const [noneUser, setNoneUser] = useState(null);
+  const validateEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+ 
   const handleSubmit = () => {
     const data = {
       team_id: teamId,
@@ -34,6 +38,14 @@ const AddParticipantTeam = () => {
     dispatch(addParticipantTeamMember(data, history));
   };
 
+  const sendInvite = () => {
+    const data = {
+      teamId,
+      email: noneUser,
+      eventId
+    };
+    dispatch(sendParticipantInvite(data, history))
+  }
   const redirect = (location = "/dashboard") => {
     history.push(location);
   };
@@ -105,6 +117,9 @@ const AddParticipantTeam = () => {
         {matches.map(user => (
           <UserWidget key={user.id} user={user} select={setSelectedUser} />
         ))}
+        {
+          !!matches && validateEmail(searchString) ? setNoneUser(searchString) : setNoneUser(null)
+        }
         <Button color="grey" onClick={() => redirect()}>
           Back to dashboard
         </Button>
@@ -135,6 +150,32 @@ const AddParticipantTeam = () => {
       </StyledContainer>
     );
   };
+/**
+ * Renders message and button to send invite email
+ * To be refactored to a resuable component
+ * @returns
+ */
+const InviteWidget = () => {
+    return (
+      <StyledContainer>
+        <RowBody direction="column-reverse">
+          <h6>
+            This user is not on this platform.
+            click send to invite {" "}
+            <span style={{ color: "#273F92", backgroundColor: "aliceblue" }}>
+              {noneUser}
+            </span>{" "}
+            to join your team
+          </h6>
+        </RowBody>
+        <RowBody>
+          <Button color="green" onClick={sendInvite}>
+            Send Invite
+          </Button>
+        </RowBody>
+      </StyledContainer>
+    );
+  };
 
   return (
     <div>
@@ -147,6 +188,7 @@ const AddParticipantTeam = () => {
           <Column>
             <CardWide>
               {!selectedUser ? <SearchWidget /> : <RoleWidget />}
+              {noneUser ? <InviteWidget /> : null}
             </CardWide>
           </Column>
         </BodyContainerColumn>

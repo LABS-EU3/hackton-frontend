@@ -18,7 +18,8 @@ export function* participantTeamSagas() {
     call(watchCreateTeamName),
     call(watchAddParticipantTeamMember),
     call(watchFetchTeamAsync),
-    call(watchFetchTeamMateAsync)
+    call(watchFetchTeamMateAsync),
+    call(watchSendParticipantInvite)
   ]);
 }
 
@@ -123,5 +124,24 @@ function* watchAddParticipantTeamMember() {
   yield takeLatest(
     ParticiPantTeamTypes.ADD_PARTICIPANT_TEAM_MEMBER,
     addParticipantTeamMemberAsync
+  );
+}
+
+function* sendParticipantInviteAsync({ payload, history }) {
+  try {
+    const { email, teamId, eventId } = payload;
+    const token = yield select(selectToken);
+    yield axiosWithAuth(token).post(`/api/events/participant-teams/invite/${teamId}`, { email });
+    yield showSuccess(`invite sent successfully to ${email}`);
+    history.push(`/dashboard/event/${eventId}/participant-teams`);
+  } catch (error) {
+    handleError(error, put, history);
+  }
+}
+
+function* watchSendParticipantInvite() {
+  yield takeLatest(
+    ParticiPantTeamTypes.SEND_PARTICIPANT_INVITE,
+    sendParticipantInviteAsync
   );
 }
