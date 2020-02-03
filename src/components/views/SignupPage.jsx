@@ -5,7 +5,7 @@ import queryString from "query-string";
 
 import image from "../../assets/Signup.png";
 import { UserOnboarding } from "../templates";
-import { socialAuthLoad } from "../../store/user/actions";
+import { socialAuthLoad, verifyEmail } from "../../store/user/actions";
 
 const SignupPage = () => {
   let { search } = useLocation();
@@ -14,9 +14,12 @@ const SignupPage = () => {
   const { state } = useLocation();
 
   useEffect(() => {
-    const parsed = queryString.parse(search);
-    if (parsed.google || parsed.github) {
+    const { google, github, verified } = queryString.parse(search);
+    if (google || github) {
       dispatch(socialAuthLoad());
+    }
+    if (verified) {
+      dispatch(verifyEmail());
     }
   }, [search, dispatch]);
 
