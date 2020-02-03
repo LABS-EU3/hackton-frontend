@@ -10,7 +10,7 @@ export const useAsync = () => (request) => {
       try {
         setLoading(true);
         const { data } = await request();
-        setData(data?.body);
+        setData(data);
       } catch ({ response }) {
         setError(response);
       } finally {
