@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const useAsync = (request) => {
+export const useAsync = () => (request) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ export const useAsync = (request) => {
       try {
         setLoading(true);
         const { data } = await request();
-        setData(data);
+        setData(data?.body);
       } catch ({ response }) {
         setError(response);
       } finally {
