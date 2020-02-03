@@ -118,7 +118,7 @@ function* updateUserProfileAsync({ payload, history }) {
     } = yield axiosWithAuth(token).put("/api/users/profile", payload);
     yield put(setUserProfile(userUpdates));
     yield showSuccess(`🎉 ${message}`);
-    // yield history.push("/dashboard");
+    yield history.push("/dashboard/profile");
   } catch (error) {
     handleError(error, put);
   }

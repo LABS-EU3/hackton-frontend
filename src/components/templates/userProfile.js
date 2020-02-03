@@ -14,7 +14,9 @@ import profileImg from "../../assets/profile-image.png";
 import { media } from "../index";
 import Button from "../atoms/Button";
 import {Paragraph} from '../atoms/Paragraph';
-import mailIcon from '../../assets/Icon-mail-24px.png'
+import mailIcon from '../../assets/Icon-mail-24px.png';
+import EventCard from "../molecules/EventCard";
+import { useSelector } from "react-redux";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -28,6 +30,16 @@ export const ProfileCardWide = styled(CardWide)`
   @media ${media.tablet} {
     max-width: 100%;
   }
+`;
+
+export const ProfileCard = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const HackathonCard = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const ImageProfile = styled.img`
@@ -65,48 +77,56 @@ const Buttona = styled(Button)`
 `
 
 export default function UserProfile ({initialState}) {
+
+  const events = useSelector(state => state.events.data);
+  const { userId } = useSelector(state => state.currentUser);
+  const userEvents = events.filter(event => event.creator_id === userId);
+
     return (
         <div>
-      <UserHeader />
-      <WideBody>
-        <Nav />
-        <BodyContainerColumn>
-          <RowHead>
-            <H3>Your Profile</H3>
-          </RowHead>
+          <UserHeader />
+          <WideBody>
+            <Nav />
+            <BodyContainerColumn>
+              <RowHead>
+                <H3>Your Profile</H3>
+              </RowHead>
 
-            <ProfileCardWide>
-                <ProfileHead>
-                    <ImageProfile src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg} />
-                    <Buttona color="green" anchor to='/dashboard/profile/edit'>
-                        Edit profile
-                    </Buttona>
-                </ProfileHead>
-
-                <Column>
-                  <H2 style={{'marginBottom': 0}}>{initialState.fullname}</H2>
-                  <Paragraph style={{'color': 'gray'}}>@{initialState.username}</Paragraph>
-                </Column>
-
-                <Row>
-                  <Paragraph>{initialState.bio}</Paragraph>
-                </Row>
-
-                <Row>
-                  <Icon/>
-                  <Paragraph style={{'color': 'blue', 'marginLeft': '1px'}}>{initialState.email}</Paragraph>
-                </Row>
-
-              <Separator />
-
-              <div>
-                <p>yugyklhjm;j</p>
-              </div>
-              
-            </ProfileCardWide>
-        </BodyContainerColumn>
-      </WideBody>
-      <Footer />
+                <ProfileCardWide>
+                  <ProfileCard>
+                    <ProfileHead>
+                        <ImageProfile src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg} />
+                        <Buttona color="green" anchor to='/dashboard/profile/edit'>
+                            Edit profile
+                        </Buttona>
+                    </ProfileHead>
+                    <Column>
+                      <H2 style={{'marginBottom': 0}}>{initialState.fullname}</H2>
+                      <Paragraph style={{'color': 'gray'}}>@{initialState.username}</Paragraph>
+                    </Column>
+                    <Row>
+                      <Paragraph>{initialState.bio}</Paragraph>
+                    </Row>
+                    <Row>
+                      <Icon/>
+                      <Paragraph style={{'color': 'blue', 'marginLeft': '2px'}}>{initialState.email}</Paragraph>
+                    </Row>
+                  </ProfileCard>
+  
+                  <HackathonCard>
+                    <RowHead style={{'marginTop': '5px'}}>
+                      <H3>Hackathon(s) you registered for</H3>
+                    </RowHead>
+                    <RowBody spacing="start">
+                      {userEvents.map(event => (
+                        <EventCard key={event.id} event={event} />
+                      ))}
+                    </RowBody>
+                  </HackathonCard>
+                </ProfileCardWide>
+            </BodyContainerColumn>
+          </WideBody>
+          <Footer />
     </div>
 
     );
