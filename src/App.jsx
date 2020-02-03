@@ -17,6 +17,11 @@ import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionP
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./components/views/PageNotFound";
 import UserProfileFormPage from "./components/views/UserProfileFormPage";
+import CreateTeam from "./components/templates/CreateTeam";
+import AddParticipantTeam from "./components/templates/AddParticipantTeams";
+import ResetPassword from './components/views/resetPassword/ResetPassword';
+import ResetPasswordConfirmation from './components/views/resetPassword/ResetPasswordConfirmation';
+import NewPassword from './components/views/resetPassword/NewPassword';
 
 function App() {
   return (
@@ -24,9 +29,13 @@ function App() {
       <GlobalStyles />
       <Switch>
         <Route exact path="/not-found" component={PageNotFound} />
-        <Route exact path="/register" component={SignupPage} />
+        <Route path="/register" component={SignupPage} />
         <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/forgotpassword" component={ResetPassword} />
+        <Route exact path="/resetPasswordConfirmation" component={ResetPasswordConfirmation} />
+        <Route exact path="/resetpassword" component={NewPassword} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute exact path="/" component={Dashboard} />
         <PrivateRoute
           exact
           path="/dashboard/new"
@@ -66,7 +75,17 @@ function App() {
           path="/dashboard/event/:id/project/:projectId"
           component={HackathonProjectPage}
         />
-        <Redirect to="/register" />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:eventId/participant-teams/:teamId"
+          component={AddParticipantTeam}
+        />
+        <PrivateRoute
+          exact
+          path="/dashboard/event/:id/participant-teams"
+          component={CreateTeam}
+        />
+        <Redirect to="/not-found" />
       </Switch>
       <ToastContainer />
     </>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
+
 import { Footer } from "../organisms/index";
 import UserHeader from "../organisms/UserHeader";
 import WideBody from "../atoms/WideBody";
@@ -13,42 +14,38 @@ import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import Button from "../atoms/Button";
 import { type, Solid, media } from "../index";
-import { addTeamMember, sendEventTeamInvite } from "../../store/events/actions";
-import { useSearchUserByEmail } from '../../hooks';
+import { addParticipantTeamMember, sendParticipantInvite } from "../../store/participantTeams/actions";
+import { useSearchUserByEmail } from "../../hooks";
 
-const AddTeammates = () => {
+const AddParticipantTeam = () => {
   const [selectedUser, setSelectedUser] = useState(null);
-  const [role, setRole] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
-  const { id } = useParams();
+  const { eventId, teamId } = useParams();
   const [matches, searchString, setSearchString] = useSearchUserByEmail();
   const [noneUser, setNoneUser] = useState(null);
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
-
-
+ 
   const handleSubmit = () => {
-    const { email } = selectedUser;
     const data = {
-      eventId: Number(id),
-      email,
-      role
+      team_id: teamId,
+      team_member: selectedUser.id,
+      eventId: eventId
     };
-    dispatch(addTeamMember(data, history));
+    dispatch(addParticipantTeamMember(data, history));
   };
 
   const sendInvite = () => {
     const data = {
-      eventId: Number(id),
+      teamId,
       email: noneUser,
-      role
+      eventId
     };
-    dispatch(sendEventTeamInvite(data, history))
+    dispatch(sendParticipantInvite(data, history))
   }
-
   const redirect = (location = "/dashboard") => {
     history.push(location);
   };
@@ -130,98 +127,17 @@ const AddTeammates = () => {
     );
   };
 
-  const Radio = ({ label, value, type = "radio", ...radioProps }) => {
-    const Container = styled.label`
-      /* Customize the label (the container) */
-      display: block;
-      position: relative;
-      padding-left: 35px;
-      margin-bottom: 12px;
-      cursor: pointer;
-      font-size: 22px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-
-      /* Hide the browser's default radio button */
-      input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-
-        /* When the radio button is checked, add a blue background */
-        &:checked ~ span {
-          background-color: #2196f3;
-        }
-
-        /* Show the indicator (dot/circle) when checked */
-        &:checked ~ span:after {
-          display: block;
-        }
-      }
-
-      /* Create a custom radio button */
-      span {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 25px;
-        width: 25px;
-        background-color: #eee;
-        border-radius: 50%;
-
-        /* Create the indicator (the dot/circle - hidden when not checked) */
-        &:after {
-          content: "";
-          position: absolute;
-          display: none;
-
-          /* Style the indicator (dot/circle) */
-          top: 9px;
-          left: 9px;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: white;
-        }
-      }
-
-      /* On mouse-over, add a grey background color */
-      &:hover {
-        input ~ span {
-          background-color: #ccc;
-        }
-      }
-    `;
-
-    return (
-      <Container>
-        {label || value}
-        <input type={type} {...radioProps} />
-        <span></span>
-      </Container>
-    );
-  };
-
   const RoleWidget = () => {
     return (
       <StyledContainer>
         <RowBody direction="column-reverse">
-          <Radio
-            label="organizer"
-            name="role"
-            onChange={() => setRole("organizer")}
-            checked={role === "organizer"}
-          />
-          <Radio
-            name="role"
-            label="judge"
-            onChange={() => setRole("judge")}
-            checked={role === "judge"}
-          />
+          <h6>
+            You are adding{" "}
+            <span style={{ color: "#273F92", backgroundColor: "aliceblue" }}>
+              {selectedUser.email}
+            </span>{" "}
+            to your team
+          </h6>
         </RowBody>
         <RowBody>
           <Button color="grey" onClick={() => redirect()}>
@@ -234,47 +150,32 @@ const AddTeammates = () => {
       </StyledContainer>
     );
   };
-
-  /**
+/**
  * Renders message and button to send invite email
  * To be refactored to a resuable component
  * @returns
  */
 const InviteWidget = () => {
-  return (
-    <StyledContainer>
-      <RowBody direction="column-reverse">
-        <h6>
-          This user is not on this platform. Please select a role for
-          click send to invite {" "}
-          <span style={{ color: "#273F92", backgroundColor: "aliceblue" }}>
-            {noneUser}
-          </span>{" "}
-          to join your team
-        </h6>
-      </RowBody>
-      <RowBody direction="column-reverse">
-          <Radio
-            label="organizer"
-            name="role"
-            onChange={() => setRole("organizer")}
-            checked={role === "organizer"}
-          />
-          <Radio
-            name="role"
-            label="judge"
-            onChange={() => setRole("judge")}
-            checked={role === "judge"}
-          />
+    return (
+      <StyledContainer>
+        <RowBody direction="column-reverse">
+          <h6>
+            This user is not on this platform.
+            click send to invite {" "}
+            <span style={{ color: "#273F92", backgroundColor: "aliceblue" }}>
+              {noneUser}
+            </span>{" "}
+            to join your team
+          </h6>
         </RowBody>
-      <RowBody>
-        <Button color="green" onClick={sendInvite}>
-          Send Invite
-        </Button>
-      </RowBody>
-    </StyledContainer>
-  );
-};
+        <RowBody>
+          <Button color="green" onClick={sendInvite}>
+            Send Invite
+          </Button>
+        </RowBody>
+      </StyledContainer>
+    );
+  };
 
   return (
     <div>
@@ -297,4 +198,4 @@ const InviteWidget = () => {
   );
 };
 
-export default AddTeammates;
+export default AddParticipantTeam;

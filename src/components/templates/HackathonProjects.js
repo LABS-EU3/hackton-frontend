@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useParams, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { media } from "../index";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
+import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
 import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
@@ -18,24 +19,24 @@ import Button from "../atoms/Button";
 import Rating from "react-rating";
 import emptyStar from "../../assets/star-hollow.png";
 import fullStar from "../../assets/star-full.png";
-import { fetchAllSubmissions } from "../../store/projectSubmission/actions";
+import { useSubmissions } from "../../hooks";
 
 const HackathonProjects = () => {
   const { id } = useParams();
   const { event_title } = useSelector(state =>
     state.events.data.find(event => event.id === Number(id))
   );
-  const { submissions } = useSelector(state => state);
-  const dispatch = useDispatch();
+  const [submissions, fetchSubmissions] = useSubmissions(id);
 
   useEffect(() => {
-    dispatch(fetchAllSubmissions(Number(id)));
-  }, [id, dispatch]);
+    fetchSubmissions();
+  }, [fetchSubmissions]);
 
   return (
     <div>
       <UserHeader />
       <WideBody>
+        <Nav />
         <BodyContainerColumn>
           <RowHead>
             <H3>
@@ -72,11 +73,13 @@ const HackathonProjects = () => {
                           </JudgeCount>
                         </RatingGroup>
                       ) : (
-                        "Not rated."
-                      )}
-                      <Link to={`/dashboard/event/${id}/project/${s.id}`}>
-                        <Button color="blue">View</Button>
-                      </Link>
+                          "Not rated."
+                        )}
+                      <Button
+                        anchor
+                        color="blue"
+                        to={`/dashboard/event/${id}/project/${s.id}`}
+                      >View</Button>
                     </SubmissionEntry>
                   );
                 })}

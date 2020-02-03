@@ -3,7 +3,8 @@ import { EventsTypes } from "./actions";
 const initialState = {
   data: [],
   categories: [],
-  isLoading: false
+  isLoading: false,
+  inviteSent: false
 };
 
 export const eventsReducer = (events = initialState, action) => {
@@ -24,6 +25,11 @@ export const eventsReducer = (events = initialState, action) => {
         ...events,
         categories: action.payload
       };
+    case EventsTypes.SEND_EVENT_TEAM_INVITE:
+        return {
+          ...events,
+          inviteSent: true
+        }
     default:
       return events;
   }

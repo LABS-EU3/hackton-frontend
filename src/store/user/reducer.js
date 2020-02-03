@@ -7,6 +7,8 @@ const initialState = {
   email: '',
   username: '',
   bio: '',
+  image: '',
+  image_url: {}
 };
 
 export const userReducer = (user = initialState, action) => {

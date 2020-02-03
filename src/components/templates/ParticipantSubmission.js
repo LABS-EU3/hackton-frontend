@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
+import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
 import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
@@ -17,8 +18,8 @@ import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import {
-  createSubmission,
-  fetchAllSubmissions
+  fetchAllSubmissions,
+  submitProject
 } from "../../store/projectSubmission/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
@@ -48,8 +49,11 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
   }, [dispatch, event_id]);
 
   const handleSubmit = values => {
-    dispatch(createSubmission({ ...values, event_id }, history));
+    dispatch(submitProject({ ...values, event_id }, history));
   };
+
+  const requireGithubUrl = currentEvent.requirements.includes('github_url');
+  const requireVideoUrl = currentEvent.requirements.includes('video_url');
 
   const schema = Yup.object().shape({
     project_title: Yup.string()
@@ -58,12 +62,14 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
     participant_or_team_name: Yup.string()
       .min(2, "Team/participants name must be atleast 2 characters")
       .required("Team/participants name is required"),
-    git_url: Yup.string()
-      .min(8, "GIt url name must be atleast 8 characters")
-      .required("Git url is required"),
-    video_url: Yup.string()
+    git_url: requireGithubUrl
+      ? Yup.string()
+          .min(8, "GIt url name must be atleast 8 characters")
+          .required("github url is required")
+      : Yup.string(),
+    video_url: requireVideoUrl ? Yup.string()
       .min(8, "Video url must be atleast 8 characters")
-      .required("Video url is required"),
+      .required("Video url is required"): Yup.string(),
     project_writeups: Yup.string()
       .min(8, "Project writeup must be atleast 8 characters")
       .required("Project writeup is required")
@@ -73,6 +79,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
     <div>
       <UserHeader />
       <WideBody>
+        <Nav />
         <BodyContainerColumn>
           <RowHead>
             <H3>Submit Project</H3>
@@ -116,7 +123,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       </ErrorSpan>
                     </RowBody>
 
-                    {currentEvent.requirements.includes("github_url") ? (
+                    {requireGithubUrl && (
                       <RowBody>
                         <Input
                           type="text"
@@ -125,12 +132,12 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                           style={{ width: "100%" }}
                         />
                         <ErrorSpan>
-                          <ErrorMessage name="git_ur" component="div" />
+                          <ErrorMessage name="git_url" component="div" />
                         </ErrorSpan>
                       </RowBody>
-                    ) : null}
+                    )}
 
-                    {currentEvent.requirements.includes("video_url") ? (
+                    {requireVideoUrl && (
                       <RowBody>
                         <Input
                           type="text"
@@ -139,10 +146,10 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                           style={{ width: "100%" }}
                         />
                         <ErrorSpan>
-                          <ErrorMessage name="video_ur" component="div" />
+                          <ErrorMessage name="video_url" component="div" />
                         </ErrorSpan>
                       </RowBody>
-                    ) : null}
+                    ) }
                     <RowBody>
                       <TextArea
                         wide
@@ -160,7 +167,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       <Button to="/dashboard" color="grey" anchor>
                         Cancel
                       </Button>
-                      <Button color="green" type="submit" to="/dashboard">
+                      <Button color="green" type="submit">
                         Submit
                       </Button>
                     </RowBody>

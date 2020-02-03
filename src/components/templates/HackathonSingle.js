@@ -6,6 +6,7 @@ import { media } from "../index";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
+import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
 import { H2, H3 } from "../atoms/Heading";
 import { BoldSpan } from "../atoms/Span";
@@ -18,10 +19,11 @@ import Button from "../atoms/Button";
 import user_icon from "../../assets/user_icon.svg";
 
 import {
-  fetchAllParticipants,
   registerEvent,
   unregisterEvent
 } from "../../store/eventParticipants/actions";
+
+import { useParticipants, useEventTeam, useTeams } from "../../hooks";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -72,6 +74,16 @@ export const TagsCardWide = styled(CardWide)`
   max-width: 35%;
   height: 100%;
   justify-content: flex-start;
+
+  @media ${media.tablet} {
+    max-width: 100%;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
   .tags-header {
     display: flex;
     flex-direction: row;
@@ -79,6 +91,7 @@ export const TagsCardWide = styled(CardWide)`
     justify-content: flex-start;
     border-bottom: 1px solid lightgray;
   }
+
   .status {
     padding: 30px 0;
     margin: 0 0 30px 0;
@@ -86,15 +99,6 @@ export const TagsCardWide = styled(CardWide)`
     flex-direction: column;
     padding: 10px;
     border-bottom: 1px solid lightgray;
-  }
-    div {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  @media ${media.tablet} {
-    max-width: 100%;
   }
 `;
 
@@ -142,8 +146,11 @@ const HackathonSingle = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { participants } = useSelector(state => state);
   const { userId } = useSelector(state => state.currentUser);
+  const [participants, fetchParticipants] = useParticipants(id);
+  const [team] = useEventTeam(id);
+  const [teams, fetchTeams] = useTeams(id);
+  const createdTeam = teams.find(t => t.team_lead === userId);
 
   // Filter out event by URL param & grab user ID
   const {
@@ -167,16 +174,17 @@ const HackathonSingle = () => {
   const formattedEndDate = new Date(end_date).toLocaleDateString();
 
   // Event is open or closed for registration
+  const userCallback = p => p.user_id === userId;
   const today = new Date().getTime();
   const startTime = new Date(start_date).getTime();
   const endTime = new Date(end_date).getTime();
   const isOpen = today <= startTime;
-  const isRegistered = participants.find(p => p.user_id === userId);
+  const isTeamLead = createdTeam;
+  const isRegistered = participants.find(userCallback) || isTeamLead;
+  const isEventCreator = creator_id === userId;
+  const isTeamMember = team.find(userCallback) || isEventCreator;
   const isEnded = today > endTime;
-
-  useEffect(() => {
-    dispatch(fetchAllParticipants(id));
-  }, [dispatch, id]);
+  const individualParticipation = participation_type === 'individual';
 
   // Number of participants registered
   const registeredPartcipants = participants.length;
@@ -200,20 +208,28 @@ const HackathonSingle = () => {
     .join("");
 
   // Grab the first letter of title
-  const initial = event_title[0];
+  const initial = event_title[0] || 'U';
 
   const handleRegistration = e => {
     e.preventDefault();
+
     if (isRegistered) {
-      return dispatch(unregisterEvent(id, history));
+      dispatch(unregisterEvent(id, history));
+    } else {
+      dispatch(registerEvent(id, history));
     }
-    return dispatch(registerEvent(id, history));
+    return fetchParticipants();
   };
+
+  useEffect(() => {
+    fetchTeams();
+  }, [fetchTeams]);
 
   return (
     <div>
       <UserHeader />
       <WideBody>
+        <Nav />
         <BodyContainerColumn>
           <RowHead>
             <H3>{event_title}</H3>
@@ -279,8 +295,8 @@ const HackathonSingle = () => {
                     return <PTags key={index}>{tagged}</PTags>;
                   })
                 ) : (
-                  <Paragraph>No tags provided for this event</Paragraph>
-                )}
+                    <Paragraph>No tags provided for this event</Paragraph>
+                  )}
               </TagsGroup>
               <Separator />
               <ButtonsDashGroup>
@@ -288,7 +304,7 @@ const HackathonSingle = () => {
                   <Button anchor to={"/dashboard"} color="grey">
                     Back to Dashboard
                   </Button>
-                  {creator_id === userId && (
+                  {isEventCreator && !isEnded && (
                     <Button
                       anchor
                       to={`/dashboard/event/${id}/edit`}
@@ -305,11 +321,7 @@ const HackathonSingle = () => {
                 <Image src={user_icon} alt="user_icon" />
                 <div>
                   <BoldSpan>Hosted by:</BoldSpan>
-                  {organizer_name !== null ? (
-                    <PHosted>{organizer_name}</PHosted>
-                  ) : (
-                    <PHosted>{emailUser}</PHosted>
-                  )}
+                  <PHosted>{organizer_name || emailUser}</PHosted>
                 </div>
               </div>
               <div className="status">
@@ -326,36 +338,54 @@ const HackathonSingle = () => {
                 </BoldSpan>
               </div>
               <ButtonsDashGroup>
-                {creator_id === userId && !isEnded ? (
+                {isEventCreator && !isEnded && (
                   <Button
                     anchor
                     to={`/dashboard/event/${id}/team`}
                     color="green"
                   >
-                    Add Members
+                    Add Teammates
                   </Button>
-                ) : (
-                  <>
-                    {!isOpen ? (
-                      <Button
-                        style={{
-                          border: "2px solid lightgray",
-                          color: "lightgray"
-                        }}
-                        color="grey"
-                        disabled
-                      >
-                        Registration Closed
-                      </Button>
-                    ) : (
-                      <Button
-                        color={isRegistered ? "grey" : "green"}
-                        onClick={handleRegistration}
-                      >
-                        {isRegistered ? `Unregister` : `Register`}
-                      </Button>
-                    )}
-                  </>
+                )}
+                {!isTeamMember && isOpen ? (
+                  <Button
+                    color={isRegistered ? "grey" : "green"}
+                    {...{
+                      anchor: !individualParticipation,
+                      onClick: individualParticipation ? handleRegistration : null,
+                      to: !individualParticipation ? `/dashboard/event/${id}/participant-teams` : null
+                    }}
+                  >
+                    {isRegistered ? `Unregister` : `Register`}
+                  </Button>
+                ) : !isOpen && (
+                  <Button
+                    style={{
+                      border: "2px solid lightgray",
+                      color: "lightgray"
+                    }}
+                    disabled
+                  >
+                    Registration Closed
+                  </Button>
+                )}
+                {isTeamLead && !isEnded && (
+                  <Button
+                    color="green"
+                    anchor
+                    to={`/dashboard/event/${id}/participant-teams`}
+                  >
+                    Add teamate
+                  </Button>
+                )}
+                {isRegistered && !isEnded && (
+                  <Button
+                    color="green"
+                    anchor
+                    to={`/dashboard/event/${id}/participant_submission`}
+                  >
+                    Submit Project
+                  </Button>
                 )}
                 <Button
                   anchor

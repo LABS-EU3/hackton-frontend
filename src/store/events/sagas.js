@@ -10,7 +10,7 @@ import {
   axiosWithAuth,
   selectToken,
   showSuccess,
-  showError
+  handleError
 } from "../../utils/api";
 import {
   EventsTypes,
@@ -19,6 +19,19 @@ import {
   setEventCategories
 } from "./actions";
 
+export function* eventsSagas() {
+  yield all([
+    call(watchFetchAllEvents),
+    call(watchCreateEvent),
+    call(watchDeleteEvent),
+    call(watchUpdateEvent),
+    call(watchFetchEventCategories),
+    call(watchAddTeamMember),
+    call(watchFetchEventSubmissions),
+    call(watchSendEventTeamInvite)
+  ]);
+}
+
 function* fetchAllEventsAsync() {
   try {
     const token = yield select(selectToken);
@@ -26,9 +39,8 @@ function* fetchAllEventsAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/events");
     yield put(setEvents(body));
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -45,12 +57,8 @@ function* createEventAsync({ payload, history }) {
       yield showSuccess(`😀 ${data.message}`);
     }
     yield history.push("/dashboard");
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -64,9 +72,8 @@ function* deleteEventAsync({ payload }) {
     const { data } = yield axiosWithAuth(token).post("/api/events/" + payload);
     yield put(fetchAllEvents());
     yield showSuccess(`😲 ${data.message}`);
-  } catch ({response}) {
-    const {message} = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -87,12 +94,8 @@ function* updateEventAsync({ payload, history }) {
       yield showSuccess(`🎉 ${data.message}`);
       yield history.push("/dashboard");
     }
-  } catch ({ response }) {
-    const { message, statusCode } = response.data;
-    if (statusCode === 404) {
-      history.push("/not-found");
-    }
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -107,9 +110,8 @@ function* fetchEventCategoriesAsync() {
       data: { body }
     } = yield axiosWithAuth(token).get("/api/event-category");
     yield put(setEventCategories(body));
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(message);
+  } catch (error) {
+    handleError(error, put);
   }
 }
 
@@ -135,14 +137,34 @@ function* addTeamMemberAsync({ payload, history }) {
       yield showSuccess(`Added successfully`);
     }
     history.push(`/dashboard/event/${eventId}`);
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(`⚠️ ${message}`);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
 function* watchAddTeamMember() {
   yield takeLatest(EventsTypes.ADD_TEAM_MEMBER, addTeamMemberAsync);
+}
+
+function* sendEventTeamInviteAsync({ payload, history }) {
+  try {
+    const { email, role, eventId } = payload;
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).post(`/api/events/event-teams/invite/${eventId}`, { email, role_type: role });
+    if (data) {
+      yield showSuccess(`invite sent successfully to ${email}`);
+      history.push(`/dashboard/event/${eventId}`);
+    }
+  } catch (error) {
+    handleError(error, put, history);
+  }
+}
+
+function* watchSendEventTeamInvite() {
+  yield takeLatest(
+    EventsTypes.SEND_EVENT_TEAM_INVITE,
+    sendEventTeamInviteAsync
+  );
 }
 
 function* fetchEventSubmissionsAsync({ payload, history }) {
@@ -154,9 +176,8 @@ function* fetchEventSubmissionsAsync({ payload, history }) {
     if (data) {
       history.push(`/dashboard/events/${payload}`);
     }
-  } catch ({ response }) {
-    const { message } = response.data;
-    yield showError(message);
+  } catch (error) {
+    handleError(error, put, history);
   }
 }
 
@@ -165,16 +186,4 @@ function* watchFetchEventSubmissions() {
     EventsTypes.FETCH_EVENT_SUBMISSIONS,
     fetchEventSubmissionsAsync
   );
-}
-
-export function* eventsSagas() {
-  yield all([
-    call(watchFetchAllEvents),
-    call(watchCreateEvent),
-    call(watchDeleteEvent),
-    call(watchUpdateEvent),
-    call(watchFetchEventCategories),
-    call(watchAddTeamMember),
-    call(watchFetchEventSubmissions)
-  ]);
 }
