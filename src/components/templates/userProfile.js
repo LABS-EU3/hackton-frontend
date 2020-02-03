@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function userProfile () {
+export default function UserProfile () {
     return (
         <>
-            
+
         </>
     );
 }
