@@ -80,16 +80,12 @@ const Buttona = styled(Button)`
 `
 
 export default function UserProfile ({initialState}) {
-
-  const eventsParticipants = useSelector(state => state.participants);
-  const { userId } = useSelector(state => state.currentUser);
-  const registeredEvents = eventsParticipants.filter(event => event.creator_id === userId);
-
-  const [a, setA] = useSomeParticipants(1)
+  
+  const [participants, setParticipants] = useSomeParticipants(1)
 
   useEffect( () => {
-    setA
-  }, [setA])
+    setParticipants()
+  }, [setParticipants])
 
     return (
         <div>
@@ -127,7 +123,7 @@ export default function UserProfile ({initialState}) {
                       <H3>Hackathon(s) you registered for</H3>
                     </RowHead>
                     <RowBody spacing="start">
-                      {a.map(event => (
+                      {participants.map(event => (
                         <EventCard key={event.id} event={event} />
                       ))}
                     </RowBody>
