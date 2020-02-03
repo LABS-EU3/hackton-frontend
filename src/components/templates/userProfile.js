@@ -23,6 +23,7 @@ const BodyContainerColumn = styled(BodyContainer)`
 export const ProfileCardWide = styled(CardWide)`
   max-width: 80%;
   min-width: 60%;
+  justify-self: center;
 
   @media ${media.tablet} {
     max-width: 100%;
@@ -58,6 +59,11 @@ export const Row = styled.div`
   display: flex;
 `
 
+const Buttona = styled(Button)`
+height: 15%;
+align-self: flex-end
+`
+
 export default function UserProfile ({initialState}) {
     return (
         <div>
@@ -69,13 +75,12 @@ export default function UserProfile ({initialState}) {
             <H3>Your Profile</H3>
           </RowHead>
 
-          <RowBody>
             <ProfileCardWide>
                 <ProfileHead>
                     <ImageProfile src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg} />
-                    <Button color="green" anchor to='/dashboard/profile/edit' type="submit">
+                    <Buttona color="green" anchor to='/dashboard/profile/edit'>
                         Edit profile
-                    </Button>
+                    </Buttona>
                 </ProfileHead>
 
                 <Column>
@@ -99,8 +104,6 @@ export default function UserProfile ({initialState}) {
               </div>
               
             </ProfileCardWide>
-            
-          </RowBody>
         </BodyContainerColumn>
       </WideBody>
       <Footer />
