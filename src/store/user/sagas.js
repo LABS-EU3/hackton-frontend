@@ -162,7 +162,7 @@ function* watchResetPassword() {
 function* veryEmailAsync() {
   try {
     const token = select(selectToken);
-    const { data } = axiosWithAuth(token).get('/api/auth/verify_email')
+    const { data } = axiosWithAuth(token).post('/api/auth/verify_email')
     if (data) {
       showSuccess(data.message)
     }
