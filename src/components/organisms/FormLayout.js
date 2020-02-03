@@ -13,7 +13,7 @@ const FormLayout = ({
   formParagraph
 }) => (
   <WideBody>
-    <BodyContainer>
+    <BodyContainer justify="center">
       <HeroImage src={imageType} alt={imageText} />
       <Form
         ctaText={ctaText}
