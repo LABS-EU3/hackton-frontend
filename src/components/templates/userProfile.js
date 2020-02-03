@@ -35,6 +35,11 @@ export const ImageProfile = styled.img`
     border-radius: 50%;
 `
 
+export const ProfileHead = styled.div`
+	display: flex;
+  justify-content: space-between;
+`
+
 export default function UserProfile ({initialState}) {
     return (
         <div>
@@ -48,11 +53,16 @@ export default function UserProfile ({initialState}) {
 
           <RowBody>
             <ProfileCardWide>
-                <div>
+                <ProfileHead>
                     <ImageProfile src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg} />
                     <Button color="green" anchor to='/dashboard/profile/edit' type="submit">
                         Edit profile
                     </Button>
+                </ProfileHead>
+
+                <div>
+                  <H3>{initialState.fullname}</H3>
+                  <P>@{initialState.username}</P>
                 </div>
 
               {/* <Paragraph>
