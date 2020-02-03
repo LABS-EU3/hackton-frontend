@@ -204,7 +204,7 @@ const HackathonForm = ({ initialState }) => {
                     <RowBody justify="start">
                       {" "}
                       <Label htmlFor="input_tags">Tags</Label>
-                      <InputTag id="input_tags" />
+                      <InputTag id="input_tags" tags={defaultState.tag_name}/>
                     </RowBody>
                     <RowBody justify="start">
                       <Column>

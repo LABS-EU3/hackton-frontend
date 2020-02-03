@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./TagsInput.css";
 
-const InputTag = (props) => {
+const InputTag = props => {
+  console.log("TAGS PROPS: ", props);
   let tagInput;
   const [tags, setTags] = useState([]);
 
@@ -33,6 +34,9 @@ const InputTag = (props) => {
   return (
     <div {...props} className="input-tag">
       <ul className="input-tag__tags">
+        {props.tags.map(tag => (
+          <li>{tag}</li>
+        ))}
         {tags.map((tag, i) => (
           <li key={tag}>
             {tag}
