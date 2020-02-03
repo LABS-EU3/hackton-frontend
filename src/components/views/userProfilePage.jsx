@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import UserProfileForm from "../templates/UserProfileForm";
 import { fetchUserProfile } from "../../store/user/actions";
+import UserProfile from "../../components/templates/UserProfile";
 
-const UserProfileFormPage = () => {
+const UserProfilePage = () => {
   const dispatch = useDispatch();
   const { userId } = useSelector(state => state.currentUser);
   const userDetails = useSelector(state => state.currentUser);
@@ -14,9 +14,9 @@ const UserProfileFormPage = () => {
   console.log("user details", userDetails);
   return (
     <>
-      <UserProfileForm initialState={userDetails} />
+      <UserProfile initialState={userDetails}/>
     </>
   );
 };
 
-export default UserProfileFormPage;
+export default UserProfilePage;

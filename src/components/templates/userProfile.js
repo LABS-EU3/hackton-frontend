@@ -14,7 +14,7 @@ import profileImg from "../../assets/profile-image.png";
 import StyledImage from '../atoms/StyledImage';
 import { media } from "../index";
 import ProfileImage from '../molecules/ProfileImage';
-
+import Button from "../atoms/Button";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -48,7 +48,12 @@ export default function UserProfile ({initialState}) {
 
           <RowBody>
             <ProfileCardWide>
-            <ImageProfile src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg} />
+                <div>
+                    <ImageProfile src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg} />
+                    <Button color="green" to={'/dashboard/profile/edit'} type="submit">
+                        Edit profile
+                    </Button>
+                </div>
 
               {/* <Paragraph>
                 <BoldSpan>Description:</BoldSpan>
