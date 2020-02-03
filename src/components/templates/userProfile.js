@@ -5,7 +5,7 @@ import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
 import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
-import { H3 } from "../atoms/Heading";
+import { H2, H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
 import { Column } from "../atoms/Column";
@@ -15,6 +15,7 @@ import StyledImage from '../atoms/StyledImage';
 import { media } from "../index";
 import ProfileImage from '../molecules/ProfileImage';
 import Button from "../atoms/Button";
+import {Paragraph} from '../atoms/Paragraph';
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -31,14 +32,21 @@ export const ProfileCardWide = styled(CardWide)`
 
 export const ImageProfile = styled.img`
 	display: flex;
-    width: 30%;
-    border-radius: 50%;
+  width: 30%;
+  border-radius: 50%;
 `
 
 export const ProfileHead = styled.div`
 	display: flex;
   justify-content: space-between;
+  margin-bottom: 5px;
 `
+
+export const Separator = styled.hr`
+  border-top: 0;
+  border-bottom: 1px solid #c3cfd9;
+  margin: 0 0 20px 0;
+`;
 
 export default function UserProfile ({initialState}) {
     return (
@@ -60,66 +68,24 @@ export default function UserProfile ({initialState}) {
                     </Button>
                 </ProfileHead>
 
+                <Column>
+                  <H2 style={{'marginBottom': 0}}>{initialState.fullname}</H2>
+                  <Paragraph style={{'color': 'gray'}}>@{initialState.username}</Paragraph>
+                </Column>
+
                 <div>
-                  <H3>{initialState.fullname}</H3>
-                  <P>@{initialState.username}</P>
+                  <Paragraph>{initialState.bio}</Paragraph>
                 </div>
 
                 <div>
-                  <P>{initialState.bio}</P>
+                  <Paragraph>{initialState.email}</Paragraph>
                 </div>
-
-                <div>
-                  <P>{initialState.email}</P>
-                </div>
-
-              {/* <Paragraph>
-                <BoldSpan>Description:</BoldSpan>
-                {description}
-              </Paragraph>
 
               <Separator />
 
-              <Details>
-                <div>
-                  <Paragraph>
-                    <BoldSpan>Event starts:</BoldSpan>
-                    {formattedStartDate}
-                  </Paragraph>
-                </div>
-
-                <div>
-                  <Paragraph>
-                    <BoldSpan>Event ends:</BoldSpan>
-                    {formattedEndDate}
-                  </Paragraph>
-                </div>
-              </Details>
-
-              <Separator />
-
-              <Details>
-                <div>
-                  <Paragraph>
-                    <BoldSpan>Location:</BoldSpan>
-                    {location}
-                  </Paragraph>
-                </div>
-              </Details>
-
-              <Separator />
-
-              <Paragraph>
-                <BoldSpan>Guidelines:</BoldSpan>
-                {guidelines}
-              </Paragraph>
-              <Separator />
-              <Paragraph>
-                <BoldSpan>Rubrics:</BoldSpan>
-                {guidelines}
-              </Paragraph>
-              <Separator />
-               */}
+              <div>
+                <p>yugyklhjm;j</p>
+              </div>
               
             </ProfileCardWide>
             
