@@ -35,14 +35,16 @@ export const CardForm = styled(Card)`
   height: auto;
 
   @media ${media.tablet} {
-    width: 400px;
+    width: 100%;
     padding: 20px;
+    margin: 0;
     justify-content: start;
   }
 
   @media ${media.mobile} {
-    min-width: 300px;
+    width: 100%;
     padding: 15px;
+    margin: 0;
     justify-content: start;
   }
 `;

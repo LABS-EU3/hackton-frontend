@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { media } from "./../index";
 
 export const Column = styled.div`
   display: flex;
@@ -6,7 +7,7 @@ export const Column = styled.div`
   justify-content: center;
   flex-wrap: wrap;
 
-  & div > [type=date], div > select {
-    min-width: 250px;
+  @media ${media.tablet} {
+    width: 100%;
   }
 `;
