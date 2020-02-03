@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const useAsync = () => (request) => {
+export const useAsync = (request) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -18,7 +18,7 @@ export const useAsync = () => (request) => {
       }
     }
     req();
-  }, [])
+  }, [request])
 
   return [data, loading, error];
 }

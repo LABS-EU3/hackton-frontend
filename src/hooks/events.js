@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { axiosWithAuth, selectToken } from '../utils/api';
+import { useAsync } from './async';
 
 export const useParticipants = id => {
   const [participants, setParticipants] = useState([]);
@@ -104,4 +105,12 @@ export const useSubmissions = id => {
   }, [fetchSubmissions]);
 
   return [submissions, fetchSubmissions];
+}
+
+
+export const useUserEvents = (perPage = 6, currentPage = 1) => {
+  const token = useSelector(selectToken);
+  const request = () => axiosWithAuth(token).get(`/api/events/user-events?perPage=${perPage}&currentPage=${currentPage}`);
+
+  return useAsync(request);
 }
