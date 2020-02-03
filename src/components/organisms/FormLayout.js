@@ -10,19 +10,17 @@ const FormLayout = ({
   imageText,
   formHeader,
   formParagraph
-}) => {
-  return (
-    <WideBody>
-      <BodyContainer>
-        <HeroImage src={imageType} alt={imageText} />
-        <Form
-          ctaText={ctaText}
-          formHeader={formHeader}
-          formParagraph={formParagraph}
-        />
-      </BodyContainer>
-    </WideBody>
-  );
-}
+}) => (
+  <WideBody>
+    <BodyContainer justify="center">
+      <HeroImage src={imageType} alt={imageText} />
+      <Form
+        ctaText={ctaText}
+        formHeader={formHeader}
+        formParagraph={formParagraph}
+      />
+    </BodyContainer>
+  </WideBody>
+);
 
 export default FormLayout;

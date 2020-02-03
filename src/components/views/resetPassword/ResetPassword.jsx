@@ -15,7 +15,7 @@ import { Footer } from "../../organisms/index";
 import Button from "../../atoms/Button";
 import { ErrorSpan } from "../../atoms/Span";
 import { forgotPassword } from '../../../store/user/actions';
-import UserHeader from "../../organisms/UserHeader";
+import Header from '../../organisms/Header';
 import { useHistory } from "react-router-dom";
 
 const BodyContainerColumn = styled(BodyContainer)`
@@ -40,7 +40,7 @@ const ResetPassword = () => {
 
   return (
     <div>
-      <UserHeader />
+      <Header />
       <WideBody>
         <BodyContainerColumn>
           <RowHead>
@@ -69,7 +69,7 @@ const ResetPassword = () => {
                       <ErrorMessage name="email" />
                     </ErrorSpan>
                     <RowBody>
-                      <Button color="green">Submit</Button>
+                      <Button type="submit" color="green">Submit</Button>
                     </RowBody>
                   </Form>
                 )}

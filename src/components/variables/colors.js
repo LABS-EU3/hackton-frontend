@@ -7,7 +7,7 @@ export const Solid = {
   DARK_GREY: '#797979',
   BORDER_GREY: '#C3CFD9',
   BLACK: '#212121',
-  BLUE: '#1E77B4',
+  BLUE: '#245EA4',
 };
 
 export const Gradient = {
