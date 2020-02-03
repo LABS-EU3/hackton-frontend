@@ -65,6 +65,14 @@ export default function UserProfile ({initialState}) {
                   <P>@{initialState.username}</P>
                 </div>
 
+                <div>
+                  <P>{initialState.bio}</P>
+                </div>
+
+                <div>
+                  <P>{initialState.email}</P>
+                </div>
+
               {/* <Paragraph>
                 <BoldSpan>Description:</BoldSpan>
                 {description}
