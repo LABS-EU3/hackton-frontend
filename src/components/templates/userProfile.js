@@ -50,7 +50,7 @@ export default function UserProfile ({initialState}) {
             <ProfileCardWide>
                 <div>
                     <ImageProfile src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg} />
-                    <Button color="green" to={'/dashboard/profile/edit'} type="submit">
+                    <Button color="green" anchor to='/dashboard/profile/edit' type="submit">
                         Edit profile
                     </Button>
                 </div>

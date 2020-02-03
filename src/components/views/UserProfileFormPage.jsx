@@ -11,7 +11,6 @@ const UserProfileFormPage = () => {
     dispatch(fetchUserProfile(userId));
   }, [dispatch, userId]);
 
-  console.log("user details", userDetails);
   return (
     <>
       <UserProfileForm initialState={userDetails} />
