@@ -29,6 +29,12 @@ export const ProfileCardWide = styled(CardWide)`
   }
 `;
 
+export const ImageProfile = styled.img`
+	display: flex;
+    width: 30%;
+    border-radius: 50%;
+`
+
 export default function UserProfile ({initialState}) {
     return (
         <div>
@@ -42,10 +48,7 @@ export default function UserProfile ({initialState}) {
 
           <RowBody>
             <ProfileCardWide>
-            <ProfileImage
-                image={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg}
-                name={initialState?.username}
-            />
+            <ImageProfile src={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg} />
 
               {/* <Paragraph>
                 <BoldSpan>Description:</BoldSpan>
