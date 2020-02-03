@@ -60,8 +60,8 @@ export const Row = styled.div`
 `
 
 const Buttona = styled(Button)`
-height: 15%;
-align-self: flex-end
+  height: 15%;
+  align-self: flex-end;
 `
 
 export default function UserProfile ({initialState}) {

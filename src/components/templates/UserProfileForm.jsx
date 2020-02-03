@@ -160,7 +160,7 @@ const UserProfileForm = ({initialState}) => {
                           Cancel
                         </Button>
                       </Link>
-                      <Button color="green" to="/dashboard" type="submit">
+                      <Button color="green" anchor to="/dashboard/profile" type="submit">
                         Save Changes
                       </Button>
                     </RowBody>
