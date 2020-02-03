@@ -20,7 +20,8 @@ export function* userSagas() {
     call(watchFetchUserProfile),
     call(watchUpdateUserProfile),
     call(watchForgotPassword),
-    call(watchResetPassword)
+    call(watchResetPassword),
+    call(watchVerifyEmail)
   ]);
 }
 
@@ -156,4 +157,19 @@ function* resetPasswordAsync({ payload: password, history }) {
 
 function* watchResetPassword() {
   yield takeLatest(UserTypes.RESET_PASSWORD, resetPasswordAsync);
+}
+
+function* veryEmailAsync() {
+  try {
+    const { data } = axios.post('/api/auth/verify_email')
+    if (data) {
+      showSuccess(data.message)
+    }
+  } catch ({ response: { message } }) {
+    yield showError(message);
+  }
+}
+
+function* watchVerifyEmail() {
+  yield takeLatest(UserTypes.VERIFY_EMAIL, veryEmailAsync);
 }
