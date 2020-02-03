@@ -1,5 +1,4 @@
-import React from "react";
-
+import React from 'react';
 import WideBody from "../atoms/WideBody";
 import BodyContainer from "../atoms/BodyContainer";
 import HeroImage from "../atoms/HeroImage";

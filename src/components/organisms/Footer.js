@@ -21,7 +21,7 @@ const Footer = () => (
       </Group>
 
       <Group>
-        <FooterNavAnchor href="#">Team</FooterNavAnchor>
+        <FooterNavAnchor href="https://hackton.co/#team">Team</FooterNavAnchor>
         <FooterNavAnchor href="#">Privacy</FooterNavAnchor>
         <FooterNavAnchor href="#">Contacts</FooterNavAnchor>
       </Group>
