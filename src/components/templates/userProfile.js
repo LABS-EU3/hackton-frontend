@@ -40,7 +40,7 @@ export const ProfileCard = styled.div`
 export const HackathonCard = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 7px;
+  margin-top: 8px;
 `;
 
 export const ImageProfile = styled.img`
@@ -110,7 +110,7 @@ export default function UserProfile ({initialState}) {
                     </Row>
                     <Row>
                       <Icon/>
-                      <Paragraph style={{'color': 'blue', 'marginLeft': '2px'}}>{initialState.email}</Paragraph>
+                      <Paragraph style={{'color': 'blue', 'marginLeft': '3px'}}>{initialState.email}</Paragraph>
                     </Row>
                   </ProfileCard>
   

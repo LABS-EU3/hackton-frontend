@@ -8,7 +8,8 @@ import {
 import {
   EventParticipantTypes,
   fetchAllParticipants,
-  setEventParticipants
+  setEventParticipants,
+  getUserRegisteredEvent
 } from "./actions";
 
 export function* eventParticipantsSagas() {
@@ -76,4 +77,21 @@ function* watchUnregisterEvent() {
     EventParticipantTypes.UNREGISTER_EVENT,
     unregisterEventAsync
   );
+}
+
+function* fetchAllParticipantsAsync({ payload }) {
+  try {
+    const token = yield select(selectToken);
+    const {
+      data: { body }
+    } = yield axiosWithAuth(token).get(`/api/events/participants/user/?perPage=5&currentPage=1`, {
+      params: {
+        perPage: 6,
+        currentPage: 1
+      }
+    });
+    yield put(setEventParticipants(body));
+  } catch (error) {
+    handleError(error, put);
+  }
 }
