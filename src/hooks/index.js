@@ -80,8 +80,7 @@ export const useSomeParticipants = id => {
   }, [id, token])
 
   useEffect(() => {
-    fetchSomeParticipants();
-
+    fetchSomeParticipants();s
   }, [fetchSomeParticipants]);
 
   return [someParticipants, fetchSomeParticipants];
