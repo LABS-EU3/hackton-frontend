@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -12,11 +12,12 @@ import { Paragraph } from "../atoms/Paragraph";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
 import { ErrorSpan } from "../atoms/Span";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register, login } from "../../store/user/actions";
 import SocialMedia from "../molecules/SocialMedia";
 import { type, smallFontSize, Solid } from "../index";
 import { SocialMediaContainer } from "../atoms/SocialIcon";
+import { socialAuthLoad, verifyEmail } from "../../store/user/actions";
 
 const StyledAnchor = styled(Link)`
   font-family: ${type.ROBOTO_MONO};
@@ -33,8 +34,18 @@ const StyledAnchor = styled(Link)`
 
 const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
   const dispatch = useDispatch();
-  const { search } = useLocation();
-  const { team, role } = queryString.parse(search);
+  const { search, state } = useLocation();
+  const { team, role, google, github, verified, ref } = queryString.parse(search);
+  const { token } = useSelector(state => state.currentUser);
+
+  useEffect(() => {
+    if (google || github) {
+      dispatch(socialAuthLoad());
+    }
+    if (verified) {
+      dispatch(verifyEmail());
+    }
+  }, [google, github, verified, dispatch]);
 
   const handleSubmit = values => {
     const { email, password } = values;
@@ -59,6 +70,10 @@ const CustomForm = ({ ctaText, formHeader, formParagraph }) => {
       .required("Password is required.")
       .min(8, "Password must be at least 8 characters long.")
   });
+
+  if (token) {
+    return <Redirect to={state?.from || ref || '/dashboard'} />;
+  }
 
   return (
     <Container>

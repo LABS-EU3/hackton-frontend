@@ -17,8 +17,7 @@ export const UserTypes = {
 export const login = (email, password) => {
   return {
     type: UserTypes.LOGIN,
-    payload: { email, password },
-
+    payload: { email, password }
   };
 };
 
@@ -30,8 +29,7 @@ export const register = (email, password, role, team) => {
       password,
       role,
       team
-    },
-
+    }
   };
 };
 
