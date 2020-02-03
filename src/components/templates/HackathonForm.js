@@ -284,6 +284,11 @@ const HackathonForm = ({ initialState }) => {
                       />
                       <Checkbox
                         name="rubrics"
+                        value="functionality"
+                        label="Functionality"
+                      />
+                      <Checkbox
+                        name="rubrics"
                         value="innovation"
                         label="Innovation"
                       />
