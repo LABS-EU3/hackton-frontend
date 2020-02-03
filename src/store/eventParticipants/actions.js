@@ -36,9 +36,8 @@ export const unregisterEvent = (eventId, history) => {
   };
 };
 
-export const getUserRegisteredEvent = payload => {
+export const getUserRegisteredEvent = () => {
   return {
     type: EventParticipantTypes.GET_USER_REGISTERED_EVENTS,
-    payload
   };
 };

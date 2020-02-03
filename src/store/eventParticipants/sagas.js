@@ -8,15 +8,15 @@ import {
 import {
   EventParticipantTypes,
   fetchAllParticipants,
-  setEventParticipants,
-  getUserRegisteredEvent
+  setEventParticipants
 } from "./actions";
 
 export function* eventParticipantsSagas() {
   yield all([
     call(watchFetchAllEventParticipants),
     call(WatchRegisterEvent),
-    call(watchUnregisterEvent)
+    call(watchUnregisterEvent),
+    call(watchGetUserRegisteredEvent)
   ]);
 }
 
@@ -79,19 +79,27 @@ function* watchUnregisterEvent() {
   );
 }
 
-function* fetchAllParticipantsAsync({ payload }) {
+function* getUserRegisteredEventAsync() {
   try {
     const token = yield select(selectToken);
     const {
       data: { body }
-    } = yield axiosWithAuth(token).get(`/api/events/participants/user/?perPage=5&currentPage=1`, {
+    } = yield axiosWithAuth(token).get('/api/events/participants/user/', {
       params: {
         perPage: 6,
         currentPage: 1
       }
     });
     yield put(setEventParticipants(body));
+    console.log('user events data', body)
   } catch (error) {
     handleError(error, put);
   }
+}
+
+function* watchGetUserRegisteredEvent() {
+  yield takeLatest(
+    EventParticipantTypes.GET_USER_REGISTERED_EVENTS,
+    getUserRegisteredEventAsync
+  );
 }
