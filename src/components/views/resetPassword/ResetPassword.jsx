@@ -69,7 +69,7 @@ const ResetPassword = () => {
                       <ErrorMessage name="email" />
                     </ErrorSpan>
                     <RowBody>
-                      <Button color="green">Submit</Button>
+                      <Button type="submit" color="green">Submit</Button>
                     </RowBody>
                   </Form>
                 )}
