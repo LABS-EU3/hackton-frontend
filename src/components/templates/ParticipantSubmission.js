@@ -9,14 +9,17 @@ import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
 import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
-import { H3, H4 } from "../atoms/Heading";
+import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
 import { RowBody } from "../atoms/RowBody";
-import { CardWide } from "../atoms/Card";
+import { Column } from "../atoms/Column";
+import { CardForm } from "../atoms/Card";
 import { ErrorSpan } from "../atoms/Span";
 import Input from "../atoms/Input";
+import Label from "../atoms/Label";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
+import { Paragraph } from "../atoms/Paragraph";
 import {
   fetchAllSubmissions,
   submitProject
@@ -52,27 +55,29 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
     dispatch(submitProject({ ...values, event_id }, history));
   };
 
-  const requireGithubUrl = currentEvent.requirements.includes('github_url');
-  const requireVideoUrl = currentEvent.requirements.includes('video_url');
+  const requireGithubUrl = currentEvent.requirements.includes("github_url");
+  const requireVideoUrl = currentEvent.requirements.includes("video_url");
 
   const schema = Yup.object().shape({
     project_title: Yup.string()
-      .min(3, "Project title must be atleast 3 characters")
-      .required("Project title is required"),
+      .min(3, "Project title must be at least 3 characters long.")
+      .required("Project title is required."),
     participant_or_team_name: Yup.string()
-      .min(2, "Team/participants name must be atleast 2 characters")
-      .required("Team/participants name is required"),
+      .min(2, "Team/participants name must be at least 2 characters long.")
+      .required("Team/participants name is required."),
     git_url: requireGithubUrl
       ? Yup.string()
-          .min(8, "GIt url name must be atleast 8 characters")
-          .required("github url is required")
+          .min(8, "GitHub URL must be at least 8 characters long.")
+          .required("GitHub URL is required.")
       : Yup.string(),
-    video_url: requireVideoUrl ? Yup.string()
-      .min(8, "Video url must be atleast 8 characters")
-      .required("Video url is required"): Yup.string(),
+    video_url: requireVideoUrl
+      ? Yup.string()
+          .min(8, "Video URL must be at least 8 characters long.")
+          .required("Video URL is required.")
+      : Yup.string(),
     project_writeups: Yup.string()
-      .min(8, "Project writeup must be atleast 8 characters")
-      .required("Project writeup is required")
+      .min(8, "Project writeup must be at least 8 characters long.")
+      .required("Project writeup is required.")
   });
 
   return (
@@ -85,14 +90,8 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
             <H3>Submit Project</H3>
           </RowHead>
 
-          <RowBody>
-            <CardWide>
-              <H4>
-                You are making a submission for the {currentEvent.event_title}{" "}
-                2020 Hackathon. Please ensure you have read the event guidelines
-                and have gone through the grading rubrics for this event before
-                you make your submission.
-              </H4>
+          <Column>
+            <CardForm>
               <Formik
                 onSubmit={handleSubmit}
                 initialValues={initialState}
@@ -102,34 +101,54 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                 {() => (
                   <Form>
                     <RowBody>
-                      <Input
-                        type="text"
-                        name="project_title"
-                        placeholder="Project Title"
-                      />
-                      <ErrorSpan>
-                        <ErrorMessage name="project_title" component="div" />
-                      </ErrorSpan>
-                      <Input
-                        type="text"
-                        name="participant_or_team_name"
-                        placeholder="Team/Participant Name"
-                      />
-                      <ErrorSpan>
-                        <ErrorMessage
-                          name="participant_or_team_name"
-                          component="div"
+                      <Paragraph>
+                        You are making a submission for the{" "}
+                        <strong>{currentEvent.event_title}</strong>. Please
+                        ensure you have read the event guidelines and have gone
+                        through the grading rubrics for this event before you
+                        make your submission.
+                      </Paragraph>
+                    </RowBody>
+                    <RowBody>
+                      <Column>
+                        <Label htmlFor="project_title">Project Title</Label>
+                        <Input
+                          type="text"
+                          id="project_title"
+                          name="project_title"
+                          display="wide"
                         />
-                      </ErrorSpan>
+                        <ErrorSpan>
+                          <ErrorMessage name="project_title" component="div" />
+                        </ErrorSpan>
+                      </Column>
+                      <Column>
+                        <Label htmlFor="participant_or_team_nam">
+                          Team/Participan name
+                        </Label>
+                        <Input
+                          type="text"
+                          name="participant_or_team_name"
+                          id="participant_or_team_name"
+                          display="wide"
+                        />
+                        <ErrorSpan>
+                          <ErrorMessage
+                            name="participant_or_team_name"
+                            component="div"
+                          />
+                        </ErrorSpan>
+                      </Column>
                     </RowBody>
 
                     {requireGithubUrl && (
-                      <RowBody>
+                      <RowBody justify="start">
+                        <Label htmlFor="git_url">GitHub URL</Label>
                         <Input
                           type="text"
                           name="git_url"
-                          placeholder="Github Url"
-                          style={{ width: "100%" }}
+                          id="git_url"
+                          display="wide"
                         />
                         <ErrorSpan>
                           <ErrorMessage name="git_url" component="div" />
@@ -138,25 +157,27 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                     )}
 
                     {requireVideoUrl && (
-                      <RowBody>
+                      <RowBody justify="start">
+                        <Label htmlFor="video_url">Video URL</Label>
                         <Input
                           type="text"
                           name="video_url"
-                          placeholder="Video Url"
+                          id="video_url"
                           style={{ width: "100%" }}
                         />
                         <ErrorSpan>
                           <ErrorMessage name="video_url" component="div" />
                         </ErrorSpan>
                       </RowBody>
-                    ) }
-                    <RowBody>
+                    )}
+                    <RowBody justify="start">
+                      <Label htmlFor="project_writeups">Project Writeup</Label>
                       <TextArea
                         wide
                         as="textarea"
                         type="text"
                         name="project_writeups"
-                        placeholder="Project Writeup"
+                        id="project_writeups"
                       />
                       <ErrorSpan>
                         <ErrorMessage name="project_writeups" />
@@ -164,7 +185,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                     </RowBody>
 
                     <RowBody>
-                      <Button to="/dashboard" color="grey" anchor>
+                      <Button anchor to="/dashboard" color="grey">
                         Cancel
                       </Button>
                       <Button color="green" type="submit">
@@ -174,8 +195,8 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                   </Form>
                 )}
               </Formik>
-            </CardWide>
-          </RowBody>
+            </CardForm>
+          </Column>
         </BodyContainerColumn>
       </WideBody>
       <Footer />

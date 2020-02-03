@@ -12,7 +12,7 @@ const I = styled(Field)`
   border-radius: 6px;
   padding: 10px;
   width: 180px;
-  margin: 0 20px 10px 0;
+  margin: 0 0 10px 0;
 
   &:focus {
     transition: all 0.5s;
