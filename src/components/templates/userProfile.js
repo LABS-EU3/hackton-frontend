@@ -40,6 +40,7 @@ export const ProfileCard = styled.div`
 export const HackathonCard = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 7px;
 `;
 
 export const ImageProfile = styled.img`
@@ -114,7 +115,7 @@ export default function UserProfile ({initialState}) {
                   </ProfileCard>
   
                   <HackathonCard>
-                    <RowHead style={{'marginTop': '5px'}}>
+                    <RowHead>
                       <H3>Hackathon(s) you registered for</H3>
                     </RowHead>
                     <RowBody spacing="start">
