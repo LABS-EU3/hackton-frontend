@@ -11,8 +11,11 @@ const UserProfileFormPage = () =>{
   useEffect(() => {
     dispatch(fetchUserProfile(userId));
   }, [dispatch, userId]);
+
+  console.log('úser details', userDetails);
 return (
 <UserProfileForm initialState={userDetails}/>
+
 );
 }
 
