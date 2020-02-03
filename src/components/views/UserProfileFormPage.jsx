@@ -14,7 +14,10 @@ const UserProfileFormPage = () => {
 
   console.log("user details", userDetails);
   return (
-    <UserProfileForm initialState={userDetails} />
+    <>
+      <UserProfileForm initialState={userDetails} />
+      <UserProfile initialState={userDetails}/>
+    </>
   );
 };
 
