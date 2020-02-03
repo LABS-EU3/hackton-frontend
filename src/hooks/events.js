@@ -111,6 +111,11 @@ export const useSubmissions = id => {
 export const useUserEvents = (perPage = 6, currentPage = 1) => {
   const token = useSelector(selectToken);
   const request = () => axiosWithAuth(token).get(`/api/events/user-events?perPage=${perPage}&currentPage=${currentPage}`);
+  return useAsync(request);
+}
 
+export const useRegisteredEvents = (perPage = 9, currentPage = 1) => {
+  const token = useSelector(selectToken);
+  const request = () => axiosWithAuth(token).get(`/api/events/participants/user?perPage=${perPage}&currentPage=${currentPage}`);
   return useAsync(request);
 }
