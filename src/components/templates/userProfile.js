@@ -11,11 +11,10 @@ import { RowBody } from "../atoms/RowBody";
 import { Column } from "../atoms/Column";
 import { CardWide } from "../atoms/Card";
 import profileImg from "../../assets/profile-image.png";
-import StyledImage from '../atoms/StyledImage';
 import { media } from "../index";
-import ProfileImage from '../molecules/ProfileImage';
 import Button from "../atoms/Button";
 import {Paragraph} from '../atoms/Paragraph';
+import mailIcon from '../../assets/Icon-mail-24px.png'
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -48,6 +47,17 @@ export const Separator = styled.hr`
   margin: 0 0 20px 0;
 `;
 
+export const Icon = styled.div`
+  width: 20px;
+  height: 23px;
+  background-image: url(${mailIcon});
+  background-repeat: no-repeat;
+`;
+
+export const Row = styled.div`
+  display: flex;
+`
+
 export default function UserProfile ({initialState}) {
     return (
         <div>
@@ -73,13 +83,14 @@ export default function UserProfile ({initialState}) {
                   <Paragraph style={{'color': 'gray'}}>@{initialState.username}</Paragraph>
                 </Column>
 
-                <div>
+                <Row>
                   <Paragraph>{initialState.bio}</Paragraph>
-                </div>
+                </Row>
 
-                <div>
-                  <Paragraph>{initialState.email}</Paragraph>
-                </div>
+                <Row>
+                  <Icon/>
+                  <Paragraph style={{'color': 'blue', 'marginLeft': '1px'}}>{initialState.email}</Paragraph>
+                </Row>
 
               <Separator />
 
