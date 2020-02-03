@@ -70,15 +70,6 @@ export const EventCardWide = styled(CardWide)`
   }
 `;
 
-export const ProfileCardWide = styled(CardWide)`
-  max-width: 80%;
-  min-width: 60%;
-
-  @media ${media.tablet} {
-    max-width: 100%;
-  }
-`;
-
 export const TagsCardWide = styled(CardWide)`
   max-width: 35%;
   height: 100%;
