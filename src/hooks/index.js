@@ -61,6 +61,32 @@ export const useParticipants = id => {
   return [participants, fetchParticipants];
 }
 
+export const useSomeParticipants = id => {
+  const [someParticipants, setSomeParticipants] = useState([]);
+  const token = useSelector(selectToken);
+  const fetchSomeParticipants = useCallback(() => {
+    const fetchData = async () => {
+      const {
+        data: { body }
+      } = await axiosWithAuth(token).get('/api/events/participants/user/', {
+        params: {
+          perPage: 6,
+          currentPage: 1
+        }
+      })
+      setSomeParticipants(body);
+    };
+    fetchData();
+  }, [id, token])
+
+  useEffect(() => {
+    fetchSomeParticipants();
+
+  }, [fetchSomeParticipants]);
+
+  return [someParticipants, fetchSomeParticipants];
+}
+
 export const useEventTeam = id => {
   const [team, setTeam] = useState([]);
   const token = useSelector(selectToken);

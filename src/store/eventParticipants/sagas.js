@@ -91,7 +91,6 @@ function* getUserRegisteredEventAsync() {
       }
     });
     yield put(setEventParticipants(body));
-    console.log('user events data', body)
   } catch (error) {
     handleError(error, put);
   }

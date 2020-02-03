@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from "styled-components";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -17,6 +17,8 @@ import {Paragraph} from '../atoms/Paragraph';
 import mailIcon from '../../assets/Icon-mail-24px.png';
 import EventCard from "../molecules/EventCard";
 import { useSelector } from "react-redux";
+
+import { useSomeParticipants } from "../../hooks";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -79,9 +81,15 @@ const Buttona = styled(Button)`
 
 export default function UserProfile ({initialState}) {
 
-  const events = useSelector(state => state.events.data);
+  const eventsParticipants = useSelector(state => state.participants);
   const { userId } = useSelector(state => state.currentUser);
-  const userEvents = events.filter(event => event.creator_id === userId);
+  const registeredEvents = eventsParticipants.filter(event => event.creator_id === userId);
+
+  const [a, setA] = useSomeParticipants(1)
+
+  useEffect( () => {
+    setA
+  }, [setA])
 
     return (
         <div>
@@ -119,7 +127,7 @@ export default function UserProfile ({initialState}) {
                       <H3>Hackathon(s) you registered for</H3>
                     </RowHead>
                     <RowBody spacing="start">
-                      {userEvents.map(event => (
+                      {a.map(event => (
                         <EventCard key={event.id} event={event} />
                       ))}
                     </RowBody>
