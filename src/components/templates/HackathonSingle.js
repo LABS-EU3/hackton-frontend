@@ -245,9 +245,9 @@ const HackathonSingle = () => {
 
   console.log(data, loading);
 
-  if (loading) {
-    return <div>Loading... </div>
-  }
+  // if (loading) {
+  //   return <div>Loading... </div>
+  // }
 
   return (
     <div>
