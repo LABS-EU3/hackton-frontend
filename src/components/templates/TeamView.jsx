@@ -8,6 +8,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { LetterIcon } from "../atoms/Icon";
 import { useTeammates } from "../../hooks";
+import user_icon from "../../assets/user_icon.svg";
 
 const TeamView = ({ team }) => {
   const { id } = useParams();
@@ -17,12 +18,20 @@ const TeamView = ({ team }) => {
   );
 
   const [teammates, fetchTeammates] = useTeammates(team?.id);
-  const initial = team?.team_name[0] || 'U';
+  const initial = team?.team_name[0] || "U";
+
+  let memberProfile;
+  // teammates.map(member => {
+  //   member.team_member_profile.map(mem => {
+  //     return (memberProfile = JSON.parse(mem));
+  //   });
+  //   return memberProfile;
+  // });
+  console.log("teammates", teammates);
 
   useEffect(() => {
     fetchTeammates();
   }, [fetchTeammates]);
-
 
   const TeamsCont = styled(BodyContainer)`
     background-color: white;
@@ -82,19 +91,42 @@ const TeamView = ({ team }) => {
             paddingBottom: "10px"
           }}
         >
-          {teammates.map(member => {
-            return member.team_member_fullname === null ? (
-              <Paragraph key={member.id}>{member.team_member_email}</Paragraph>
+          {" "}
+          {teammates.map(member =>
+            member.team_member_profile === null ? (
+              <img
+                style={{
+                  width: "7%",
+                  height: "7%",
+                  marginLeft: "1%",
+                  objectFit: "cover"
+                }}
+                alt="team member profile pic"
+                src={user_icon}
+              />
             ) : (
-                <Paragraph key={member.id}>
-                  {member.team_member_fullname}
-                </Paragraph>
-              );
-          })}
+              member.team_member_profile.map((mem, index) => {
+                memberProfile = JSON.parse(mem);
+                return (
+                  <img
+                    key={index}
+                    style={{
+                      width: "7%",
+                      height: "7%",
+                      marginLeft: "1%",
+                      objectFit: "cover"
+                    }}
+                    alt="team member profile pic"
+                    src={memberProfile.avatar || user_icon}
+                  />
+                );
+              })
+            )
+          )}
         </div>
       ) : (
-          <FancyBoldSpan>This team has no members</FancyBoldSpan>
-        )}
+        <FancyBoldSpan>This team has no members</FancyBoldSpan>
+      )}
       <FancyBoldSpan>
         Hackathon Name:
         <NormalSpan>{event_title}</NormalSpan>
