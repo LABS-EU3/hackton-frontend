@@ -117,7 +117,7 @@ const TeamView = ({ team }) => {
                       objectFit: "cover"
                     }}
                     alt="team member profile pic"
-                    src={memberProfile.avatar || user_icon}
+                    src={memberProfile.avatar}
                   />
                 );
               })
