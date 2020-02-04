@@ -21,13 +21,6 @@ const TeamView = ({ team }) => {
   const initial = team?.team_name[0] || "U";
 
   let memberProfile;
-  // teammates.map(member => {
-  //   member.team_member_profile.map(mem => {
-  //     return (memberProfile = JSON.parse(mem));
-  //   });
-  //   return memberProfile;
-  // });
-  console.log("teammates", teammates);
 
   useEffect(() => {
     fetchTeammates();
@@ -114,7 +107,8 @@ const TeamView = ({ team }) => {
                       width: "7%",
                       height: "7%",
                       marginLeft: "1%",
-                      objectFit: "cover"
+                      objectFit: "cover",
+                      borderRadius: "5px"
                     }}
                     alt="team member profile pic"
                     src={memberProfile.avatar}

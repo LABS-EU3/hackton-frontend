@@ -17,7 +17,7 @@ import { LetterIcon } from "../atoms/Icon";
 import { Paragraph } from "../atoms/Paragraph";
 import Button from "../atoms/Button";
 import user_icon from "../../assets/user_icon.svg";
-
+// import { useEventTeam } from "../../hooks";
 
 import {
   registerEvent,
@@ -39,11 +39,11 @@ export const NormalSpan = styled(BoldSpan)`
 export const Image = styled.img`
   width: 60px;
   height: 60px;
-  object-fit:cover;
+  object-fit: cover;
   /* padding-bottom: 10px; */
   margin-right: 10px;
-  margin-bottom:10px;
-  border-radius:30px;
+  margin-bottom: 10px;
+  border-radius: 30px;
 `;
 
 export const PTags = styled(Paragraph)`
@@ -154,8 +154,10 @@ const HackathonSingle = () => {
   const [participants, fetchParticipants] = useParticipants(id);
   const [team] = useEventTeam(id);
   const [teams, fetchTeams] = useTeams(id);
+  // const [team, fetchEventTeam] = useEventTeam(id);
   const createdTeam = teams.find(t => t.team_lead === userId);
 
+  console.log("event team ", team);
   // Filter out event by URL param & grab user ID
   const {
     creator_id,
@@ -306,6 +308,45 @@ const HackathonSingle = () => {
               </TagsGroup>
               <Separator />
               <TagsGroup>
+                <Paragraph style={{ fontWeight: "bold" }}>
+                  Judging Panel:
+                </Paragraph>
+                {team.map(member =>
+                  member.image_url === null ? (
+                    <img
+                      style={{
+                        width: "7%",
+                        height: "7%",
+                        marginLeft: "1%",
+                        objectFit: "cover"
+                      }}
+                      alt="team member profile pic"
+                      src={user_icon}
+                    />
+                  ) : (
+                    member.image_url.map((mem, index) => {
+                      let memberProfile;
+                      memberProfile = JSON.parse(mem);
+                      return (
+                        <img
+                          key={index}
+                          style={{
+                            width: "7%",
+                            height: "7%",
+                            marginLeft: "1%",
+                            objectFit: "cover",
+                            borderRadius: "5px"
+                          }}
+                          alt="team member profile pic"
+                          src={memberProfile.avatar}
+                        />
+                      );
+                    })
+                  )
+                )}
+              </TagsGroup>
+              <Separator />
+              <TagsGroup>
                 <BoldSpan>Event Tags:</BoldSpan>
                 {tag_name && tag_name.length !== 0 ? (
                   tag_name.map((tagged, index) => {
@@ -342,21 +383,13 @@ const HackathonSingle = () => {
                     let memberProfile;
                     memberProfile = JSON.parse(mem);
                     return (
-                      // <img
-                      //   key={index}
-                      //   style={{
-                      //     width: "7%",
-                      //     height: "7%",
-                      //     marginLeft: "1%",
-                      //     objectFit: "cover"
-                      //   }}
-                      //   alt="team member profile pic"
-                      //   src={memberProfile.avatar || user_icon}
-                      // />
-                       <Image src={memberProfile.avatar} alt="user_icon" />
+                      <Image
+                        key={index}
+                        src={memberProfile.avatar}
+                        alt="user_icon"
+                      />
                     );
                   })
-                  // <Image src={user_icon} alt="user_icon" />
                 )}
 
                 <div>
