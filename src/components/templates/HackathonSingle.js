@@ -23,7 +23,7 @@ import {
   unregisterEvent
 } from "../../store/eventParticipants/actions";
 
-import { useParticipants, useEventTeam, useTeams } from "../../hooks";
+import { useParticipants, useEventTeam, useTeams, useEvent } from "../../hooks";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -52,7 +52,7 @@ export const PTags = styled(Paragraph)`
   font-size: 14px;
   text-transform: uppercase;
   margin: 5px 5px 5px 0;
-  padding: 10px 15px;
+  padding: 7px 8px;
 `;
 
 export const PHosted = styled(Paragraph)`
@@ -149,11 +149,14 @@ const HackathonSingle = () => {
   const { userId } = useSelector(state => state.currentUser);
   const [participants, fetchParticipants] = useParticipants(id);
   const [team] = useEventTeam(id);
-  const [teams, fetchTeams] = useTeams(id);
+  const [teams] = useTeams(id);
   const createdTeam = teams.find(t => t.team_lead === userId);
 
+  const [data, loading] = useEvent(id);
+
+
   // Filter out event by URL param & grab user ID
-  const {
+  const [{
     creator_id,
     event_title,
     event_description: description,
@@ -164,10 +167,22 @@ const HackathonSingle = () => {
     tag_name,
     location,
     organizer_email,
-    organizer_name
-  } = useSelector(state =>
-    state.events.data.find(event => event.id === Number(id))
-  );
+    organizer_name,
+    rubrics
+  }] = data?.body || [{
+    creator_id: 0,
+    event_title: "",
+    event_description: "",
+    start_date: null,
+    end_date: null,
+    guidelines: '',
+    participation_type: '',
+    tag_name: [],
+    location: '',
+    organizer_email: '',
+    organizer_name: '',
+    rubrics: []
+  }];
 
   // Date formatting
   const formattedStartDate = new Date(start_date).toLocaleDateString();
@@ -221,9 +236,18 @@ const HackathonSingle = () => {
     return fetchParticipants();
   };
 
-  useEffect(() => {
-    fetchTeams();
-  }, [fetchTeams]);
+  const toTittleCase = item => {
+    return item
+      .split("_")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  console.log(data, loading);
+
+  if (loading) {
+    return <div>Loading... </div>
+  }
 
   return (
     <div>
@@ -283,10 +307,12 @@ const HackathonSingle = () => {
                 {guidelines}
               </Paragraph>
               <Separator />
-              <Paragraph>
+              <TagsGroup>
                 <BoldSpan>Rubrics:</BoldSpan>
-                {guidelines}
-              </Paragraph>
+                {rubrics.map((rubric) => {
+                  return <PTags key={rubric}>{toTittleCase(rubric)}</PTags>
+                })}
+              </TagsGroup>
               <Separator />
               <TagsGroup>
                 <BoldSpan>Event Tags:</BoldSpan>

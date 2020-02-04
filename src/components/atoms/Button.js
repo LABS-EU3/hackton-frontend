@@ -21,7 +21,6 @@ export default function Button({ children, anchor, color, ...props }) {
 const StyledButton = styled.button`
   display: inline-block;
   padding: 12px 22px;
-  margin: 0;
   border-radius: 6px;
   border: 0;
   font-family: ${type.ROBOTO_MONO};
@@ -39,7 +38,9 @@ const StyledButton = styled.button`
   }
 
   @media ${media.tablet} {
+    width: 100%;
     padding: 12px;
+    margin: 0 0 15px 0;
   }
 
   @media ${media.mobile} {

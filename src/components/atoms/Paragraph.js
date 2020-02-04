@@ -8,6 +8,10 @@ export const Paragraph = styled.p`
   font-weight: 400;
   margin: 0 0 20px 0;
   padding: 0;
+
+  strong {
+    font-weight: bold;
+  }
 `;
 
 export const PlainParagraph = styled(Paragraph)`

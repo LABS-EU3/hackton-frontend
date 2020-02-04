@@ -4,10 +4,10 @@ import UserProfile from "../templates/UserProfile";
 
 const UserProfilePage = () => {
   const userDetails = useSelector(state => state.currentUser);
-  
+
   return (
     <>
-      <UserProfile initialState={userDetails}/>
+      <UserProfile initialState={userDetails} />
     </>
   );
 };
