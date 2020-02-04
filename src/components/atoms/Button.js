@@ -144,4 +144,12 @@ const StyledLink = styled(Link)`
         }
       `;
   }};
+
+  ${({ size }) => {
+    if (size === "wide") {
+      return `
+        width: 100%;
+      `;
+    }
+  }};
 `;
