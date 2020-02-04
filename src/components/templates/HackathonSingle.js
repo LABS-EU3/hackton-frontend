@@ -154,10 +154,9 @@ const HackathonSingle = () => {
   const [participants, fetchParticipants] = useParticipants(id);
   const [team] = useEventTeam(id);
   const [teams, fetchTeams] = useTeams(id);
-  // const [team, fetchEventTeam] = useEventTeam(id);
+  
   const createdTeam = teams.find(t => t.team_lead === userId);
 
-  console.log("event team ", team);
   // Filter out event by URL param & grab user ID
   const {
     creator_id,
@@ -177,7 +176,6 @@ const HackathonSingle = () => {
     state.events.data.find(event => event.id === Number(id))
   );
 
-  console.log("organizer profile pic", organizer_profile_pic);
 
   // Date formatting
   const formattedStartDate = new Date(start_date).toLocaleDateString();

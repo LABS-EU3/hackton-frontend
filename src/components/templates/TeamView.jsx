@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import BodyContainer from "../atoms/BodyContainer";
 import styled from "styled-components";
-import { Paragraph } from "../atoms/Paragraph";
 import { BoldSpan } from "../atoms/Span";
 import Button from "../atoms/Button";
 import { NavLink, useParams } from "react-router-dom";
