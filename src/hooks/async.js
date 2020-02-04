@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export const useAsync = (request) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const asyncCall = useCallback(() => {
     const req = async () => {
       try {
         setLoading(true);
@@ -18,7 +18,11 @@ export const useAsync = (request) => {
       }
     }
     req();
-  }, [request])
+  }, [request]);
+
+  useEffect(() => {
+    asyncCall();
+  }, [asyncCall])
 
   return [data, loading, error];
 }
