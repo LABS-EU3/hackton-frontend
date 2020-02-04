@@ -23,7 +23,7 @@ import {
   unregisterEvent
 } from "../../store/eventParticipants/actions";
 
-import { useParticipants, useEventTeam, useTeams } from "../../hooks";
+import { useParticipants, useEventTeam, useTeams, useEvent } from "../../hooks";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -149,11 +149,14 @@ const HackathonSingle = () => {
   const { userId } = useSelector(state => state.currentUser);
   const [participants, fetchParticipants] = useParticipants(id);
   const [team] = useEventTeam(id);
-  const [teams, fetchTeams] = useTeams(id);
+  const [teams] = useTeams(id);
   const createdTeam = teams.find(t => t.team_lead === userId);
 
+  const [data, loading] = useEvent(id);
+
+
   // Filter out event by URL param & grab user ID
-  const {
+  const [{
     creator_id,
     event_title,
     event_description: description,
@@ -166,9 +169,20 @@ const HackathonSingle = () => {
     organizer_email,
     organizer_name,
     rubrics
-  } = useSelector(state =>
-    state.events.data.find(event => event.id === Number(id))
-  );
+  }] = data?.body || [{
+    creator_id: 0,
+    event_title: "",
+    event_description: "",
+    start_date: null,
+    end_date: null,
+    guidelines: '',
+    participation_type: '',
+    tag_name: [],
+    location: '',
+    organizer_email: '',
+    organizer_name: '',
+    rubrics: []
+  }];
 
   // Date formatting
   const formattedStartDate = new Date(start_date).toLocaleDateString();
@@ -222,16 +236,18 @@ const HackathonSingle = () => {
     return fetchParticipants();
   };
 
-  useEffect(() => {
-    fetchTeams();
-  }, [fetchTeams]);
-
   const toTittleCase = item => {
     return item
       .split("_")
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   };
+
+  console.log(data, loading);
+
+  if (loading) {
+    return <div>Loading... </div>
+  }
 
   return (
     <div>

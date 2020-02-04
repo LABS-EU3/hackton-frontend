@@ -18,14 +18,14 @@ const StyledCardLink = styled(Link)`
 `;
 
 const EventCard = ({ event }) => {
-  const { id, event_title, event_description, start_date } = event;
+  const { event_id, event_title, event_description, start_date } = event;
   const letter = event_title && event_title[0];
   const excerpt = event_description.substr(0, 100) + "...";
 
   // Date formatting
   const formattedDate = new Date(start_date).toLocaleDateString();
   return (
-    <StyledCardLink to={`/dashboard/event/${id}`}>
+    <StyledCardLink to={`/dashboard/event/${event_id}`}>
       <Card>
         <LetterIcon>{letter}</LetterIcon>
         <H4>{event_title}</H4>

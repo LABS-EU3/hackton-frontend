@@ -5,7 +5,7 @@ export const useAsync = (request) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const asyncCall = useCallback(() => {
+  useEffect(() => {
     const req = async () => {
       try {
         setLoading(true);
@@ -19,10 +19,6 @@ export const useAsync = (request) => {
     }
     req();
   }, [request]);
-
-  useEffect(() => {
-    asyncCall();
-  }, [asyncCall])
 
   return [data, loading, error];
 }
