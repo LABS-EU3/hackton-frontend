@@ -70,13 +70,12 @@ const UserProfileForm = ({ initialState }) => {
 
   const handleSubmit = (values, a) => {
     const formData = new FormData();
-    formData.append("image_url", selectedImage);
-    formData.append("bio", values.bio);
-    formData.append("fullname", values.fullname);
-    formData.append("email", values.email);
-    formData.append("username", values.username);
-    dispatch(updateUserProfile(formData, history));
-    console.log("===file data===", formData);
+    formData.append('image_url', selectedImage);
+    formData.append('bio', values.bio);
+    formData.append('fullname', values.fullname);
+    formData.append('email', values.email);
+    formData.append('username', values.username);
+      dispatch(updateUserProfile(formData, history));
   };
 
   const defaultState = {

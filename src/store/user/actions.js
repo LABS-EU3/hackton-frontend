@@ -67,7 +67,6 @@ export const fetchUserProfile = userId => {
 };
 
 export const updateUserProfile = (updatedProfile, history) => {
-  console.log("in action", updatedProfile);
   return {
     type: UserTypes.UPDATE_USER_PROFILE,
     payload: updatedProfile,

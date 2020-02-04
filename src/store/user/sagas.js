@@ -109,7 +109,6 @@ function* watchFetchUserProfile() {
 
 function* updateUserProfileAsync({ payload, history }) {
   try {
-    // console.log("in saga", payload)
     const token = yield select(selectToken);
     const {
       data: {
