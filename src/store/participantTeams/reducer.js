@@ -11,11 +11,6 @@ const initialState = {
 
 export const participantTeamsReducer = (teams = initialState, action) => {
   switch (action.type) {
-    case ParticiPantTeamTypes.CREATE_TEAM:
-      return {
-        ...teams,
-        isLoading: false
-      };
     case ParticiPantTeamTypes.ADD_PARTICIPANT_TEAM_MEMBER:
       return {
         ...teams,
