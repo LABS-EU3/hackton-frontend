@@ -46,13 +46,6 @@ export const addParticipantTeamMember = (data, history) => {
   };
 };
 
-export const createTeam = (data, history) => {
-  return {
-    type: ParticiPantTeamTypes.CREATE_TEAM,
-    payload: data,
-    history
-  };
-};
 
 export const createTeamName = (data, history) => {
   return {
