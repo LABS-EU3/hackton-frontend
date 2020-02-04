@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { axiosWithAuth, selectToken } from '../utils/api';
-import { useAsync } from './async';
 
 export const useParticipants = id => {
   const [participants, setParticipants] = useState([]);
@@ -46,7 +45,7 @@ export const useEventTeam = id => {
 }
 
 export const useJudges = id => {
-  const team = useEventTeam(id);
+  const [team] = useEventTeam(id);
   const judges = team.filter(t => t.role_type === 'judge');
   return judges;
 }
@@ -101,6 +100,7 @@ export const useSubmissions = id => {
 
   useEffect(() => {
     fetchSubmissions();
+
   }, [fetchSubmissions]);
 
   return [submissions, fetchSubmissions];
@@ -109,18 +109,72 @@ export const useSubmissions = id => {
 
 export const useUserEvents = (perPage = 6, currentPage = 1) => {
   const token = useSelector(selectToken);
-  const request = () => axiosWithAuth(token).get(`/api/events/user-events?perPage=${perPage}&currentPage=${currentPage}`);
-  return useAsync(request);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const req = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axiosWithAuth(token).get(`/api/events/user-events?perPage=${perPage}&currentPage=${currentPage}`);
+        setData(data);
+      } catch ({ response }) {
+        setError(response);
+      } finally {
+        setLoading(false)
+      }
+    }
+    req();
+  }, [token, perPage, currentPage]);
+
+  return [data, loading, error];
 }
 
 export const useRegisteredEvents = (perPage = 9, currentPage = 1) => {
   const token = useSelector(selectToken);
-  const request = () => axiosWithAuth(token).get(`/api/events/participants/user?perPage=${perPage}&currentPage=${currentPage}`);
-  return useAsync(request);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const req = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axiosWithAuth(token).get(`/api/events/participants/user?perPage=${perPage}&currentPage=${currentPage}`);
+        setData(data);
+      } catch ({ response }) {
+        setError(response);
+      } finally {
+        setLoading(false)
+      }
+    }
+    req();
+  }, [token, perPage, currentPage]);
+
+  return [data, loading, error];
 }
 
 export const useEvent = id => {
   const token = useSelector(selectToken);
-  const request = () => axiosWithAuth(token).get(`/api/events/${id}`);
-  return useAsync(request);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const req = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axiosWithAuth(token).get(`/api/events/${id}`);
+        setData(data);
+      } catch ({ response }) {
+        setError(response);
+      } finally {
+        setLoading(false)
+      }
+    }
+    req();
+  }, [token, id]);
+
+  return [data, loading, error];
 }
