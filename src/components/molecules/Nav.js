@@ -14,7 +14,7 @@ const items = [
   },
   {
     title: "Profile",
-    url: "/dashboard/profile/edit",
+    url: "/dashboard/profile",
     svg: ProfileIcon
   }
 ];

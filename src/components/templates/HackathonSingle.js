@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,7 +24,7 @@ import {
   unregisterEvent
 } from "../../store/eventParticipants/actions";
 
-import { useParticipants, useEventTeam, useTeams } from "../../hooks";
+import { useParticipants, useEventTeam, useTeams, useEvent } from "../../hooks";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -153,12 +153,14 @@ const HackathonSingle = () => {
   const { userId } = useSelector(state => state.currentUser);
   const [participants, fetchParticipants] = useParticipants(id);
   const [team] = useEventTeam(id);
-  const [teams, fetchTeams] = useTeams(id);
-  
+  const [teams] = useTeams(id);
   const createdTeam = teams.find(t => t.team_lead === userId);
 
+  const [data, loading] = useEvent(id);
+
+
   // Filter out event by URL param & grab user ID
-  const {
+  const [{
     creator_id,
     event_title,
     event_description: description,
@@ -172,9 +174,21 @@ const HackathonSingle = () => {
     organizer_name,
     organizer_profile_pic,
     rubrics
-  } = useSelector(state =>
-    state.events.data.find(event => event.id === Number(id))
-  );
+  }] = data?.body || [{
+    creator_id: 0,
+    event_title: "",
+    event_description: "",
+    start_date: null,
+    end_date: null,
+    guidelines: '',
+    participation_type: '',
+    tag_name: [],
+    location: '',
+    organizer_email: '',
+    organizer_name: '',
+    organizer_profile_pic: [],
+    rubrics: []
+  }];
 
 
   // Date formatting
@@ -229,16 +243,16 @@ const HackathonSingle = () => {
     return fetchParticipants();
   };
 
-  useEffect(() => {
-    fetchTeams();
-  }, [fetchTeams]);
-
   const toTittleCase = item => {
     return item
       .split("_")
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   };
+
+  if (loading) {
+    return <div>Loading... </div>
+  }
 
   return (
     <div>

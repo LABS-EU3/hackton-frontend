@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -20,50 +20,23 @@ import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import profileImg from "../../assets/profile-image.png";
-import ProfileImage from "../molecules/ProfileImage";
+import ProfileImage from '../molecules/ProfileImage';
 
-import { updateUserProfile } from "../../store/user/actions";
-import { media } from "../index";
+import {
+  updateUserProfile
+} from "../../store/user/actions";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
 `;
 const NewLabel = styled(Label)`
   padding-left: 3px;
-
-  @media ${media.tablet} {
-    display: none;
-  }
-  @media ${media.mobile} {
-    display: none;
-  }
 `;
 const CardWider = styled(CardWide)`
   margin-left: 150px;
-
-  @media ${media.tablet} {
-    margin-left: 0px;
-  }
-
-  @media ${media.mobile} {
-    margin-left: 0px;
-  }
 `;
-const ButtonRowBody = styled(RowBody)`
-@media ${media.tablet} {
-  justify-content: space-around;
-}
-`
-const NewButton = styled(Button)`
-@media ${media.tablet} {
-  width: 25%;
-}
-@media ${media.mobile} {
-  width: 50%
-}
-`
 
-const UserProfileForm = ({ initialState }) => {
+const UserProfileForm = ({initialState}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [selectedImage, setSelectedImage] = useState(initialState?.image_url);
@@ -76,6 +49,7 @@ const UserProfileForm = ({ initialState }) => {
     formData.append('email', values.email);
     formData.append('username', values.username);
       dispatch(updateUserProfile(formData, history));
+      console.log('===file data===', formData)
   };
 
   const defaultState = {
@@ -83,7 +57,7 @@ const UserProfileForm = ({ initialState }) => {
     fullname: initialState?.fullname || "",
     email: initialState?.email || "",
     username: initialState?.username || ""
-  };
+  }
 
   const schema = Yup.object().shape({
     fullname: Yup.string().required("fullname is required"),
@@ -112,17 +86,11 @@ const UserProfileForm = ({ initialState }) => {
               >
                 {({ errors, touched }) => (
                   <Form>
-                    <NewLabel htmlFor="image">Profile picture</NewLabel>
-                    <ProfileImage
-                      image={
-                        JSON.parse(
-                          initialState.image_url
-                            ? initialState.image_url[0]
-                            : null
-                        )?.avatar || profileImg
-                      }
+                      <NewLabel htmlFor="image">Profile picture</NewLabel>
+                      <ProfileImage
+                      image={JSON.parse(initialState.image_url? initialState.image_url[0] : null)?.avatar || profileImg}
                       name={initialState?.username}
-                    />
+                      />
 
                     <RowBody>
                       <Label htmlFor="fullname">Full Name</Label>
@@ -142,7 +110,7 @@ const UserProfileForm = ({ initialState }) => {
                         display="wide"
                         placeholder="Profile picture"
                         accept="image/*"
-                        onChange={e => setSelectedImage(e.target.files[0])}
+                        onChange={(e) => setSelectedImage(e.target.files[0])}
                       />
                     </RowBody>
                     <RowBody>
@@ -186,18 +154,16 @@ const UserProfileForm = ({ initialState }) => {
                       ) : null}
                       <ErrorMessage name="bio" />
                     </RowBody>
-                    <ButtonRowBody>
+                    <RowBody>
                       <Link to="/dashboard">
                         <Button to="/dashboard" color="grey">
                           Cancel
                         </Button>
                       </Link>
-                      
-                      <NewButton color="green" type="submit">
+                      <Button color="green" type="submit">
                         Save Changes
-                      </NewButton>
-                      
-                    </ButtonRowBody>
+                      </Button>
+                    </RowBody>
                   </Form>
                 )}
               </Formik>
