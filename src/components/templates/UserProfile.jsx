@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
@@ -13,8 +13,8 @@ import { CardWide } from "../atoms/Card";
 import profileImg from "../../assets/profile-image.png";
 import { media } from "../index";
 import Button from "../atoms/Button";
-import { Paragraph } from '../atoms/Paragraph';
-import mailIcon from '../../assets/Icon-mail-24px.png';
+import { Paragraph } from "../atoms/Paragraph";
+import mailIcon from "../../assets/Icon-mail-24px.png";
 import EventCard from "../molecules/EventCard";
 
 import { useRegisteredEvents } from "../../hooks";
@@ -45,16 +45,16 @@ export const HackathonCard = styled.div`
 `;
 
 export const ImageProfile = styled.img`
-	display: flex;
+  display: flex;
   width: 30%;
   border-radius: 50%;
-`
+`;
 
 export const ProfileHead = styled.div`
-	display: flex;
+  display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
-`
+`;
 
 export const Separator = styled.hr`
   border-top: 0;
@@ -71,12 +71,12 @@ export const Icon = styled.div`
 
 export const Row = styled.div`
   display: flex;
-`
+`;
 
 const Buttona = styled(Button)`
   height: 15%;
   align-self: flex-end;
-`
+`;
 
 export default function UserProfile({ initialState }) {
   const [data] = useRegisteredEvents();
@@ -95,21 +95,31 @@ export default function UserProfile({ initialState }) {
           <ProfileCardWide>
             <ProfileCard>
               <ProfileHead>
-                <ImageProfile src={JSON.parse(initialState.image_url ? initialState.image_url[0] : null)?.avatar || profileImg} />
-                <Buttona color="green" anchor to='/dashboard/profile/edit'>
+                <ImageProfile
+                  src={
+                    JSON.parse(
+                      initialState.image_url ? initialState.image_url[0] : null
+                    )?.avatar || profileImg
+                  }
+                />
+                <Buttona color="green" anchor to="/dashboard/profile/edit">
                   Edit profile
-                        </Buttona>
+                </Buttona>
               </ProfileHead>
               <Column>
-                <H2 style={{ 'marginBottom': 0 }}>{initialState.fullname}</H2>
-                <Paragraph style={{ 'color': 'gray' }}>@{initialState.username}</Paragraph>
+                <H2 style={{ marginBottom: 0 }}>{initialState.fullname}</H2>
+                <Paragraph style={{ color: "gray" }}>
+                  @{initialState.username}
+                </Paragraph>
               </Column>
               <Row>
                 <Paragraph>{initialState.bio}</Paragraph>
               </Row>
               <Row>
                 <Icon />
-                <Paragraph style={{ 'color': 'blue', 'marginLeft': '3px' }}>{initialState.email}</Paragraph>
+                <Paragraph style={{ color: "blue", marginLeft: "3px" }}>
+                  {initialState.email}
+                </Paragraph>
               </Row>
             </ProfileCard>
 
