@@ -186,6 +186,7 @@ const HackathonSingle = () => {
     location: '',
     organizer_email: '',
     organizer_name: '',
+    organizer_profile_pic: [],
     rubrics: []
   }];
 
