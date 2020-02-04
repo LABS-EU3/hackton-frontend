@@ -46,7 +46,7 @@ export const useEventTeam = id => {
 }
 
 export const useJudges = id => {
-  const team = useEventTeam(id);
+  const [team] = useEventTeam(id);
   const judges = team.filter(t => t.role_type === 'judge');
   return judges;
 }
