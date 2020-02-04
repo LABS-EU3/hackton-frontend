@@ -1,5 +1,4 @@
-import React from "react";
-
+import React from 'react';
 import WideBody from "../atoms/WideBody";
 import BodyContainer from "../atoms/BodyContainer";
 import HeroImage from "../atoms/HeroImage";
@@ -13,7 +12,7 @@ const FormLayout = ({
   formParagraph
 }) => (
   <WideBody>
-    <BodyContainer>
+    <BodyContainer justify="center">
       <HeroImage src={imageType} alt={imageText} />
       <Form
         ctaText={ctaText}

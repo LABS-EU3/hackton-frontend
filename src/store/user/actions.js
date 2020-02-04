@@ -10,14 +10,14 @@ export const UserTypes = {
   FETCH_USER_PROFILE: "FETCH_USER_PROFILE",
   UPDATE_USER_PROFILE: "UPDATE_USER_PROFILE",
   RESET_PASSWORD: 'RESET_PASSWORD',
-  FORGOT_PASSWORD: 'FORGOT_PASSWORD'
+  FORGOT_PASSWORD: 'FORGOT_PASSWORD',
+  VERIFY_EMAIL: 'VERIFY_EMAIL'
 };
 
 export const login = (email, password) => {
   return {
     type: UserTypes.LOGIN,
-    payload: { email, password },
-
+    payload: { email, password }
   };
 };
 
@@ -29,8 +29,7 @@ export const register = (email, password, role, team) => {
       password,
       role,
       team
-    },
-
+    }
   };
 };
 
@@ -91,3 +90,5 @@ export const forgotPassword = (email, history) => {
     history
   }
 }
+
+export const verifyEmail = () => ({ type: UserTypes.VERIFY_EMAIL });

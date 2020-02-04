@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./TagsInput.css";
 
-const InputTag = (props) => {
+const InputTag = props => {
   let tagInput;
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(props.tags);
 
   const removeTag = i => {
     const newTags = [...tags];
