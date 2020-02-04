@@ -85,7 +85,7 @@ const TeamView = ({ team }) => {
         >
           {" "}
           {teammates.map((member,i) =>
-            member.team_member_profile === null ? (
+            member.team_member_avatar === null ? (
               <img
               key={i}
                 style={{
@@ -98,7 +98,7 @@ const TeamView = ({ team }) => {
                 src={user_icon}
               />
             ) : (
-              member.team_member_profile.map((mem, index) => {
+              member.team_member_avatar.map((mem, index) => {
                 memberProfile = JSON.parse(mem);
                 return (
                   <img
