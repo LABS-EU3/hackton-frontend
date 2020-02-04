@@ -14,7 +14,6 @@ import {
 
 export function* participantTeamSagas() {
   yield all([
-    call(watchCreateTeam),
     call(watchCreateTeamName),
     call(watchAddParticipantTeamMember),
     call(watchFetchTeamAsync),
@@ -23,17 +22,6 @@ export function* participantTeamSagas() {
   ]);
 }
 
-function* createTeamAsync({ payload, history }) {
-  try {
-    yield history.push(`/dashboard/event/${payload}/participant-teams`);
-  } catch (error) {
-    handleError(error, put, history);
-  }
-}
-
-function* watchCreateTeam() {
-  yield takeLatest(ParticiPantTeamTypes.CREATE_TEAM, createTeamAsync);
-}
 
 function* createTeamNameAsync({ payload, history }) {
   try {
@@ -54,7 +42,7 @@ function* createTeamNameAsync({ payload, history }) {
       return teamId;
     });
     yield history.push(
-      `/dashboard/event/participant-teams/${teamId}/add-members`
+      `/dashboard/event/${eventId}/participant-teams/${teamId}`
     );
   } catch (error) {
     handleError(error, put, history);
