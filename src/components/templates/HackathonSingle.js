@@ -17,6 +17,7 @@ import { LetterIcon } from "../atoms/Icon";
 import { Paragraph } from "../atoms/Paragraph";
 import Button from "../atoms/Button";
 import user_icon from "../../assets/user_icon.svg";
+// import { useEventTeam } from "../../hooks";
 
 import {
   registerEvent,
@@ -38,8 +39,11 @@ export const NormalSpan = styled(BoldSpan)`
 export const Image = styled.img`
   width: 60px;
   height: 60px;
-  padding-bottom: 10px;
+  object-fit: cover;
+  /* padding-bottom: 10px; */
   margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 30px;
 `;
 
 export const PTags = styled(Paragraph)`
@@ -168,6 +172,7 @@ const HackathonSingle = () => {
     location,
     organizer_email,
     organizer_name,
+    organizer_profile_pic,
     rubrics
   }] = data?.body || [{
     creator_id: 0,
@@ -184,6 +189,7 @@ const HackathonSingle = () => {
     rubrics: []
   }];
 
+
   // Date formatting
   const formattedStartDate = new Date(start_date).toLocaleDateString();
   const formattedEndDate = new Date(end_date).toLocaleDateString();
@@ -199,7 +205,7 @@ const HackathonSingle = () => {
   const isEventCreator = creator_id === userId;
   const isTeamMember = team.find(userCallback) || isEventCreator;
   const isEnded = today > endTime;
-  const individualParticipation = participation_type === 'individual';
+  const individualParticipation = participation_type === "individual";
 
   // Number of participants registered
   const registeredPartcipants = participants.length;
@@ -223,7 +229,7 @@ const HackathonSingle = () => {
     .join("");
 
   // Grab the first letter of title
-  const initial = event_title[0] || 'U';
+  const initial = event_title[0] || "U";
 
   const handleRegistration = e => {
     e.preventDefault();
@@ -307,9 +313,48 @@ const HackathonSingle = () => {
               <Separator />
               <TagsGroup>
                 <BoldSpan>Rubrics:</BoldSpan>
-                {rubrics.map((rubric) => {
-                  return <PTags key={rubric}>{toTittleCase(rubric)}</PTags>
+                {rubrics.map(rubric => {
+                  return <PTags key={rubric}>{toTittleCase(rubric)}</PTags>;
                 })}
+              </TagsGroup>
+              <Separator />
+              <TagsGroup>
+                <Paragraph style={{ fontWeight: "bold" }}>
+                  Judging Panel:
+                </Paragraph>
+                {team.length === 0 ? <Paragraph>No Judges have been selected for this event</Paragraph> :team.map(member =>
+                  member.image_url === null ? (
+                    <img
+                      style={{
+                        width: "7%",
+                        height: "7%",
+                        marginLeft: "1%",
+                        objectFit: "cover"
+                      }}
+                      alt="team member profile pic"
+                      src={user_icon}
+                    />
+                  ) : (
+                    member.image_url.map((mem, index) => {
+                      let memberProfile;
+                      memberProfile = JSON.parse(mem);
+                      return (
+                        <img
+                          key={index}
+                          style={{
+                            width: "7%",
+                            height: "7%",
+                            marginLeft: "1%",
+                            objectFit: "cover",
+                            borderRadius: "5px"
+                          }}
+                          alt="team member profile pic"
+                          src={memberProfile.avatar}
+                        />
+                      );
+                    })
+                  )
+                )}
               </TagsGroup>
               <Separator />
               <TagsGroup>
@@ -319,8 +364,8 @@ const HackathonSingle = () => {
                     return <PTags key={index}>{tagged}</PTags>;
                   })
                 ) : (
-                    <Paragraph>No tags provided for this event</Paragraph>
-                  )}
+                  <Paragraph>No tags provided for this event</Paragraph>
+                )}
               </TagsGroup>
               <Separator />
               <ButtonsDashGroup>
@@ -342,7 +387,22 @@ const HackathonSingle = () => {
             </EventCardWide>
             <TagsCardWide>
               <div className="tags-header">
-                <Image src={user_icon} alt="user_icon" />
+                {organizer_profile_pic === null ? (
+                  <Image src={user_icon} alt="user_icon" />
+                ) : (
+                  organizer_profile_pic.map((mem, index) => {
+                    let memberProfile;
+                    memberProfile = JSON.parse(mem);
+                    return (
+                      <Image
+                        key={index}
+                        src={memberProfile.avatar}
+                        alt="user_icon"
+                      />
+                    );
+                  })
+                )}
+
                 <div>
                   <BoldSpan>Hosted by:</BoldSpan>
                   <PHosted>{organizer_name || emailUser}</PHosted>
@@ -376,22 +436,28 @@ const HackathonSingle = () => {
                     color={isRegistered ? "grey" : "green"}
                     {...{
                       anchor: !individualParticipation,
-                      onClick: individualParticipation ? handleRegistration : null,
-                      to: !individualParticipation ? `/dashboard/event/${id}/participant-teams` : null
+                      onClick: individualParticipation
+                        ? handleRegistration
+                        : null,
+                      to: !individualParticipation
+                        ? `/dashboard/event/${id}/participant-teams`
+                        : null
                     }}
                   >
                     {isRegistered ? `Unregister` : `Register`}
                   </Button>
-                ) : !isOpen && (
-                  <Button
-                    style={{
-                      border: "2px solid lightgray",
-                      color: "lightgray"
-                    }}
-                    disabled
-                  >
-                    Registration Closed
-                  </Button>
+                ) : (
+                  !isOpen && (
+                    <Button
+                      style={{
+                        border: "2px solid lightgray",
+                        color: "lightgray"
+                      }}
+                      disabled
+                    >
+                      Registration Closed
+                    </Button>
+                  )
                 )}
                 {isTeamLead && !isEnded && (
                   <Button
