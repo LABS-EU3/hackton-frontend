@@ -17,7 +17,7 @@ import ParticipantSubmissionPage from "./components/views/ParticipantSubmissionP
 import "react-toastify/dist/ReactToastify.css";
 import PageNotFound from "./components/views/PageNotFound";
 import UserProfileFormPage from "./components/views/UserProfileFormPage";
-import UserProfilePage from "./components/views/userProfilePage";
+import UserProfilePage from "./components/views/UserProfilePage";
 import CreateTeam from "./components/templates/CreateTeam";
 import AddParticipantTeam from "./components/templates/AddParticipantTeams";
 import ResetPassword from './components/views/resetPassword/ResetPassword';
