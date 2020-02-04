@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { axiosWithAuth, selectToken } from '../utils/api';
+import { useAsync } from './async';
 
 export const useParticipants = id => {
   const [participants, setParticipants] = useState([]);
@@ -109,48 +110,12 @@ export const useSubmissions = id => {
 
 export const useUserEvents = (perPage = 6, currentPage = 1) => {
   const token = useSelector(selectToken);
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const req = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axiosWithAuth(token).get(`/api/events/user-events?perPage=${perPage}&currentPage=${currentPage}`);
-        setData(data);
-      } catch ({ response }) {
-        setError(response);
-      } finally {
-        setLoading(false)
-      }
-    }
-    req();
-  }, [token, perPage, currentPage]);
-
-  return [data, loading, error];
+  const request = () => axiosWithAuth(token).get(`/api/events/user-events?perPage=${perPage}&currentPage=${currentPage}`);
+  return useAsync(request);
 }
 
 export const useRegisteredEvents = (perPage = 9, currentPage = 1) => {
   const token = useSelector(selectToken);
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const req = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axiosWithAuth(token).get(`/api/events/participants/user?perPage=${perPage}&currentPage=${currentPage}`);
-        setData(data);
-      } catch ({ response }) {
-        setError(response);
-      } finally {
-        setLoading(false)
-      }
-    }
-    req();
-  }, [token, perPage, currentPage]);
-
-  return [data, loading, error];
+  const request = () => axiosWithAuth(token).get(`/api/events/participants/user?perPage=${perPage}&currentPage=${currentPage}`);
+  return useAsync(request);
 }
