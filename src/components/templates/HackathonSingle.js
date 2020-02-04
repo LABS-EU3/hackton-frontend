@@ -311,7 +311,7 @@ const HackathonSingle = () => {
                 <Paragraph style={{ fontWeight: "bold" }}>
                   Judging Panel:
                 </Paragraph>
-                {team.map(member =>
+                {team.length === 0 ? <Paragraph>No Judges have been selected for this event</Paragraph> :team.map(member =>
                   member.image_url === null ? (
                     <img
                       style={{

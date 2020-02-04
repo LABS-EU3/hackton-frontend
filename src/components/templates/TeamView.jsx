@@ -85,9 +85,10 @@ const TeamView = ({ team }) => {
           }}
         >
           {" "}
-          {teammates.map(member =>
+          {teammates.map((member,i) =>
             member.team_member_profile === null ? (
               <img
+              key={i}
                 style={{
                   width: "7%",
                   height: "7%",
