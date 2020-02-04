@@ -19,12 +19,13 @@ export const setSubmissions = submissions => {
   };
 };
 
-export const gradeSubmission = (id, grade, history) => {
+export const gradeSubmission = (id, grade, history, fetchGrades) => {
   return {
     type: ProjectSubmissionTypes.GRADE_SUBMISSION,
     payload: grade,
     id,
-    history
+    history,
+    fetchGrades
   };
 };
 

@@ -119,7 +119,7 @@ const HackathonSingleProject = () => {
   };
 
   const handleSubmit = () => {
-    dispatch(gradeSubmission(projectId, grade, history));
+    dispatch(gradeSubmission(projectId, grade, history, fetchGrades));
   };
 
   return (

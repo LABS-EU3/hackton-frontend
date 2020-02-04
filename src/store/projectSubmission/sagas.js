@@ -63,7 +63,7 @@ function* watchFetchAllSubmissionsAsync() {
   );
 }
 
-function* gradeSubmissionAsync({ id, payload, history }) {
+function* gradeSubmissionAsync({ id, payload, history, fetchGrades }) {
   try {
     const token = yield select(selectToken);
     const { data } = yield axiosWithAuth(token).post(
@@ -72,6 +72,7 @@ function* gradeSubmissionAsync({ id, payload, history }) {
     );
     if (data) {
       history.push(`/dashboard/event/${payload.project_event_id}/projects`);
+      fetchGrades();
     }
   } catch (error) {
     handleError(error, put, history);
