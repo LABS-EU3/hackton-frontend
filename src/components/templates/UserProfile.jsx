@@ -18,6 +18,7 @@ import mailIcon from "../../assets/Icon-mail-24px.png";
 import EventCard from "../molecules/EventCard";
 
 import { useRegisteredEvents } from "../../hooks";
+import Spinner from "../molecules/Spinner";
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -79,7 +80,7 @@ const Buttona = styled(Button)`
 `;
 
 export default function UserProfile({ initialState }) {
-  const [data] = useRegisteredEvents();
+  const [data, loading] = useRegisteredEvents();
   const events = data?.body || [];
   return (
     <div>
@@ -126,11 +127,14 @@ export default function UserProfile({ initialState }) {
               <RowHead>
                 <H3>Hackathon(s) you registered for</H3>
               </RowHead>
-              <RowBody spacing="start">
-                {events.map(event => (
-                  <EventCard key={event.id} event={event} />
-                ))}
-              </RowBody>
+              {loading ? (<RowBody spacing='center'>
+                <Spinner />
+              </RowBody>)
+                : (<RowBody spacing="start">
+                  {events.map(event => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </RowBody>)}
             </HackathonCard>
           </ProfileCardWide>
         </BodyContainerColumn>
