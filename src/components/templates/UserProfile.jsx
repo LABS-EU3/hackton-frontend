@@ -127,14 +127,14 @@ export default function UserProfile({ initialState }) {
               <RowHead>
                 <H3>Hackathon(s) you registered for</H3>
               </RowHead>
-              {loading ? (<RowBody spacing='center'>
+              {loading ? (
                 <Spinner />
-              </RowBody>)
-                : (<RowBody spacing="start">
-                  {events.map(event => (
-                    <EventCard key={event.id} event={event} />
-                  ))}
-                </RowBody>)}
+              ) : (
+                  <RowBody spacing="start">
+                    {events.map(event => (
+                      <EventCard key={event.id} event={event} />
+                    ))}
+                  </RowBody>)}
             </HackathonCard>
           </ProfileCardWide>
         </BodyContainerColumn>
