@@ -48,41 +48,28 @@ const HackathonSingleProject = () => {
 
   useEffect(() => {
     const features = {
-      comments: [],
-      product_design: 0,
-      functionality: 0,
-      innovation: 0,
-      product_fit: 0,
-      extensibility: 0,
-      presentation: 0
+      comments: []
     };
 
-    if (!hasGraded && grades.length > 0) {
-      // setAverages(averages);
-      const keys = [
-        "product_design",
-        "functionality",
-        "innovation",
-        "product_fit",
-        "extensibility",
-        "presentation",
-        "judge_comments"
-      ];
+    rubrics.forEach(r => {
+      features[r] = 0;
+    });
 
+    if (grades.length > 0) {
+      // setAverages(averages);
       const averageGrades = grades.reduce((accum, c) => {
         const newObj = { ...accum };
-        keys.forEach(key => {
+        rubrics.forEach(key => {
           const value = c[key];
           if (key === "judge_comments") {
             if (value) newObj.comments.push(value);
           } else {
-            if (value !== undefined) {
-              newObj[key] += value;
-            }
+            newObj[key] += value;
           }
         });
         return newObj;
       }, features);
+
       const averages = {};
       Object.keys(averageGrades).forEach(key => {
         const value = averageGrades[key];
@@ -90,10 +77,9 @@ const HackathonSingleProject = () => {
           averages[key] = value;
         } else averages[key] = value / grades.length;
       });
-
       setAverages(averages);
-    } else if (grades.length === 0) setAverages(features);
-  }, [hasGraded, grades]);
+    } else setAverages(features);
+  }, [hasGraded, grades, rubrics]);
 
   // Convert rubrics names to Title Case
   const toTittleCase = item => {
