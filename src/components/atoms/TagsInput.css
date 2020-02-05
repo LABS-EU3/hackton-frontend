@@ -16,6 +16,10 @@
   width: 100%;
 }
 
+.input-tag input:focus {
+  outline: 0;
+}
+
 .input-tag input {
   border: none;
   width: 100%;
