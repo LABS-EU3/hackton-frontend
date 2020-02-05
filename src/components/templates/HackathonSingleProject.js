@@ -59,13 +59,10 @@ const HackathonSingleProject = () => {
       // setAverages(averages);
       const averageGrades = grades.reduce((accum, c) => {
         const newObj = { ...accum };
+        if (c["judge_comments"]) newObj.comments.push(c["judge_comments"]);
         rubrics.forEach(key => {
           const value = c[key];
-          if (key === "judge_comments") {
-            if (value) newObj.comments.push(value);
-          } else {
-            newObj[key] += value;
-          }
+          newObj[key] += value;
         });
         return newObj;
       }, features);
@@ -124,7 +121,10 @@ const HackathonSingleProject = () => {
             <Card>
               <SubmissionEntry>
                 <Team>
-                  <H3>{submission?.participant_or_team_name || submission?.project_title}</H3>
+                  <H3>
+                    {submission?.participant_or_team_name ||
+                      submission?.project_title}
+                  </H3>
                 </Team>
                 <Label htmlFor="project_writeup">Project writeup</Label>
                 <Description id="project_writeup">
@@ -158,7 +158,7 @@ const HackathonSingleProject = () => {
                     </>
                   )}
                 </Description>
-                {(isJudge && !hasGraded) ? (
+                {isJudge && !hasGraded ? (
                   <JudgeView>
                     <H4>Grading Form</H4>
                     <Paragraph>
@@ -205,43 +205,43 @@ const HackathonSingleProject = () => {
                     />
                   </JudgeView>
                 ) : (
-                    <JudgeView>
-                      <Label htmlFor="rubrics"></Label>
-                      <Rubrics id="rubrics">
-                        {Object.keys(averages).map(rubric => {
-                          return rubric !== "comments" ? (
-                            <RubricRow key={rubric}>
-                              {toTittleCase(rubric)}
-                              <Rating
-                                emptySymbol={
-                                  <img
-                                    alt={toTittleCase(rubric)}
-                                    src={emptyStar}
-                                  />
-                                }
-                                fullSymbol={
-                                  <img
-                                    alt={toTittleCase(rubric)}
-                                    src={fullStar}
-                                  />
-                                }
-                                initialRating={averages[rubric]}
-                                readonly
-                              />
-                            </RubricRow>
-                          ) : null;
-                        })}
-                      </Rubrics>
-                      <Label htmlFor="feedback">Feedback</Label>
-                      {averages.comments?.length > 0 ? (
-                        averages.comments.map(comment => (
-                          <Paragraph key={comment}>{comment}</Paragraph>
-                        ))
-                      ) : (
-                          <Paragraph>No comments on this project</Paragraph>
-                        )}
-                    </JudgeView>
-                  )}
+                  <JudgeView>
+                    <Label htmlFor="rubrics"></Label>
+                    <Rubrics id="rubrics">
+                      {Object.keys(averages).map(rubric => {
+                        return rubric !== "comments" ? (
+                          <RubricRow key={rubric}>
+                            {toTittleCase(rubric)}
+                            <Rating
+                              emptySymbol={
+                                <img
+                                  alt={toTittleCase(rubric)}
+                                  src={emptyStar}
+                                />
+                              }
+                              fullSymbol={
+                                <img
+                                  alt={toTittleCase(rubric)}
+                                  src={fullStar}
+                                />
+                              }
+                              initialRating={averages[rubric]}
+                              readonly
+                            />
+                          </RubricRow>
+                        ) : null;
+                      })}
+                    </Rubrics>
+                    <Label htmlFor="feedback">Feedback</Label>
+                    {averages.comments?.length > 0 ? (
+                      averages.comments.map(comment => (
+                        <Paragraph key={comment}>{comment}</Paragraph>
+                      ))
+                    ) : (
+                      <Paragraph>No comments on this project</Paragraph>
+                    )}
+                  </JudgeView>
+                )}
               </SubmissionEntry>
               <ButtonGroup>
                 <Button

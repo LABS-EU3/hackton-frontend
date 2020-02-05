@@ -159,38 +159,40 @@ const HackathonSingle = () => {
 
   const [data, loading] = useEvent(id);
 
-
   // Filter out event by URL param & grab user ID
-  const [{
-    creator_id,
-    event_title,
-    event_description: description,
-    start_date,
-    end_date,
-    guidelines,
-    participation_type,
-    tag_name,
-    location,
-    organizer_email,
-    organizer_name,
-    organizer_profile_pic,
-    rubrics
-  }] = data?.body || [{
-    creator_id: 0,
-    event_title: "",
-    event_description: "",
-    start_date: null,
-    end_date: null,
-    guidelines: '',
-    participation_type: '',
-    tag_name: [],
-    location: '',
-    organizer_email: '',
-    organizer_name: '',
-    organizer_profile_pic: [],
-    rubrics: []
-  }];
-
+  const [
+    {
+      creator_id,
+      event_title,
+      event_description: description,
+      start_date,
+      end_date,
+      guidelines,
+      participation_type,
+      tag_name,
+      location,
+      organizer_email,
+      organizer_name,
+      organizer_profile_pic,
+      rubrics
+    }
+  ] = data?.body || [
+    {
+      creator_id: 0,
+      event_title: "",
+      event_description: "",
+      start_date: null,
+      end_date: null,
+      guidelines: "",
+      participation_type: "",
+      tag_name: [],
+      location: "",
+      organizer_email: "",
+      organizer_name: "",
+      organizer_profile_pic: [],
+      rubrics: []
+    }
+  ];
 
   // Date formatting
   const formattedStartDate = new Date(start_date).toLocaleDateString();
@@ -257,74 +259,81 @@ const HackathonSingle = () => {
       <WideBody>
         <Nav />
         <BodyContainerColumn>
-          {
-            loading ? <Spinner /> : (
-              <>
-                <RowHead>
-                  <H3>{event_title}</H3>
-                </RowHead>
-                <RowBody>
-                  <EventCardWide className="single-event">
-                    <TitleContainer>
-                      <StyledLetterIcon>{initial}</StyledLetterIcon>
-                      <H2>{event_title}</H2>
-                    </TitleContainer>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <>
+              <RowHead>
+                <H3>{event_title}</H3>
+              </RowHead>
+              <RowBody>
+                <EventCardWide className="single-event">
+                  <TitleContainer>
+                    <StyledLetterIcon>{initial}</StyledLetterIcon>
+                    <H2>{event_title}</H2>
+                  </TitleContainer>
 
-                    <Paragraph>
-                      <BoldSpan>Description:</BoldSpan>
-                      {description}
+                  <Paragraph>
+                    <BoldSpan>Description:</BoldSpan>
+                    {description}
+                  </Paragraph>
+
+                  <Separator />
+
+                  <Details>
+                    <div>
+                      <Paragraph>
+                        <BoldSpan>Event starts:</BoldSpan>
+                        {formattedStartDate}
+                      </Paragraph>
+                    </div>
+
+                    <div>
+                      <Paragraph>
+                        <BoldSpan>Event ends:</BoldSpan>
+                        {formattedEndDate}
+                      </Paragraph>
+                    </div>
+                  </Details>
+
+                  <Separator />
+
+                  <Details>
+                    <div>
+                      <Paragraph>
+                        <BoldSpan>Location:</BoldSpan>
+                        {location}
+                      </Paragraph>
+                    </div>
+                  </Details>
+
+                  <Separator />
+
+                  <Paragraph>
+                    <BoldSpan>Guidelines:</BoldSpan>
+                    {guidelines}
+                  </Paragraph>
+                  <Separator />
+                  <TagsGroup>
+                    <BoldSpan>Rubrics:</BoldSpan>
+                    {rubrics.map(rubric => {
+                      return <PTags key={rubric}>{toTittleCase(rubric)}</PTags>;
+                    })}
+                  </TagsGroup>
+                  <Separator />
+                  <TagsGroup>
+                    <Paragraph style={{ fontWeight: "bold" }}>
+                      Judging Panel:
                     </Paragraph>
-
-                    <Separator />
-
-                    <Details>
-                      <div>
-                        <Paragraph>
-                          <BoldSpan>Event starts:</BoldSpan>
-                          {formattedStartDate}
-                        </Paragraph>
-                      </div>
-
-                      <div>
-                        <Paragraph>
-                          <BoldSpan>Event ends:</BoldSpan>
-                          {formattedEndDate}
-                        </Paragraph>
-                      </div>
-                    </Details>
-
-                    <Separator />
-
-                    <Details>
-                      <div>
-                        <Paragraph>
-                          <BoldSpan>Location:</BoldSpan>
-                          {location}
-                        </Paragraph>
-                      </div>
-                    </Details>
-
-                    <Separator />
-
-                    <Paragraph>
-                      <BoldSpan>Guidelines:</BoldSpan>
-                      {guidelines}
-                    </Paragraph>
-                    <Separator />
-                    <TagsGroup>
-                      <BoldSpan>Rubrics:</BoldSpan>
-                      {rubrics.map(rubric => {
-                        return <PTags key={rubric}>{toTittleCase(rubric)}</PTags>;
-                      })}
-                    </TagsGroup>
-                    <Separator />
-                    <TagsGroup>
-                      <Paragraph style={{ fontWeight: "bold" }}>
-                        Judging Panel:
-                </Paragraph>
-                      {team.length === 0 ? <Paragraph>No Judges have been selected for this event</Paragraph> : team.map(member =>
+                    {team.length === 0 ? (
+                      <Paragraph>
+                        No Judges have been selected for this event
+                      </Paragraph>
+                    ) : (
+                      team.map(member =>
                         member.image_url === null ? (
                           <img
+                            key={member.user_id}
                             style={{
                               width: "7%",
                               height: "7%",
@@ -335,161 +344,162 @@ const HackathonSingle = () => {
                             src={user_icon}
                           />
                         ) : (
-                            member.image_url.map((mem, index) => {
-                              let memberProfile;
-                              memberProfile = JSON.parse(mem);
-                              return (
-                                <img
-                                  key={index}
-                                  style={{
-                                    width: "7%",
-                                    height: "7%",
-                                    marginLeft: "1%",
-                                    objectFit: "cover",
-                                    borderRadius: "5px"
-                                  }}
-                                  alt="team member profile pic"
-                                  src={memberProfile.avatar}
-                                />
-                              );
-                            })
-                          )
-                      )}
-                    </TagsGroup>
-                    <Separator />
-                    <TagsGroup>
-                      <BoldSpan>Event Tags:</BoldSpan>
-                      {tag_name && tag_name.length !== 0 ? (
-                        tag_name.map((tagged, index) => {
-                          return <PTags key={index}>{tagged}</PTags>;
-                        })
-                      ) : (
-                          <Paragraph>No tags provided for this event</Paragraph>
-                        )}
-                    </TagsGroup>
-                    <Separator />
-                    <ButtonsDashGroup>
-                      <div>
-                        <Button anchor to={"/dashboard"} color="grey">
-                          Back to Dashboard
-                  </Button>
-                        {isEventCreator && !isEnded && (
-                          <Button
-                            anchor
-                            to={`/dashboard/event/${id}/edit`}
-                            color="blue"
-                          >
-                            Edit event
-                    </Button>
-                        )}
-                      </div>
-                    </ButtonsDashGroup>
-                  </EventCardWide>
-                  <TagsCardWide>
-                    <div className="tags-header">
-                      {organizer_profile_pic === null ? (
-                        <Image src={user_icon} alt="user_icon" />
-                      ) : (
-                          organizer_profile_pic.map((mem, index) => {
+                          member.image_url.map((mem, index) => {
                             let memberProfile;
                             memberProfile = JSON.parse(mem);
                             return (
-                              <Image
+                              <img
                                 key={index}
+                                style={{
+                                  width: "7%",
+                                  height: "7%",
+                                  marginLeft: "1%",
+                                  objectFit: "cover",
+                                  borderRadius: "5px"
+                                }}
+                                alt="team member profile pic"
                                 src={memberProfile.avatar}
-                                alt="user_icon"
                               />
                             );
                           })
-                        )}
-
-                      <div>
-                        <BoldSpan>Hosted by:</BoldSpan>
-                        <PHosted>{organizer_name || emailUser}</PHosted>
-                      </div>
-                    </div>
-                    <div className="status">
-                      <BoldSpan>
-                        Status:
-                  <NormalSpan>{isOpen ? " Open" : " Closed"}</NormalSpan>
-                      </BoldSpan>
-                      <BoldSpan>
-                        Participation type:{" "}
-                        <NormalSpan>{participation_type}</NormalSpan>
-                      </BoldSpan>
-                      <BoldSpan>
-                        Participants: <NormalSpan>{registeredPartcipants}</NormalSpan>
-                      </BoldSpan>
-                    </div>
-                    <ButtonsDashGroup>
+                        )
+                      )
+                    )}
+                  </TagsGroup>
+                  <Separator />
+                  <TagsGroup>
+                    <BoldSpan>Event Tags:</BoldSpan>
+                    {tag_name && tag_name.length !== 0 ? (
+                      tag_name.map((tagged, index) => {
+                        return <PTags key={index}>{tagged}</PTags>;
+                      })
+                    ) : (
+                      <Paragraph>No tags provided for this event</Paragraph>
+                    )}
+                  </TagsGroup>
+                  <Separator />
+                  <ButtonsDashGroup>
+                    <div>
+                      <Button anchor to={"/dashboard"} color="grey">
+                        Back to Dashboard
+                      </Button>
                       {isEventCreator && !isEnded && (
                         <Button
                           anchor
-                          to={`/dashboard/event/${id}/team`}
-                          color="green"
+                          to={`/dashboard/event/${id}/edit`}
+                          color="blue"
                         >
-                          Add Teammates
-                  </Button>
-                      )}
-                      {!isTeamMember && isOpen ? (
-                        <Button
-                          color={isRegistered ? "grey" : "green"}
-                          {...{
-                            anchor: !individualParticipation,
-                            onClick: individualParticipation
-                              ? handleRegistration
-                              : null,
-                            to: !individualParticipation
-                              ? `/dashboard/event/${id}/participant-teams`
-                              : null
-                          }}
-                        >
-                          {isRegistered ? `Unregister` : `Register`}
+                          Edit event
                         </Button>
-                      ) : (
-                          !isOpen && (
-                            <Button
-                              style={{
-                                border: "2px solid lightgray",
-                                color: "lightgray"
-                              }}
-                              disabled
-                            >
-                              Registration Closed
-                    </Button>
-                          )
-                        )}
-                      {isTeamLead && !isEnded && (
-                        <Button
-                          color="green"
-                          anchor
-                          to={`/dashboard/event/${id}/participant-teams`}
-                        >
-                          Add teamate
-                  </Button>
                       )}
-                      {isRegistered && !isEnded && (
-                        <Button
-                          color="green"
-                          anchor
-                          to={`/dashboard/event/${id}/participant_submission`}
-                        >
-                          Submit Project
-                  </Button>
-                      )}
+                    </div>
+                  </ButtonsDashGroup>
+                </EventCardWide>
+                <TagsCardWide>
+                  <div className="tags-header">
+                    {organizer_profile_pic === null ? (
+                      <Image src={user_icon} alt="user_icon" />
+                    ) : (
+                      organizer_profile_pic.map((mem, index) => {
+                        let memberProfile;
+                        memberProfile = JSON.parse(mem);
+                        return (
+                          <Image
+                            key={index}
+                            src={memberProfile.avatar}
+                            alt="user_icon"
+                          />
+                        );
+                      })
+                    )}
+
+                    <div>
+                      <BoldSpan>Hosted by:</BoldSpan>
+                      <PHosted>{organizer_name || emailUser}</PHosted>
+                    </div>
+                  </div>
+                  <div className="status">
+                    <BoldSpan>
+                      Status:
+                      <NormalSpan>{isOpen ? " Open" : " Closed"}</NormalSpan>
+                    </BoldSpan>
+                    <BoldSpan>
+                      Participation type:{" "}
+                      <NormalSpan>{participation_type}</NormalSpan>
+                    </BoldSpan>
+                    <BoldSpan>
+                      Participants:{" "}
+                      <NormalSpan>{registeredPartcipants}</NormalSpan>
+                    </BoldSpan>
+                  </div>
+                  <ButtonsDashGroup>
+                    {isEventCreator && !isEnded && (
                       <Button
                         anchor
-                        to={`/dashboard/event/${id}/projects`}
-                        color="blue"
+                        to={`/dashboard/event/${id}/team`}
+                        color="green"
                       >
-                        View submissions
-                </Button>
-                    </ButtonsDashGroup>
-                  </TagsCardWide>
-                </RowBody>
-              </>
-            )
-          }
+                        Add Teammates
+                      </Button>
+                    )}
+                    {!isTeamMember && isOpen ? (
+                      <Button
+                        color={isRegistered ? "grey" : "green"}
+                        {...{
+                          anchor: !individualParticipation,
+                          onClick: individualParticipation
+                            ? handleRegistration
+                            : null,
+                          to: !individualParticipation
+                            ? `/dashboard/event/${id}/participant-teams`
+                            : null
+                        }}
+                      >
+                        {isRegistered ? `Unregister` : `Register`}
+                      </Button>
+                    ) : (
+                      !isOpen && (
+                        <Button
+                          style={{
+                            border: "2px solid lightgray",
+                            color: "lightgray"
+                          }}
+                          disabled
+                        >
+                          Registration Closed
+                        </Button>
+                      )
+                    )}
+                    {isTeamLead && !isEnded && (
+                      <Button
+                        color="green"
+                        anchor
+                        to={`/dashboard/event/${id}/participant-teams`}
+                      >
+                        Add teamate
+                      </Button>
+                    )}
+                    {isRegistered && !isEnded && (
+                      <Button
+                        color="green"
+                        anchor
+                        to={`/dashboard/event/${id}/participant_submission`}
+                      >
+                        Submit Project
+                      </Button>
+                    )}
+                    <Button
+                      anchor
+                      to={`/dashboard/event/${id}/projects`}
+                      color="blue"
+                    >
+                      View submissions
+                    </Button>
+                  </ButtonsDashGroup>
+                </TagsCardWide>
+              </RowBody>
+            </>
+          )}
         </BodyContainerColumn>
       </WideBody>
       <Footer />
