@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import isEmail from 'validator/lib/isEmail';
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -25,8 +26,7 @@ const AddParticipantTeam = () => {
   const [matches, searchString, setSearchString] = useSearchUserByEmail();
   const [noneUser, setNoneUser] = useState(null);
   const validateEmail = (email) => {
-    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+    return isEmail(email);
   }
  
   const handleSubmit = () => {

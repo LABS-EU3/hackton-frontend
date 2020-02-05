@@ -81,7 +81,6 @@ const Buttona = styled(Button)`
 export default function UserProfile({ initialState }) {
   const [data] = useRegisteredEvents();
   const events = data?.body || [];
-
   return (
     <div>
       <UserHeader />
