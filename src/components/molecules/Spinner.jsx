@@ -7,7 +7,7 @@ export default () => (
   <RowBody spacing='center'>
     <Loader
       type="Puff"
-      color="#00BFFF"
+      color="#2559a1"
       height={100}
       width={100}
       visible={true}
