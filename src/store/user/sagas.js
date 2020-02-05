@@ -33,7 +33,7 @@ function* loginAsync({ payload }) {
     yield put(setUser(body.token));
     yield showSuccess(`😎 Welcome`);
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -54,7 +54,7 @@ function* registerAsync({ payload: { team, role, email, password } }) {
     yield put(setUser(body.token));
     showSuccess(`😎 Welcome`);
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -69,7 +69,7 @@ function* socialAuthAsync() {
     } = yield axios.get("/api/auth/token");
     yield put(setUser(body.token));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -77,9 +77,10 @@ function* watchSocialAuth() {
   yield takeLatest(UserTypes.SOCIAL_AUTH, socialAuthAsync);
 }
 
-function* logout() {
+function* logout({ history }) {
   try {
     yield persistor.purge();
+    yield history.push("/login");
   } catch ({ message }) {
     yield showError(message);
   }
@@ -99,7 +100,7 @@ function* fetchUserProfileAsync({ payload }) {
     } = yield axiosWithAuth(token).get(`/api/users/${payload}`);
     yield put(setUserProfile(user));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -121,7 +122,7 @@ function* updateUserProfileAsync({ payload, history }) {
     yield showSuccess(`🎉 ${message}`);
     yield history.push("/dashboard/profile");
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -136,7 +137,7 @@ function* forgotPasswordAsync({ payload: email, history }) {
       history.push('/resetPasswordConfirmation')
     }
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -151,7 +152,7 @@ function* resetPasswordAsync({ payload: password, history }) {
       return history.push('/login');
     }
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
