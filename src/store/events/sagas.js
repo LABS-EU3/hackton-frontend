@@ -27,7 +27,8 @@ export function* eventsSagas() {
     call(watchUpdateEvent),
     call(watchFetchEventCategories),
     call(watchAddTeamMember),
-    call(watchFetchEventSubmissions)
+    call(watchFetchEventSubmissions),
+    call(watchSendEventTeamInvite)
   ]);
 }
 
@@ -39,7 +40,7 @@ function* fetchAllEventsAsync() {
     } = yield axiosWithAuth(token).get("/api/events");
     yield put(setEvents(body));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -57,7 +58,7 @@ function* createEventAsync({ payload, history }) {
     }
     yield history.push("/dashboard");
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -72,7 +73,7 @@ function* deleteEventAsync({ payload }) {
     yield put(fetchAllEvents());
     yield showSuccess(`😲 ${data.message}`);
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -94,7 +95,7 @@ function* updateEventAsync({ payload, history }) {
       yield history.push("/dashboard");
     }
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -110,7 +111,7 @@ function* fetchEventCategoriesAsync() {
     } = yield axiosWithAuth(token).get("/api/event-category");
     yield put(setEventCategories(body));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -137,12 +138,33 @@ function* addTeamMemberAsync({ payload, history }) {
     }
     history.push(`/dashboard/event/${eventId}`);
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
 function* watchAddTeamMember() {
   yield takeLatest(EventsTypes.ADD_TEAM_MEMBER, addTeamMemberAsync);
+}
+
+function* sendEventTeamInviteAsync({ payload, history }) {
+  try {
+    const { email, role, eventId } = payload;
+    const token = yield select(selectToken);
+    const { data } = yield axiosWithAuth(token).post(`/api/events/event-teams/invite/${eventId}`, { email, role_type: role });
+    if (data) {
+      yield showSuccess(`invite sent successfully to ${email}`);
+      history.push(`/dashboard/event/${eventId}`);
+    }
+  } catch (error) {
+    yield handleError(error, put, history);
+  }
+}
+
+function* watchSendEventTeamInvite() {
+  yield takeLatest(
+    EventsTypes.SEND_EVENT_TEAM_INVITE,
+    sendEventTeamInviteAsync
+  );
 }
 
 function* fetchEventSubmissionsAsync({ payload, history }) {
@@ -155,7 +177,7 @@ function* fetchEventSubmissionsAsync({ payload, history }) {
       history.push(`/dashboard/events/${payload}`);
     }
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 

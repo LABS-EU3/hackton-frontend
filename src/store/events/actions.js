@@ -7,7 +7,8 @@ export const EventsTypes = {
          FETCH_EVENT_SUBMISSIONS: "FETCH_EVENT_SUBMISSIONS",
          SET_EVENTS: "SET_EVENTS",
          SET_EVENT_CATEGORIES: "SET_EVENT_CATEGORIES",
-         ADD_TEAM_MEMBER: "ADD_TEAM_MEMBER"
+         ADD_TEAM_MEMBER: "ADD_TEAM_MEMBER",
+         SEND_EVENT_TEAM_INVITE: "SEND_EVENT_TEAM_INVITE"
        };
 
 export const fetchAllEvents = () => {
@@ -71,6 +72,14 @@ export const fetchEventSubmissions = (eventId, history) => {
   return {
     type: EventsTypes.FETCH_EVENT_SUBMISSIONS,
     payload: eventId,
+    history
+  }
+}
+
+export const sendEventTeamInvite = (data, history) => {
+  return {
+    type: EventsTypes.SEND_EVENT_TEAM_INVITE,
+    payload: data,
     history
   }
 }

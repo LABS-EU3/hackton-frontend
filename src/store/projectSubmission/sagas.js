@@ -33,7 +33,7 @@ function* submitProjectAsync({ payload, history }) {
     }
     yield history.push("/dashboard");
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -52,7 +52,7 @@ function* fetchAllSubmissionsAsync({ payload }) {
     );
     yield put(setSubmissions(body));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -71,10 +71,10 @@ function* gradeSubmissionAsync({ id, payload, history }) {
       payload
     );
     if (data) {
-      history.push(` /dashboard/event/${id}/projects`);
+      history.push(`/dashboard/event/${payload.project_event_id}/projects`);
     }
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 

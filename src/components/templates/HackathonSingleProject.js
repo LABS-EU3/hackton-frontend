@@ -8,6 +8,7 @@ import { media } from "../index";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
+import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
 import { H3, H4 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
@@ -19,102 +20,64 @@ import Label from "../atoms/Label";
 import emptyStar from "../../assets/star-hollow.png";
 import fullStar from "../../assets/star-full.png";
 import { gradeSubmission } from "../../store/projectSubmission/actions";
-import { axiosWithAuth } from "../../utils/api";
+import { useJudges, useGrades, useSubmissions } from "../../hooks";
 
 const HackathonSingleProject = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { id, projectId } = useParams();
   const { event_title, rubrics } = useSelector(state =>
     state.events.data.find(event => event.id === Number(id))
   );
-  const { userId, token } = useSelector(state => state.currentUser);
-  const [canGrade, setCanGrade] = useState(false);
+  const judges = useJudges(id);
+  const [grades, fetchGrades] = useGrades(projectId);
+  const { userId } = useSelector(state => state.currentUser);
   const [averages, setAverages] = useState({});
+  const [submissions, fetchSubmissions] = useSubmissions(id);
+  const submission = submissions.find(p => p.id === Number(projectId));
+  const isJudge = judges.find(j => j.user_id === userId);
+  const hasGraded = grades.find(g => g.judge_id === userId);
 
   useEffect(() => {
-    const getGrades = axiosWithAuth(token).get(
-      `/api/events/projects/${projectId}/grading`
-    );
-    const getTeam = axiosWithAuth(token).get(`/api/events/${id}/team`);
+    fetchSubmissions();
+  }, [fetchSubmissions]);
 
-    const getData = async () => {
-      const [
-        {
-          data: {
-            body: { members: team }
-          }
-        },
-        {
-          data: { body: grades }
-        }
-      ] = await Promise.all([getTeam, getGrades]);
-      const judge = team.find(
-        t => t.role_type === "judge" && t.user_id === userId
-      );
-      let graded;
-      if (judge) {
-        graded = grades.find(g => g.judge_id === userId);
+  useEffect(() => {
+    fetchGrades();
+  }, [fetchGrades]);
 
-        setCanGrade(!graded);
-      }
-      const features = {
-        comments: [],
-        product_design: 0,
-        functionality: 0,
-        innovation: 0,
-        product_fit: 0,
-        extensibility: 0,
-        presentation: 0
-      };
-
-      if (!graded && grades.length > 0) {
-        // setAverages(averages);
-        const keys = [
-          "product_design",
-          "functionality",
-          "innovation",
-          "product_fit",
-          "extensibility",
-          "presentation",
-          "judge_comments"
-        ];
-
-        const averageGrades = grades.reduce((accum, c) => {
-          const newObj = { ...accum };
-          keys.forEach(key => {
-            const value = c[key];
-            if (key === "judge_comments") {
-              if (value) newObj.comments.push(value);
-            } else {
-              if (value !== undefined) {
-                newObj[key] += value;
-              }
-            }
-          });
-          return newObj;
-        }, features);
-        const averages = {};
-        Object.keys(averageGrades).forEach(key => {
-          const value = averageGrades[key];
-          if (key === "comments") {
-            averages[key] = value;
-          } else averages[key] = value / grades.length;
-        });
-
-        setAverages(averages);
-      } else if (grades.length === 0) setAverages(features);
+  useEffect(() => {
+    const features = {
+      comments: []
     };
-    getData();
-  }, [projectId, token, userId, id]);
 
-  const {
-    project_title,
-    participant_or_team_name,
-    git_url: github_url,
-    video_url,
-    project_writeups
-  } = useSelector(state =>
-    state.submissions.find(p => p.id === Number(projectId))
-  );
+    rubrics.forEach(r => {
+      features[r] = 0;
+    });
+
+    if (grades.length > 0) {
+      // setAverages(averages);
+      const averageGrades = grades.reduce((accum, c) => {
+        const newObj = { ...accum };
+        if (c["judge_comments"]) newObj.comments.push(c["judge_comments"]);
+        rubrics.forEach(key => {
+          const value = c[key];
+          newObj[key] += value;
+        });
+        return newObj;
+      }, features);
+
+      const averages = {};
+      Object.keys(averageGrades).forEach(key => {
+        const value = averageGrades[key];
+        if (key === "comments") {
+          averages[key] = value;
+        } else averages[key] = value / grades.length;
+      });
+      setAverages(averages);
+    } else setAverages(features);
+  }, [hasGraded, grades, rubrics]);
+
   // Convert rubrics names to Title Case
   const toTittleCase = item => {
     return item
@@ -134,9 +97,6 @@ const HackathonSingleProject = () => {
     judge_comments: ""
   });
 
-  const history = useHistory();
-  const dispatch = useDispatch();
-
   const changeHandler = ([rubric, rating]) => {
     setGrade(grade => ({ ...grade, [rubric]: rating }));
   };
@@ -149,6 +109,7 @@ const HackathonSingleProject = () => {
     <div>
       <UserHeader />
       <WideBody>
+        <Nav />
         <BodyContainerColumn>
           <RowHead>
             <H3>
@@ -160,41 +121,44 @@ const HackathonSingleProject = () => {
             <Card>
               <SubmissionEntry>
                 <Team>
-                  <H3>{participant_or_team_name || project_title}</H3>
+                  <H3>
+                    {submission?.participant_or_team_name ||
+                      submission?.project_title}
+                  </H3>
                 </Team>
                 <Label htmlFor="project_writeup">Project writeup</Label>
                 <Description id="project_writeup">
-                  <Paragraph>{project_writeups}</Paragraph>
-                  {github_url && (
+                  <Paragraph>{submission?.project_writeups}</Paragraph>
+                  {submission?.git_url && (
                     <>
                       <Label htmlFor="github_url">GitHub URL</Label>
                       <Paragraph id="github_url">
                         <a
-                          href={github_url}
+                          href={submission?.git_url}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {github_url}
+                          {submission?.git_url}
                         </a>
                       </Paragraph>
                     </>
                   )}
-                  {video_url && (
+                  {submission?.video_url && (
                     <>
                       <Label htmlFor="video_url">Video URL</Label>
                       <Paragraph id="video_url">
                         <a
-                          href={video_url}
+                          href={submission?.video_url}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {video_url}
+                          {submission?.video_url}
                         </a>
                       </Paragraph>
                     </>
                   )}
                 </Description>
-                {canGrade ? (
+                {isJudge && !hasGraded ? (
                   <JudgeView>
                     <H4>Grading Form</H4>
                     <Paragraph>
@@ -287,7 +251,7 @@ const HackathonSingleProject = () => {
                 >
                   Back to projects
                 </Button>
-                {canGrade && (
+                {isJudge && !hasGraded && (
                   <Button color="green" onClick={handleSubmit}>
                     Submit Grading
                   </Button>

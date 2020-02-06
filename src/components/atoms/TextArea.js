@@ -26,6 +26,7 @@ const I = styled.div`
     &:focus {
       transition: all 0.5s;
       box-shadow: 0 0 3px #ddd;
+      outline: 0;
     }
 
     ${({ wide }) =>

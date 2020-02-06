@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import UserHeader from "../organisms/UserHeader";
 import { Footer } from "../organisms/index";
 import WideBody from "../atoms/WideBody";
+import Nav from "../molecules/Nav";
 import BodyContainer from "../atoms/BodyContainer";
 import { H3 } from "../atoms/Heading";
 import { RowHead } from "../atoms/RowHead";
@@ -29,6 +30,8 @@ import {
   fetchEventCategories,
   updateEvent
 } from "../../store/events/actions";
+
+import { format } from '../../utils/date';
 
 const BodyContainerColumn = styled(BodyContainer)`
   flex-direction: column;
@@ -58,7 +61,12 @@ const HackathonForm = ({ initialState }) => {
     category_id: initialState?.category_id || 1
   };
 
+
   const handleSubmit = values => {
+    const participationTypeValue = document.getElementById("participation_type").value;
+    const categoryIdValue = document.getElementById("event_category").value;
+    values.participation_type = participationTypeValue;
+    values.category_id = categoryIdValue;
     let tagss = JSON.parse(window.localStorage.getItem("tags"));
     if (values.title !== "" && !values.id) {
       values.tag_name = tagss;
@@ -102,10 +110,13 @@ const HackathonForm = ({ initialState }) => {
     }
   `;
 
+  const today = format(new Date());
+
   return (
     <div>
       <UserHeader />
       <WideBody>
+        <Nav />
         <BodyContainerColumn>
           <RowHead>
             <H3>
@@ -121,7 +132,7 @@ const HackathonForm = ({ initialState }) => {
                 validationSchema={schema}
                 enableReinitialize
               >
-                {({ errors, touched }) => (
+                {({ errors, touched, values: { start_date, end_date } }) => (
                   <Form>
                     <RowBody justify="start">
                       <Label htmlFor="event_title">Hackathon Title</Label>
@@ -146,6 +157,8 @@ const HackathonForm = ({ initialState }) => {
                           type="date"
                           name="start_date"
                           placeholder="Event starts"
+                          value={start_date || today}
+                          min={today}
                         />
                         {errors.name && touched.name ? (
                           <div>{errors.name}</div>
@@ -161,6 +174,8 @@ const HackathonForm = ({ initialState }) => {
                           type="date"
                           name="end_date"
                           placeholder="Event ends"
+                          value={end_date || start_date || today}
+                          min={start_date}
                         />
                         {errors.name && touched.name ? (
                           <div>{errors.name}</div>
@@ -189,7 +204,7 @@ const HackathonForm = ({ initialState }) => {
                     <RowBody justify="start">
                       {" "}
                       <Label htmlFor="input_tags">Tags</Label>
-                      <InputTag id="input_tags" />
+                      <InputTag id="input_tags" tags={defaultState.tag_name}/>
                     </RowBody>
                     <RowBody justify="start">
                       <Column>
@@ -266,6 +281,11 @@ const HackathonForm = ({ initialState }) => {
                         name="rubrics"
                         value="product_fit"
                         label="Product Fit"
+                      />
+                      <Checkbox
+                        name="rubrics"
+                        value="functionality"
+                        label="Functionality"
                       />
                       <Checkbox
                         name="rubrics"

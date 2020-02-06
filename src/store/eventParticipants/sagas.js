@@ -15,7 +15,8 @@ export function* eventParticipantsSagas() {
   yield all([
     call(watchFetchAllEventParticipants),
     call(WatchRegisterEvent),
-    call(watchUnregisterEvent)
+    call(watchUnregisterEvent),
+    call(watchGetUserRegisteredEvent)
   ]);
 }
 
@@ -27,7 +28,7 @@ function* fetchAllParticipantsAsync({ payload }) {
     } = yield axiosWithAuth(token).get(`/api/events/${payload}/participants`);
     yield put(setEventParticipants(body));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -50,7 +51,7 @@ function* registerEventAsync({ payload, history }) {
       yield showSuccess(`😀 ${data.message}`);
     }
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -67,7 +68,7 @@ function* unregisterEventAsync({ payload, history }) {
     yield put(fetchAllParticipants(payload));
     yield showSuccess(`😲 ${data.message}`);
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -75,5 +76,29 @@ function* watchUnregisterEvent() {
   yield takeLatest(
     EventParticipantTypes.UNREGISTER_EVENT,
     unregisterEventAsync
+  );
+}
+
+function* getUserRegisteredEventAsync() {
+  try {
+    const token = yield select(selectToken);
+    const {
+      data: { body }
+    } = yield axiosWithAuth(token).get('/api/events/participants/user/', {
+      params: {
+        perPage: 6,
+        currentPage: 1
+      }
+    });
+    yield put(setEventParticipants(body));
+  } catch (error) {
+    yield handleError(error, put);
+  }
+}
+
+function* watchGetUserRegisteredEvent() {
+  yield takeLatest(
+    EventParticipantTypes.GET_USER_REGISTERED_EVENTS,
+    getUserRegisteredEventAsync
   );
 }

@@ -15,8 +15,13 @@ const S = styled(Field)`
   width: 200px;
   margin: 0 20px 10px 0;
 
-  @media ${media.mobile} {
-    width: 80%;
+  &:focus {
+    outline: 0;
+  }
+
+  @media ${media.tablet} {
+    width: 100%;
+    margin-right: 0;
     align-self: center;
   }
 `;

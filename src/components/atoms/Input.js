@@ -12,11 +12,12 @@ const I = styled(Field)`
   border-radius: 6px;
   padding: 10px;
   width: 180px;
-  margin: 0 20px 10px 0;
+  margin: 0 0 10px 0;
 
   &:focus {
     transition: all 0.5s;
     box-shadow: 0 0 3px #ddd;
+    outline: 0;
   }
 
   ${({ display }) =>
@@ -25,15 +26,22 @@ const I = styled(Field)`
     width: 100%;
   `};
 
+  &[type=date] {
+    width: 250px;
+
+    @media ${media.tablet} {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+
   @media ${media.tablet} {
     width: 100%;
     margin-right: 0;
   }
 
   @media ${media.mobile} {
-    width: 80%;
     align-self: center;
-    /* margin-right: 0; */
   }
 `;
 
