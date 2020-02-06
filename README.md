@@ -41,10 +41,12 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 To get started with this project you need a basic knowledge of the following.
-`Javascript (ES6)
+`
+Javascript (ES6)
 NodeJs
 SQL (Postgres)
-Version Control (Git)`
+Version Control (Git)
+`
 
 ### Installation
 
@@ -54,7 +56,9 @@ Version Control (Git)`
 ### Enviroment Variables
 The following should be inside `.env` file for the app to function correctly.
 
-`REACT_APP_API_URL='https://hackton-staging.herokuapp.com'`
+`
+REACT_APP_API_URL='https://hackton-staging.herokuapp.com'
+`
 
 ## Running the tests
 
