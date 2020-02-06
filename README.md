@@ -2,7 +2,7 @@
 
 # Hackton
 
-A comprehensive portal for hackathons where students can submit their work and judges can evaluate in one place.
+A comprehensive portal for hackathons where students can submit their work and judges can evaluate in one place. It is an app that helps you organize and evaluate Hackathons.
 
 ## Getting Started
 
