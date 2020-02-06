@@ -4,6 +4,21 @@
 
 A comprehensive portal for hackathons where students can submit their work and judges can evaluate in one place. It is an app that helps you organize and evaluate Hackathons.
 
+* **Login**
+![image](https://user-images.githubusercontent.com/33374159/73931951-8da93080-48d9-11ea-9792-f7c458007dfa.png)
+
+* **Dashboard**
+![image](https://user-images.githubusercontent.com/33374159/73932198-2475ed00-48da-11ea-9bff-1b8bff89d8da.png)
+
+* **Hackathon Event**
+![image](https://user-images.githubusercontent.com/33374159/73933138-1a54ee00-48dc-11ea-9e96-02005a40dc50.png)
+
+* **Project Submissions**
+![image](https://user-images.githubusercontent.com/33374159/73933214-3fe1f780-48dc-11ea-947c-fe942eb231b3.png)
+
+* **User Profile**
+![image](https://user-images.githubusercontent.com/33374159/73933980-e11d7d80-48dd-11ea-87b5-795d6d4c0874.png)
+
 ## Getting Started
 
 `cd` into hackton-frontend and run `npm start` or `yarn start` in the console after cloning the repository.
