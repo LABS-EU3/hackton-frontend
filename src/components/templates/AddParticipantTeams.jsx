@@ -17,6 +17,7 @@ import Button from "../atoms/Button";
 import { type, Solid, media } from "../index";
 import { addParticipantTeamMember, sendParticipantInvite } from "../../store/participantTeams/actions";
 import { useSearchUserByEmail } from "../../hooks";
+import Nav from "../molecules/Nav";
 
 const AddParticipantTeam = () => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -181,6 +182,7 @@ const InviteWidget = () => {
     <div>
       <UserHeader />
       <WideBody>
+      <Nav />
         <BodyContainerColumn>
           <RowHead>
             <H3>Add Teammates</H3>
