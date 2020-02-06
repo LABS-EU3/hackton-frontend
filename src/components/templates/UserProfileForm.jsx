@@ -21,6 +21,7 @@ import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import profileImg from "../../assets/profile-image.png";
 import ProfileImage from '../molecules/ProfileImage';
+import { media } from '../variables/media';
 
 import {
   updateUserProfile
@@ -31,10 +32,35 @@ const BodyContainerColumn = styled(BodyContainer)`
 `;
 const NewLabel = styled(Label)`
   padding-left: 3px;
+  @media ${media.tablet} {
+    display: none;
+  }
+  @media ${media.mobile} {
+    display: none;
+  }
 `;
 const CardWider = styled(CardWide)`
   margin-left: 150px;
+  @media ${media.tablet} {
+    margin-left: 0px;
+  }
+  @media ${media.mobile} {
+    margin-left: 0px;
+  }
 `;
+const ButtonRowBody = styled(RowBody)`
+@media ${media.tablet} {
+  justify-content: space-around;
+}
+`
+const NewButton = styled(Button)`
+@media ${media.tablet} {
+  width: 25%;
+}
+@media ${media.mobile} {
+  width: 50%
+}
+`
 
 const UserProfileForm = ({initialState}) => {
   const dispatch = useDispatch();
@@ -153,16 +179,16 @@ const UserProfileForm = ({initialState}) => {
                       ) : null}
                       <ErrorMessage name="bio" />
                     </RowBody>
-                    <RowBody>
+                    <ButtonRowBody>
                       <Link to="/dashboard">
                         <Button to="/dashboard" color="grey">
                           Cancel
                         </Button>
                       </Link>
-                      <Button color="green" type="submit">
+                      <NewButton color="green" type="submit">
                         Save Changes
-                      </Button>
-                    </RowBody>
+                      </NewButton>
+                    </ButtonRowBody>
                   </Form>
                 )}
               </Formik>

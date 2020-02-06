@@ -50,7 +50,7 @@ export const Dropdown = () => {
   return (
     <UL>
       <li>
-        <Link to="/dashboard/profile/edit">Profile</Link>
+        <Link to="/dashboard/profile/edit">Settings</Link>
       </li>
       <li>
         <span onClick={handleLogOut}>LogOut</span>
