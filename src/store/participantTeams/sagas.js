@@ -45,7 +45,7 @@ function* createTeamNameAsync({ payload, history }) {
       `/dashboard/event/${eventId}/participant-teams/${teamId}`
     );
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -63,7 +63,7 @@ function* fetchTeamAsync({ payload }) {
     );
     yield put(setTeams(body));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -81,7 +81,7 @@ function* fetchTeamMatesAsync({ payload, history }) {
     );
     yield put(setTeamMates(body));
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -104,7 +104,7 @@ function* addParticipantTeamMemberAsync({ payload, history }) {
     }
     history.push(`/dashboard/event/${eventId}/participant-teams`);
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -123,7 +123,7 @@ function* sendParticipantInviteAsync({ payload, history }) {
     yield showSuccess(`invite sent successfully to ${email}`);
     history.push(`/dashboard/event/${eventId}/participant-teams`);
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 

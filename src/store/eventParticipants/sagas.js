@@ -28,7 +28,7 @@ function* fetchAllParticipantsAsync({ payload }) {
     } = yield axiosWithAuth(token).get(`/api/events/${payload}/participants`);
     yield put(setEventParticipants(body));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
@@ -51,7 +51,7 @@ function* registerEventAsync({ payload, history }) {
       yield showSuccess(`😀 ${data.message}`);
     }
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -68,7 +68,7 @@ function* unregisterEventAsync({ payload, history }) {
     yield put(fetchAllParticipants(payload));
     yield showSuccess(`😲 ${data.message}`);
   } catch (error) {
-    handleError(error, put, history);
+    yield handleError(error, put, history);
   }
 }
 
@@ -92,7 +92,7 @@ function* getUserRegisteredEventAsync() {
     });
     yield put(setEventParticipants(body));
   } catch (error) {
-    handleError(error, put);
+    yield handleError(error, put);
   }
 }
 
