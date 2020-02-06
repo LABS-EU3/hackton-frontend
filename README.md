@@ -19,10 +19,11 @@ A comprehensive portal for hackathons where students can submit their work and j
 * **User Profile**
 ![image](https://user-images.githubusercontent.com/33374159/73933980-e11d7d80-48dd-11ea-87b5-795d6d4c0874.png)
 
-## Table of Contents
+## Table of Content
 1. [Getting started](#getting-started)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
+* [Enviroment variables](#enviroment-variables)
 2. [Running the tests](#running-the-tests)
 * [Break down into end to end tests](#break-down-into-end-to-end-tests)
 3. [Deployment](#deployment)
@@ -35,11 +36,25 @@ A comprehensive portal for hackathons where students can submit their work and j
 
 ## Getting Started
 
-`cd` into hackton-frontend and run `npm start` or `yarn start` in the console after cloning the repository.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
-In the project directory, you can run: `npm install` or `yarn install`
+To get started with this project you need a basic knowledge of the following.
+`Javascript (ES6)
+NodeJs
+SQL (Postgres)
+Version Control (Git)`
+
+### Installation
+
+* After cloning the repository, in the project directory, `cd` into hackton-frontend and you can run: `npm install` or `yarn install` in the console.
+* Then run `npm start` or `yarn start`.
+
+### Enviroment Variables
+The following should be inside `.env` file for the app to function correctly.
+
+`REACT_APP_API_URL='https://hackton-staging.herokuapp.com'`
 
 ## Running the tests
 
