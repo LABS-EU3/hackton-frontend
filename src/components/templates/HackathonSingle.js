@@ -339,7 +339,7 @@ const HackathonSingle = () => {
                               height: "7%",
                               marginLeft: "1%",
                               objectFit: "cover",
-                              display: "block"
+                              display: "inline-block"
                             }}
                             alt="team member profile pic"
                             src={user_icon}
