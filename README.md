@@ -93,7 +93,7 @@ Please read [CONTRIBUTING.md](https://github.com/LABS-EU3/hackton-frontend/wiki/
 
 ## Versioning
 
-This is version 0.0.2 (Release canvas 2)
+This is version 0.0.3 (Release canvas 2)
 
 ## Authors
 
