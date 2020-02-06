@@ -19,6 +19,20 @@ A comprehensive portal for hackathons where students can submit their work and j
 * **User Profile**
 ![image](https://user-images.githubusercontent.com/33374159/73933980-e11d7d80-48dd-11ea-87b5-795d6d4c0874.png)
 
+## Table of Contents
+1. [Getting started](#getting-started)
+* [Prerequisites](#prerequisites)
+* [Installation](#installation)
+2. [Running the tests](#running-the-tests)
+* [Break down into end to end tests](#break-down-into-end-to-end-tests)
+3. [Deployment](#deployment)
+4. [Technology stack](#technology-stack)
+5. [Contributing](#contributing)
+6. [Versioning](#versioning)
+7. [Authors](#authors)
+8. [License](#license)
+9. [Acknowledgments](#acknowledgments)
+
 ## Getting Started
 
 `cd` into hackton-frontend and run `npm start` or `yarn start` in the console after cloning the repository.
