@@ -1,7 +1,6 @@
 import { EventParticipantTypes } from "./actions";
 
 export const eventParticipantsReducer = (eventParticipants = [], action) => {
-  console.log('eventParticipants', eventParticipants)
   switch (action.type) {
     case EventParticipantTypes.FETCH_ALL_PARTICIPANTS:
       return {

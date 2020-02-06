@@ -55,8 +55,8 @@ export const setUserProfile = details => {
   };
 };
 
-export const resetUser = () => {
-  return { type: UserTypes.PURGE };
+export const resetUser = (history) => {
+  return { type: UserTypes.PURGE, history };
 };
 
 export const fetchUserProfile = userId => {

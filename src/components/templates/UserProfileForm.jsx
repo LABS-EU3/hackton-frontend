@@ -49,7 +49,6 @@ const UserProfileForm = ({initialState}) => {
     formData.append('email', values.email);
     formData.append('username', values.username);
       dispatch(updateUserProfile(formData, history));
-      console.log('===file data===', formData)
   };
 
   const defaultState = {

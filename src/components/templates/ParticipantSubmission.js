@@ -124,7 +124,7 @@ const ParticipantSubmission = ({ initialState = defaultState }) => {
                       </Column>
                       <Column>
                         <Label htmlFor="participant_or_team_nam">
-                          Team/Participan name
+                          Team/Participant name
                         </Label>
                         <Input
                           type="text"

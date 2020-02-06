@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -42,8 +43,9 @@ export const UL = styled.ul`
 
 export const Dropdown = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const handleLogOut = () => {
-    dispatch(resetUser());
+    dispatch(resetUser(history));
   };
   return (
     <UL>
