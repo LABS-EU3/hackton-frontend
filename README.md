@@ -20,19 +20,19 @@ A comprehensive portal for hackathons where students can submit their work and j
 ![image](https://user-images.githubusercontent.com/33374159/73933980-e11d7d80-48dd-11ea-87b5-795d6d4c0874.png)
 
 ## Table of Content
-1. [Getting started](#getting-started)
-* [Prerequisites](#prerequisites)
-* [Installation](#installation)
-* [Enviroment variables](#enviroment-variables)
-2. [Running the tests](#running-the-tests)
-* [Break down into end to end tests](#break-down-into-end-to-end-tests)
-3. [Deployment](#deployment)
-4. [Technology stack](#technology-stack)
-5. [Contributing](#contributing)
-6. [Versioning](#versioning)
-7. [Authors](#authors)
-8. [License](#license)
-9. [Acknowledgments](#acknowledgments)
+1. [Getting started](#getting-started "Getting Started")
+* [Prerequisites](#prerequisites "Prerequisites")
+* [Installation](#installation "Installation")
+* [Enviroment variables](#enviroment-variables "Enviroment Variables")
+2. [Running the tests](#running-the-tests " Running the tests")
+* [Break down into end to end tests](#break-down-into-end-to-end-tests "Break down into end to end tests")
+3. [Deployment](#deployment "Deployment")
+4. [Technology stack](#technology-stack "Technology Stack")
+5. [Contributing](#contributing "Contributing")
+6. [Versioning](#versioning "Versioning")
+7. [Authors](#authors "Authors")
+8. [License](#license "License")
+9. [Acknowledgments](#acknowledgments "Acknowledgments")
 
 ## Getting Started
 
